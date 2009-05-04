@@ -8,7 +8,6 @@ from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
 from plone.app.blob.field import BlobField, BlobMarshaller
-from plone.app.blob.interfaces import IBlobbable
 
 from plumi.content import contentMessageFactory as _
 from plumi.content.interfaces import IPlumiVideo

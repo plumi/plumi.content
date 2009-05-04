@@ -36,7 +36,7 @@ tests_require=['zope.testing']
 
 setup(name='plumi.content',
       version=version,
-      description="Plumi content types package",
+      description="Plumi Content Types Product",
       long_description=long_description,
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
