@@ -53,14 +53,14 @@ And we ensure that we get the friendly logged-in message:
 
 
 -*- extra stuff goes here -*-
-The Plumi Video content type
+The PlumiVideo content type
 ===============================
 
-In this section we are tesing the Plumi Video content type by performing
-basic operations like adding, updadating and deleting Plumi Video content
+In this section we are tesing the PlumiVideo content type by performing
+basic operations like adding, updadating and deleting PlumiVideo content
 items.
 
-Adding a new Plumi Video content item
+Adding a new PlumiVideo content item
 --------------------------------
 
 We use the 'Add new' menu to add a new content item.
@@ -68,54 +68,54 @@ We use the 'Add new' menu to add a new content item.
     >>> browser.getLink('Add new').click()
 
 Then we select the type of item we want to add. In this case we select
-'Plumi Video' and click the 'Add' button to get to the add form.
+'PlumiVideo' and click the 'Add' button to get to the add form.
 
-    >>> browser.getControl('Plumi Video').click()
+    >>> browser.getControl('PlumiVideo').click()
     >>> browser.getControl(name='form.button.Add').click()
-    >>> 'Plumi Video' in browser.contents
+    >>> 'PlumiVideo' in browser.contents
     True
 
 Now we fill the form and submit it.
 
-    >>> browser.getControl(name='title').value = 'Plumi Video Sample'
+    >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
     True
 
-And we are done! We added a new 'Plumi Video' content item to the portal.
+And we are done! We added a new 'PlumiVideo' content item to the portal.
 
-Updating an existing Plumi Video content item
+Updating an existing PlumiVideo content item
 ---------------------------------------
 
 Let's click on the 'edit' tab and update the object attribute values.
 
     >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='title').value = 'New Plumi Video Sample'
+    >>> browser.getControl(name='title').value = 'New PlumiVideo Sample'
     >>> browser.getControl('Save').click()
 
 We check that the changes were applied.
 
     >>> 'Changes saved' in browser.contents
     True
-    >>> 'New Plumi Video Sample' in browser.contents
+    >>> 'New PlumiVideo Sample' in browser.contents
     True
 
-Removing a/an Plumi Video content item
+Removing a/an PlumiVideo content item
 --------------------------------
 
-If we go to the home page, we can see a tab with the 'New Plumi Video
+If we go to the home page, we can see a tab with the 'New PlumiVideo
 Sample' title in the global navigation tabs.
 
     >>> browser.open(portal_url)
-    >>> 'New Plumi Video Sample' in browser.contents
+    >>> 'New PlumiVideo Sample' in browser.contents
     True
 
-Now we are going to delete the 'New Plumi Video Sample' object. First we
-go to the contents tab and select the 'New Plumi Video Sample' for
+Now we are going to delete the 'New PlumiVideo Sample' object. First we
+go to the contents tab and select the 'New PlumiVideo Sample' for
 deletion.
 
     >>> browser.getLink('Contents').click()
-    >>> browser.getControl('New Plumi Video Sample').click()
+    >>> browser.getControl('New PlumiVideo Sample').click()
 
 We click on the 'Delete' button.
 
@@ -123,17 +123,17 @@ We click on the 'Delete' button.
     >>> 'Item(s) deleted' in browser.contents
     True
 
-So, if we go back to the home page, there is no longer a 'New Plumi Video
+So, if we go back to the home page, there is no longer a 'New PlumiVideo
 Sample' tab.
 
     >>> browser.open(portal_url)
-    >>> 'New Plumi Video Sample' in browser.contents
+    >>> 'New PlumiVideo Sample' in browser.contents
     False
 
-Adding a new Plumi Video content item as contributor
+Adding a new PlumiVideo content item as contributor
 ------------------------------------------------
 
-Not only site managers are allowed to add Plumi Video content items, but
+Not only site managers are allowed to add PlumiVideo content items, but
 also site contributors.
 
 Let's logout and then login as 'contributor', a portal member that has the
@@ -150,21 +150,21 @@ We use the 'Add new' menu to add a new content item.
 
     >>> browser.getLink('Add new').click()
 
-We select 'Plumi Video' and click the 'Add' button to get to the add form.
+We select 'PlumiVideo' and click the 'Add' button to get to the add form.
 
-    >>> browser.getControl('Plumi Video').click()
+    >>> browser.getControl('PlumiVideo').click()
     >>> browser.getControl(name='form.button.Add').click()
-    >>> 'Plumi Video' in browser.contents
+    >>> 'PlumiVideo' in browser.contents
     True
 
 Now we fill the form and submit it.
 
-    >>> browser.getControl(name='title').value = 'Plumi Video Sample'
+    >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
     True
 
-Done! We added a new Plumi Video content item logged in as contributor.
+Done! We added a new PlumiVideo content item logged in as contributor.
 
 Finally, let's login back as manager.
 

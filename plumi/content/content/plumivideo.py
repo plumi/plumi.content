@@ -38,10 +38,10 @@ PlumiVideoSchema['description'].storage = atapi.AnnotationStorage()
 schemata.finalizeATCTSchema(PlumiVideoSchema, moveDiscussion=False)
 
 class PlumiVideo(base.ATCTContent):
-    """Plumi Video conent"""
+    """Plumi Video content"""
     implements(IPlumiVideo)
 
-    meta_type = "Plumi Video"
+    meta_type = "PlumiVideo"
     schema = PlumiVideoSchema
 
     title = atapi.ATFieldProperty('title')

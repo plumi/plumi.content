@@ -2,7 +2,7 @@
 <rolemap>
   <permissions>
     <!-- -*- extra stuff goes here -*- -->
-    <permission name="plumi.content: Add Plumi Video" acquire="False">
+    <permission name="plumi.content: Add PlumiVideo" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
     </permission>

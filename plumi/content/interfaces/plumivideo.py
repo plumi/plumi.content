@@ -7,7 +7,7 @@ from zope.app.container.constraints import containers
 from plumi.content import contentMessageFactory as _
 
 class IPlumiVideo(Interface):
-    """Plumi Video conent"""
+    """Plumi Video content"""
     
     # -*- schema definition goes here -*-
     video_file = schema.Bytes(

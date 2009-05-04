@@ -8,6 +8,6 @@
   -->
 <object name="portal_types" meta_type="Plone Types Tool">
   <!-- -*- extra stuff goes here -*- -->
-  <object name="Plumi Video"
+  <object name="PlumiVideo"
     meta_type="Factory-based Type Information with dynamic views" />
 </object>
