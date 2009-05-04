@@ -7,7 +7,8 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
-from plone.app.blob.field import BlobField
+from plone.app.blob.field import BlobField, BlobMarshaller
+from plone.app.blob.interfaces import IBlobbable
 
 from plumi.content import contentMessageFactory as _
 from plumi.content.interfaces import IPlumiVideo
@@ -19,11 +20,15 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     BlobField(
         'video_file',
+	storage=atapi.AnnotationStorage(), 
+	primary=True,
+        required=True,
+	accessor='getFile',
+	mutator='setFile',
         widget=atapi.FileWidget(
             label=_(u"Video File"),
             description=_(u"The uploaded video file"),
         ),
-        required=True,
         validators=('isNonEmptyFile'),
     ),
 
@@ -37,6 +42,7 @@ PlumiVideoSchema['title'].storage = atapi.AnnotationStorage()
 PlumiVideoSchema['description'].storage = atapi.AnnotationStorage()
 
 schemata.finalizeATCTSchema(PlumiVideoSchema, moveDiscussion=False)
+PlumiVideoSchema.registerLayer('marshall', BlobMarshaller())
 
 class PlumiVideo(base.ATCTContent):
     """Plumi Video content"""
