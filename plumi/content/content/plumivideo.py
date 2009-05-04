@@ -7,6 +7,8 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
+from plone.app.blob.field import BlobField
+
 from plumi.content import contentMessageFactory as _
 from plumi.content.interfaces import IPlumiVideo
 from plumi.content.config import PROJECTNAME
@@ -15,9 +17,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
 
-    atapi.FileField(
+    BlobField(
         'video_file',
-        storage=atapi.AnnotationStorage(),
         widget=atapi.FileWidget(
             label=_(u"Video File"),
             description=_(u"The uploaded video file"),
