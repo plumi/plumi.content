@@ -5,6 +5,9 @@ engagevideo
 callout
 playlist - collection for plumivideo
 
+add getGenres/getCategories/getCountries to base PlumiVideo content type
+add other basic fields/indexing methods to content types
+
 getting working with collective.flowplayer?
 
 release 0.3.0-alpha egg
