@@ -10,6 +10,78 @@ class IPlumiVideo(Interface):
     """Plumi Video content"""
     
     # -*- schema definition goes here -*-
+    thumbnailImageDescription = schema.TextLine(
+        title=_(u"Thumbnail Image description"), 
+        required=False,
+        description=_(u"The caption for the thumbnail image."),
+    )
+
+    DateProduced = schema.Date(
+        title=_(u"Date Produced"), 
+        required=False,
+        description=_(u"The date the video content was released."),
+    )
+
+    FullDescription = schema.Text(
+        title=_(u"Full Description"), 
+        required=False,
+        description=_(u"The description of the video content"),
+    )
+
+    Distributor = schema.TextLine(
+        title=_(u"Distributor"), 
+        required=False,
+        description=_(u"The Distributor of the video content"),
+    )
+
+    WebsiteURL = schema.TextLine(
+        title=_(u"Website URL"), 
+        required=False,
+        description=_(u"The website URL for the video content"),
+    )
+
+    ProductionCompanyName = schema.TextLine(
+        title=_(u"Production Company Name"), 
+        required=False,
+        description=_(u"Production Company Name"),
+    )
+
+    ProjectName = schema.TextLine(
+        title=_(u"Project Name"), 
+        required=False,
+        description=_(u"Project Name"),
+    )
+
+    ProducerMailingAddress = schema.TextLine(
+        title=_(u"Producer Mailing Address"), 
+        required=False,
+        description=_(u"The Producer's mailing address"),
+    )
+
+    ProducerEmail = schema.TextLine(
+        title=_(u"Producer Email Address"), 
+        required=False,
+        description=_(u"The Producer's email address"),
+    )
+
+    Director = schema.TextLine(
+        title=_(u"Director"), 
+        required=False,
+        description=_(u"The Director of the video content"),
+    )
+
+    Producer = schema.TextLine(
+        title=_(u"Producer"), 
+        required=False,
+        description=_(u"The Producer of the video content"),
+    )
+
+    thumbnailImage = schema.Bytes(
+        title=_(u"Vidoe Thumbnail"), 
+        required=False,
+        description=_(u"The thumbnail image for the video content"),
+    )
+
     Country = schema.TextLine(
         title=_(u"Country of origin of the video"), 
         required=False,
