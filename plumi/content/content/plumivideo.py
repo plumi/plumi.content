@@ -137,7 +137,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'thumbnailImage',
         storage=atapi.AnnotationStorage(),
         widget=atapi.ImageWidget(
-            label=_(u"Vidoe Thumbnail"),
+            label=_(u"Video Thumbnail"),
             description=_(u"The thumbnail image for the video content"),
         ),
         validators=('isNonEmptyFile'),
