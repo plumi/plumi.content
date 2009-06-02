@@ -1,15 +1,18 @@
 replace content functionality from ATVideo/ ATMediaFile
 
-DONE : plumivideo
-       ** engagevideo : wait til after alpha release
-       callout
-       playlist - collection for plumivideo
+DONE :      plumivideo
+NOT DONE:   engagevideo : **wait til after alpha release
+            callout
+            plumivideofolder - aka playlist - collection for plumivideo
+            featured content 
 
 DONE : add getGenres/getCategories/getCountries to base PlumiVideo content type
         ( these were added as schema fields, using ATFieldProperty, and dont need manual methods)
 
 add other basic fields/indexing methods to content types
 
-getting working with collective.flowplayer?
+adjust content types to be translatable via linguaplone
+
+getting basic video working with collective.flowplayer
 
 release 0.3.0-alpha egg
