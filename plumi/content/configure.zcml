@@ -22,7 +22,7 @@
   
   <!-- -*- extra stuff goes here -*- -->
   <class class="plumi.content.content.plumivideo.PlumiVideo">
-    <implements interface="Products.ContentLicensing.DublinCoreExtensions.interfaces.ILicensable
+    <implements interface="collective.contentlicensing.DublinCoreExtensions.interfaces.ILicensable
                             zope.annotation.interfaces.IAttributeAnnotatable"/>
   </class>
 

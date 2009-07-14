@@ -9,7 +9,8 @@ from Products.ATContentTypes.content import schemata
 #third party products
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.ATCountryWidget.Widget import CountryWidget
-from Products.ContentLicensing.browser.widgets import LicenseWidget
+
+from collective.contentlicensing.browser.widgets import LicenseWidget
 
 from plone.app.blob.field import BlobField, BlobMarshaller
 
