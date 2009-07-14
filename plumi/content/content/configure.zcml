@@ -6,6 +6,8 @@
   <!-- configure your content components here -->
   
   <!-- -*- extra stuff goes here -*- -->
+  <include package="zope.annotation" />
+
   <class class=".plumicalloutfolder.PlumiCalloutFolder">
     <require
         permission="zope2.View"
@@ -35,6 +37,9 @@
         permission="cmf.ModifyPortalContent"
         set_schema="..interfaces.IPlumiVideo"
         />
+	 <implements interface="collective.contentlicensing.DublinCoreExtensions.interfaces.ILicensable
+                           zope.annotation.interfaces.IAttributeAnnotatable" />
+
   </class>
 
 </configure>
