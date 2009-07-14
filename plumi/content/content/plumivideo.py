@@ -6,6 +6,8 @@ from zope.interface import implements, directlyProvides
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
+from Products.Archetypes.interfaces import IMultiPageSchema
+
 #third party products
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.ATCountryWidget.Widget import CountryWidget
@@ -29,6 +31,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Thumbnail Image description"),
             description=_(u"The caption for the thumbnail image."),
         ),
+	schemata='Video',
     ),
 
 
@@ -40,6 +43,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The date the video content was released."),
         ),
         validators=('isValidDate'),
+	schemata = 'dates',
     ),
 
 
@@ -60,6 +64,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Distributor"),
             description=_(u"The Distributor of the video content"),
         ),
+	schemata='categorization',
     ),
 
 
@@ -70,6 +75,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Website URL"),
             description=_(u"The website URL for the video content"),
         ),
+	schemata='categorization',
     ),
 
 
@@ -80,6 +86,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Production Company Name"),
             description=_(u"Production Company Name"),
         ),
+	schemata='categorization',
+
     ),
 
 
@@ -90,6 +98,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Project Name"),
             description=_(u"Project Name"),
         ),
+	schemata='categorization',
     ),
 
 
@@ -100,6 +109,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Producer Mailing Address"),
             description=_(u"The Producer's mailing address"),
         ),
+	schemata='categorization',
     ),
 
 
@@ -111,6 +121,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The Producer's email address"),
         ),
         validators=('isEmail'),
+	schemata='categorization',
+
     ),
 
 
@@ -121,6 +133,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Director"),
             description=_(u"The Director of the video content"),
         ),
+	schemata='categorization',
+
     ),
 
 
@@ -131,6 +145,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Producer"),
             description=_(u"The Producer of the video content"),
         ),
+	schemata='categorization',
+
     ),
 
 
@@ -142,6 +158,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The thumbnail image for the video content"),
         ),
         validators=('isNonEmptyFile'),
+	schemata='Video',
+
     ),
 
 
@@ -152,6 +170,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Country of origin of the video"),
             description=_(u"The associated country of origin of the video content"),
         ),
+	schemata='categorization',
+
     ),
 
 
@@ -163,6 +183,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The video categories - select as many as applicable."),
         ),
         vocabulary=NamedVocabulary("""video_categories"""),
+	schemata='categorization',
 
     ),
 
@@ -175,6 +196,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The genre of the video"),
         ),
         vocabulary=NamedVocabulary("""video_genre"""),
+	schemata='categorization',
+
     ),
 
 
@@ -190,6 +213,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The uploaded video file"),
         ),
         validators=('isNonEmptyFile'),
+	schemata='Video',
+
     ),
 
 
@@ -206,7 +231,7 @@ PlumiVideoSchema.registerLayer('marshall', BlobMarshaller())
 
 class PlumiVideo(base.ATCTContent):
     """Plumi Video content"""
-    implements(IPlumiVideo)
+    implements(IPlumiVideo,IMultiPageSchema)
 
     meta_type = "PlumiVideo"
     schema = PlumiVideoSchema
