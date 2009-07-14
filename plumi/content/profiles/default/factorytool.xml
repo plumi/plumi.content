@@ -10,6 +10,8 @@
 <object name="portal_factory" meta_type="Plone Factory Tool">
   <factorytypes>
     <!-- -*- extra stuff goes here -*- -->
+    <type portal_type="Plumi Callout Folder" />
+    <type portal_type="Plumi Video Folder" />
     <type portal_type="PlumiVideo" />
   </factorytypes>
 </object>

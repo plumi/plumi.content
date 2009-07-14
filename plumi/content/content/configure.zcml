@@ -6,6 +6,26 @@
   <!-- configure your content components here -->
   
   <!-- -*- extra stuff goes here -*- -->
+  <class class=".plumicalloutfolder.PlumiCalloutFolder">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IPlumiCalloutFolder"
+        />
+    <require
+        permission="cmf.ModifyPortalContent"
+        set_schema="..interfaces.IPlumiCalloutFolder"
+        />
+  </class>
+  <class class=".plumivideofolder.PlumiVideoFolder">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IPlumiVideoFolder"
+        />
+    <require
+        permission="cmf.ModifyPortalContent"
+        set_schema="..interfaces.IPlumiVideoFolder"
+        />
+  </class>
   <class class=".plumivideo.PlumiVideo">
     <require
         permission="zope2.View"

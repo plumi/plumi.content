@@ -53,6 +53,252 @@ And we ensure that we get the friendly logged-in message:
 
 
 -*- extra stuff goes here -*-
+The Plumi Callout Folder content type
+===============================
+
+In this section we are tesing the Plumi Callout Folder content type by performing
+basic operations like adding, updadating and deleting Plumi Callout Folder content
+items.
+
+Adding a new Plumi Callout Folder content item
+--------------------------------
+
+We use the 'Add new' menu to add a new content item.
+
+    >>> browser.getLink('Add new').click()
+
+Then we select the type of item we want to add. In this case we select
+'Plumi Callout Folder' and click the 'Add' button to get to the add form.
+
+    >>> browser.getControl('Plumi Callout Folder').click()
+    >>> browser.getControl(name='form.button.Add').click()
+    >>> 'Plumi Callout Folder' in browser.contents
+    True
+
+Now we fill the form and submit it.
+
+    >>> browser.getControl(name='title').value = 'Plumi Callout Folder Sample'
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True
+
+And we are done! We added a new 'Plumi Callout Folder' content item to the portal.
+
+Updating an existing Plumi Callout Folder content item
+---------------------------------------
+
+Let's click on the 'edit' tab and update the object attribute values.
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='title').value = 'New Plumi Callout Folder Sample'
+    >>> browser.getControl('Save').click()
+
+We check that the changes were applied.
+
+    >>> 'Changes saved' in browser.contents
+    True
+    >>> 'New Plumi Callout Folder Sample' in browser.contents
+    True
+
+Removing a/an Plumi Callout Folder content item
+--------------------------------
+
+If we go to the home page, we can see a tab with the 'New Plumi Callout Folder
+Sample' title in the global navigation tabs.
+
+    >>> browser.open(portal_url)
+    >>> 'New Plumi Callout Folder Sample' in browser.contents
+    True
+
+Now we are going to delete the 'New Plumi Callout Folder Sample' object. First we
+go to the contents tab and select the 'New Plumi Callout Folder Sample' for
+deletion.
+
+    >>> browser.getLink('Contents').click()
+    >>> browser.getControl('New Plumi Callout Folder Sample').click()
+
+We click on the 'Delete' button.
+
+    >>> browser.getControl('Delete').click()
+    >>> 'Item(s) deleted' in browser.contents
+    True
+
+So, if we go back to the home page, there is no longer a 'New Plumi Callout Folder
+Sample' tab.
+
+    >>> browser.open(portal_url)
+    >>> 'New Plumi Callout Folder Sample' in browser.contents
+    False
+
+Adding a new Plumi Callout Folder content item as contributor
+------------------------------------------------
+
+Not only site managers are allowed to add Plumi Callout Folder content items, but
+also site contributors.
+
+Let's logout and then login as 'contributor', a portal member that has the
+contributor role assigned.
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url)
+    >>> browser.getControl(name='__ac_name').value = 'contributor'
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url)
+
+We use the 'Add new' menu to add a new content item.
+
+    >>> browser.getLink('Add new').click()
+
+We select 'Plumi Callout Folder' and click the 'Add' button to get to the add form.
+
+    >>> browser.getControl('Plumi Callout Folder').click()
+    >>> browser.getControl(name='form.button.Add').click()
+    >>> 'Plumi Callout Folder' in browser.contents
+    True
+
+Now we fill the form and submit it.
+
+    >>> browser.getControl(name='title').value = 'Plumi Callout Folder Sample'
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True
+
+Done! We added a new Plumi Callout Folder content item logged in as contributor.
+
+Finally, let's login back as manager.
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url)
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url)
+
+
+The Plumi Video Folder content type
+===============================
+
+In this section we are tesing the Plumi Video Folder content type by performing
+basic operations like adding, updadating and deleting Plumi Video Folder content
+items.
+
+Adding a new Plumi Video Folder content item
+--------------------------------
+
+We use the 'Add new' menu to add a new content item.
+
+    >>> browser.getLink('Add new').click()
+
+Then we select the type of item we want to add. In this case we select
+'Plumi Video Folder' and click the 'Add' button to get to the add form.
+
+    >>> browser.getControl('Plumi Video Folder').click()
+    >>> browser.getControl(name='form.button.Add').click()
+    >>> 'Plumi Video Folder' in browser.contents
+    True
+
+Now we fill the form and submit it.
+
+    >>> browser.getControl(name='title').value = 'Plumi Video Folder Sample'
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True
+
+And we are done! We added a new 'Plumi Video Folder' content item to the portal.
+
+Updating an existing Plumi Video Folder content item
+---------------------------------------
+
+Let's click on the 'edit' tab and update the object attribute values.
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='title').value = 'New Plumi Video Folder Sample'
+    >>> browser.getControl('Save').click()
+
+We check that the changes were applied.
+
+    >>> 'Changes saved' in browser.contents
+    True
+    >>> 'New Plumi Video Folder Sample' in browser.contents
+    True
+
+Removing a/an Plumi Video Folder content item
+--------------------------------
+
+If we go to the home page, we can see a tab with the 'New Plumi Video Folder
+Sample' title in the global navigation tabs.
+
+    >>> browser.open(portal_url)
+    >>> 'New Plumi Video Folder Sample' in browser.contents
+    True
+
+Now we are going to delete the 'New Plumi Video Folder Sample' object. First we
+go to the contents tab and select the 'New Plumi Video Folder Sample' for
+deletion.
+
+    >>> browser.getLink('Contents').click()
+    >>> browser.getControl('New Plumi Video Folder Sample').click()
+
+We click on the 'Delete' button.
+
+    >>> browser.getControl('Delete').click()
+    >>> 'Item(s) deleted' in browser.contents
+    True
+
+So, if we go back to the home page, there is no longer a 'New Plumi Video Folder
+Sample' tab.
+
+    >>> browser.open(portal_url)
+    >>> 'New Plumi Video Folder Sample' in browser.contents
+    False
+
+Adding a new Plumi Video Folder content item as contributor
+------------------------------------------------
+
+Not only site managers are allowed to add Plumi Video Folder content items, but
+also site contributors.
+
+Let's logout and then login as 'contributor', a portal member that has the
+contributor role assigned.
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url)
+    >>> browser.getControl(name='__ac_name').value = 'contributor'
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url)
+
+We use the 'Add new' menu to add a new content item.
+
+    >>> browser.getLink('Add new').click()
+
+We select 'Plumi Video Folder' and click the 'Add' button to get to the add form.
+
+    >>> browser.getControl('Plumi Video Folder').click()
+    >>> browser.getControl(name='form.button.Add').click()
+    >>> 'Plumi Video Folder' in browser.contents
+    True
+
+Now we fill the form and submit it.
+
+    >>> browser.getControl(name='title').value = 'Plumi Video Folder Sample'
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True
+
+Done! We added a new Plumi Video Folder content item logged in as contributor.
+
+Finally, let's login back as manager.
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url)
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url)
+
+
 The PlumiVideo content type
 ===============================
 

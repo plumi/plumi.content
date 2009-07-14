@@ -3,8 +3,11 @@ replace content functionality from ATVideo/ ATMediaFile
 DONE :      plumivideo
 NOT DONE:   engagevideo : **wait til after alpha release
             callout
-            plumivideofolder - aka playlist - collection for plumivideo
+DONE        plumivideofolder - aka playlist - collection for plumivideo
+DONE	    plumicalloutfolder - holds callouts
             featured content 
+
+DONE :: add back in IMultiPageSchema functionality
 
 DONE : add getGenres/getCategories/getCountries to base PlumiVideo content type
         ( these were added as schema fields, using ATFieldProperty, and dont need manual methods)
