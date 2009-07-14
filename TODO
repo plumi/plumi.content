@@ -7,6 +7,12 @@ DONE        plumivideofolder - aka playlist - collection for plumivideo
 DONE	    plumicalloutfolder - holds callouts
             featured content 
 
+	Critical Commons licensing on all types
+
+	roles on add permissions on content types
+
+	folder constraints
+
 DONE :: add back in IMultiPageSchema functionality
 
 DONE : add getGenres/getCategories/getCountries to base PlumiVideo content type
