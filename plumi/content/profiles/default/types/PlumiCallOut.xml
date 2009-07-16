@@ -2,7 +2,7 @@
 <object name="PlumiCallOut"
    meta_type="Factory-based Type Information with dynamic views"
    i18n:domain="plumi.content" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <property name="title" i18n:translate="">PlumiCallOut</property>
+  <property name="title" i18n:translate="">Plumi Call Out</property>
   <property name="description"
     i18n:translate="">Call out for help with production of video content</property>
   <property name="content_meta_type">PlumiCallOut</property>

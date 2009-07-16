@@ -5,6 +5,8 @@
     <permission name="plumi.content: Add PlumiCallOut" acquire="False">
       <role name="Manager" />
       <role name="Contributor" />
+      <role name="Member"/>
+      <role name="Owner"/>
     </permission>
     <permission name="plumi.content: Add Plumi Callout Folder" acquire="False">
       <role name="Manager" />
