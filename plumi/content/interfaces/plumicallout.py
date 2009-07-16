@@ -10,3 +10,15 @@ class IPlumiCallOut(Interface):
     """Call out for help with production of video content"""
     
     # -*- schema definition goes here -*-
+    submissionCategories = schema.TextLine(
+        title=_(u"Category"), 
+        required=True,
+        description=_(u"Categories. Hold down CTRL/COMMAND and click to multiple select topics."),
+    )
+
+    closingDate = schema.Date(
+        title=_(u"Closing Date"), 
+        required=True,
+        description=_(u"Provide a date for when this callout will be closed."),
+    )
+

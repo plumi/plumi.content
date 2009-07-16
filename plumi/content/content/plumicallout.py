@@ -7,6 +7,9 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
 
+#third party products
+from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
+
 from plumi.content import contentMessageFactory as _
 from plumi.content.interfaces import IPlumiCallOut
 from plumi.content.config import PROJECTNAME
@@ -14,6 +17,30 @@ from plumi.content.config import PROJECTNAME
 PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
+
+    atapi.StringField(
+        'submissionCategories',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.SelectionWidget(
+            label=_(u"Category"),
+            description=_(u"Categories. Hold down CTRL/COMMAND and click to multiple select topics."),
+        ),
+        required=True,
+	vocabulary=NamedVocabulary("""submission_categories"""),
+    ),
+
+
+    atapi.DateTimeField(
+        'closingDate',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.CalendarWidget(
+            label=_(u"Closing Date"),
+            description=_(u"Provide a date for when this callout will be closed."),
+        ),
+        required=True,
+        validators=('isValidDate'),
+    ),
+
 
 ))
 
@@ -36,5 +63,9 @@ class PlumiCallOut(base.ATCTContent):
     description = atapi.ATFieldProperty('description')
     
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
+    submissionCategories = atapi.ATFieldProperty('submissionCategories')
+
+    closingDate = atapi.ATFieldProperty('closingDate')
+
 
 atapi.registerType(PlumiCallOut, PROJECTNAME)
