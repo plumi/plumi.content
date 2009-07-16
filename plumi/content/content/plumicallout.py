@@ -19,6 +19,50 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     # -*- Your Archetypes field definitions here ... -*-
 
     atapi.StringField(
+        'websiteURL',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Website Address"),
+            description=_(u"Website for more info about the callout"),
+        ),
+    ),
+
+
+    atapi.ImageField(
+        'calloutImage',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.ImageWidget(
+            label=_(u"Image"),
+            description=_(u"Will be shown in the call out listings, and the call out item itself. Image will be scaled to a sensible size."),
+        ),
+        required=True,
+        validators=('isNonEmptyFile'),
+    ),
+
+    atapi.StringField(
+        'calloutImageCaption',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Image caption"),
+            description=_(u"The text caption describing the image."),
+        ),
+        required=True,
+    ),
+
+
+
+    atapi.TextField(
+        'bodyText',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.RichWidget(
+            label=_(u"Body Text"),
+            description=_(u"The main description for the callout"),
+        ),
+        required=True,
+    ),
+
+
+    atapi.StringField(
         'submissionCategories',
         storage=atapi.AnnotationStorage(),
         widget=atapi.SelectionWidget(
@@ -63,6 +107,14 @@ class PlumiCallOut(base.ATCTContent):
     description = atapi.ATFieldProperty('description')
     
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
+    websiteURL = atapi.ATFieldProperty('websiteURL')
+
+    calloutImageCaption = atapi.ATFieldProperty('calloutImageCaption')
+
+    calloutImage = atapi.ATFieldProperty('calloutImage')
+
+    bodyText = atapi.ATFieldProperty('bodyText')
+
     submissionCategories = atapi.ATFieldProperty('submissionCategories')
 
     closingDate = atapi.ATFieldProperty('closingDate')

@@ -10,6 +10,30 @@ class IPlumiCallOut(Interface):
     """Call out for help with production of video content"""
     
     # -*- schema definition goes here -*-
+    websiteURL = schema.TextLine(
+        title=_(u"Website Address"), 
+        required=False,
+        description=_(u"Website for more info about the callout"),
+    )
+
+    calloutImageCaption = schema.TextLine(
+        title=_(u"Image caption"), 
+        required=True,
+        description=_(u"The text caption describing the image"),
+    )
+
+    calloutImage = schema.Bytes(
+        title=_(u"Image"), 
+        required=True,
+        description=_(u"Will be shown in the call out listings, and the call out item itself. Image will be scaled to a sensible size."),
+    )
+
+    bodyText = schema.Text(
+        title=_(u"Body Text"), 
+        required=True,
+        description=_(u"The main text content"),
+    )
+
     submissionCategories = schema.TextLine(
         title=_(u"Category"), 
         required=True,
