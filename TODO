@@ -1,24 +1,23 @@
 replace content functionality from ATVideo/ ATMediaFile::
 
 	DONE :      plumivideo
-	NOT DONE:   callout
+	DONE:   callout
 	DONE:       plumivideofolder - aka playlist - collection of plumivideo
 	DONE:	    plumicalloutfolder - holds collection of callouts
-	NOT DONE:   featured content 
-	NOT DONE:   engagevideo : **wait til after alpha release
+	NOT DONE:   featured content **wait til after alpha release
+	NOT DONE:   engagevideo  **wait til after alpha release
 
 DONE	Critical Commons licensing on all types
 
 DONE	roles on add permissions on content types, allow Members to add all types of content
 
-	folder constraints, and video content not globally addable
+DONE	folder constraints, and video/callout content not globally addable
 
-DONE :: add back in IMultiPageSchema functionality -- NOT USING IMultiPageSchema, but using newer method of tabbed edit forms.
+DONE add back in IMultiPageSchema functionality -- NOT USING IMultiPageSchema, but using newer method of tabbed edit forms.
 
-DONE : add getGenres/getCategories/getCountries to base PlumiVideo content type
-        ( these were added as schema fields, using ATFieldProperty, and dont need manual methods)
+DONE add getGenres/getCategories/getCountries to base PlumiVideo content type (these were added as schema fields, using ATFieldProperty, and dont need manual methods)
 
-add other basic fields/indexing methods to content types
+add other basic fields/indexing methods to content types. ie smart folder compatability
 
 adjust content types to be translatable via linguaplone
 
