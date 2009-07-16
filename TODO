@@ -9,11 +9,11 @@ replace content functionality from ATVideo/ ATMediaFile::
 
 DONE	Critical Commons licensing on all types
 
-	roles on add permissions on content types, allow Members to add all types of content
+DONE	roles on add permissions on content types, allow Members to add all types of content
 
-	folder constraints
+	folder constraints, and video content not globally addable
 
-DONE :: add back in IMultiPageSchema functionality
+DONE :: add back in IMultiPageSchema functionality -- NOT USING IMultiPageSchema, but using newer method of tabbed edit forms.
 
 DONE : add getGenres/getCategories/getCountries to base PlumiVideo content type
         ( these were added as schema fields, using ATFieldProperty, and dont need manual methods)

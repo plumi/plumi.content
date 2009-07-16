@@ -11,8 +11,18 @@
   <property name="factory">addPlumiVideoFolder</property>
   <property name="immediate_view">atct_edit</property>
   <property name="global_allow">True</property>
-  <property name="filter_content_types">False</property>
-  <property name="allow_discussion">False</property>
+  <property name="filter_content_types">True</property>
+<property name="filter_content_types">True</property>
+ <property name="allowed_content_types">
+  <element value="Discussion Item"/>
+  <element value="Document"/>
+  <element value="Favorite"/>
+  <element value="Image"/>
+  <element value="Link"/>
+  <element value="Plumi Video Folder"/>
+  <element value="PlumiVideo"/>
+ </property>
+  <property name="allow_discussion">True</property>
   <property name="default_view">base_view</property>
   <property name="view_methods">
     <element value="base_view" />
