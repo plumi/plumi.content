@@ -1,10 +1,10 @@
 replace content functionality from ATVideo/ ATMediaFile::
 
 	DONE :      plumivideo
-		    callout
-	DONE        plumivideofolder - aka playlist - collection for plumivideo
-	DONE	    plumicalloutfolder - holds callouts
-		    featured content 
+	NOT DONE:   callout
+	DONE:       plumivideofolder - aka playlist - collection of plumivideo
+	DONE:	    plumicalloutfolder - holds collection of callouts
+	NOT DONE:   featured content 
 	NOT DONE:   engagevideo : **wait til after alpha release
 
 DONE	Critical Commons licensing on all types

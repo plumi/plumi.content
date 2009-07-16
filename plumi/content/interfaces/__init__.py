@@ -1,4 +1,6 @@
 # -*- extra stuff goes here -*-
+from plumicallout import IPlumiCallOut
+
 from plumicalloutfolder import IPlumiCalloutFolder
 
 from plumivideofolder import IPlumiVideoFolder
