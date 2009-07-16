@@ -1,15 +1,15 @@
-replace content functionality from ATVideo/ ATMediaFile
+replace content functionality from ATVideo/ ATMediaFile::
 
-DONE :      plumivideo
-NOT DONE:   engagevideo : **wait til after alpha release
-            callout
-DONE        plumivideofolder - aka playlist - collection for plumivideo
-DONE	    plumicalloutfolder - holds callouts
-            featured content 
+	DONE :      plumivideo
+		    callout
+	DONE        plumivideofolder - aka playlist - collection for plumivideo
+	DONE	    plumicalloutfolder - holds callouts
+		    featured content 
+	NOT DONE:   engagevideo : **wait til after alpha release
 
-	Critical Commons licensing on all types
+DONE	Critical Commons licensing on all types
 
-	roles on add permissions on content types
+	roles on add permissions on content types, allow Members to add all types of content
 
 	folder constraints
 
@@ -22,6 +22,8 @@ add other basic fields/indexing methods to content types
 
 adjust content types to be translatable via linguaplone
 
-getting basic video working with collective.flowplayer
-
-release 0.3.0-alpha egg
+basic video functionality:: 
+	working for OGV uploads using HTML 5
+	working with collective.flowplayer
+	
+release egg for plumi 0.3.0 : plumi.content 0.1 alpha 1 egg
