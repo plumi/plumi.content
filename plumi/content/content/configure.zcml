@@ -29,6 +29,9 @@
         permission="cmf.ModifyPortalContent"
         set_schema="..interfaces.IPlumiCalloutFolder"
         />
+ 	<implements interface="collective.contentlicensing.DublinCoreExtensions.interfaces.ILicensable
+                           zope.annotation.interfaces.IAttributeAnnotatable" />
+ 
   </class>
   <class class=".plumivideofolder.PlumiVideoFolder">
     <require
@@ -39,6 +42,9 @@
         permission="cmf.ModifyPortalContent"
         set_schema="..interfaces.IPlumiVideoFolder"
         />
+ 	<implements interface="collective.contentlicensing.DublinCoreExtensions.interfaces.ILicensable
+                           zope.annotation.interfaces.IAttributeAnnotatable" />
+ 
   </class>
   <class class=".plumivideo.PlumiVideo">
     <require
