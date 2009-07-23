@@ -82,7 +82,7 @@ class IPlumiVideo(Interface):
         description=_(u"The thumbnail image for the video content"),
     )
 
-    Country = schema.TextLine(
+    Countries = schema.TextLine(
         title=_(u"Country of origin of the video"), 
         required=False,
         description=_(u"The associated country of origin of the video content"),

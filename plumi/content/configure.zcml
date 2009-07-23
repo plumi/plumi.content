@@ -21,4 +21,7 @@
       />
   
   <!-- -*- extra stuff goes here -*- -->
+  <subscriber handler=".subscribers.notifyModifiedPlumiVideo" />
+
+  <adapter factory=".adapters.PlumiWorkflowAdapter" />
 </configure>

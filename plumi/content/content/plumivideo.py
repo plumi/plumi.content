@@ -148,7 +148,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
 
     atapi.StringField(
-        'Country',
+        'Countries',
         storage=atapi.AnnotationStorage(),
         widget=CountryWidget(
             label=_(u"Country of origin of the video"),
@@ -215,7 +215,7 @@ PlumiVideoSchema.changeSchemataForField('ProducerMailingAddress', 'categorizatio
 PlumiVideoSchema.changeSchemataForField('ProducerEmail', 'categorization')
 PlumiVideoSchema.changeSchemataForField('Director', 'categorization')
 PlumiVideoSchema.changeSchemataForField('Producer', 'categorization')
-PlumiVideoSchema.changeSchemataForField('Country', 'categorization')
+PlumiVideoSchema.changeSchemataForField('Countries', 'categorization')
 PlumiVideoSchema.changeSchemataForField('Categories', 'categorization')
 
 
@@ -258,7 +258,7 @@ class PlumiVideo(base.ATCTContent):
 
     thumbnailImage = atapi.ATFieldProperty('thumbnailImage')
 
-    Country = atapi.ATFieldProperty('Country')
+    Countries = atapi.ATFieldProperty('Countries')
 
     Categories = atapi.ATFieldProperty('Categories')
 
