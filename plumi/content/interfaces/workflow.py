@@ -5,3 +5,12 @@ class IPlumiWorkflow(Interface):
 
 	def autoPublishOrHide(self):
 	    """Auto publish or hide"""
+
+        def notifyOwnerVideoSubmitted(self):
+	    """ Email the owner of the submitted video """
+
+        def notifyReviewersVideoSubmitted(self):
+	    """ Email the reviewers of the submitted video """
+
+        def notifyOwnerVideoPublished(self):
+	    """ Email the owner of the published video """

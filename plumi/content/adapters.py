@@ -4,6 +4,9 @@ from zope.interface import implements
 from interfaces.plumivideo import IPlumiVideo
 from interfaces.workflow import IPlumiWorkflow
 
+from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.WorkflowCore import WorkflowException
+
 class PlumiWorkflowAdapter(object):
     implements(IPlumiWorkflow)
     adapts(IPlumiVideo)
@@ -11,8 +14,104 @@ class PlumiWorkflowAdapter(object):
     def __init__(self, context):
 	self.context = context
 
+    def notifyOwnerVideoSubmitted(self):
+	""" Email the owner of the submitted video """
+	logger = logging.getLogger('plumi.content.adapters')
+	#IPlumiVideo implementing objects only
+	if IPlumiVideo.providedBy(self.context):
+
+		obj_title=self.context.Title()
+	        creator=self.context.Creator()
+    		obj_url=self.context.absolute_url()
+		membr_tool = getToolByName(self.context,'portal_membership')
+    		member=membr_tool.getMemberById(creator)
+	        mTo = member.getProperty('email',None)
+	        if mTo is not None and mTo is not '':
+		      mMsg = 'Hi %s \nYour contribution has been submitted for review before publishing on the site\n' % member.getProperty('fullname', 'you')
+		      mMsg += 'Title: %s\n\n' % obj_title
+		      mMsg += '%s/view \n\n' % obj_url
+		      urltool = getToolByName(self.context, 'portal_url')
+	  	      portal = urltool.getPortalObject()
+		      mFrom = portal.getProperty('email_from_address')
+		      #mFrom = 'contact@plumi.org'
+		      mSubj = 'Your contribution : %s : was submitted for review.' % obj_title
+		      #send email to object owner
+		      try:
+			logger.info('notifyOwnerVideoSubmitted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
+		      	self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+		      except:
+			logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
+			pass
+
+
+    def notifyReviewersVideoSubmitted(self):
+	""" Email the reviewers of the submitted video """
+	logger = logging.getLogger('plumi.content.adapters')
+	#IPlumiVideo implementing objects only
+	if IPlumiVideo.providedBy(self.context):
+		logger.info('notifyReviewersVideoSubmitted , im %s ' % self.context )
+		obj_title=self.context.Title()
+		obj_url=self.context.absolute_url()
+		creator = self.context.Creator()
+		membr_tool = getToolByName(self.context,'portal_membership')
+    		member=membr_tool.getMemberById(creator)
+		creator_info = {'fullname':member.getProperty('fullname', 'Fullname missing'),
+				   'email':member.getProperty('email', None)}
+		#XXX is there a better way to search for reviewers ??
+		for reviewer in self.context.portal_membership.listMembers():
+		    memberId = reviewer.id
+		    if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
+
+			mMsg = 'Item has been submitted for your review\n'
+			mMsg += 'Please review the submitted content. \n\n'
+			mMsg += 'Title: %s\n\n' % obj_title
+			mMsg += '%s/view \n\n' % obj_url
+			mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+			mMsg += 'Email: %s\n\n' % creator_info['email']
+			mTo = reviewer.getProperty('email',None)
+			#mFrom = 'contact@plumi.org'
+			urltool = getToolByName(self.context, 'portal_url')
+	  	      	portal = urltool.getPortalObject()
+		      	mFrom = portal.getProperty('email_from_address')
+			mSubj = 'Item Submitted for your review'
+			try:
+				logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
+				self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+			except:
+				logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost.')
+				pass
+
+    def notifyOwnerVideoPublished(self):
+	""" Email the owner of the published video """
+	logger = logging.getLogger('plumi.content.adapters')
+	#IPlumiVideo implementing objects only
+	if IPlumiVideo.providedBy(self.context):
+		logger.info('notifyOwnerVideoPublished, im %s ' % self.context )
+
+
     def autoPublishOrHide(self):
-	""" Implement auto publish or hide functionality """
-	logger = logging.getLogger('plumi.content.adapaters')
-	
-	logger.info('autoPublishOrHide , im %s ' % self.context )
+	""" Implement auto publish or hide functionality. Returns TRUE if we submitted for review via workflow tool properly, or FALSE otherwise. """
+	logger = logging.getLogger('plumi.content.adapters')
+	worked = False
+	#IPlumiVideo implementing objects only
+	if IPlumiVideo.providedBy(self.context):
+		logger.info('autoPublishOrHide , im %s ' % self.context )
+
+		#Conditions XXX
+		#check if our requirements are met then auto-submit this video.
+		#basically, an attached video
+
+                try:
+                	workflow = getToolByName(self.context, 'portal_workflow')
+			state = workflow.getInfoFor(self.context,'review_state')
+			#dont try to resubmit if already published.
+			if not state == 'published':
+			    workflow.doActionFor(self.context, 'submit')
+			worked = True
+		except WorkflowException:
+			worked = False
+                	pass
+		#XXX if conditions arent met, hide the video
+
+	#return value
+	return worked
