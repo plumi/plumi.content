@@ -40,7 +40,7 @@ setup(name='plumi.content',
 	'Programming Language :: Python',
 
         ],
-      keywords='',
+      keywords='plone plumi content',
       author='Andy Nicholson',
       author_email='andy@engagemedia.org',
       url='https://svn.plone.org/svn/collective/plumi.content/trunk',
