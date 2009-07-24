@@ -1,13 +1,15 @@
 trunk (2009-07-23)
 ==================
 
-  - xxx [Andy Nicholson]
+  - Dev  [Andy Nicholson]
 
 Changelog
 =========
 
-0.1 (xxxx-xx-xx)
+0.1 (2009-07-23)
 ----------------
+
+Initial release for Plumi 3 alpha 1
 
 - Created recipe with ZopeSkel
   [Andy Nicholson]
