@@ -21,9 +21,9 @@ DONE release egg for plumi 0.3.0 : plumi.content 0.1 alpha 1 egg
 custom view templates configuration, ie different views available and default view per content type, as implement by plumi.skin.browser package
 
 workflow from plumi 0.2.x ::
-	replace email functionality, to owner, on pending & approval submission, and reviewers, on pending
-	auto-pending workflow for plumivideo
-
+DONE	replace email functionality, to owner, on pending and reviewers, on pending
+DONE	auto-pending workflow for plumivideo
+	email on published action -- ie approval of submission - Products.CMFCore.interfaces.IActionSucceededEvent ?
 
 adjust content types to be translatable via linguaplone
 

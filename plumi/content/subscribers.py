@@ -2,6 +2,7 @@ import logging
 from zope.component import adapter
 from Products.CMFCore.utils import getToolByName
 
+from Products.CMFCore.interfaces import IActionSucceededEvent
 #from zope.app.container.interfaces import IObjectModifiedEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEditedEvent
 
@@ -10,13 +11,14 @@ from plumi.content.interfaces.workflow import IPlumiWorkflow
 
 #from vaporisation.vaporisation.events import TreeUpdateEvent
 
-@adapter(IPlumiVideo, IObjectEditedEvent)
-def notifyModifiedPlumiVideo(obj ,event):
-    """This gets called on IObjectEditedEvent - called whenever the object is edited."""
+
+@adapter(IPlumiVideo, IActionSucceededEvent)
+def notifyActionSucceededPlumiVideo(obj ,event):
+    """This gets called on IActionSucceededEvent - called whenever the object is transistioned thru workflow states."""
     workflow = getToolByName(obj,'portal_workflow')
     state = workflow.getInfoFor(obj,'review_state','')
     log = logging.getLogger('plumi.content.subscribers')
-    log.info("notifyModifiedPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
+    log.info("notifyActionSuceededPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
     #decide what to do , based on workflow of object
     state = workflow.getInfoFor(obj,'review_state')
     #PUBLISHED
@@ -35,9 +37,17 @@ def notifyModifiedPlumiVideo(obj ,event):
 	    # XXX re-implement vaporisation compatibility
 	    #notify(TreeUpdateEvent(tc))
 
-	#emails - is this the right spot ? We should do it on state transitions?
+	#emails 
 	IPlumiWorkflow(obj).notifyOwnerVideoPublished()
 
+
+@adapter(IPlumiVideo, IObjectEditedEvent)
+def notifyModifiedPlumiVideo(obj ,event):
+    """This gets called on IObjectEditedEvent - called whenever the object is edited."""
+    workflow = getToolByName(obj,'portal_workflow')
+    state = workflow.getInfoFor(obj,'review_state','')
+    log = logging.getLogger('plumi.content.subscribers')
+    log.info("notifyModifiedPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
     #VISIBLE
     if state == 'visible':
 	#call IPlumiWorkflow API to decide if its ready to publish or needs hiding.

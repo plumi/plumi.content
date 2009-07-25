@@ -23,7 +23,7 @@
   <!-- -*- extra stuff goes here -*- -->
   <subscriber handler=".subscribers.notifyModifiedPlumiVideo" />
   <subscriber handler=".subscribers.notifyInitPlumiVideo" />
-
+  <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
 
   <adapter factory=".adapters.PlumiWorkflowAdapter" />
 </configure>
