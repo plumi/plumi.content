@@ -112,6 +112,7 @@ class PlumiWorkflowAdapter(object):
 			worked = False
                 	pass
 		#XXX if conditions arent met, hide the video
+		# We arent implementing this by default in IPlumiVideo atm
 
 	#return value
 	return worked
