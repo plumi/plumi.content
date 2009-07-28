@@ -73,7 +73,7 @@ class PlumiWorkflowAdapter(object):
 			urltool = getToolByName(self.context, 'portal_url')
 	  	      	portal = urltool.getPortalObject()
 		      	mFrom = portal.getProperty('email_from_address')
-			mSubj = 'Item Submitted for your review'
+			mSubj = '%s -- submitted for your review' % obj_title
 			try:
 				logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
 				self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
@@ -87,6 +87,28 @@ class PlumiWorkflowAdapter(object):
 	#IPlumiVideo implementing objects only
 	if IPlumiVideo.providedBy(self.context):
 		logger.info('notifyOwnerVideoPublished, im %s ' % self.context )
+		obj_title=self.context.Title()
+	        creator=self.context.Creator()
+    		obj_url=self.context.absolute_url()
+		membr_tool = getToolByName(self.context,'portal_membership')
+    		member=membr_tool.getMemberById(creator)
+	        mTo = member.getProperty('email',None)
+	        if mTo is not None and mTo is not '':
+		      mMsg = 'Hi %s \nYour contribution has been accepted for publishing on the site\n' % member.getProperty('fullname', 'you')
+		      mMsg += 'Title: %s\n\n' % obj_title
+		      mMsg += '%s/view \n\n' % obj_url
+		      urltool = getToolByName(self.context, 'portal_url')
+	  	      portal = urltool.getPortalObject()
+		      mFrom = portal.getProperty('email_from_address')
+		      mSubj = 'Your contribution : %s : was published.' % obj_title
+		      #send email to object owner
+		      try:
+			logger.info('notifyOwnerVideoPublished , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
+		      	self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+		      except:
+			logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
+			pass
+
 
 
     def autoPublishOrHide(self):
