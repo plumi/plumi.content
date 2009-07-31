@@ -3,10 +3,16 @@
 
 from zope.interface import implements, directlyProvides
 
-from Products.Archetypes import atapi
+try:
+    from Products.LinguaPlone import atapi 
+except ImportError:
+    # No multilingual support
+    from Products.Archetypes import atapi
+
+from Products.Archetypes.interfaces import IMultiPageSchema
 from Products.ATContentTypes.content import base
 from Products.ATContentTypes.content import schemata
-from Products.Archetypes.interfaces import IMultiPageSchema
+from Products.ATContentTypes.configuration import zconf
 
 #third party products
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
@@ -39,6 +45,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Date Produced"),
             description=_(u"The date the video content was released."),
         ),
+	languageIndependent=True,
         validators=('isValidDate'),
     ),
 
@@ -70,6 +77,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Website URL"),
             description=_(u"The website URL for the video content"),
         ),
+	languageIndependent=True,
+
     ),
 
 
@@ -100,6 +109,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Producer Mailing Address"),
             description=_(u"The Producer's mailing address"),
         ),
+	languageIndependent=True,
+
     ),
 
 
@@ -111,6 +122,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The Producer's email address"),
         ),
         validators=('isEmail'),
+	languageIndependent=True,
+
     ),
 
 
@@ -121,6 +134,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Director"),
             description=_(u"The Director of the video content"),
         ),
+	languageIndependent=True,
+
     ),
 
 
@@ -131,6 +146,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Producer"),
             description=_(u"The Producer of the video content"),
         ),
+	languageIndependent=True,
+
     ),
 
 
@@ -141,8 +158,10 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Video Thumbnail"),
             description=_(u"The thumbnail image for the video content"),
         ),
-        validators=('isNonEmptyFile'),
+	max_size = zconf.ATImage.max_image_dimension,
+        validators=(('isNonEmptyFile'),('checkImageMaxSize')),
 	#schemata='Video',
+	languageIndependent=True,
 
     ),
 
@@ -154,6 +173,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Country of origin of the video"),
             description=_(u"The associated country of origin of the video content"),
         ),
+	languageIndependent=True,
+
     ),
 
 
@@ -165,6 +186,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The video categories - select as many as applicable."),
         ),
         vocabulary=NamedVocabulary("""video_categories"""),
+	languageIndependent=True,
+
     ),
 
 
@@ -176,6 +199,8 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The genre of the video"),
         ),
         vocabulary=NamedVocabulary("""video_genre"""),
+	languageIndependent=True,
+
     ),
 
 
@@ -192,6 +217,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
         validators=('isNonEmptyFile'),
 	#schemata='Video',
+	languageIndependent=True,
 
     ),
 
