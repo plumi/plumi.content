@@ -6,5 +6,11 @@
   <include package="plone.app.contentmenu" />
 
   <!-- -*- extra stuff goes here -*- -->
+  <browser:menuItem
+	for="plumi.content.interfaces.IPlumiVideo"
+	menu="plone_displayviews"
+	title="Plumi Video view"
+	action="@@video_view"
+	description="Default representation of a Plumi video content type" />
 
 </configure>
