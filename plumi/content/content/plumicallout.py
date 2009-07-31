@@ -3,9 +3,14 @@
 
 from zope.interface import implements, directlyProvides
 
-from Products.Archetypes import atapi
-from Products.ATContentTypes.content import base
-from Products.ATContentTypes.content import schemata
+try:
+    from Products.LinguaPlone import atapi 
+except ImportError:
+    # No multilingual support
+    from Products.Archetypes import atapi
+
+from Products.ATContentTypes.content import base,schemata
+from Products.ATContentTypes.configuration import zconf
 
 #third party products
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
@@ -25,6 +30,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Website Address"),
             description=_(u"Website for more info about the callout"),
         ),
+	languageIndependent=True,
     ),
 
 
@@ -36,7 +42,9 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"Will be shown in the call out listings, and the call out item itself. Image will be scaled to a sensible size."),
         ),
         required=True,
-        validators=('isNonEmptyFile'),
+	max_size = zconf.ATImage.max_image_dimension,
+        validators=(('isNonEmptyFile'),('checkImageMaxSize')),
+	languageIndependent=True,
     ),
 
     atapi.StringField(
@@ -71,6 +79,8 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
         required=True,
 	vocabulary=NamedVocabulary("""submission_categories"""),
+	languageIndependent=True,
+
     ),
 
 
@@ -83,6 +93,8 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
         required=True,
         validators=('isValidDate'),
+	languageIndependent=True,
+
     ),
 
 

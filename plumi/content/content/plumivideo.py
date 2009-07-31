@@ -10,8 +10,7 @@ except ImportError:
     from Products.Archetypes import atapi
 
 from Products.Archetypes.interfaces import IMultiPageSchema
-from Products.ATContentTypes.content import base
-from Products.ATContentTypes.content import schemata
+from Products.ATContentTypes.content import base,schemata
 from Products.ATContentTypes.configuration import zconf
 
 #third party products
