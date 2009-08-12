@@ -15,7 +15,7 @@ from Products.ATContentTypes.configuration import zconf
 #third party products
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 
-from plumi.content import contentMessageFactory as _
+from plumi.content import plumiMessageFactory as _
 from plumi.content.interfaces import IPlumiCallOut
 from plumi.content.config import PROJECTNAME
 

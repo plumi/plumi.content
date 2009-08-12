@@ -4,7 +4,7 @@ from zope.interface import Interface
 from zope.app.container.constraints import contains
 from zope.app.container.constraints import containers
 
-from plumi.content import contentMessageFactory as _
+from plumi.content import plumiMessageFactory as _
 
 class IPlumiVideo(Interface):
     """Plumi Video content"""

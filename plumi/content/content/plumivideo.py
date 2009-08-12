@@ -18,7 +18,7 @@ from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.ATCountryWidget.Widget import CountryWidget
 from plone.app.blob.field import BlobField, BlobMarshaller
 # plumi.content imports
-from plumi.content import contentMessageFactory as _
+from plumi.content import plumiMessageFactory as _
 from plumi.content.interfaces import IPlumiVideo
 from plumi.content.config import PROJECTNAME
 

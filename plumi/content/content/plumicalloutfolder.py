@@ -7,7 +7,7 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
 
-from plumi.content import contentMessageFactory as _
+from plumi.content import plumiMessageFactory as _
 from plumi.content.interfaces import IPlumiCalloutFolder
 from plumi.content.config import PROJECTNAME
 
