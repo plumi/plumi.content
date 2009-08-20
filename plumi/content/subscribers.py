@@ -13,7 +13,7 @@ from plumi.content.interfaces.workflow import IPlumiWorkflow
 
 
 @adapter(IPlumiVideo, IActionSucceededEvent)
-def notifyActionSucceededPlumiVideo(obj ,event):
+def notifyActionSucceededPlumiVideo(obj,event):
     """This gets called on IActionSucceededEvent - called whenever the object is transistioned thru workflow states."""
     workflow = getToolByName(obj,'portal_workflow')
     state = workflow.getInfoFor(obj,'review_state','')
@@ -23,23 +23,26 @@ def notifyActionSucceededPlumiVideo(obj ,event):
     state = workflow.getInfoFor(obj,'review_state')
     #PUBLISHED
     if state == 'published':
-	log.info('doing published tasks')
-	#refresh the catalog
-	#XXX make it configurable to run a catalog refresh each time , or not?
-        portal_catalog = getToolByName(obj,'portal_catalog')
-        portal_catalog.refreshCatalog()
-	#update the tag cloud
-	portal_url = getToolByName(obj, "portal_url")
+        log.info('doing published tasks')
+
+        obj.reindexObject()
+
+        #refresh the catalog
+        #XXX make it configurable to run a catalog refresh each time , or not?
+        #portal_catalog = getToolByName(obj,'portal_catalog')
+        #portal_catalog.refreshCatalog()
+
+        #update the tag cloud
+        portal_url = getToolByName(obj, "portal_url")
         portal = portal_url.getPortalObject()
-	tc = getattr(portal,'tagcloud',None)
-	if tc is not None:
-	    log.info('FIXME - refresh tag cloud!')
-	    # XXX re-implement vaporisation compatibility
-	    #notify(TreeUpdateEvent(tc))
+        tc = getattr(portal,'tagcloud',None)
+        if tc is not None:
+            log.info('FIXME - refresh tag cloud!')
+            # XXX re-implement vaporisation compatibility
+            #notify(TreeUpdateEvent(tc))
 
 	#emails 
 	IPlumiWorkflow(obj).notifyOwnerVideoPublished()
-
 
 @adapter(IPlumiVideo, IObjectEditedEvent)
 def notifyModifiedPlumiVideo(obj ,event):
@@ -53,8 +56,8 @@ def notifyModifiedPlumiVideo(obj ,event):
 	#call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
 	# The adapter object will implement the logic for various content types
 	if IPlumiWorkflow(obj).autoPublishOrHide():
-		IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
-		IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+	    IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+	    IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
 
     #PENDING , other states..
 
@@ -76,7 +79,5 @@ def notifyInitPlumiVideo(obj ,event):
 	if IPlumiWorkflow(obj).autoPublishOrHide():
 		IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
 		IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
-
-
 
     #THE END

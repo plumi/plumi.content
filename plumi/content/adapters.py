@@ -38,7 +38,7 @@ class PlumiWorkflowAdapter(object):
 		      #send email to object owner
 		      try:
 			logger.info('notifyOwnerVideoSubmitted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-		      	self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+		      	#self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
 		      except:
 			logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
 			pass
@@ -76,7 +76,7 @@ class PlumiWorkflowAdapter(object):
 			mSubj = '%s -- submitted for your review' % obj_title
 			try:
 				logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-				self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+				#self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
 			except:
 				logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost.')
 				pass
@@ -104,7 +104,7 @@ class PlumiWorkflowAdapter(object):
 		      #send email to object owner
 		      try:
 			logger.info('notifyOwnerVideoPublished , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-		      	self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+		      	#self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
 		      except:
 			logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
 			pass
