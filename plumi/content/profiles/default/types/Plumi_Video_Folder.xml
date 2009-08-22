@@ -23,7 +23,7 @@
   <element value="PlumiVideo"/>
  </property>
   <property name="allow_discussion">True</property>
-  <property name="default_view">base_view</property>
+  <property name="default_view">video_listing_view</property>
   <property name="view_methods">
     <element value="base_view" />
     <element value="video_listing_view"/>
