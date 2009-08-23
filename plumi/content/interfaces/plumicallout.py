@@ -16,6 +16,13 @@ class IPlumiCallOut(Interface):
         description=_(u"Website for more info about the callout"),
     )
 
+    location = schema.TextLine(
+        title=_(u"Location"), 
+        required=False,
+        description=_(u"Typically a callout has an associated location in a common format (i.e. City, State)"),
+    )
+
+
     calloutImageCaption = schema.TextLine(
         title=_(u"Image caption"), 
         required=True,

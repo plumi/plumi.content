@@ -33,6 +33,16 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 	languageIndependent=True,
     ),
 
+    atapi.StringField(
+        'location',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Location"),
+            description=_(u"Typically a callout has an associated location in a common format (i.e. City, State)"),
+        ),
+	languageIndependent=True,
+    ),
+
 
     atapi.ImageField(
         'calloutImage',
@@ -120,6 +130,8 @@ class PlumiCallOut(base.ATCTContent):
     
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
     websiteURL = atapi.ATFieldProperty('websiteURL')
+
+    location = atapi.ATFieldProperty('location')
 
     calloutImageCaption = atapi.ATFieldProperty('calloutImageCaption')
 
