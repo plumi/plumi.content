@@ -30,7 +30,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Website Address"),
             description=_(u"Website for more info about the callout"),
         ),
-	languageIndependent=True,
+        languageIndependent=True,
     ),
 
     atapi.StringField(
@@ -40,7 +40,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Location"),
             description=_(u"Typically a callout has an associated location in a common format (i.e. City, State)"),
         ),
-	languageIndependent=True,
+        languageIndependent=True,
     ),
 
 
@@ -52,9 +52,9 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"Will be shown in the call out listings, and the call out item itself. Image will be scaled to a sensible size."),
         ),
         required=True,
-	max_size = zconf.ATImage.max_image_dimension,
+	    max_size = zconf.ATImage.max_image_dimension,
         validators=(('isNonEmptyFile'),('checkImageMaxSize')),
-	languageIndependent=True,
+        languageIndependent=True,
     ),
 
     atapi.StringField(
@@ -83,14 +83,13 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.StringField(
         'submissionCategories',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.SelectionWidget(
+        widget=atapi.MultiSelectionWidget(
             label=_(u"Category"),
             description=_(u"Categories. Hold down CTRL/COMMAND and click to multiple select topics."),
         ),
         required=True,
-	vocabulary=NamedVocabulary("""submission_categories"""),
-	languageIndependent=True,
-
+        vocabulary=NamedVocabulary("""submission_categories"""),
+        languageIndependent=True,
     ),
 
 
@@ -103,8 +102,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
         required=True,
         validators=('isValidDate'),
-	languageIndependent=True,
-
+        languageIndependent=True,
     ),
 
 
