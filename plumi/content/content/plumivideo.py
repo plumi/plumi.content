@@ -171,6 +171,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=CountryWidget(
             label=_(u"Country of origin of the video"),
             description=_(u"The associated country of origin of the video content"),
+            i18n_domain='atcw',
         ),
 	languageIndependent=True,
 
@@ -183,6 +184,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.MultiSelectionWidget(
             label=_(u"Video Categories"),
             description=_(u"The video categories - select as many as applicable."),
+            i18n_domain='plumi',
         ),
         vocabulary=NamedVocabulary("""video_categories"""),
 	languageIndependent=True,
@@ -196,6 +198,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.SelectionWidget(
             label=_(u"Video Genre"),
             description=_(u"The genre of the video"),
+            i18n_domain='plumi',
         ),
         vocabulary=NamedVocabulary("""video_genre"""),
 	languageIndependent=True,

@@ -86,6 +86,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.MultiSelectionWidget(
             label=_(u"Category"),
             description=_(u"Categories. Hold down CTRL/COMMAND and click to multiple select topics."),
+            i18n_domain='plumi'
         ),
         required=True,
         vocabulary=NamedVocabulary("""submission_categories"""),

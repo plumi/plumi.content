@@ -77,7 +77,7 @@ class IPlumiVideo(Interface):
     )
 
     thumbnailImage = schema.Bytes(
-        title=_(u"Vidoe Thumbnail"), 
+        title=_(u"Video Thumbnail"), 
         required=False,
         description=_(u"The thumbnail image for the video content"),
     )
