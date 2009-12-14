@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:browser="http://namespaces.zope.org/browser" 
     i18n_domain="plumi">
 
   <five:registerPackage package="." initialize=".initialize" />
@@ -20,7 +21,14 @@
       description="Plumi content types package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  
+  <browser:page
+     name="streaming_RPC"
+     for="plumi.content.interfaces.plumivideo.IPlumiVideo"
+     class=".content.convert.CallBackView"
+     permission="cmf.ManagePortal"
+     allowed_interface=".interfaces.plumivideo.ICallBackView"
+     /> 
+ 
   <!-- -*- extra stuff goes here -*- -->
   <subscriber handler=".subscribers.notifyModifiedPlumiVideo" />
   <subscriber handler=".subscribers.notifyInitPlumiVideo" />

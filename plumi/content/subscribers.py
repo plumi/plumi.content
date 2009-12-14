@@ -1,16 +1,24 @@
 import logging
 from zope.component import adapter
+from zope.component import getUtility
+from zope.annotation.interfaces import IAnnotations
 from Products.CMFCore.utils import getToolByName
 
 from Products.CMFCore.interfaces import IActionSucceededEvent
 #from zope.app.container.interfaces import IObjectModifiedEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEditedEvent
+from Products.CMFCore.interfaces import IPropertiesTool
 
 from plumi.content.interfaces.plumivideo import IPlumiVideo
 from plumi.content.interfaces.workflow import IPlumiWorkflow
 
 #from vaporisation.vaporisation.events import TreeUpdateEvent
 
+import transaction
+from persistent.mapping import PersistentMapping
+import xmlrpclib
+import urllib
+from urlparse import urlparse
 
 @adapter(IPlumiVideo, IActionSucceededEvent)
 def notifyActionSucceededPlumiVideo(obj,event):
@@ -58,7 +66,7 @@ def notifyModifiedPlumiVideo(obj ,event):
 	if IPlumiWorkflow(obj).autoPublishOrHide():
 	    IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 	    IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
-
+    setup_transcoding(obj)
     #PENDING , other states..
 
     #THE END
@@ -81,3 +89,60 @@ def notifyInitPlumiVideo(obj ,event):
 		IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
     #THE END
+
+def setup_transcoding(obj):
+    pprop = getUtility(IPropertiesTool)
+    config = getattr(pprop, 'plumi_properties', None)
+    #XXX Check if we have transcoding support enabled
+    transcodeServer=xmlrpclib.ServerProxy(config.transcodedaemon_address)
+    #Submit XML-RPC call to transcoder
+    transcodeProfiles = transcodeServer.getAvailableProfiles()
+    transcodeOptions = dict()
+    
+    #XXX - get better way of discovering the path to the video file
+    path = '/'.join(obj.getPhysicalPath())
+    plonesite = urlparse(config.plonesite_address)
+    url_format = "%s://%s:%s@%s%s/@@streaming_RPC"
+
+    cb_url = url_format % ( plonesite[0], #protocol
+                            config.plonesite_login,
+                            config.plonesite_password,
+                            plonesite[1], #netloc
+                            urllib.quote(path)) #path (for this video)
+                           
+    transcodeInput=dict(path = ( plonesite[0] + "://" + 
+                                 plonesite[1] + path), 
+                                 type=obj.getContentType())
+
+    annotations = IAnnotations(obj, None)
+    annotations['plumi.transcode.profiles'] = PersistentMapping()
+
+    trans = transaction.get()
+    for transcodeProfile in transcodeProfiles:
+        print "plumi running profile %s" % transcodeProfile
+
+        trans.addAfterCommitHook(launchConversion, 
+                                (transcodeServer, transcodeInput, 
+                                transcodeProfile, transcodeOptions, cb_url))
+    
+    #self.info ['state'] = "processing"
+
+    print "plumi: ConvertDaemon call pending"
+
+def launchConversion(status, server, input, profile, options, cb_url):
+    """
+    """
+    if not status:
+        return
+    print "CALLBACK", cb_url
+    try:
+        jobId = server.convert(input, profile, options, cb_url)
+        print "plumi: ConvertDaemon call "+jobId
+    #except xmlrpclib.Fault, e:
+    except Exception, e:
+        print "plumi: ConvertDaemon call FAILED", e
+        server=xmlrpclib.ServerProxy(cb_url)
+        server.conv_done_xmlrpc(e)
+    #print "INPUT ", input_path
+    #print "OUTPUT", output_path
+    #return jobId
