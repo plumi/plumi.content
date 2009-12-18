@@ -12,4 +12,10 @@
 	action="@@video_view"
 	description="Default representation of a Plumi video content type" />
 
+  <browser:page
+    name="download"
+    for="plumi.content.interfaces.IPlumiVideo"
+    class=".download.Download"
+    permission="zope2.View"
+    />
 </configure>
