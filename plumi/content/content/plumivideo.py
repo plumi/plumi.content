@@ -33,7 +33,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Thumbnail Image description"),
             description=_(u"The caption for the thumbnail image."),
         ),
-	#schemata='Video',
+        #schemata='Video',
     ),
 
 
@@ -44,7 +44,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Date Produced"),
             description=_(u"The date the video content was released."),
         ),
-	languageIndependent=True,
+        languageIndependent=True,
         validators=('isValidDate'),
     ),
 
@@ -76,7 +76,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Website URL"),
             description=_(u"The website URL for the video content"),
         ),
-	languageIndependent=True,
+        languageIndependent=True,
 
     ),
 
@@ -108,7 +108,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Producer Mailing Address"),
             description=_(u"The Producer's mailing address"),
         ),
-	languageIndependent=True,
+        languageIndependent=True,
 
     ),
 
@@ -121,7 +121,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The Producer's email address"),
         ),
         validators=('isEmail'),
-	languageIndependent=True,
+        languageIndependent=True,
 
     ),
 
@@ -133,7 +133,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Director"),
             description=_(u"The Director of the video content"),
         ),
-	languageIndependent=True,
+        languageIndependent=True,
 
     ),
 
@@ -145,7 +145,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Producer"),
             description=_(u"The Producer of the video content"),
         ),
-	languageIndependent=True,
+        languageIndependent=True,
 
     ),
 
@@ -157,10 +157,10 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Video Thumbnail"),
             description=_(u"The thumbnail image for the video content"),
         ),
-	max_size = zconf.ATImage.max_image_dimension,
+        max_size = zconf.ATImage.max_image_dimension,
         validators=(('isNonEmptyFile'),('checkImageMaxSize')),
-	#schemata='Video',
-	languageIndependent=True,
+        #schemata='Video',
+        languageIndependent=True,
 
     ),
 
@@ -173,7 +173,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The associated country of origin of the video content"),
             i18n_domain='atcw',
         ),
-	languageIndependent=True,
+        languageIndependent=True,
 
     ),
 
@@ -187,7 +187,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             i18n_domain='plumi',
         ),
         vocabulary=NamedVocabulary("""video_categories"""),
-	languageIndependent=True,
+        languageIndependent=True,
 
     ),
 
@@ -201,25 +201,25 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             i18n_domain='plumi',
         ),
         vocabulary=NamedVocabulary("""video_genre"""),
-	languageIndependent=True,
+        languageIndependent=True,
 
     ),
 
 
     BlobField(
         'video_file',
-	storage=atapi.AnnotationStorage(), 
-	primary=True,
+        storage=atapi.AnnotationStorage(), 
+        primary=True,
         required=True,
-	accessor='getFile',
-	mutator='setFile',
+        accessor='getFile',
+        mutator='setFile',
         widget=atapi.FileWidget(
             label=_(u"Video File"),
             description=_(u"The uploaded video file"),
         ),
         validators=('isNonEmptyFile'),
-	#schemata='Video',
-	languageIndependent=True,
+        #schemata='Video',
+        languageIndependent=True,
 
     ),
 
