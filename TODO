@@ -1,3 +1,6 @@
+Test that the @@download view actually streams content rather than loading into
+memory first
+
 replace content functionality from ATVideo/ ATMediaFile::
 
 	DONE:       plumivideo

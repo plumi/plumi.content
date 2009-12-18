@@ -88,6 +88,7 @@ def notifyInitPlumiVideo(obj ,event):
 		IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
 		IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
+    setup_transcoding(obj)
     #THE END
 
 def setup_transcoding(obj):
@@ -100,8 +101,11 @@ def setup_transcoding(obj):
     transcodeOptions = dict()
     
     #XXX - get better way of discovering the path to the video file
-    path = '/'.join(obj.getPhysicalPath())
-    plonesite = urlparse(config.plonesite_address)
+    path = obj.absolute_url_path()
+    if config.plonesite_address:
+        plonesite = urlparse(config.plonesite_address)
+    else:
+        plonesite = urlparse(obj.absolute_url())
     url_format = "%s://%s:%s@%s%s/@@streaming_RPC"
 
     cb_url = url_format % ( plonesite[0], #protocol
@@ -111,8 +115,10 @@ def setup_transcoding(obj):
                             urllib.quote(path)) #path (for this video)
                            
     transcodeInput=dict(path = ( plonesite[0] + "://" + 
-                                 plonesite[1] + path), 
-                                 type=obj.getContentType())
+                                 plonesite[1] + path + 
+                                 '/@@download/video_file/' + 
+                                 obj.video_file.getFilename()), 
+                        type=obj.video_file.getContentType())
 
     annotations = IAnnotations(obj, None)
     annotations['plumi.transcode.profiles'] = PersistentMapping()
@@ -134,7 +140,6 @@ def launchConversion(status, server, input, profile, options, cb_url):
     """
     if not status:
         return
-    print "CALLBACK", cb_url
     try:
         jobId = server.convert(input, profile, options, cb_url)
         print "plumi: ConvertDaemon call "+jobId
