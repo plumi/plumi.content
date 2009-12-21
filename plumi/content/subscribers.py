@@ -15,7 +15,7 @@ from plumi.content.interfaces.workflow import IPlumiWorkflow
 #from vaporisation.vaporisation.events import TreeUpdateEvent
 
 import transaction
-from persistent.mapping import PersistentMapping
+from ZODB.PersistentMapping import PersistentMapping
 import xmlrpclib
 import urllib
 from urlparse import urlparse
@@ -116,7 +116,7 @@ def setup_transcoding(obj):
                            
     transcodeInput=dict(path = ( plonesite[0] + "://" + 
                                  plonesite[1] + path + 
-                                 '/@@download/video_file/' + 
+                                 '/download/video_file/' + 
                                  obj.video_file.getFilename()), 
                         type=obj.video_file.getContentType())
 
