@@ -94,13 +94,17 @@ def notifyInitPlumiVideo(obj ,event):
 def setup_transcoding(obj):
     pprop = getUtility(IPropertiesTool)
     config = getattr(pprop, 'plumi_properties', None)
-    #XXX Check if we have transcoding support enabled
-    transcodeServer=xmlrpclib.ServerProxy(config.transcodedaemon_address)
+    #TODO Check if we have transcoding support enabled
+    try:
+        transcodeServer=xmlrpclib.ServerProxy(config.transcodedaemon_address)
+        transcodeProfiles = transcodeServer.getAvailableProfiles()
+    except Exception, e:
+        print 'ERROR: Could not connect to transcode daemon %s: %s' % (config.transcodedaemon_address, e)
+        return
     #Submit XML-RPC call to transcoder
-    transcodeProfiles = transcodeServer.getAvailableProfiles()
     transcodeOptions = dict()
     
-    #XXX - get better way of discovering the path to the video file
+    #TODO - get better way of discovering the path to the video file
     path = obj.absolute_url_path()
     if config.plonesite_address:
         plonesite = urlparse(config.plonesite_address)
@@ -143,7 +147,7 @@ def launchConversion(status, server, input, profile, options, cb_url):
     try:
         jobId = server.convert(input, profile, options, cb_url)
         print "plumi: ConvertDaemon call "+jobId
-    #except xmlrpclib.Fault, e:
+    #except xmlrpclib.Error, e:
     except Exception, e:
         print "plumi: ConvertDaemon call FAILED", e
         server=xmlrpclib.ServerProxy(cb_url)

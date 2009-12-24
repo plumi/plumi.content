@@ -50,5 +50,4 @@ class Download(BrowserView):
     
         self.request.response.setHeader("Content-Disposition", 
                                "attachment; filename=\"%s\"" % self.filename)
-        
-        return file.getFile()
+        return file.getIterator()
