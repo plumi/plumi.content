@@ -92,6 +92,10 @@ def notifyInitPlumiVideo(obj ,event):
     #THE END
 
 def setup_transcoding(obj):
+    annotations = IAnnotations(obj, None)
+    if not annotations.has_key('plumi.transcode.profiles'):
+        annotations['plumi.transcode.profiles'] = PersistentMapping()
+
     pprop = getUtility(IPropertiesTool)
     config = getattr(pprop, 'plumi_properties', None)
     #TODO Check if we have transcoding support enabled
@@ -123,9 +127,6 @@ def setup_transcoding(obj):
                                  '/download/video_file/' + 
                                  obj.video_file.getFilename()), 
                         type=obj.video_file.getContentType())
-
-    annotations = IAnnotations(obj, None)
-    annotations['plumi.transcode.profiles'] = PersistentMapping()
 
     trans = transaction.get()
     for transcodeProfile in transcodeProfiles:
