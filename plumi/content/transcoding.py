@@ -1,4 +1,5 @@
 from zope.annotation.interfaces import IAnnotations
+from Products.CMFCore.interfaces import IPropertiesTool
 from zope.component import getUtility
 
 import transaction
@@ -49,7 +50,7 @@ def setup_transcoding(obj):
     for transcodeProfile in transcodeProfiles:
         print "plumi running profile %s" % transcodeProfile
 
-        trans.addAfterCommitHook(launchConversion, 
+        trans.addAfterCommitHook(transcoding_hook, 
                                 (transcodeServer, transcodeInput, 
                                 transcodeProfile, transcodeOptions, cb_url))
     
@@ -57,7 +58,7 @@ def setup_transcoding(obj):
 
     print "plumi: ConvertDaemon call pending"
 
-def launchConversion(status, server, input, profile, options, cb_url):
+def transcoding_hook(status, server, input, profile, options, cb_url):
     """
     """
     if not status:

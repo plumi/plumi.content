@@ -2,11 +2,11 @@ import logging
 from zope.component import adapter
 from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
+from zope.app.component.hooks import getSite
 
 from Products.CMFCore.interfaces import IActionSucceededEvent
 #from zope.app.container.interfaces import IObjectModifiedEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEditedEvent
-from Products.CMFCore.interfaces import IPropertiesTool
 
 from plumi.content.interfaces.plumivideo import IPlumiVideo
 from plumi.content.interfaces.workflow import IPlumiWorkflow
@@ -63,7 +63,11 @@ def notifyModifiedPlumiVideo(obj ,event):
 	    IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
     #PENDING , other states..
 
-    setup_metadata(obj)
+    request = getSite().REQUEST
+    if request.has_key('video_file_file'): #new video uploaded
+        log.info('notifyModifiedPlumiVideo: video replaced; retranscoding')
+        setup_metadata(obj)
+        setup_transcoding(obj)
     #THE END
 
 @adapter(IPlumiVideo, IObjectInitializedEvent)
