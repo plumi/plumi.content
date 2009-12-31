@@ -161,6 +161,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         validators=(('isNonEmptyFile'),('checkImageMaxSize')),
         #schemata='Video',
         languageIndependent=True,
+        required = True,
 
     ),
 
@@ -253,7 +254,7 @@ PlumiVideoSchema.registerLayer('marshall', BlobMarshaller())
 
 class PlumiVideo(base.ATCTContent):
     """Plumi Video content"""
-    implements(IPlumiVideo)
+    implements(IPlumiVideo, IMultiPageSchema)
 
     meta_type = "PlumiVideo"
     schema = PlumiVideoSchema
