@@ -39,10 +39,9 @@ def setup_transcoding(obj):
                             config.plonesite_password,
                             plonesite[1], #netloc
                             urllib.quote(path)) #path (for this video)
-                           
-    transcodeInput=dict(path = ( plonesite[0] + "://" + 
-                                 plonesite[1] + path + 
-                                 '/download/video_file/' + 
+    transcodeInput=dict(path = ( plonesite[0] + "://" + \
+                                 plonesite[1] + path + \
+                                 '/download/video_file/' + \
                                  obj.video_file.getFilename()), 
                         type=obj.video_file.getContentType())
 
@@ -53,8 +52,8 @@ def setup_transcoding(obj):
         trans.addAfterCommitHook(transcoding_hook, 
                                 (transcodeServer, transcodeInput, 
                                 transcodeProfile, transcodeOptions, cb_url))
+
     
-    #self.info ['state'] = "processing"
 
     print "plumi: ConvertDaemon call pending"
 

@@ -161,7 +161,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         validators=(('isNonEmptyFile'),('checkImageMaxSize')),
         #schemata='Video',
         languageIndependent=True,
-        required = True,
 
     ),
 

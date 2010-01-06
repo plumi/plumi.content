@@ -109,6 +109,6 @@ class IPlumiVideo(Interface):
 class ICallBackView(Interface):
     """
     """
-    def conv_done_xmlrpc(status, message, profile, URL):
+    def conv_done_xmlrpc(status, message, profile, path):
         """
         """
