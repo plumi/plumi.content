@@ -18,4 +18,11 @@
     class=".download.Download"
     permission="zope2.View"
     />
+  <browser:page
+    name="reTranscode"
+    for="plumi.content.interfaces.IPlumiVideo"
+    class=".reTranscode.reTranscode"
+    permission="cmf.ModifyPortalContent"
+    template="reTranscode.pt"
+    />
 </configure>

@@ -1,0 +1,25 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plumi">
+   <metal:block fill-slot="top_slot" />
+
+  <body>
+     <div metal:fill-slot="main">
+
+        <div metal:use-macro="here/document_actions/macros/document_actions">
+            Document actions (print, sendto etc)
+        </div>
+        
+        <h1 tal:content="title_string | here/title_or_id" class="documentFirstHeading" />
+
+        <div metal:use-macro="here/document_byline/macros/byline">
+                   Get the byline - contains details about author and modification date.
+        </div>
+<div>
+                        We have scheduled your video to be re-encoded! Please wait for approximately 10 minutes.
+</div>
+</div>
+</body>
+</html>
+

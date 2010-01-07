@@ -48,6 +48,9 @@ def setup_transcoding(obj):
     trans = transaction.get()
     for transcodeProfile in transcodeProfiles:
         print "plumi running profile %s" % transcodeProfile
+        annotations['plumi.transcode.profiles'][transcodeProfile] = \
+                                                    {'status': 1,
+                                                     'message': "IN PROGRESS"}
 
         trans.addAfterCommitHook(transcoding_hook, 
                                 (transcodeServer, transcodeInput, 
