@@ -25,6 +25,9 @@ def notifyActionSucceededPlumiVideo(obj,event):
     #decide what to do , based on workflow of object
     state = workflow.getInfoFor(obj,'review_state')
     #PUBLISHED
+    log.info(state)
+    if state == 'visible':    
+        IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
     if state == 'published':
         log.info('doing published tasks')
 

@@ -32,13 +32,14 @@ class PlumiWorkflowAdapter(object):
 		      mMsg += '%s/view \n\n' % obj_url
 		      urltool = getToolByName(self.context, 'portal_url')
 	  	      portal = urltool.getPortalObject()
-		      mFrom = portal.getProperty('email_from_address')
-		      #mFrom = 'contact@plumi.org'
+		      #mFrom = portal.getProperty('email_from_address')
+		      mFrom = 'plumi@mahiti.org'
 		      mSubj = 'Your contribution : %s : was submitted for review.' % obj_title
+		      logger.info('notifyOwnerVideoSubmitted')
 		      #send email to object owner
 		      try:
 			logger.info('notifyOwnerVideoSubmitted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-		      	#self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+		      	self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
 		      except:
 			logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
 			pass
@@ -69,14 +70,15 @@ class PlumiWorkflowAdapter(object):
 			mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
 			mMsg += 'Email: %s\n\n' % creator_info['email']
 			mTo = reviewer.getProperty('email',None)
-			#mFrom = 'contact@plumi.org'
+			mFrom = 'plumi@mahiti.org'
 			urltool = getToolByName(self.context, 'portal_url')
 	  	      	portal = urltool.getPortalObject()
-		      	mFrom = portal.getProperty('email_from_address')
+		      	#mFrom = portal.getProperty('email_from_address')
 			mSubj = '%s -- submitted for your review' % obj_title
+			logger.info('notifyReviewersVideoSubmitted')
 			try:
 				logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-				#self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+				self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
 			except:
 				logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost.')
 				pass
@@ -99,12 +101,13 @@ class PlumiWorkflowAdapter(object):
 		      mMsg += '%s/view \n\n' % obj_url
 		      urltool = getToolByName(self.context, 'portal_url')
 	  	      portal = urltool.getPortalObject()
-		      mFrom = portal.getProperty('email_from_address')
+		      #mFrom = portal.getProperty('email_from_address')
+		      mFrom = 'plumi@mahiti.org'
 		      mSubj = 'Your contribution : %s : was published.' % obj_title
 		      #send email to object owner
 		      try:
 			logger.info('notifyOwnerVideoPublished , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-		      	#self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+		      	self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
 		      except:
 			logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
 			pass
