@@ -18,6 +18,7 @@ from plumi.content.metadataextractor import setup_metadata
 @adapter(IPlumiVideo, IActionSucceededEvent)
 def notifyActionSucceededPlumiVideo(obj,event):
     """This gets called on IActionSucceededEvent - called whenever the object is transistioned thru workflow states."""
+    
     workflow = getToolByName(obj,'portal_workflow')
     state = workflow.getInfoFor(obj,'review_state','')
     log = logging.getLogger('plumi.content.subscribers')
@@ -46,9 +47,8 @@ def notifyActionSucceededPlumiVideo(obj,event):
             log.info('FIXME - refresh tag cloud!')
             # XXX re-implement vaporisation compatibility
             #notify(TreeUpdateEvent(tc))
-
-	#emails 
-	IPlumiWorkflow(obj).notifyOwnerVideoPublished()
+        #emails 
+        IPlumiWorkflow(obj).notifyOwnerVideoPublished()
 
 @adapter(IPlumiVideo, IObjectEditedEvent)
 def notifyModifiedPlumiVideo(obj ,event):
@@ -57,16 +57,15 @@ def notifyModifiedPlumiVideo(obj ,event):
     state = workflow.getInfoFor(obj,'review_state','')
     log = logging.getLogger('plumi.content.subscribers')
     log.info("notifyModifiedPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
+    request = getSite().REQUEST    
     #VISIBLE
-    if state == 'visible':
-	#call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
-	# The adapter object will implement the logic for various content types
-	if IPlumiWorkflow(obj).autoPublishOrHide():
-	    IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
-	    IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+    if state == 'visible' and request.has_key('form.button.save'):
+        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
+        # The adapter object will implement the logic for various content types
+        if IPlumiWorkflow(obj).autoPublishOrHide():
+            IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+            IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
     #PENDING , other states..
-
-    request = getSite().REQUEST
     if request.has_key('video_file_file'): #new video uploaded
         log.info('notifyModifiedPlumiVideo: video replaced; retranscoding')
         setup_metadata(obj)
@@ -82,13 +81,14 @@ def notifyInitPlumiVideo(obj ,event):
     log.info("notifyInitPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
     #decide what to do , based on workflow of object
     state = workflow.getInfoFor(obj,'review_state')
+    request = getSite().REQUEST    
     #VISIBLE
-    if state == 'visible':
-	#call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
-	# The adapter object will implement the logic for various content types
-	if IPlumiWorkflow(obj).autoPublishOrHide():
-		IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
-		IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+    if state == 'visible' and request.has_key('form.button.save'):
+        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
+        # The adapter object will implement the logic for various content types
+        if IPlumiWorkflow(obj).autoPublishOrHide():
+            IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+            IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
     setup_metadata(obj)
     setup_transcoding(obj)

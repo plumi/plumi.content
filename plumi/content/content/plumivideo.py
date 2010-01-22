@@ -254,7 +254,7 @@ PlumiVideoSchema.registerLayer('marshall', BlobMarshaller())
 class PlumiVideo(base.ATCTContent):
     """Plumi Video content"""
     implements(IPlumiVideo, IMultiPageSchema)
-
+    
     meta_type = "PlumiVideo"
     schema = PlumiVideoSchema
 
