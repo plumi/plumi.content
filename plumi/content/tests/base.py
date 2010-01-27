@@ -13,6 +13,7 @@ from Testing import ZopeTestCase as ztc
 
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup
+from Products.CMFCore.utils import getToolByName
 
 # When ZopeTestCase configures Zope, it will *not* auto-load products
 # in Products/. Instead, we have to use a statement such as:
@@ -20,6 +21,8 @@ from Products.PloneTestCase.layer import onsetup
 # This does *not* apply to products in eggs and Python packages (i.e.
 # not in the Products.*) namespace. For that, see below.
 # All of Plone's products are already set up by PloneTestCase.
+
+ptc.setupPloneSite(id='plone')
 
 @onsetup
 def setup_product():
@@ -30,14 +33,32 @@ def setup_product():
     have created our own layer, but this is the easiest way for Plone
     integration tests.
     """
-
+    ztc.installProduct('Archetypes')
+    ztc.installProduct('MimetypesRegistry')
+    ztc.installProduct('PortalTransforms') 
+    # to support tests for translated vocabularies
+    ztc.installProduct('PloneLanguageTool')
+    ztc.installProduct('LinguaPlone')    
     # Load the ZCML configuration for the example.tests package.
     # This can of course use <include /> to include other packages.
 
-    fiveconfigure.debug_mode = True
+    import Products.ATVocabularyManager
     import plumi.content
-    zcml.load_config('configure.zcml', plumi.content)
+    fiveconfigure.debug_mode = True
+    zcml.load_config('configure.zcml', Products.ATVocabularyManager)
+    zcml.load_config('configure.zcml', plumi.content)   
     fiveconfigure.debug_mode = False
+        
+    ztc.installProduct('ATVocabularyManager')
+    ztc.installPackage('plumi.content')
+    
+    #import plumi.app
+    
+
+    #zcml.load_config('configure.zcml', plumi.app)
+    
+    #zcml.load_config('configure.zcml', Products.ATVocabularyManager)     
+    #fiveconfigure.debug_mode = False
 
     # We need to tell the testing framework that these products
     # should be available. This can't happen until after we have loaded
@@ -49,16 +70,28 @@ def setup_product():
 
     # We may also need to load dependencies, e.g.:
     #   ztc.installPackage('borg.localrole')
-
-    ztc.installPackage('plumi.content')
+    #ztc.installPackage('plumi.content')
+   
+    #ztc.installPackage('plumi.skin')    
+    #ztc.installPackage('plumi.app')
 
 # The order here is important: We first call the (deferred) function
 # which installs the products we need for this product. Then, we let
 # PloneTestCase set up this product on installation.
 
 setup_product()
-ptc.setupPloneSite(products=['plumi.content'])
 
+
+def installWithinPortal(portal):
+    qi = getToolByName(portal, 'portal_quickinstaller')
+    qi.installProduct('ATVocabularyManager')
+    qi.installProduct('plumi.content')    
+
+
+def getATVM(portal):
+    return portal['portal_vocabularies']
+    
+    
 class TestCase(ptc.PloneTestCase):
     """We use this base class for all the tests in this package. If
     necessary, we can put common utility or setup code in here. This
@@ -72,6 +105,12 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
     """
 
     def afterSetUp(self):
+        installWithinPortal(self.portal)
+        self.atvm = getATVM(self.portal)
+        self.loginAsPortalOwner()
+        self.atvm.invokeFactory('SimpleVocabulary', 'submission_categories')
+        self.atvm['submission_categories'].invokeFactory('SimpleVocabularyTerm','test')
+            
         roles = ('Member', 'Contributor')
         self.portal.portal_membership.addMember('contributor',
                                                 'secret',
