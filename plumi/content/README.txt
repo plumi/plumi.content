@@ -18,6 +18,7 @@ documentation, though, is in the underlying zope.testbrower package.
 
     >>> from Products.Five.testbrowser import Browser
     >>> browser = Browser()
+    >>> browser.handleErrors = False
     >>> portal_url = self.portal.absolute_url()
 
 The following is useful when writing and debugging testbrowser tests. It lets
@@ -69,7 +70,6 @@ We are going to make PlumiVideo/PlumiCallOut types for the purposes of this test
     >>> fti_pco.manage_changeProperties(global_allow=True)
     >>> fti_pco.globalAllow()
     True
- 
 
 
 The Plumi Callout Folder content type
@@ -365,7 +365,7 @@ Then we select the type of item we want to add. In this case we select
 Now we fill the form and submit it.
 
     >>> browser.getControl(name='title').value = 'Plumi Video Folder Sample'
-    >>> browser.getControl('Save').click()
+    >>> browser.getControl(name='form.button.save').click()    
     >>> 'Changes saved' in browser.contents
     True
 
@@ -480,7 +480,7 @@ We use the 'Add new' menu to add a new content item.
 Then we select the type of item we want to add. In this case we select
 'PlumiVideo' and click the 'Add' button to get to the add form.
 
-    >>> browser.getControl('PlumiVideo').click()
+    >>> browser.getControl('Plumi Video', index=0).click()
     >>> browser.getControl(name='form.button.Add').click()
     >>> 'PlumiVideo' in browser.contents
     True
@@ -488,7 +488,8 @@ Then we select the type of item we want to add. In this case we select
 Now we fill the form and submit it.
 
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
-    >>> browser.getControl('Save').click()
+    >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')    
+    >>> browser.getControl('Next').click()
     >>> 'Changes saved' in browser.contents
     True
 
@@ -501,12 +502,24 @@ Let's click on the 'edit' tab and update the object attribute values.
 
     >>> browser.getLink('Edit').click()
     >>> browser.getControl(name='title').value = 'New PlumiVideo Sample'
-    >>> browser.getControl('Save').click()
+    >>> browser.getControl('Next').click()
 
 We check that the changes were applied.
 
     >>> 'Changes saved' in browser.contents
     True
+    >>> browser.getControl('Next').click()
+    >>> 'Changes saved' in browser.contents
+    True    
+    >>> browser.getControl('Next').click()
+    >>> 'Changes saved' in browser.contents
+    True    
+    >>> browser.getControl('Next').click()
+    >>> 'Changes saved' in browser.contents
+    True  
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True             
     >>> 'New PlumiVideo Sample' in browser.contents
     True
 
@@ -525,12 +538,13 @@ go to the contents tab and select the 'New PlumiVideo Sample' for
 deletion.
 
     >>> browser.getLink('Contents').click()
-    >>> browser.getControl('New PlumiVideo Sample').click()
+    >>> browser.getLink('New PlumiVideo Sample').click()
 
 We click on the 'Delete' button.
 
-    >>> browser.getControl('Delete').click()
-    >>> 'Item(s) deleted' in browser.contents
+    >>> browser.getLink('Delete').click()
+    >>> browser.getControl('Delete').click()    
+    >>> 'New PlumiVideo Sample has been deleted' in browser.contents
     True
 
 So, if we go back to the home page, there is no longer a 'New PlumiVideo
@@ -560,9 +574,10 @@ We use the 'Add new' menu to add a new content item.
 
     >>> browser.getLink('Add new').click()
 
-We select 'PlumiVideo' and click the 'Add' button to get to the add form.
+Then we select the type of item we want to add. In this case we select
+'PlumiVideo' and click the 'Add' button to get to the add form.
 
-    >>> browser.getControl('PlumiVideo').click()
+    >>> browser.getControl('Plumi Video', index=0).click()
     >>> browser.getControl(name='form.button.Add').click()
     >>> 'PlumiVideo' in browser.contents
     True
@@ -570,7 +585,8 @@ We select 'PlumiVideo' and click the 'Add' button to get to the add form.
 Now we fill the form and submit it.
 
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
-    >>> browser.getControl('Save').click()
+    >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')    
+    >>> browser.getControl('Next').click()
     >>> 'Changes saved' in browser.contents
     True
 

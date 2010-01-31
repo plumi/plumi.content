@@ -15,6 +15,13 @@ from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup
 from Products.CMFCore.utils import getToolByName
 
+from ZODB.FileStorage.FileStorage import FileStorage
+from ZODB.MappingStorage import MappingStorage
+from ZODB.blob import BlobStorage
+from tempfile import mkdtemp
+from plone.app.blob.tests import bbb
+
+
 # When ZopeTestCase configures Zope, it will *not* auto-load products
 # in Products/. Instead, we have to use a statement such as:
 #   ztc.installProduct('SimpleAttachment')
@@ -44,13 +51,17 @@ def setup_product():
 
     import Products.ATVocabularyManager
     import plumi.content
+    import plumi.skin
     fiveconfigure.debug_mode = True
     zcml.load_config('configure.zcml', Products.ATVocabularyManager)
     zcml.load_config('configure.zcml', plumi.content)   
+    zcml.load_config('configure.zcml', plumi.skin)       
     fiveconfigure.debug_mode = False
         
     ztc.installProduct('ATVocabularyManager')
+    ztc.installProduct('ATCountryWidget')
     ztc.installPackage('plumi.content')
+    ztc.installPackage('plumi.skin')    
     
     #import plumi.app
     
@@ -85,7 +96,9 @@ setup_product()
 def installWithinPortal(portal):
     qi = getToolByName(portal, 'portal_quickinstaller')
     qi.installProduct('ATVocabularyManager')
+    qi.installProduct('ATCountryWidget')
     qi.installProduct('plumi.content')    
+    qi.installProduct('plumi.skin')        
 
 
 def getATVM(portal):
@@ -103,14 +116,19 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
     doctest syntax. Again, we can put basic common utility or setup
     code in here.
     """
+    layer = bbb.plone
 
     def afterSetUp(self):
         installWithinPortal(self.portal)
         self.atvm = getATVM(self.portal)
         self.loginAsPortalOwner()
         self.atvm.invokeFactory('SimpleVocabulary', 'submission_categories')
+        self.atvm.invokeFactory('SimpleVocabulary', 'video_genre')
+        self.atvm.invokeFactory('SimpleVocabulary', 'video_categories')
         self.atvm['submission_categories'].invokeFactory('SimpleVocabularyTerm','test')
-            
+        self.atvm['video_genre'].invokeFactory('SimpleVocabularyTerm','test')
+        self.atvm['video_categories'].invokeFactory('SimpleVocabularyTerm','test')        
+                    
         roles = ('Member', 'Contributor')
         self.portal.portal_membership.addMember('contributor',
                                                 'secret',
