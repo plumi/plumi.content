@@ -21,6 +21,8 @@ from plone.app.blob.field import BlobField, BlobMarshaller
 from plumi.content import plumiMessageFactory as _
 from plumi.content.interfaces import IPlumiVideo
 from plumi.content.config import PROJECTNAME
+from plumi.content.metadataextractor import extract
+from zope.app.component.hooks import getSite
 
 PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
@@ -294,5 +296,25 @@ class PlumiVideo(base.ATCTContent):
 
     video_file = atapi.ATFieldProperty('video_file')
 
+
+    def plumiVideoDuration(self):
+      """ Get the duration of the uploaded video file """
+      request = getSite().REQUEST
+      strDuration = ''
+      if request.has_key("form.button.save"):
+        filename = self.video_file.getBlob().committed()
+        if filename:
+            videoMetaData = extract(filename)
+            tdelta = videoMetaData.get('duration')
+            seconds = tdelta.seconds
+            hours, remainder = divmod(seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            if hours > 0:
+                strDuration += str(hours) + " Hours "
+            if minutes > 0:
+                strDuration += str(minutes) + " Minutes "
+            strDuration += str(seconds) + " Seconds "                                
+      return strDuration
+          
 
 atapi.registerType(PlumiVideo, PROJECTNAME)
