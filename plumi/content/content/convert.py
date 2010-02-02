@@ -4,6 +4,7 @@ from Products.Five  import BrowserView
 from zope.annotation.interfaces import IAnnotations
 
 from plumi.content.interfaces.plumivideo import ICallBackView
+from urllib import urlretrieve
 
 class CallBackView(BrowserView):
     """
@@ -21,6 +22,15 @@ class CallBackView(BrowserView):
 #            annotations['plumi.transcode.profiles'] = {}
         annotations['plumi.transcode.profiles'][profile] = {'path':path, 'status':status, 'message':message}
         #annotations._p_changed = True
+        if profile == 'jpeg':
+            try:
+                [ thumbPath, re ] = urlretrieve(path)            
+                f = open(path,'r')
+                self.context.setThumbnailImage(f)
+                f.close()
+            except:
+                print "cannot set thumbnail %s to %s" % (path, self.context)
+                
         print 'set transcoding: ' + annotations['plumi.transcode.profiles'][profile]['path']
 
         #IStreamable(self.context)._storeStreaming(status)

@@ -28,186 +28,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
 
-    atapi.StringField(
-        'thumbnailImageDescription',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Thumbnail Image description"),
-            description=_(u"The caption for the thumbnail image."),
-        ),
-        #schemata='Video',
-    ),
-
-
-    atapi.DateTimeField(
-        'DateProduced',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.CalendarWidget(
-            label=_(u"Date Produced"),
-            description=_(u"The date the video content was released."),
-        ),
-        languageIndependent=True,
-        validators=('isValidDate'),
-    ),
-
-
-    atapi.TextField(
-        'FullDescription',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.RichWidget(
-            label=_(u"Full Description"),
-            description=_(u"The description of the video content"),
-        ),
-    ),
-
-
-    atapi.StringField(
-        'Distributor',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Distributor"),
-            description=_(u"The Distributor of the video content"),
-        ),
-    ),
-
-
-    atapi.StringField(
-        'WebsiteURL',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Website URL"),
-            description=_(u"The website URL for the video content"),
-        ),
-        languageIndependent=True,
-
-    ),
-
-
-    atapi.StringField(
-        'ProductionCompanyName',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Production Company Name"),
-            description=_(u"Production Company Name"),
-        ),
-    ),
-
-
-    atapi.StringField(
-        'ProjectName',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Project Name"),
-            description=_(u"Project Name"),
-        ),
-    ),
-
-
-    atapi.StringField(
-        'ProducerMailingAddress',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Producer Mailing Address"),
-            description=_(u"The Producer's mailing address"),
-        ),
-        languageIndependent=True,
-
-    ),
-
-
-    atapi.StringField(
-        'ProducerEmail',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Producer Email Address"),
-            description=_(u"The Producer's email address"),
-        ),
-        validators=('isEmail'),
-        languageIndependent=True,
-
-    ),
-
-
-    atapi.StringField(
-        'Director',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Director"),
-            description=_(u"The Director of the video content"),
-        ),
-        languageIndependent=True,
-
-    ),
-
-
-    atapi.StringField(
-        'Producer',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Producer"),
-            description=_(u"The Producer of the video content"),
-        ),
-        languageIndependent=True,
-
-    ),
-
-
-    atapi.ImageField(
-        'thumbnailImage',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.ImageWidget(
-            label=_(u"Video Thumbnail"),
-            description=_(u"The thumbnail image for the video content"),
-        ),
-        max_size = zconf.ATImage.max_image_dimension,
-        validators=(('isNonEmptyFile'),('checkImageMaxSize')),
-        #schemata='Video',
-        languageIndependent=True,
-
-    ),
-
-
-    atapi.StringField(
-        'Countries',
-        storage=atapi.AnnotationStorage(),
-        widget=CountryWidget(
-            label=_(u"Country of origin of the video"),
-            description=_(u"The associated country of origin of the video content"),
-            i18n_domain='atcw',
-        ),
-        languageIndependent=True,
-
-    ),
-
-
-    atapi.LinesField(
-        'Categories',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.MultiSelectionWidget(
-            label=_(u"Video Categories"),
-            description=_(u"The video categories - select as many as applicable."),
-            i18n_domain='plumi',
-        ),
-        vocabulary=NamedVocabulary("""video_categories"""),
-        languageIndependent=True,
-
-    ),
-
-
-    atapi.StringField(
-        'Genre',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.SelectionWidget(
-            label=_(u"Video Genre"),
-            description=_(u"The genre of the video"),
-            i18n_domain='plumi',
-        ),
-        vocabulary=NamedVocabulary("""video_genre"""),
-        languageIndependent=True,
-
-    ),
-
-
     BlobField(
         'video_file',
         storage=atapi.AnnotationStorage(), 
@@ -220,10 +40,182 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The uploaded video file"),
         ),
         validators=('isNonEmptyFile'),
-        #schemata='Video',
+        schemata='default',
         languageIndependent=True,
 
     ),
+    
+    atapi.TextField(
+        'FullDescription',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.RichWidget(
+            label=_(u"Full Description"),
+            description=_(u"The description of the video content"),
+        ),
+        schemata='default',        
+    ),
+
+    atapi.StringField(
+        'Countries',
+        storage=atapi.AnnotationStorage(),
+        widget=CountryWidget(
+            label=_(u"Country of origin of the video"),
+            description=_(u"The associated country of origin of the video content"),
+            i18n_domain='atcw',
+        ),
+        languageIndependent=True,
+        schemata='categorization',        
+    ),
+
+    atapi.StringField(
+        'Genre',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.SelectionWidget(
+            label=_(u"Video Genre"),
+            description=_(u"The genre of the video"),
+            i18n_domain='plumi',
+        ),
+        vocabulary=NamedVocabulary("""video_genre"""),
+        languageIndependent=True,
+        schemata='categorization',                
+    ),
+    
+    atapi.DateTimeField(
+        'DateProduced',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.CalendarWidget(
+            label=_(u"Date Produced"),
+            description=_(u"The date the video content was released."),
+        ),
+        languageIndependent=True,
+        validators=('isValidDate'),
+        schemata='categorization',                
+    ),
+
+    atapi.LinesField(
+        'Categories',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.MultiSelectionWidget(
+            label=_(u"Video Categories"),
+            description=_(u"The video categories - select as many as applicable."),
+            i18n_domain='plumi',
+        ),
+        vocabulary=NamedVocabulary("""video_categories"""),
+        languageIndependent=True,
+        schemata='categorization',                
+
+    ),
+
+    atapi.StringField(
+        'Director',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Director"),
+            description=_(u"The Director of the video content"),
+        ),
+        languageIndependent=True,
+        schemata='categorization',        
+    ),
+
+
+    atapi.StringField(
+        'Producer',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Producer"),
+            description=_(u"The Producer of the video content"),
+        ),
+        languageIndependent=True,
+        schemata='categorization',        
+    ),
+    
+    atapi.StringField(
+        'ProducerEmail',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Producer Email Address"),
+            description=_(u"The Producer's email address"),
+        ),
+        validators=('isEmail'),
+        languageIndependent=True,
+        schemata='categorization',        
+    ),
+
+    atapi.StringField(
+        'ProducerMailingAddress',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Producer Mailing Address"),
+            description=_(u"The Producer's mailing address"),
+        ),
+        languageIndependent=True,
+        schemata='categorization',        
+    ),
+    atapi.StringField(
+        'ProductionCompanyName',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Production Company Name"),
+            description=_(u"Production Company Name"),
+        ),
+        schemata='categorization',                
+    ),
+
+
+    atapi.StringField(
+        'ProjectName',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Project Name"),
+            description=_(u"Project Name"),
+        ),
+        schemata='categorization',                
+    ),
+
+    atapi.StringField(
+        'Distributor',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Distributor"),
+            description=_(u"The Distributor of the video content"),
+        ),
+        schemata='categorization',                
+    ),
+
+
+    atapi.StringField(
+        'WebsiteURL',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Website URL"),
+            description=_(u"The website URL for the video content"),
+        ),
+        languageIndependent=True,
+        schemata='categorization',        
+    ),
+
+    atapi.ImageField(
+        'thumbnailImage',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.ImageWidget(
+            label=_(u"Video Thumbnail"),
+            description=_(u"The thumbnail image for the video content"),
+        ),
+        max_size = zconf.ATImage.max_image_dimension,
+        validators=(('isNonEmptyFile'),('checkImageMaxSize')),
+        schemata='thumbnail',
+        languageIndependent=True,
+    ),
+    
+    atapi.StringField(
+        'thumbnailImageDescription',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Thumbnail Image description"),
+            description=_(u"The caption for the thumbnail image."),
+        ),
+        schemata='thumbnail',
+    ),    
 
 
 ))
@@ -233,21 +225,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
 PlumiVideoSchema['title'].storage = atapi.AnnotationStorage()
 PlumiVideoSchema['description'].storage = atapi.AnnotationStorage()
-
-PlumiVideoSchema.changeSchemataForField('DateProduced', 'dates')
-
-PlumiVideoSchema.changeSchemataForField('Genre', 'categorization')
-PlumiVideoSchema.changeSchemataForField('Distributor', 'categorization')
-PlumiVideoSchema.changeSchemataForField('WebsiteURL', 'categorization')
-PlumiVideoSchema.changeSchemataForField('ProductionCompanyName', 'categorization')
-PlumiVideoSchema.changeSchemataForField('ProjectName', 'categorization')
-PlumiVideoSchema.changeSchemataForField('ProducerMailingAddress', 'categorization')
-PlumiVideoSchema.changeSchemataForField('ProducerEmail', 'categorization')
-PlumiVideoSchema.changeSchemataForField('Director', 'categorization')
-PlumiVideoSchema.changeSchemataForField('Producer', 'categorization')
-PlumiVideoSchema.changeSchemataForField('Countries', 'categorization')
-PlumiVideoSchema.changeSchemataForField('Categories', 'categorization')
-
 
 
 schemata.finalizeATCTSchema(PlumiVideoSchema, moveDiscussion=False)

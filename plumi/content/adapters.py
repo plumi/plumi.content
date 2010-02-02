@@ -32,8 +32,7 @@ class PlumiWorkflowAdapter(object):
 		      mMsg += '%s/view \n\n' % obj_url
 		      urltool = getToolByName(self.context, 'portal_url')
 	  	      portal = urltool.getPortalObject()
-		      #mFrom = portal.getProperty('email_from_address')
-		      mFrom = 'plumi@mahiti.org'
+		      mFrom = portal.getProperty('email_from_address')
 		      mSubj = 'Your contribution : %s : was submitted for review.' % obj_title
 		      logger.info('notifyOwnerVideoSubmitted')
 		      #send email to object owner
