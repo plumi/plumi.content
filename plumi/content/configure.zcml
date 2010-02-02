@@ -33,6 +33,10 @@
   <subscriber handler=".subscribers.notifyModifiedPlumiVideo" />
   <subscriber handler=".subscribers.notifyInitPlumiVideo" />
   <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
+  <subscriber 
+      for="plone.app.discussion.interfaces.IComment
+          zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".subscribers.notifyCommentAdded" />
 
   <adapter factory=".adapters.PlumiWorkflowAdapter" />
 </configure>

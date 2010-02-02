@@ -27,7 +27,7 @@ class PlumiWorkflowAdapter(object):
     		member=membr_tool.getMemberById(creator)
 	        mTo = member.getProperty('email',None)
 	        if mTo is not None and mTo is not '':
-		      mMsg = 'Hi %s \nYour contribution has been submitted for review before publishing on the site\n' % member.getProperty('fullname', 'you')
+		      mMsg = 'Hi %s \nYour contribution has been submitted for review before publishing on the site\n' % member.getProperty('fullname', creator)
 		      mMsg += 'Title: %s\n\n' % obj_title
 		      mMsg += '%s/view \n\n' % obj_url
 		      urltool = getToolByName(self.context, 'portal_url')

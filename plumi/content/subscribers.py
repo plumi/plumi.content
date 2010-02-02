@@ -1,9 +1,10 @@
 import logging
 from zope.component import adapter
 from zope.component import getUtility
-from Products.CMFCore.utils import getToolByName
-from zope.app.component.hooks import getSite
 
+from Acquisition import aq_parent
+from zope.app.component.hooks import getSite
+from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IActionSucceededEvent
 #from zope.app.container.interfaces import IObjectModifiedEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEditedEvent
@@ -12,6 +13,7 @@ from plumi.content.interfaces.plumivideo import IPlumiVideo
 from plumi.content.interfaces.workflow import IPlumiWorkflow
 from plumi.content.transcoding import setup_transcoding
 from plumi.content.metadataextractor import setup_metadata
+from plumi.content import plumiMessageFactory as _
 
 #from vaporisation.vaporisation.events import TreeUpdateEvent
 
@@ -93,4 +95,28 @@ def notifyInitPlumiVideo(obj ,event):
     setup_transcoding(obj)
     #THE END
 
+
+def notifyCommentAdded(obj ,event):
+    """Notify owner of added comment"""
+    log = logging.getLogger('plumi.content.subscribers')
+    urltool = getToolByName(obj, 'portal_url')
+    portal = urltool.getPortalObject()
+    video = aq_parent(aq_parent(obj))
+    videoUrl = video.absolute_url()
+    
+    creator= video.Creator()
+    membr_tool = getToolByName(obj,'portal_membership')
+    member=membr_tool.getMemberById(creator)
+    mTo = member.getProperty('email',None)
+    log.info('notifyCommentAdded')
+    if mTo:
+        mFrom = portal.getProperty('email_from_address')
+        mSubj = _('Comment added on: ') + video.Title() 
+        mMsg = _('Hi:') + member.getProperty('fullname', creator) + ',\n\n'
+        mMsg += _('a comment has been added on ') + videoUrl + '\n\n'
+        try:            
+	    portal.MailHost.send(mMsg.encode('utf-8', 'ignore'), mTo, mFrom, mSubj.encode('utf-8', 'ignore'))
+            log.info('notifyCommentAdded , im %s . sending email to %s from %s ' % (obj, mTo, mFrom) )
+        except:
+	    log.error('Didnt actually send email to contribution owner! Something amiss with SecureMailHost.')
 
