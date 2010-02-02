@@ -24,7 +24,6 @@ def notifyActionSucceededPlumiVideo(obj,event):
     log = logging.getLogger('plumi.content.subscribers')
     log.info("notifyActionSuceededPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
     #decide what to do , based on workflow of object
-    state = workflow.getInfoFor(obj,'review_state')
     #PUBLISHED
     log.info(state)
     if state == 'visible':    
