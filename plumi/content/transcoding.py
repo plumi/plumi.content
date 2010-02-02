@@ -73,6 +73,4 @@ def transcoding_hook(status, server, input, profile, options, cb_url):
         print "plumi: ConvertDaemon call FAILED", e
         server=xmlrpclib.ServerProxy(cb_url)
         server.conv_done_xmlrpc(e)
-    #print "INPUT ", input_path
-    #print "OUTPUT", output_path
-    #return jobId
+

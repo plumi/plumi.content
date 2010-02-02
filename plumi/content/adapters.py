@@ -69,10 +69,9 @@ class PlumiWorkflowAdapter(object):
 			mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
 			mMsg += 'Email: %s\n\n' % creator_info['email']
 			mTo = reviewer.getProperty('email',None)
-			mFrom = 'plumi@mahiti.org'
 			urltool = getToolByName(self.context, 'portal_url')
 	  	      	portal = urltool.getPortalObject()
-		      	#mFrom = portal.getProperty('email_from_address')
+		      	mFrom = portal.getProperty('email_from_address')
 			mSubj = '%s -- submitted for your review' % obj_title
 			logger.info('notifyReviewersVideoSubmitted')
 			try:
@@ -100,8 +99,7 @@ class PlumiWorkflowAdapter(object):
 		      mMsg += '%s/view \n\n' % obj_url
 		      urltool = getToolByName(self.context, 'portal_url')
 	  	      portal = urltool.getPortalObject()
-		      #mFrom = portal.getProperty('email_from_address')
-		      mFrom = 'plumi@mahiti.org'
+		      mFrom = portal.getProperty('email_from_address')
 		      mSubj = 'Your contribution : %s : was published.' % obj_title
 		      #send email to object owner
 		      try:
