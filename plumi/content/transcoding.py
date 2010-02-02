@@ -29,7 +29,7 @@ def setup_transcoding(obj):
         transcodeOptions = dict()
         
         #TODO - get better way of discovering the path to the video file
-        path = obj.absolute_url_path()
+        path = obj.absolute_url_path().replace('/Zope2/','/') # in case of ftp upload remove the /Zope2 path prefix
         if config.plonesite_address:
             plonesite = urlparse(config.plonesite_address)
         else:
@@ -38,8 +38,8 @@ def setup_transcoding(obj):
 
         cb_url = url_format % ( plonesite[0], #protocol
                                 config.plonesite_login,
-                                config.plonesite_password,
-                                plonesite[1], #netloc
+				config.plonesite_password,
+				plonesite[1], #netloc
                                 urllib.quote(path)) #path (for this video)
         transcodeInput=dict(path = ( plonesite[0] + "://" + \
                                      plonesite[1] + path + \
