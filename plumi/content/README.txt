@@ -511,12 +511,6 @@ We check that the changes were applied.
     >>> browser.getControl('Next').click()
     >>> 'Changes saved' in browser.contents
     True    
-    >>> browser.getControl('Next').click()
-    >>> 'Changes saved' in browser.contents
-    True    
-    >>> browser.getControl('Next').click()
-    >>> 'Changes saved' in browser.contents
-    True  
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
     True             
