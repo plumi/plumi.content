@@ -276,9 +276,9 @@ class PlumiVideo(base.ATCTContent):
 
     def plumiVideoDuration(self):
       """ Get the duration of the uploaded video file """
-      request = getSite().REQUEST
+      #request = getSite().REQUEST
       strDuration = ''
-      if request.has_key("form.button.save"):
+      try:
         filename = self.video_file.getBlob().committed()
         if filename:
             videoMetaData = extract(filename)
@@ -290,7 +290,10 @@ class PlumiVideo(base.ATCTContent):
                 strDuration += str(hours) + " Hours "
             if minutes > 0:
                 strDuration += str(minutes) + " Minutes "
-            strDuration += str(seconds) + " Seconds "                                
+            strDuration += str(seconds) + " Seconds " 
+      except:
+        pass
+        
       return strDuration
           
 
