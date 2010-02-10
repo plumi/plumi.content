@@ -38,13 +38,14 @@ def setup_transcoding(obj):
 
         cb_url = url_format % ( plonesite[0], #protocol
                                 config.plonesite_login,
-				config.plonesite_password,
-				plonesite[1], #netloc
+                				config.plonesite_password,
+				                plonesite[1], #netloc
                                 urllib.quote(path)) #path (for this video)
+                                
         transcodeInput=dict(path = ( plonesite[0] + "://" + \
                                      plonesite[1] + path + \
                                      '/download/video_file/' + \
-                                     obj.video_file.getFilename()), 
+                                     obj.video_file.getFilename().replace(' ','+') ), 
                             type=obj.video_file.getContentType())
 
         trans = transaction.get()
