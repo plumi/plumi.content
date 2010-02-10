@@ -20,7 +20,6 @@ from plumi.content import plumiMessageFactory as _
 @adapter(IPlumiVideo, IActionSucceededEvent)
 def notifyActionSucceededPlumiVideo(obj,event):
     """This gets called on IActionSucceededEvent - called whenever the object is transistioned thru workflow states."""
-    
     workflow = getToolByName(obj,'portal_workflow')
     state = workflow.getInfoFor(obj,'review_state','')
     log = logging.getLogger('plumi.content.subscribers')
