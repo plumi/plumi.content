@@ -22,14 +22,26 @@ def notifyActionSucceededPlumiVideo(obj,event):
     """This gets called on IActionSucceededEvent - called whenever the object is transistioned thru workflow states."""
     workflow = getToolByName(obj,'portal_workflow')
     state = workflow.getInfoFor(obj,'review_state','')
+    request = getSite().REQUEST 
+    wf_action = request.get('workflow_action','')
     log = logging.getLogger('plumi.content.subscribers')
     log.info("notifyActionSuceededPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
     #decide what to do , based on workflow of object
     #PUBLISHED
     log.info(state)
-    if state == 'visible':    
+    if wf_action == 'retract':
+        log.info('video retracted')
+        IPlumiWorkflow(obj).notifyOwnerVideoRetracted()
+        IPlumiWorkflow(obj).notifyReviewersVideoRetracted()        
+    elif wf_action == 'reject':
+        log.info('video rejected')    
+        IPlumiWorkflow(obj).notifyOwnerVideoRejected()
+        IPlumiWorkflow(obj).notifyReviewersVideoRejected()
+    elif state == 'pending' and not request.has_key('form.button.save'):
+        log.info('video submitted for review')        
         IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
-    if state == 'published':
+        IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+    elif state == 'published':
         log.info('doing published tasks')
 
         obj.reindexObject()

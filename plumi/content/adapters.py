@@ -81,6 +81,79 @@ class PlumiWorkflowAdapter(object):
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost.')
                         pass
 
+
+    def notifyReviewersVideoRejected(self):
+        """ Email the reviewers of the rejected video """
+        logger = logging.getLogger('plumi.content.adapters')
+        #IPlumiVideo implementing objects only
+        if IPlumiVideo.providedBy(self.context):
+            logger.info('notifyReviewersVideoRejected , im %s ' % self.context )
+            obj_title=self.context.Title()
+            obj_url=self.context.absolute_url()
+            creator = self.context.Creator()
+            membr_tool = getToolByName(self.context,'portal_membership')
+            member=membr_tool.getMemberById(creator)
+            creator_info = {'fullname':member.getProperty('fullname', 'Fullname missing'),
+                            'email':member.getProperty('email', None)}
+            #XXX is there a better way to search for reviewers ??
+            for reviewer in self.context.portal_membership.listMembers():
+                memberId = reviewer.id
+                if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
+
+                    mMsg = 'Item has been rejected..\n'
+                    mMsg += 'Title: %s\n\n' % obj_title
+                    mMsg += '%s/view \n\n' % obj_url
+                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                    mMsg += 'Email: %s\n\n' % creator_info['email']
+                    mTo = reviewer.getProperty('email',None)
+                    urltool = getToolByName(self.context, 'portal_url')
+                    portal = urltool.getPortalObject()
+                    mFrom = portal.getProperty('email_from_address')
+                    mSubj = '%s -- has been rejected' % obj_title
+                    logger.info('notifyReviewersVideoRejected')
+                    try:
+                        logger.info('notifyReviewersVideoRejected , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
+                        self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                    except:
+                        logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost.')
+                        pass
+
+    def notifyReviewersVideoRetracted(self):
+        """ Email the reviewers of the retracted video """
+        logger = logging.getLogger('plumi.content.adapters')
+        #IPlumiVideo implementing objects only
+        if IPlumiVideo.providedBy(self.context):
+            logger.info('notifyReviewersVideoRetracted , im %s ' % self.context )
+            obj_title=self.context.Title()
+            obj_url=self.context.absolute_url()
+            creator = self.context.Creator()
+            membr_tool = getToolByName(self.context,'portal_membership')
+            member=membr_tool.getMemberById(creator)
+            creator_info = {'fullname':member.getProperty('fullname', 'Fullname missing'),
+                            'email':member.getProperty('email', None)}
+            #XXX is there a better way to search for reviewers ??
+            for reviewer in self.context.portal_membership.listMembers():
+                memberId = reviewer.id
+                if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
+
+                    mMsg = 'Item has been retracted..\n'
+                    mMsg += 'Title: %s\n\n' % obj_title
+                    mMsg += '%s/view \n\n' % obj_url
+                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                    mMsg += 'Email: %s\n\n' % creator_info['email']
+                    mTo = reviewer.getProperty('email',None)
+                    urltool = getToolByName(self.context, 'portal_url')
+                    portal = urltool.getPortalObject()
+                    mFrom = portal.getProperty('email_from_address')
+                    mSubj = '%s -- has been retracted' % obj_title
+                    logger.info('notifyReviewersVideoRetracted')
+                    try:
+                        logger.info('notifyReviewersVideoRetracted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
+                        self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                    except:
+                        logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost.')
+                        pass
+
     def notifyOwnerVideoPublished(self):
         """ Email the owner of the published video """
         logger = logging.getLogger('plumi.content.adapters')
@@ -109,6 +182,61 @@ class PlumiWorkflowAdapter(object):
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
                     pass
 
+    def notifyOwnerVideoRejected(self):
+        """ Notify owner that the video is rejected """
+        logger = logging.getLogger('plumi.content.adapters')
+        #IPlumiVideo implementing objects only
+        if IPlumiVideo.providedBy(self.context):
+            logger.info('notifyOwnerVideoRejected, im %s ' % self.context )
+            obj_title=self.context.Title()
+            creator=self.context.Creator()
+            obj_url=self.context.absolute_url()
+            membr_tool = getToolByName(self.context,'portal_membership')
+            member=membr_tool.getMemberById(creator)
+            mTo = member.getProperty('email',None)
+            if mTo is not None and mTo is not '':
+                mMsg = 'Hi %s \nYour contribution has been rejected ..\n' % member.getProperty('fullname', 'you')
+                mMsg += 'Title: %s\n\n' % obj_title
+                mMsg += '%s/view \n\n' % obj_url
+                urltool = getToolByName(self.context, 'portal_url')
+                portal = urltool.getPortalObject()
+                mFrom = portal.getProperty('email_from_address')
+                mSubj = 'Your contribution : %s : was rejected.' % obj_title
+                #send email to object owner
+                try:
+                    logger.info('notifyOwnerVideoRejected , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
+                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                except:
+                    logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
+                    pass
+
+    def notifyOwnerVideoRetracted(self):
+        """ Notify owner that the video is retracted """
+        logger = logging.getLogger('plumi.content.adapters')
+        #IPlumiVideo implementing objects only
+        if IPlumiVideo.providedBy(self.context):
+            logger.info('notifyOwnerVideoRetracted, im %s ' % self.context )
+            obj_title=self.context.Title()
+            creator=self.context.Creator()
+            obj_url=self.context.absolute_url()
+            membr_tool = getToolByName(self.context,'portal_membership')
+            member=membr_tool.getMemberById(creator)
+            mTo = member.getProperty('email',None)
+            if mTo is not None and mTo is not '':
+                mMsg = 'Hi %s \nYour contribution has been retracted ..\n' % member.getProperty('fullname', 'you')
+                mMsg += 'Title: %s\n\n' % obj_title
+                mMsg += '%s/view \n\n' % obj_url
+                urltool = getToolByName(self.context, 'portal_url')
+                portal = urltool.getPortalObject()
+                mFrom = portal.getProperty('email_from_address')
+                mSubj = 'Your contribution : %s : was retracted.' % obj_title
+                #send email to object owner
+                try:
+                    logger.info('notifyOwnerVideoRetracted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
+                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                except:
+                    logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
+                    pass
 
     def autoPublishOrHide(self):
         """ Implement auto publish or hide functionality. Returns TRUE if we submitted for review via workflow tool properly, or FALSE otherwise. """
