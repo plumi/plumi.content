@@ -36,7 +36,19 @@
   <subscriber 
       for="plone.app.discussion.interfaces.IComment
           zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler=".subscribers.notifyCommentAdded" />
-
+      handler=".subscribers.autoSubmit" />
+  <subscriber 
+      for="Products.ATContentTypes.interface.news.IATNewsItem
+           Products.Archetypes.interfaces.IObjectInitializedEvent"
+      handler=".subscribers.autoSubmit" />
+  <subscriber 
+      for="Products.ATContentTypes.interface.event.IATEvent
+           Products.Archetypes.interfaces.IObjectInitializedEvent"
+      handler=".subscribers.autoSubmit" />      
+  <subscriber 
+      for="plumi.content.interfaces.plumicallout.IPlumiCallOut
+           Products.Archetypes.interfaces.IObjectInitializedEvent"
+      handler=".subscribers.autoSubmit" />    
+      
   <adapter factory=".adapters.PlumiWorkflowAdapter" />
 </configure>

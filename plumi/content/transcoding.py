@@ -10,6 +10,9 @@ from urlparse import urlparse
 
 
 def setup_transcoding(obj):
+    if not obj.video_file.getFilename():
+        return
+        
     annotations = IAnnotations(obj, None)
     if not annotations.has_key('plumi.transcode.profiles'):
         annotations['plumi.transcode.profiles'] = PersistentMapping()
@@ -57,21 +60,30 @@ def setup_transcoding(obj):
 
             trans.addAfterCommitHook(transcoding_hook, 
                                     (transcodeServer, transcodeInput, 
-                                    transcodeProfile, transcodeOptions, cb_url))
+                                    transcodeProfile, transcodeOptions, cb_url, obj))
 
-        print "plumi: ConvertDaemon call pending"
+        print "plumi: TranscodeDaemon call pending"
 
-def transcoding_hook(status, server, input, profile, options, cb_url):
+def transcoding_hook(status, server, input, profile, options, cb_url, obj):
     """
     """
     if not status:
         return
     try:
         jobId = server.convert(input, profile, options, cb_url)
-        print "plumi: ConvertDaemon call "+jobId
-    #except xmlrpclib.Error, e:
+        print "plumi: TranscodeDaemon call "+jobId
+        if 'ERROR' in jobId:
+            print "error when transcoding %s" % obj
+            trans = transaction.begin()
+            annotations = IAnnotations(obj, None)
+            annotations['plumi.transcode.profiles'][profile] = {'path':'', 'status':2, 'message':jobId}        
+            trans = transaction.commit()
     except Exception, e:
-        print "plumi: ConvertDaemon call FAILED", e
+        print "plumi: TranscodeDaemon call FAILED", e
+        trans = transaction.begin()
+        annotations = IAnnotations(obj, None)
+        annotations['plumi.transcode.profiles'][profile] = {'path':'', 'status':2, 'message':e}        
+        trans = transaction.commit()        
         server=xmlrpclib.ServerProxy(cb_url)
         server.conv_done_xmlrpc(e)
 

@@ -106,7 +106,22 @@ def notifyInitPlumiVideo(obj ,event):
     setup_transcoding(obj)
     #THE END
 
-
+def autoSubmit(obj, event):
+    """ Automatically submit news items, events & callouts """
+    log = logging.getLogger('plumi.content.subscribers')    
+    workflow = getToolByName(obj,'portal_workflow')
+    try:
+        state = workflow.getInfoFor(obj,'review_state')
+        #dont try to resubmit if already published.
+        if not state in ['published','pending']:
+            workflow.doActionFor(obj, 'submit')
+            log.info('autosubmit %s' % obj)
+        worked = True
+    except WorkflowException:
+        worked = False
+        log.info('failed to autosubmit %s' % obj)        
+        pass
+                        
 def notifyCommentAdded(obj ,event):
     """Notify owner of added comment"""
     log = logging.getLogger('plumi.content.subscribers')
