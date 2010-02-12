@@ -15,21 +15,22 @@ class CallBackView(BrowserView):
         """
         """
         print "callback: %d %s %s %s" % (status, message, profile, path)
+
         annotations = IAnnotations(self.context, None)
         if annotations is None:
             return
-#        if not annotations.has_key('plumi.flowplayer.transcode.profiles'):
-#            annotations['plumi.transcode.profiles'] = {}
+
         annotations['plumi.transcode.profiles'][profile] = {'path':path, 'status':status, 'message':message}
-        #annotations._p_changed = True
-        if profile == 'jpeg':
-            try:
-                [ thumbPath, re ] = urlretrieve(path)            
-                f = open(path,'r')
-                self.context.setThumbnailImage(f)
-                f.close()
-            except:
-                print "cannot set thumbnail %s to %s" % (path, self.context)
+       
+        if profile == 'jpeg':        
+            imgfield = self.context.getField('thumbnailImage') # check if there is already a thumbnail image
+            if not imgfield or imgfield.getSize(self.context) == (0, 0): # if not use the image returned by the transcoder
+                try:    
+                    f = open(path,'r')
+                    self.context.setThumbnailImage(f)
+                    f.close()
+                except:
+                    print "cannot set thumbnail %s to %s" % (path, self.context)
                 
         print 'set transcoding: ' + annotations['plumi.transcode.profiles'][profile]['path']
 
