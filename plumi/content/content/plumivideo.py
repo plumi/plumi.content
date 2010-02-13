@@ -224,6 +224,9 @@ PlumiVideoSchema['title'].storage = atapi.AnnotationStorage()
 PlumiVideoSchema['description'].storage = atapi.AnnotationStorage()
 PlumiVideoSchema['subject'].widget = atapi.LinesWidget(label=_(u"Tags"), description=_(u"One per line"))
 
+PlumiVideoSchema.moveField('relatedItems', pos='bottom')
+PlumiVideoSchema.moveField('location', before='language')
+
 schemata.finalizeATCTSchema(PlumiVideoSchema, moveDiscussion=False)
 PlumiVideoSchema.registerLayer('marshall', BlobMarshaller())
 
