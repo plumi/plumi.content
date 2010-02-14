@@ -280,10 +280,13 @@ class PlumiVideo(base.ATCTContent):
             hours, remainder = divmod(seconds, 3600)
             minutes, seconds = divmod(remainder, 60)
             if hours > 0:
-                strDuration += str(hours) + " Hours "
-            if minutes > 0:
-                strDuration += str(minutes) + " Minutes "
-            strDuration += str(seconds) + " Seconds " 
+                strDuration += str(hours) + ":"
+            if minutes >= 0:
+                strDuration += str(minutes) + ":"
+            if seconds >= 10:
+                strDuration += str(seconds) 
+            if seconds < 10:
+                strDuration += "0" + str(seconds)
       except:
         pass
         
