@@ -33,7 +33,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Producer"),
-            description=_(u"The Producer of the video content"),
+
         ),
         languageIndependent=True,
         schemata='default',        
@@ -44,7 +44,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Director"),
-            description=_(u"The Director of the video content"),
         ),
         languageIndependent=True,
         schemata='default',        
@@ -55,7 +54,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Producer Email Address"),
-            description=_(u"The Producer's email address"),
         ),
         validators=('isEmail'),
         languageIndependent=True,
@@ -67,7 +65,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Producer Mailing Address"),
-            description=_(u"The Producer's mailing address"),
         ),
         languageIndependent=True,
         schemata='default',        
@@ -78,7 +75,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Project Name"),
-            description=_(u"Project Name"),
         ),
         schemata='default',                
     ),
@@ -88,7 +84,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Production Company Name"),
-            description=_(u"Production Company Name"),
         ),
         schemata='default',                
     ),
@@ -99,7 +94,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Website URL"),
-            description=_(u"The website URL for the video content"),
         ),
         languageIndependent=True,
         schemata='default',        
@@ -110,7 +104,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Distributor"),
-            description=_(u"The Distributor of the video content"),
         ),
         schemata='default',                
     ),
@@ -120,10 +113,10 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.CalendarWidget(
             label=_(u"Date of release"),
-            description=_(u"The date the video content was released."),
             show_hm = False,
         ),
         languageIndependent=True,
+		required=True,
         validators=('isValidDate'),
         schemata='default',                
     ),
@@ -135,6 +128,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Full Description"),
             description=_(u"The description of the video content"),
         ),
+		required=True,
         schemata='default',        
     ),
 
@@ -209,7 +203,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Thumbnail Image description"),
-            description=_(u"The caption for the thumbnail image."),
         ),
         schemata='thumbnail',
     ),    
