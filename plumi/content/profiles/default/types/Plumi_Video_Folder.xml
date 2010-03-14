@@ -40,8 +40,4 @@
     url_expr="string:${object_url}/edit" visible="True">
     <permission value="Modify portal content" />
   </action>
-  <action title="RSS2 Feed" action_id="rss2" category="document_actions"
-    condition_expr="" url_expr="string:${object_url}/RSS2" visible="True">
-   <permission value="View"/>
-  </action>
 </object>
