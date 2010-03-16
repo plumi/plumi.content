@@ -54,6 +54,7 @@ def setup_product():
     import plumi.skin
     fiveconfigure.debug_mode = True
     zcml.load_config('configure.zcml', Products.ATVocabularyManager)
+    zcml.load_config('configure.zcml', Products.LinguaPlone)    
     zcml.load_config('configure.zcml', plumi.content)   
     zcml.load_config('configure.zcml', plumi.skin)       
     fiveconfigure.debug_mode = False
@@ -96,6 +97,7 @@ setup_product()
 def installWithinPortal(portal):
     qi = getToolByName(portal, 'portal_quickinstaller')
     qi.installProduct('ATVocabularyManager')
+    qi.installProduct('LinguaPlone')    
     qi.installProduct('ATCountryWidget')
     qi.installProduct('plumi.content')    
     qi.installProduct('plumi.skin')        

@@ -488,11 +488,19 @@ Then we select the type of item we want to add. In this case we select
 Now we fill the form and submit it.
 
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
-    >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')    
+    >>> browser.getControl(name='description').value = 'PlumiVideo Sample Description'    
+    >>> browser.getControl(name='DateProduced_year').value=('2010',)
+    >>> browser.getControl(name='DateProduced_month').value=('01',)
+    >>> browser.getControl(name='DateProduced_day').value=('01',)       
     >>> browser.getControl('Next').click()
     >>> 'Changes saved' in browser.contents
     True
-
+    >>> browser.getControl('Next').click()
+    >>> 'Changes saved' in browser.contents
+    True
+    >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')  
+    >>> browser.getControl('Save').click()
+              
 And we are done! We added a new 'PlumiVideo' content item to the portal.
 
 Updating an existing PlumiVideo content item
@@ -579,10 +587,20 @@ Then we select the type of item we want to add. In this case we select
 Now we fill the form and submit it.
 
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
-    >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')    
+    >>> browser.getControl(name='description').value = 'PlumiVideo Sample Description'    
+    >>> browser.getControl(name='DateProduced_year').value=('2010',)
+    >>> browser.getControl(name='DateProduced_month').value=('01',)
+    >>> browser.getControl(name='DateProduced_day').value=('01',)       
     >>> browser.getControl('Next').click()
     >>> 'Changes saved' in browser.contents
     True
+    >>> browser.getControl('Next').click()
+    >>> 'Changes saved' in browser.contents
+    True
+    >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')  
+    >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True              
 
 Done! We added a new PlumiVideo content item logged in as contributor.
 
