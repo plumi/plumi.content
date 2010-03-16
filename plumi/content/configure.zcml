@@ -35,7 +35,7 @@
   <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
   <subscriber 
       for="plone.app.discussion.interfaces.IComment
-          zope.lifecycleevent.interfaces.IObjectAddedEvent"
+           zope.app.container.interfaces.IObjectAddedEvent"
       handler=".subscribers.autoSubmit" />
   <subscriber 
       for="Products.ATContentTypes.interface.news.IATNewsItem
