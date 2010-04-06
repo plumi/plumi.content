@@ -218,7 +218,6 @@ PlumiVideoSchema['description'].required = True
 PlumiVideoSchema['subject'].widget = atapi.LinesWidget(label=_(u"Tags"), description=_(u"One per line"))
 
 PlumiVideoSchema.moveField('relatedItems', pos='bottom')
-PlumiVideoSchema.moveField('location', before='language')
 
 schemata.finalizeATCTSchema(PlumiVideoSchema, moveDiscussion=False)
 PlumiVideoSchema.registerLayer('marshall', BlobMarshaller())
@@ -265,6 +264,11 @@ class PlumiVideo(base.ATCTContent):
     Genre = atapi.ATFieldProperty('Genre')
 
     video_file = atapi.ATFieldProperty('video_file')
+
+    schema.moveField('location', after='Countries')
+
+    schema.moveField('language', before='Genre')
+
 
 
     def plumiVideoDuration(self):
