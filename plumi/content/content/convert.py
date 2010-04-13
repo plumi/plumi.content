@@ -28,6 +28,7 @@ class CallBackView(BrowserView):
                 try:    
                     f = open(path,'r')
                     self.context.setThumbnailImage(f)
+		    self.reindexObject()
                     f.close()
                 except:
                     print "cannot set thumbnail %s to %s" % (path, self.context)
