@@ -190,11 +190,13 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.ImageWidget(
             label=_(u"Video Thumbnail"),
+	    description=_(u"Web friendly image types only (jpeg, png, gif)")
         ),
         max_size = zconf.ATImage.max_image_dimension,
         validators=(('isNonEmptyFile'),('checkImageMaxSize')),
         schemata='thumbnail',
         languageIndependent=True,
+        allowable_content_types=('image/gif','image/jpeg','image/png'),
     ),
     
     atapi.StringField(
