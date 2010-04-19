@@ -1,6 +1,7 @@
 from zope.annotation.interfaces import IAnnotations
 from Products.CMFCore.interfaces import IPropertiesTool
 from zope.component import getUtility
+from plumi.content.convertBMP import convertBMP
 
 import transaction
 from ZODB.PersistentMapping import PersistentMapping
@@ -12,7 +13,7 @@ from urlparse import urlparse
 def setup_transcoding(obj):
     if not obj.video_file.getFilename():
         return
-        
+    convertBMP(obj)        
     annotations = IAnnotations(obj, None)
     if not annotations.has_key('plumi.transcode.profiles'):
         annotations['plumi.transcode.profiles'] = PersistentMapping()
