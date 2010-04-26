@@ -2,9 +2,9 @@
 <object name="PlumiVideo"
    meta_type="Factory-based Type Information with dynamic views"
    i18n:domain="plumi.content" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <property name="title" i18n:translate="">Plumi Video</property>
+  <property name="title" i18n:translate="">Video</property>
   <property name="description"
-    i18n:translate="">Plumi Video content</property>
+    i18n:translate=""></property>
   <property name="content_meta_type">PlumiVideo</property>
   <property name="content_icon">document_icon.gif</property>
   <property name="product">plumi.content</property>
