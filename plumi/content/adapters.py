@@ -7,6 +7,9 @@ from interfaces.workflow import IPlumiWorkflow
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 
+from zope import i18n
+_ = i18n.MessageFactory("plumi")
+
 class PlumiWorkflowAdapter(object):
     implements(IPlumiWorkflow)
     adapts(IPlumiVideo)
@@ -62,8 +65,8 @@ class PlumiWorkflowAdapter(object):
                 memberId = reviewer.id
                 if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
 
-                    mMsg = 'Item has been submitted for your review\n'
-                    mMsg += 'Please review the submitted content. \n\n'
+                    mMsg = _('Item has been submitted for your review\n')
+                    mMsg += _('Please review the submitted content. \n\n')
                     mMsg += 'Title: %s\n\n' % obj_title
                     mMsg += '%s/view \n\n' % obj_url
                     mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
@@ -98,9 +101,8 @@ class PlumiWorkflowAdapter(object):
             #XXX is there a better way to search for reviewers ??
             for reviewer in self.context.portal_membership.listMembers():
                 memberId = reviewer.id
-                if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
-
-                    mMsg = 'Item has been rejected..\n'
+                if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():                    
+                    mMsg = _('Item has been rejected..\n')
                     mMsg += 'Title: %s\n\n' % obj_title
                     mMsg += '%s/view \n\n' % obj_url
                     mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
@@ -136,7 +138,7 @@ class PlumiWorkflowAdapter(object):
                 memberId = reviewer.id
                 if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
 
-                    mMsg = 'Item has been retracted..\n'
+                    mMsg = _('Item has been retracted..\n')
                     mMsg += 'Title: %s\n\n' % obj_title
                     mMsg += '%s/view \n\n' % obj_url
                     mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
@@ -167,7 +169,8 @@ class PlumiWorkflowAdapter(object):
             member=membr_tool.getMemberById(creator)
             mTo = member.getProperty('email',None)
             if mTo is not None and mTo is not '':
-                mMsg = 'Hi %s \nYour contribution has been accepted for publishing on the site\n' % member.getProperty('fullname', 'you')
+                mMsg = 'Hi %s \n' % member.getProperty('fullname', 'you')
+                mMsg += _('Your contribution has been accepted for publishing on the site\n')
                 mMsg += 'Title: %s\n\n' % obj_title
                 mMsg += '%s/view \n\n' % obj_url
                 urltool = getToolByName(self.context, 'portal_url')
@@ -195,12 +198,18 @@ class PlumiWorkflowAdapter(object):
             member=membr_tool.getMemberById(creator)
             mTo = member.getProperty('email',None)
             if mTo is not None and mTo is not '':
-                mMsg = 'Hi %s \nYour contribution has been rejected ..\n' % member.getProperty('fullname', 'you')
-                mMsg += 'Title: %s\n\n' % obj_title
-                mMsg += '%s/view \n\n' % obj_url
                 urltool = getToolByName(self.context, 'portal_url')
                 portal = urltool.getPortalObject()
                 mFrom = portal.getProperty('email_from_address')
+                mRej = portal.getProperty('rejected_text',None)            
+                mMsg = 'Hi %s \n' % member.getProperty('fullname', 'you')
+                if mRej:
+                    mMsg += mRej
+                else:
+                    mMsg += _('Your contribution has been rejected ..\n')
+                
+                mMsg += 'Title: %s\n\n' % obj_title
+                mMsg += '%s/view \n\n' % obj_url
                 mSubj = 'Your contribution : %s : was rejected.' % obj_title
                 #send email to object owner
                 try:
@@ -223,7 +232,8 @@ class PlumiWorkflowAdapter(object):
             member=membr_tool.getMemberById(creator)
             mTo = member.getProperty('email',None)
             if mTo is not None and mTo is not '':
-                mMsg = 'Hi %s \nYour contribution has been retracted ..\n' % member.getProperty('fullname', 'you')
+                mMsg = 'Hi %s \n' % member.getProperty('fullname', 'you')
+                mMsg += _('Your contribution has been retracted ..\n')
                 mMsg += 'Title: %s\n\n' % obj_title
                 mMsg += '%s/view \n\n' % obj_url
                 urltool = getToolByName(self.context, 'portal_url')
