@@ -9,6 +9,7 @@ from Products.CMFCore.WorkflowCore import WorkflowException
 
 from zope import i18n
 _ = i18n.MessageFactory("plumi")
+import sys
 
 class PlumiWorkflowAdapter(object):
     implements(IPlumiWorkflow)
@@ -28,20 +29,23 @@ class PlumiWorkflowAdapter(object):
             obj_url=self.context.absolute_url()
             membr_tool = getToolByName(self.context,'portal_membership')
             member=membr_tool.getMemberById(creator)
+            urltool = getToolByName(self.context, 'portal_url')
+            portal = urltool.getPortalObject()            
             mTo = member.getProperty('email',None)
+            mFrom = portal.getProperty('email_from_address')
+            mSubj = 'Your contribution : %s : was submitted for review.' % obj_title            
             if mTo is not None and mTo is not '':
-                mMsg = 'Hi %s \nYour contribution has been submitted for review before publishing on the site\n' % member.getProperty('fullname', creator)
+                mMsg = 'To: %s\n' % mTo
+                mMsg += 'From: %s\n' % mFrom
+                mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'
+                mMsg += 'Hi %s \nYour contribution has been submitted for review before publishing on the site\n' % member.getProperty('fullname', creator)
                 mMsg += 'Title: %s\n\n' % obj_title
                 mMsg += '%s/view \n\n' % obj_url
-                urltool = getToolByName(self.context, 'portal_url')
-                portal = urltool.getPortalObject()
-                mFrom = portal.getProperty('email_from_address')
-                mSubj = 'Your contribution : %s : was submitted for review.' % obj_title
                 logger.info('notifyOwnerVideoSubmitted')
                 #send email to object owner
                 try:
                     logger.info('notifyOwnerVideoSubmitted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                    self.context.MailHost.send(mMsg.encode('utf-8','ignore'), subject=mSubj)
                 except:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
                     pass
@@ -64,22 +68,24 @@ class PlumiWorkflowAdapter(object):
             for reviewer in self.context.portal_membership.listMembers():
                 memberId = reviewer.id
                 if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
-
-                    mMsg = _('Item has been submitted for your review\n')
-                    mMsg += _('Please review the submitted content. \n\n')
-                    mMsg += 'Title: %s\n\n' % obj_title
-                    mMsg += '%s/view \n\n' % obj_url
-                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
-                    mMsg += 'Email: %s\n\n' % creator_info['email']
                     mTo = reviewer.getProperty('email',None)
                     urltool = getToolByName(self.context, 'portal_url')
                     portal = urltool.getPortalObject()
                     mFrom = portal.getProperty('email_from_address')
                     mSubj = '%s -- submitted for your review' % obj_title
+                    mMsg = 'To: %s\n' % mTo
+                    mMsg += 'From: %s\n' % mFrom
+                    mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                    
+                    mMsg += _('Item has been submitted for your review\n')
+                    mMsg += _('Please review the submitted content. \n\n')
+                    mMsg += 'Title: %s\n\n' % obj_title
+                    mMsg += '%s/view \n\n' % obj_url
+                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                    mMsg += 'Email: %s\n\n' % creator_info['email']                    
                     logger.info('notifyReviewersVideoSubmitted')
                     try:
                         logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                        self.context.MailHost.send(mMsg.encode('utf-8','ignore'), subject=mSubj)
                     except:
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost.')
                         pass
@@ -101,21 +107,24 @@ class PlumiWorkflowAdapter(object):
             #XXX is there a better way to search for reviewers ??
             for reviewer in self.context.portal_membership.listMembers():
                 memberId = reviewer.id
-                if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():                    
-                    mMsg = _('Item has been rejected..\n')
-                    mMsg += 'Title: %s\n\n' % obj_title
-                    mMsg += '%s/view \n\n' % obj_url
-                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
-                    mMsg += 'Email: %s\n\n' % creator_info['email']
+                if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():   
                     mTo = reviewer.getProperty('email',None)
                     urltool = getToolByName(self.context, 'portal_url')
                     portal = urltool.getPortalObject()
                     mFrom = portal.getProperty('email_from_address')
-                    mSubj = '%s -- has been rejected' % obj_title
+                    mSubj = '%s -- has been rejected' % obj_title                
+                    mMsg = 'To: %s\n' % mTo
+                    mMsg += 'From: %s\n' % mFrom
+                    mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                                  
+                    mMsg += _('Item has been rejected..\n')
+                    mMsg += 'Title: %s\n\n' % obj_title
+                    mMsg += '%s/view \n\n' % obj_url
+                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                    mMsg += 'Email: %s\n\n' % creator_info['email']
                     logger.info('notifyReviewersVideoRejected')
                     try:
                         logger.info('notifyReviewersVideoRejected , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                        self.context.MailHost.send(mMsg.encode('utf-8','ignore'),subject=mSubj)
                     except:
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost.')
                         pass
@@ -137,21 +146,23 @@ class PlumiWorkflowAdapter(object):
             for reviewer in self.context.portal_membership.listMembers():
                 memberId = reviewer.id
                 if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
-
-                    mMsg = _('Item has been retracted..\n')
-                    mMsg += 'Title: %s\n\n' % obj_title
-                    mMsg += '%s/view \n\n' % obj_url
-                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
-                    mMsg += 'Email: %s\n\n' % creator_info['email']
                     mTo = reviewer.getProperty('email',None)
                     urltool = getToolByName(self.context, 'portal_url')
                     portal = urltool.getPortalObject()
                     mFrom = portal.getProperty('email_from_address')
-                    mSubj = '%s -- has been retracted' % obj_title
+                    mSubj = '%s -- has been retracted' % obj_title                
+                    mMsg = 'To: %s\n' % mTo
+                    mMsg += 'From: %s\n' % mFrom
+                    mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'
+                    mMsg += _('Item has been retracted..\n')
+                    mMsg += 'Title: %s\n\n' % obj_title
+                    mMsg += '%s/view \n\n' % obj_url
+                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                    mMsg += 'Email: %s\n\n' % creator_info['email']
                     logger.info('notifyReviewersVideoRetracted')
                     try:
                         logger.info('notifyReviewersVideoRetracted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                        self.context.MailHost.send(mMsg.encode('utf-8','ignore'), subject=mSubj)
                     except:
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost.')
                         pass
@@ -180,7 +191,7 @@ class PlumiWorkflowAdapter(object):
                 #send email to object owner
                 try:
                     logger.info('notifyOwnerVideoPublished , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                    self.context.MailHost.send(mMsg.encode('utf-8','ignore'), mTo, mFrom, mSubj)
                 except:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
                     pass
@@ -214,7 +225,7 @@ class PlumiWorkflowAdapter(object):
                 #send email to object owner
                 try:
                     logger.info('notifyOwnerVideoRejected , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                    self.context.MailHost.send(mMsg.encode('utf-8','ignore'), mTo, mFrom, mSubj)
                 except:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
                     pass
@@ -243,7 +254,7 @@ class PlumiWorkflowAdapter(object):
                 #send email to object owner
                 try:
                     logger.info('notifyOwnerVideoRetracted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                    self.context.MailHost.send(mMsg.encode('utf-8','ignore'), mTo, mFrom, mSubj)
                 except:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost.')
                     pass
