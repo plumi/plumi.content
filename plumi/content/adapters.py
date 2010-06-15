@@ -178,12 +178,15 @@ class PlumiWorkflowAdapter(object):
             obj_url=self.context.absolute_url()
             membr_tool = getToolByName(self.context,'portal_membership')
             member=membr_tool.getMemberById(creator)
+            if not member:
+                logger.error("Didnt actually send email to the author of %s as there doesn't seem to be one" % obj_url)
+                return
             mTo = member.getProperty('email',None)
             if mTo is not None and mTo is not '':
                 mMsg = 'Hi %s \n' % member.getProperty('fullname', 'you')
                 mMsg += _('Your contribution has been accepted for publishing on the site\n')
-                mMsg += 'Title: %s\n\n' % obj_title
-                mMsg += '%s/view \n\n' % obj_url
+                mMsg += 'Title: %s\n\n' % obj_title.decode('utf-8','ignore')
+                mMsg += '%s/view \n\n' % obj_url.decode('utf-8','ignore')
                 urltool = getToolByName(self.context, 'portal_url')
                 portal = urltool.getPortalObject()
                 mFrom = portal.getProperty('email_from_address')
