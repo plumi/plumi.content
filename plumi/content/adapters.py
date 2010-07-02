@@ -184,9 +184,9 @@ class PlumiWorkflowAdapter(object):
             mTo = member.getProperty('email',None)
             if mTo is not None and mTo is not '':
                 mMsg = 'Hi %s \n' % member.getProperty('fullname', 'you')
-                mMsg += _('Your contribution has been accepted for publishing on the site\n')
-                mMsg += 'Title: %s\n\n' % obj_title.decode('utf-8','ignore')
-                mMsg += '%s/view \n\n' % obj_url.decode('utf-8','ignore')
+                mMsg += _('Your contribution has been accepted for publishing on the site\n').encode('utf-8','ignore')
+                mMsg += 'Title: %s\n\n' % obj_title
+                mMsg += '%s/view \n\n' % obj_url
                 urltool = getToolByName(self.context, 'portal_url')
                 portal = urltool.getPortalObject()
                 mFrom = portal.getProperty('email_from_address')
