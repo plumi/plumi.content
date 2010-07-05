@@ -114,6 +114,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
 PlumiCallOutSchema['title'].storage = atapi.AnnotationStorage()
 PlumiCallOutSchema['description'].storage = atapi.AnnotationStorage()
+PlumiCallOutSchema['location'].schemata = 'default'
 
 schemata.finalizeATCTSchema(PlumiCallOutSchema, moveDiscussion=False)
 
