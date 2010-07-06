@@ -76,8 +76,8 @@ class PlumiWorkflowAdapter(object):
                     mMsg = 'To: %s\n' % mTo
                     mMsg += 'From: %s\n' % mFrom
                     mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                    
-                    mMsg += _('Item has been submitted for your review\n')
-                    mMsg += _('Please review the submitted content. \n\n')
+                    mMsg += _('Item has been submitted for your review') + '\n'
+                    mMsg += _('Please review the submitted content. ') + '\n\n'
                     mMsg += 'Title: %s\n\n' % obj_title
                     mMsg += '%s/view \n\n' % obj_url
                     mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
@@ -116,7 +116,7 @@ class PlumiWorkflowAdapter(object):
                     mMsg = 'To: %s\n' % mTo
                     mMsg += 'From: %s\n' % mFrom
                     mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                                  
-                    mMsg += _('Item has been rejected..\n')
+                    mMsg += _('Item has been rejected..') + '\n'
                     mMsg += 'Title: %s\n\n' % obj_title
                     mMsg += '%s/view \n\n' % obj_url
                     mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
@@ -154,7 +154,7 @@ class PlumiWorkflowAdapter(object):
                     mMsg = 'To: %s\n' % mTo
                     mMsg += 'From: %s\n' % mFrom
                     mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'
-                    mMsg += _('Item has been retracted..\n')
+                    mMsg += _('Item has been retracted..') + '\n'
                     mMsg += 'Title: %s\n\n' % obj_title
                     mMsg += '%s/view \n\n' % obj_url
                     mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
@@ -184,7 +184,7 @@ class PlumiWorkflowAdapter(object):
             mTo = member.getProperty('email',None)
             if mTo is not None and mTo is not '':
                 mMsg = 'Hi %s \n' % member.getProperty('fullname', 'you')
-                mMsg += _('Your contribution has been accepted for publishing on the site\n')
+                mMsg += _('Your contribution has been accepted for publishing on the site') + '\n'
                 mMsg += 'Title: %s\n\n' % obj_title
                 mMsg += '%s/view \n\n' % obj_url
                 urltool = getToolByName(self.context, 'portal_url')
@@ -220,7 +220,7 @@ class PlumiWorkflowAdapter(object):
                 if mRej:
                     mMsg += mRej
                 else:
-                    mMsg += _('Your contribution has been rejected ..\n')
+                    mMsg += _('Your contribution has been rejected ..') + '\n'
                 
                 mMsg += 'Title: %s\n\n' % obj_title
                 mMsg += '%s/view \n\n' % obj_url
@@ -247,7 +247,7 @@ class PlumiWorkflowAdapter(object):
             mTo = member.getProperty('email',None)
             if mTo is not None and mTo is not '':
                 mMsg = 'Hi %s \n' % member.getProperty('fullname', 'you')
-                mMsg += _('Your contribution has been retracted ..\n')
+                mMsg += _('Your contribution has been retracted ..') + '\n'
                 mMsg += 'Title: %s\n\n' % obj_title
                 mMsg += '%s/view \n\n' % obj_url
                 urltool = getToolByName(self.context, 'portal_url')

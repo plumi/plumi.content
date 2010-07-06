@@ -139,7 +139,7 @@ def notifyCommentAdded(obj ,event):
         mFrom = portal.getProperty('email_from_address')
         mSubj = _('Comment added on: ') + video.Title().decode('utf-8')
         mMsg = _('Hi ') + member.getProperty('fullname', creator)
-        mMsg += _('\n\n A comment has been added on ') + videoUrl + '\n\n'
+        mMsg += '\n\n' + _('A comment has been added on ') + videoUrl + '\n\n'
         try:            
 	    portal.MailHost.send(mMsg.encode('utf-8', 'ignore'), mTo, mFrom, mSubj.encode('utf-8', 'ignore'))
             log.info('notifyCommentAdded , im %s . sending email to %s from %s ' % (obj, mTo, mFrom) )

@@ -1,5 +1,6 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://namespaces.zope.org/i18n"
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plumi">
    <metal:block fill-slot="top_slot" />
@@ -17,7 +18,7 @@
                    Get the byline - contains details about author and modification date.
         </div>
 <div>
-                        We have scheduled your video to be re-encoded! Please wait for approximately 10 minutes.
+                        <span i18n:translate="">We have scheduled your video to be re-encoded! Please wait for approximately 10 minutes.</span>
 </div>
 </div>
 </body>

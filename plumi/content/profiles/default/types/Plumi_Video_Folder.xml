@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object name="Plumi Video Folder"
    meta_type="Factory-based Type Information with dynamic views"
-   i18n:domain="plumi.content" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+   xmlns:i18n="http://namespaces.zope.org/i18n" i18n:domain="plumi">
   <property name="title" i18n:translate="">Plumi Video Folder</property>
   <property name="description"
     i18n:translate="">Folder for video content</property>

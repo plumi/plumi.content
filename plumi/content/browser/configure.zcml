@@ -1,6 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser" >
+    xmlns:browser="http://namespaces.zope.org/browser" 
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="plumi">
 
   <include package="plone.app.contentmenu" />
 
@@ -9,6 +11,7 @@
 	for="plumi.content.interfaces.IPlumiVideo"
 	menu="plone_displayviews"
 	title="Plumi Video view"
+	i18n:attributes="title"
 	action="@@video_view"
 	description="Default representation of a Plumi video content type" />
 
