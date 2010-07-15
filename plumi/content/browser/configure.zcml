@@ -23,14 +23,6 @@
     />
 
   <browser:page
-    name="RSS"
-    for="plumi.content.interfaces.IPlumiVideoFolder"
-    class=".rss.RSSView"
-    template="RSS.pt"
-    permission="zope2.View"
-    />
-
-  <browser:page
     name="reTranscode"
     for="plumi.content.interfaces.IPlumiVideo"
     class=".reTranscode.reTranscode"
