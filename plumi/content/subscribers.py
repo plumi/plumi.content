@@ -6,15 +6,38 @@ from Acquisition import aq_parent
 from zope.app.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IActionSucceededEvent
-#from zope.app.container.interfaces import IObjectModifiedEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEditedEvent
 
 from plumi.content.interfaces.plumivideo import IPlumiVideo
 from plumi.content.interfaces.workflow import IPlumiWorkflow
 from plumi.content.metadataextractor import setup_metadata
 from plumi.content import plumiMessageFactory as _
+from collective.transcode.interfaces import ITranscodedEvent, ITranscodeTool
+from urllib import urlopen
 
 #from vaporisation.vaporisation.events import TreeUpdateEvent
+
+logger = logging.getLogger('plumi.content.subscribers')
+
+@adapter(IPlumiVideo, ITranscodedEvent)
+def notifyTranscodeSucceededPlumiVideo(obj, event):
+    if event.profile == 'jpeg':
+        imgfield = obj.getField('thumbnailImage') # check if there is already a thumbnail image
+        logger.info('jpeg callback %s' % imgfield)
+        if not imgfield or imgfield.getSize(obj) == (0, 0): # if not use the image returned by the transcoder
+            try:
+                tt = getUtility(ITranscodeTool)
+                entry = tt[obj.UID()]['video_file'][event.profile]
+                logger.info('setting thumbnail to %s' % entry['path'])
+                url = '%s/%s' % (entry['address'], entry['path'])
+                logger.info("getting thumbnail from %s" % url)
+                f = urlopen(url)
+                obj.setThumbnailImage(f.read())
+                #self.reindexObject()
+                f.close()
+            except:
+                logger.error("cannot set thumbnail %s to %s. Error %s" % (entry['path'], self.context,sys.exc_info()[0]))
+
 
 @adapter(IPlumiVideo, IActionSucceededEvent)
 def notifyActionSucceededPlumiVideo(obj,event):

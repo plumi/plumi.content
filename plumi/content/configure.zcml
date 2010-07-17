@@ -28,6 +28,7 @@
   <subscriber handler=".subscribers.notifyModifiedPlumiVideo" />
   <subscriber handler=".subscribers.notifyInitPlumiVideo" />
   <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
+  <subscriber handler=".subscribers.notifyTranscodeSucceededPlumiVideo" />
   <subscriber 
       for="plone.app.discussion.interfaces.IComment
            zope.app.container.interfaces.IObjectAddedEvent"
