@@ -11,7 +11,6 @@ from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEdite
 
 from plumi.content.interfaces.plumivideo import IPlumiVideo
 from plumi.content.interfaces.workflow import IPlumiWorkflow
-from plumi.content.transcoding import setup_transcoding
 from plumi.content.metadataextractor import setup_metadata
 from plumi.content import plumiMessageFactory as _
 

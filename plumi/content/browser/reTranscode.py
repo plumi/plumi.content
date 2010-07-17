@@ -1,5 +1,6 @@
 from Products.Five.browser import BrowserView
-from plumi.content.transcoding import setup_transcoding
+from collective.transcode.interfaces import ITranscodeTool
+from zope.component import getUtility
 
 class reTranscode(BrowserView):
 
@@ -7,4 +8,5 @@ class reTranscode(BrowserView):
         super(reTranscode, self).__init__(context, request)
 
     def __call__(self):
-        return setup_transcoding(self.context)
+        tt = getUtility(ITranscodeTool)
+        return tt.add(self.context, force=True)

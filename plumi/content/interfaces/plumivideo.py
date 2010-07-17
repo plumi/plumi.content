@@ -106,9 +106,3 @@ class IPlumiVideo(Interface):
         description=_(u"The uploaded video file"),
     )
 
-class ICallBackView(Interface):
-    """
-    """
-    def conv_done_xmlrpc(status, message, profile, path):
-        """
-        """
