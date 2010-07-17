@@ -1,3 +1,4 @@
+import sys
 import logging
 from zope.component import adapter
 from zope.component import getUtility
@@ -13,7 +14,7 @@ from plumi.content.interfaces.workflow import IPlumiWorkflow
 from plumi.content.metadataextractor import setup_metadata
 from plumi.content import plumiMessageFactory as _
 from collective.transcode.interfaces import ITranscodedEvent, ITranscodeTool
-from urllib import urlopen
+from urllib import urlopen, urlretrieve
 
 #from vaporisation.vaporisation.events import TreeUpdateEvent
 
@@ -27,16 +28,16 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
         if not imgfield or imgfield.getSize(obj) == (0, 0): # if not use the image returned by the transcoder
             try:
                 tt = getUtility(ITranscodeTool)
-                entry = tt[obj.UID()]['video_file'][event.profile]
-                logger.info('setting thumbnail to %s' % entry['path'])
+                entry = tt[obj.UID()]['video_file'][event.profile]                
                 url = '%s/%s' % (entry['address'], entry['path'])
                 logger.info("getting thumbnail from %s" % url)
-                f = urlopen(url)
-                obj.setThumbnailImage(f.read())
+                f = open(urlretrieve(url)[0],'r')
+                logger.info('setting thumbnail to %s' % entry['path'])                      
+                obj.setThumbnailImage(f)
                 #self.reindexObject()
                 f.close()
             except:
-                logger.error("cannot set thumbnail %s to %s. Error %s" % (entry['path'], self.context,sys.exc_info()[0]))
+                logger.error("cannot set thumbnail for %s. Error %s" % (obj, sys.exc_info()[0]))
 
 
 @adapter(IPlumiVideo, IActionSucceededEvent)
