@@ -81,7 +81,7 @@ def notifyModifiedPlumiVideo(obj ,event):
     if request.has_key('video_file_file'): #new video uploaded
         log.info('notifyModifiedPlumiVideo: video replaced; retranscoding')
         setup_metadata(obj)
-        setup_transcoding(obj)
+        #setup_transcoding(obj)
     #THE END
 
 @adapter(IPlumiVideo, IObjectInitializedEvent)
@@ -103,7 +103,7 @@ def notifyInitPlumiVideo(obj ,event):
             IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
     setup_metadata(obj)
-    setup_transcoding(obj)
+    #setup_transcoding(obj)
     #THE END
 
 def autoSubmit(obj, event):
