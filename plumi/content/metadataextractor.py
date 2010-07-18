@@ -54,6 +54,9 @@ def metadata_hook(status, obj):
     video_info = annotations.get('plumi.video_info')
 
     filename = obj.video_file.getBlob().committed()
+    if not filename:
+        return
+
     metadata = extract(filename)
     try:
         video_info['width'] = metadata.get('width')

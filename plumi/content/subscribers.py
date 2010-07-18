@@ -31,9 +31,9 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
                 entry = tt[obj.UID()]['video_file'][event.profile]                
                 url = '%s/%s' % (entry['address'], entry['path'])
                 logger.info("getting thumbnail from %s" % url)
-                f = open(urlretrieve(url)[0],'r')
+                f = urlopen(url)
                 logger.info('setting thumbnail to %s' % entry['path'])                      
-                obj.setThumbnailImage(f)
+                obj.setThumbnailImage(f.read())
                 #self.reindexObject()
                 f.close()
             except:
@@ -102,7 +102,7 @@ def notifyModifiedPlumiVideo(obj ,event):
             IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
     #PENDING , other states..
     if request.has_key('video_file_file'): #new video uploaded
-        log.info('notifyModifiedPlumiVideo: video replaced; retranscoding')
+        log.info('notifyModifiedPlumiVideo: video replaced;')
         setup_metadata(obj)
         #setup_transcoding(obj)
     #THE END
