@@ -1,5 +1,5 @@
 from Products.Five.browser import BrowserView
-from collective.transcode.interfaces import ITranscodeTool
+from collective.transcode.star.interfaces import ITranscodeTool
 from zope.component import getUtility
 
 class reTranscode(BrowserView):

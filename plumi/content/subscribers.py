@@ -13,7 +13,7 @@ from plumi.content.interfaces.plumivideo import IPlumiVideo
 from plumi.content.interfaces.workflow import IPlumiWorkflow
 from plumi.content.metadataextractor import setup_metadata
 from plumi.content import plumiMessageFactory as _
-from collective.transcode.interfaces import ITranscodedEvent, ITranscodeTool
+from collective.transcode.star.interfaces import ITranscodedEvent, ITranscodeTool
 from urllib import urlopen, urlretrieve
 
 #from vaporisation.vaporisation.events import TreeUpdateEvent
