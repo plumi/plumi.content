@@ -24,14 +24,18 @@ logger = logging.getLogger('plumi.content.subscribers')
 def notifyTranscodeSucceededPlumiVideo(obj, event):
     if event.profile == 'jpeg':
         imgfield = obj.getField('thumbnailImage') # check if there is already a thumbnail image
-        logger.info('jpeg callback %s' % imgfield)
         if not imgfield or imgfield.getSize(obj) == (0, 0): # if not use the image returned by the transcoder
             try:
                 tt = getUtility(ITranscodeTool)
                 entry = tt[obj.UID()]['video_file'][event.profile]                
                 url = '%s/%s' % (entry['address'], entry['path'])
-                logger.info("getting thumbnail from %s" % url)
-                f = urlopen(url)
+                try:
+                    logger.info("getting thumbnail from %s" % url)
+                    f = urlopen(url, timeout = 5)
+                except:
+                    logger.warn("Can't retrieve thumbnail from %s. Most likely due to a XML-RPC deadlock between Twisted and Plone." % url)
+                    logger.warn("Plumi will now assume that the thumbnail is accessible through the filesystem in the transcoded directory to facilitate dev builds. If using in production you should always serve the transcoded videos through Apache")
+                    f = open(url[url.find('transcoded'):],'r') 
                 logger.info('setting thumbnail to %s' % entry['path'])                      
                 obj.setThumbnailImage(f.read())
                 #self.reindexObject()
