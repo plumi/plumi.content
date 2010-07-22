@@ -35,6 +35,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     atapi.StringField(
         'location',
+        schemata='default',
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             label=_(u"Location"),
@@ -98,10 +99,11 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         'closingDate',
         storage=atapi.AnnotationStorage(),
         widget=atapi.CalendarWidget(
+            visible=0,
             label=_(u"Closing Date"),
             description=_(u"Provide a date for when this callout will be closed."),
         ),
-        required=True,
+        required=False,
         validators=('isValidDate'),
         languageIndependent=True,
     ),
@@ -115,6 +117,10 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 PlumiCallOutSchema['title'].storage = atapi.AnnotationStorage()
 PlumiCallOutSchema['description'].storage = atapi.AnnotationStorage()
 PlumiCallOutSchema['location'].schemata = 'default'
+PlumiCallOutSchema['expirationDate'].schemata = 'default'
+PlumiCallOutSchema['expirationDate'].required = True
+PlumiCallOutSchema['expirationDate'].title = _(u"Closing Date")
+PlumiCallOutSchema['expirationDate'].widget = atapi.CalendarWidget(label=_(u"Closing Date"), description=_(u"Provide a date for when this callout will be closed."))
 
 schemata.finalizeATCTSchema(PlumiCallOutSchema, moveDiscussion=False)
 
