@@ -16,6 +16,7 @@
   <property name="default_view">callout_view</property>
   <property name="view_methods">
     <element value="base_view" />
+    <element value="callout_view" />
   </property>
   <alias from="(Default)" to="(dynamic view)" />
   <alias from="edit" to="atct_edit" />

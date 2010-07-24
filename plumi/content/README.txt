@@ -470,7 +470,7 @@ In this section we are tesing the PlumiVideo content type by performing
 basic operations like adding, updadating and deleting PlumiVideo content
 items.
 
-Adding a new PlumiVideo content item
+Adding a new Video content item
 --------------------------------
 
 We use the 'Add new' menu to add a new content item.
@@ -480,13 +480,13 @@ We use the 'Add new' menu to add a new content item.
 Then we select the type of item we want to add. In this case we select
 'PlumiVideo' and click the 'Add' button to get to the add form.
 
-    >>> browser.getControl('Plumi Video', index=0).click()
+    >>> browser.getControl('Video', index=1).click()
     >>> browser.getControl(name='form.button.Add').click()
-    >>> 'PlumiVideo' in browser.contents
+    >>> 'Plumi Video' in browser.contents
     True
 
 Now we fill the form and submit it.
-
+  
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
     >>> browser.getControl(name='description').value = 'PlumiVideo Sample Description'    
     >>> browser.getControl(name='DateProduced_year').value=('2010',)
@@ -501,7 +501,7 @@ Now we fill the form and submit it.
     >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')  
     >>> browser.getControl('Save').click()
               
-And we are done! We added a new 'PlumiVideo' content item to the portal.
+And we are done! We added a new Video content item to the portal.
 
 Updating an existing PlumiVideo content item
 ---------------------------------------
@@ -556,7 +556,7 @@ Sample' tab.
     >>> 'New PlumiVideo Sample' in browser.contents
     False
 
-Adding a new PlumiVideo content item as contributor
+Adding a new Video content item as contributor
 ------------------------------------------------
 
 Not only site managers are allowed to add PlumiVideo content items, but
@@ -579,9 +579,9 @@ We use the 'Add new' menu to add a new content item.
 Then we select the type of item we want to add. In this case we select
 'PlumiVideo' and click the 'Add' button to get to the add form.
 
-    >>> browser.getControl('Plumi Video', index=0).click()
+    >>> browser.getControl('Video', index=1).click()
     >>> browser.getControl(name='form.button.Add').click()
-    >>> 'PlumiVideo' in browser.contents
+    >>> 'Video' in browser.contents
     True
 
 Now we fill the form and submit it.
