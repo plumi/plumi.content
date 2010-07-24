@@ -18,26 +18,31 @@ def migrate_annotations(context, logger=None):
     pprop = getUtility(IPropertiesTool)
     config = getattr(pprop, 'plumi_properties', None)
 
-    for video in videos[:5]:
+    for video in videos:
         obj = video.getObject()
+        UID = obj.UID()
+        if not UID:
+            continue
         data = StringIO(obj.getField('video_file').get(obj).data)
         md5sum = md5(data.read()).hexdigest()
         annotations = IAnnotations(obj)
-        transcode_profiles = annotations.get('plumi.transcode.profiles')
-        for transcode_profile in transcode_profiles.keys():
-            path = transcode_profile.get('path', None)
+        transcode_profiles = annotations.get('plumi.transcode.profiles', {})
+        for profile_name in transcode_profiles.keys():
+            profile = transcode_profiles[profile_name]
+            path = profile.get('path', None)
             if not path:
                 continue
             address = config.videoserver_address
-            entry = tt[obj.UID()]['video_file'][transcode_profile]
             objRec = tt.get(UID, None)
             if not objRec:
                 tt[UID] = PersistentDict()
+
             fieldRec = tt[UID].get('video_file', None)
             if not fieldRec: 
                 tt[UID]['video_file']=PersistentDict()
-            tt[UID]['video_file'][transcode_profile] = PersistentDict({'jobId' : None, 'address' : address, 'status' : 'ok', 'start' : datetime.now(), 'md5' : md5sum})
-
+            tt[UID]['video_file'][profile_name] = PersistentDict({'jobId' : None, 'address' : address, 'status' : 'ok', 'start' : datetime.now(), 'md5' : md5sum, 'path': path,})
+        if transcode_profiles:
+            del annotations['plumi.transcode.profiles']
 
 def import_various(context):
     if context.readDataFile('plumi.content-default.txt') is None:
