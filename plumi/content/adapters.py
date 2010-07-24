@@ -42,10 +42,9 @@ class PlumiWorkflowAdapter(object):
                     mMsg += 'Hi %s \nYour contribution has been submitted for review before publishing on the site\n' % member.getProperty('fullname', creator)
                     mMsg += 'Title: %s\n\n' % obj_title
                     mMsg += '%s/view \n\n' % obj_url
-                    logger.info('notifyOwnerVideoSubmitted')
                     #send email to object owner
                     logger.info('notifyOwnerVideoSubmitted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg.encode('utf-8','ignore'), subject=mSubj)
+                    self.context.MailHost.send(mMsg, subject=mSubj)
                 except Exception, e:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost. %s' % e)
 
@@ -83,7 +82,7 @@ class PlumiWorkflowAdapter(object):
                         mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
                         mMsg += 'Email: %s\n\n' % creator_info['email']                    
                         logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        self.context.MailHost.send(mMsg.encode('utf-8','ignore'), subject=mSubj)
+                        self.context.MailHost.send(mMsg, subject=mSubj)
                     except Exception, e:
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
 
@@ -120,7 +119,7 @@ class PlumiWorkflowAdapter(object):
                         mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
                         mMsg += 'Email: %s\n\n' % creator_info['email']
                         logger.info('notifyReviewersVideoRejected , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        self.context.MailHost.send(mMsg.encode('utf-8','ignore'),subject=mSubj)
+                        self.context.MailHost.send(mMsg,subject=mSubj)
                     except Exception, e:
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
 
@@ -156,7 +155,7 @@ class PlumiWorkflowAdapter(object):
                         mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
                         mMsg += 'Email: %s\n\n' % creator_info['email']
                         logger.info('notifyReviewersVideoRetracted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        self.context.MailHost.send(mMsg.encode('utf-8','ignore'), subject=mSubj)
+                        self.context.MailHost.send(mMsg, subject=mSubj)
                     except Exception, e:
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
 
@@ -187,7 +186,7 @@ class PlumiWorkflowAdapter(object):
                     mSubj = 'Your contribution : %s : was published.' % obj_title
                     #send email to object owner
                     logger.info('notifyOwnerVideoPublished , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg.encode('utf-8','ignore'), mTo, mFrom, mSubj)
+                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
                 except Exception, e:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost. %s' % e)
 
@@ -220,7 +219,7 @@ class PlumiWorkflowAdapter(object):
                     mSubj = 'Your contribution : %s : was rejected.' % obj_title
                     #send email to object owner
                     logger.info('notifyOwnerVideoRejected , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg.encode('utf-8','ignore'), mTo, mFrom, mSubj)
+                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
                 except Exception, e:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost. %s' % e)
 
@@ -248,7 +247,7 @@ class PlumiWorkflowAdapter(object):
                     mSubj = 'Your contribution : %s : was retracted.' % obj_title
                     #send email to object owner
                     logger.info('notifyOwnerVideoRetracted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg.encode('utf-8','ignore'), mTo, mFrom, mSubj)
+                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
                 except Exception, e:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost. %s' % e)
 
