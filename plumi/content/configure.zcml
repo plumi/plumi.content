@@ -24,24 +24,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
  
-
-  <!-- Register the import step -->
-  <genericsetup:importStep
-      name="plumi.content"
-      title="plumi.content special import handlers"
-      description=""
-      handler="plumi.content.setuphandlers.import_various" />
-
   <!-- Register the upgrade step -->
   <genericsetup:upgradeStep
-      title="migrate annotations"
+      title="Plumi 3.0 to 3.1"
       description=""
       source="0.2"
       destination="0.9"
-      handler="plumi.content.setuphandlers.migrate_annotations"
+      handler="plumi.content.setuphandlers.plumi30to31"
       profile="plumi.content:default" />
-
-
 
   <!-- -*- extra stuff goes here -*- -->
   <subscriber handler=".subscribers.notifyModifiedPlumiVideo" />

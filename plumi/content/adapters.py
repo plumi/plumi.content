@@ -28,7 +28,7 @@ class PlumiWorkflowAdapter(object):
             creator=self.context.Creator()
             obj_url=self.context.absolute_url()
             membr_tool = getToolByName(self.context,'portal_membership')
-            member=membr_tool.getMemberById(creator)
+            member = membr_tool.getMemberById(creator)
             urltool = getToolByName(self.context, 'portal_url')
             portal = urltool.getPortalObject()            
             mTo = member.getProperty('email',None)

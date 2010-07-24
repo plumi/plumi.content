@@ -40,10 +40,10 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.StringWidget(
             label=_(u"Location"),
             description=_(u"Typically a callout has an associated location in a common format (i.e. City, State)"),
+            visible = {'view': 'visible', 'edit': 'visible' },
         ),
         languageIndependent=True,
     ),
-
 
     atapi.ImageField(
         'calloutImage',
@@ -53,7 +53,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"Will be shown in the call out listings, and the call out item itself. Image will be scaled to a sensible size."),
         ),
         required=True,
-	    max_size = zconf.ATImage.max_image_dimension,
+	max_size = zconf.ATImage.max_image_dimension,
         validators=(('isNonEmptyFile'),('checkImageMaxSize')),
         languageIndependent=True,
     ),
@@ -68,8 +68,6 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         required=True,
     ),
 
-
-
     atapi.TextField(
         'bodyText',
         storage=atapi.AnnotationStorage(),
@@ -79,7 +77,6 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
         required=True,
     ),
-
 
     atapi.StringField(
         'submissionCategories',
@@ -94,7 +91,6 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         languageIndependent=True,
     ),
 
-
     atapi.DateTimeField(
         'closingDate',
         storage=atapi.AnnotationStorage(),
@@ -108,20 +104,20 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         languageIndependent=True,
     ),
 
-
 ))
 
 # Set storage on fields copied from ATContentTypeSchema, making sure
 # they work well with the python bridge properties.
 
+PlumiCallOutSchema.changeSchemataForField('location', 'default')
+PlumiCallOutSchema.changeSchemataForField('expirationDate', 'default')
 PlumiCallOutSchema['title'].storage = atapi.AnnotationStorage()
 PlumiCallOutSchema['description'].storage = atapi.AnnotationStorage()
 PlumiCallOutSchema['location'].schemata = 'default'
-PlumiCallOutSchema['expirationDate'].schemata = 'default'
 PlumiCallOutSchema['expirationDate'].required = True
 PlumiCallOutSchema['expirationDate'].title = _(u"Closing Date")
 PlumiCallOutSchema['expirationDate'].widget = atapi.CalendarWidget(label=_(u"Closing Date"), description=_(u"Provide a date for when this callout will be closed."))
-
+PlumiCallOutSchema['expirationDate'].visible = {'view': 'visible', 'edit': 'visible' },
 schemata.finalizeATCTSchema(PlumiCallOutSchema, moveDiscussion=False)
 
 class PlumiCallOut(base.ATCTContent):
@@ -129,11 +125,15 @@ class PlumiCallOut(base.ATCTContent):
     implements(IPlumiCallOut)
 
     meta_type = "PlumiCallOut"
+
     schema = PlumiCallOutSchema
+    schema.changeSchemataForField('location', 'default') 
+    schema.moveField('location', after='description')
+    schema.changeSchemataForField('expirationDate', 'default') 
+    schema.moveField('expirationDate', after='closingDate')
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
-    
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
     websiteURL = atapi.ATFieldProperty('websiteURL')
 

@@ -11,7 +11,19 @@ from collective.transcode.star.interfaces import ITranscodeTool
 
 
 
-def migrate_annotations(context, logger=None):
+def plumi30to31(context, logger=None):
+
+    # Migrate callout dates
+    catalog = getToolByName(context, 'portal_catalog')
+    callouts = catalog(portal_type='PlumiCallOut')
+    for c in callouts:
+        callout=c.getObject()
+        closing = callout.getClosingDate()
+        if closing:
+            callout.setExpirationDate(closing)
+            callout.reindexObject()
+
+    # Migrate video annotations
     catalog = getToolByName(context, 'portal_catalog')
     videos = catalog(portal_type='PlumiVideo')
     tt = getUtility(ITranscodeTool)
@@ -43,11 +55,4 @@ def migrate_annotations(context, logger=None):
             tt[UID]['video_file'][profile_name] = PersistentDict({'jobId' : None, 'address' : address, 'status' : 'ok', 'start' : datetime.now(), 'md5' : md5sum, 'path': path,})
         if transcode_profiles:
             del annotations['plumi.transcode.profiles']
-
-def import_various(context):
-    if context.readDataFile('plumi.content-default.txt') is None:
-        return
-    logger = context.getLogger('your.package')
-    site = context.getSite()
-    add_catalog_indexes(site, logger)
 
