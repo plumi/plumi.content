@@ -14,9 +14,8 @@ from plumi.content.interfaces.workflow import IPlumiWorkflow
 from plumi.content.metadataextractor import setup_metadata
 from plumi.content import plumiMessageFactory as _
 from collective.transcode.star.interfaces import ITranscodedEvent, ITranscodeTool
-from urllib import urlopen, urlretrieve
-
-#from vaporisation.vaporisation.events import TreeUpdateEvent
+from urllib2 import urlopen
+import socket
 
 logger = logging.getLogger('plumi.content.subscribers')
 
@@ -31,7 +30,8 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
                 url = '%s/%s' % (entry['address'], entry['path'])
                 try:
                     logger.info("getting thumbnail from %s" % url)
-                    f = urlopen(url, timeout = 5)
+                    socket.setdefaulttimeout(10)
+                    f = urlopen(url)
                 except:
                     logger.warn("Can't retrieve thumbnail from %s. Most likely due to a XML-RPC deadlock between Twisted and Plone." % url)
                     logger.warn("Plumi will now assume that the thumbnail is accessible through the filesystem in the transcoded directory to facilitate dev builds. If using in production you should always serve the transcoded videos through Apache")
