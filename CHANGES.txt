@@ -1,15 +1,20 @@
+0.9 (2010-08-01)
+================
+
+  - Release for Plumi 3.1 beta1 [Dimitris Moraitis]
+
 0.8 (2010-05-13)
-===============
+================
 
   - New release for Plumi 3.0 final [Dimitris Moraitis]
 
 0.7 (2010-04-27)
-===============
+================
 
   - Release for Plumi 3.0 final [Dimitris Moraitis]
 
 0.6 (2010-04-13)
-===============
+================
 
   - Release for Plumi 3.0-rc3 [Dimitris Moraitis]
 
@@ -29,7 +34,7 @@
    - Release for Plumi 3.0 beta 2 [Andy Nicholson]
 
 0.2 (2009-09-03)
-==================
+================
 
   - Release for Plumi 3.0 beta 1 [Andy Nicholson]
 
