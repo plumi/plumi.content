@@ -6,6 +6,7 @@ from zope.component import getUtility
 from Acquisition import aq_parent
 from zope.app.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
+from zope.component import getSiteManager
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEditedEvent
 
@@ -16,7 +17,8 @@ from plumi.content import plumiMessageFactory as _
 from collective.transcode.star.interfaces import ITranscodedEvent, ITranscodeTool
 from urllib2 import urlopen
 import socket
-import time
+from PIL import Image
+
 
 logger = logging.getLogger('plumi.content.subscribers')
 
@@ -29,27 +31,38 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
                 tt = getUtility(ITranscodeTool)
                 entry = tt[obj.UID()]['video_file'][event.profile]                
                 url = '%s/%s' % (entry['address'], entry['path'])
+                portal = getSiteManager()
+                skins_tool = getToolByName(portal, 'portal_skins')
+                defaultthumb = skins_tool['plumi_skin_custom_images']['defaultthumb.jpeg']
                 try:
                     logger.info("getting thumbnail from %s" % url)
                     socket.setdefaulttimeout(10)
-                    #try to get the thumbnail. If you get an error, retry a couple of times.
-                    if mimetypes.guess_type(url) == 'image/jpeg':
-                        f = urlopen(url)
-                    else:
-                        time.sleep(3)
-                        if mimetypes.guess_type(url) == 'image/jpeg':
-                            f = urlopen(url)
+                    f = urlopen(url)
+                    #check if the file is actually a jpeg image else use a standard one
+                    try:
+                        i = Image.open(url)
+                        if i.format == 'JPEG':
+                            logger.info('setting thumbnail to %s' % entry['path'])                      
+                            obj.setThumbnailImage(f.read())
+                            #self.reindexObject()
                         else:
-                            time.sleep(3)
-                            f = urlopen(url)
+                            obj.setThumbnailImage(defaultthumb)
+                    except:
+                        obj.setThumbnailImage(defaultthumb)
                 except:
                     logger.warn("Can't retrieve thumbnail from %s. Most likely due to a XML-RPC deadlock between Twisted and Plone." % url)
                     logger.warn("Plumi will now assume that the thumbnail is accessible through the filesystem in the transcoded directory to facilitate dev builds. If using in production you should always serve the transcoded videos through Apache")
-                    f = open(url[url.find('transcoded'):],'r') 
-                logger.info('setting thumbnail to %s' % entry['path'])                      
-                thumbnail = f.read()
-                obj.setThumbnailImage(thumbnail)
-                #self.reindexObject()
+                    try:
+                        i = Image.open(url[url.find('transcoded'):])
+                        if i.format == 'JPEG':
+                            f = open(url[url.find('transcoded'):],'r')  
+                            logger.info('setting thumbnail to %s' % entry['path'])                      
+                            obj.setThumbnailImage(f.read())
+                            #self.reindexObject()
+                        else:
+                            obj.setThumbnailImage(defaultthumb)
+                    except:
+                        obj.setThumbnailImage(defaultthumb)         
                 f.close()
             except:
                 logger.error("cannot set thumbnail for %s. Error %s" % (obj, sys.exc_info()[0]))
