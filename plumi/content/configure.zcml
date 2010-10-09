@@ -38,6 +38,7 @@
   <subscriber handler=".subscribers.notifyInitPlumiVideo" />
   <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
   <subscriber handler=".subscribers.notifyTranscodeSucceededPlumiVideo" />
+  <subscriber handler=".subscribers.commentAdded" />
   <subscriber 
       for="plone.app.discussion.interfaces.IComment
            zope.app.container.interfaces.IObjectAddedEvent"
@@ -54,6 +55,42 @@
       for="plumi.content.interfaces.plumicallout.IPlumiCallOut
            Products.Archetypes.interfaces.IObjectInitializedEvent"
       handler=".subscribers.autoSubmit" />    
-      
+
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler="plone.app.discussion.comment.notify_workflow"
+      />
+
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler="plone.app.discussion.comment.notify_content_object"
+      />
+
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler="plone.app.discussion.comment.notify_content_object"
+      />
+
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler="plone.app.discussion.tool.index_object"
+      />
+
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler="plone.app.discussion.tool.unindex_object"
+      />
+
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler="plone.app.discussion.comment.notify_content_object_deleted"
+      />
+  
   <adapter factory=".adapters.PlumiWorkflowAdapter" />
 </configure>

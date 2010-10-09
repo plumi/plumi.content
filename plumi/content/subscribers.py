@@ -1,7 +1,7 @@
 import sys
 import logging
 from zope.component import adapter
-from zope.component import getUtility
+from zope.component import getUtility, queryUtility
 
 from Acquisition import aq_parent
 from zope.app.component.hooks import getSite
@@ -9,12 +9,16 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import getSiteManager
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEditedEvent
+from zope.lifecycleevent.interfaces import IObjectAddedEvent
 
 from plumi.content.interfaces.plumivideo import IPlumiVideo
+from plone.app.discussion.interfaces import IComment
 from plumi.content.interfaces.workflow import IPlumiWorkflow
 from plumi.content.metadataextractor import setup_metadata
 from plumi.content import plumiMessageFactory as _
 from collective.transcode.star.interfaces import ITranscodedEvent, ITranscodeTool
+from plone.app.discussion.interfaces import ICommentingTool
+from DateTime import DateTime
 from urllib2 import urlopen
 import socket
 from PIL import Image
@@ -157,6 +161,7 @@ def notifyInitPlumiVideo(obj ,event):
     #setup_transcoding(obj)
     #THE END
 
+@adapter(IPlumiVideo, IObjectInitializedEvent)
 def autoSubmit(obj, event):
     """ Automatically submit news items, events & callouts """
     log = logging.getLogger('plumi.content.subscribers')    
@@ -172,6 +177,15 @@ def autoSubmit(obj, event):
         worked = False
         log.info('failed to autosubmit %s' % obj)        
         pass
+
+@adapter(IComment, IObjectAddedEvent)
+def commentAdded(obj ,event):
+    """Reindex added comments and set correct modification date"""
+    log = logging.getLogger('plumi.content.subscribers')    
+    commenttool = queryUtility(ICommentingTool)
+    obj.setModificationDate(DateTime())
+    obj.setCreationDate(DateTime())
+    commenttool.reindexObject(obj)
                         
 def notifyCommentAdded(obj ,event):
     """Notify owner of added comment"""
@@ -196,4 +210,3 @@ def notifyCommentAdded(obj ,event):
             log.info('notifyCommentAdded , im %s . sending email to %s from %s ' % (obj, mTo, mFrom) )
         except:
 	    log.error('Didnt actually send email to contribution owner! Something amiss with SecureMailHost.')
-
