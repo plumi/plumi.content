@@ -30,4 +30,9 @@
     url_expr="string:${object_url}/edit" visible="True">
     <permission value="Modify portal content" />
   </action>
+  <action title="Ownership" action_id="ownership" category="object" condition_expr=""
+    url_expr="string:${object_url}/ownership_form" visible="True">
+    <permission value="Review portal content" />
+  </action>
+
 </object>

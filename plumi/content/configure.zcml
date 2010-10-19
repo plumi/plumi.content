@@ -38,15 +38,12 @@
   <subscriber handler=".subscribers.notifyInitPlumiVideo" />
   <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
   <subscriber handler=".subscribers.notifyTranscodeSucceededPlumiVideo" />
-  <subscriber handler=".subscribers.commentAdded" />
-  <subscriber 
-      for="plone.app.discussion.interfaces.IComment
-           zope.app.container.interfaces.IObjectAddedEvent"
-      handler=".subscribers.autoSubmit" />
+
   <subscriber 
       for="Products.ATContentTypes.interface.news.IATNewsItem
            Products.Archetypes.interfaces.IObjectInitializedEvent"
       handler=".subscribers.autoSubmit" />
+
   <subscriber 
       for="Products.ATContentTypes.interface.event.IATEvent
            Products.Archetypes.interfaces.IObjectInitializedEvent"

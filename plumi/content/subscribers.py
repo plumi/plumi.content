@@ -178,14 +178,6 @@ def autoSubmit(obj, event):
         log.info('failed to autosubmit %s' % obj)        
         pass
 
-@adapter(IComment, IObjectAddedEvent)
-def commentAdded(obj ,event):
-    """Reindex added comments and set correct modification date"""
-    log = logging.getLogger('plumi.content.subscribers')    
-    commenttool = queryUtility(ICommentingTool)
-    obj.setModificationDate(DateTime())
-    obj.setCreationDate(DateTime())
-    commenttool.reindexObject(obj)
                         
 def notifyCommentAdded(obj ,event):
     """Notify owner of added comment"""
