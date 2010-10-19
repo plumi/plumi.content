@@ -12,12 +12,11 @@ from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEdite
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
 
 from plumi.content.interfaces.plumivideo import IPlumiVideo
-from plone.app.discussion.interfaces import IComment
 from plumi.content.interfaces.workflow import IPlumiWorkflow
 from plumi.content.metadataextractor import setup_metadata
 from plumi.content import plumiMessageFactory as _
 from collective.transcode.star.interfaces import ITranscodedEvent, ITranscodeTool
-from plone.app.discussion.interfaces import ICommentingTool
+from plone.app.discussion.interfaces import IComment, ICommentingTool
 from DateTime import DateTime
 from urllib2 import urlopen
 import socket
