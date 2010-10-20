@@ -39,11 +39,10 @@
   <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
   <subscriber handler=".subscribers.notifyTranscodeSucceededPlumiVideo" />
 
-  <!-- Comment modearator notification subscriber -->
   <subscriber
       for="plone.app.discussion.interfaces.IComment
            zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler="plone.app.discussion.comment.notify_moderator"
+      handler=".subscribers.notify_moderator"
       />
 
   <!-- Bugfix for subscribers not working in plone.app.discussion for plone 3 -->

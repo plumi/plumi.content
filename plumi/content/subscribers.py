@@ -10,6 +10,10 @@ from zope.component import getSiteManager
 from Products.CMFCore.interfaces import IActionSucceededEvent
 from Products.Archetypes.interfaces import IObjectInitializedEvent, IObjectEditedEvent
 from zope.lifecycleevent.interfaces import IObjectAddedEvent
+from plone.registry.interfaces import IRegistry
+from plone.app.discussion.interfaces import IDiscussionSettings
+from zope.i18n import translate
+from zope.i18nmessageid import Message
 
 from plumi.content.interfaces.plumivideo import IPlumiVideo
 from plumi.content.interfaces.workflow import IPlumiWorkflow
@@ -24,6 +28,19 @@ from PIL import Image
 
 
 logger = logging.getLogger('plumi.content.subscribers')
+
+try:
+    # Plone 4:
+    from Products.CMFCore.CMFCatalogAware import CatalogAware 
+    PLONE_4 = True
+except: # pragma: no cover
+    # Plone 3:
+    from OFS.Traversable import Traversable as CatalogAware
+    PLONE_4 = False
+
+MAIL_NOTIFICATION_MESSAGE = _(u"mail_notification_message",
+    default=u"A comment with the title '${title}' "
+             "has been posted here: ${link}")
 
 @adapter(IPlumiVideo, ITranscodedEvent)
 def notifyTranscodeSucceededPlumiVideo(obj, event):
@@ -177,27 +194,47 @@ def autoSubmit(obj, event):
         log.info('failed to autosubmit %s' % obj)        
         pass
 
-                        
-def notifyCommentAdded(obj ,event):
-    """Notify owner of added comment"""
-    log = logging.getLogger('plumi.content.subscribers')
-    urltool = getToolByName(obj, 'portal_url')
-    portal = urltool.getPortalObject()
-    video = aq_parent(aq_parent(obj))
-    videoUrl = video.absolute_url()
+def notify_moderator(obj, event):
+    """Tell the moderator when a comment needs attention.
     
-    creator= video.Creator()
-    membr_tool = getToolByName(obj,'portal_membership')
-    member=membr_tool.getMemberById(creator)
-    mTo = member.getProperty('email',None)
-    log.info('notifyCommentAdded')
-    if mTo:
-        mFrom = portal.getProperty('email_from_address')
-        mSubj = _('Comment added on: ') + video.Title().decode('utf-8')
-        mMsg = _('Hi ') + member.getProperty('fullname', creator)
-        mMsg += '\n\n' + _('A comment has been added on ') + videoUrl + '\n\n'
-        try:            
-	    portal.MailHost.send(mMsg.encode('utf-8', 'ignore'), mTo, mFrom, mSubj.encode('utf-8', 'ignore'))
-            log.info('notifyCommentAdded , im %s . sending email to %s from %s ' % (obj, mTo, mFrom) )
-        except:
-	    log.error('Didnt actually send email to contribution owner! Something amiss with SecureMailHost.')
+       This method sends an email to the site admin (mail control panel setting)
+       when a new comment has been added 
+    """
+    
+    # Check if moderator notification is enabled
+    registry = queryUtility(IRegistry)
+    settings = registry.forInterface(IDiscussionSettings)
+    if not settings.moderator_notification_enabled:
+        return
+    
+    # Get informations that are necessary to send an email
+    mail_host = getToolByName(obj, 'MailHost')
+    portal_url = getToolByName(obj, 'portal_url')
+    portal = portal_url.getPortalObject()
+    sender = portal.getProperty('email_from_address')
+    mto = portal.getProperty('email_from_address')
+    
+    # Check if a sender address is available
+    if not sender:
+        return
+
+    conversation = aq_parent(obj)
+    content_object = aq_parent(conversation)
+
+    # Compose email        
+    #comment = conversation.getComments().next()
+    subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
+    message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
+        mapping={'title': obj.title,
+                 'link': content_object.absolute_url()}),
+        context=obj.REQUEST)
+
+    # Send email
+    if PLONE_4:
+        mail_host.send(message, mto, sender, subject, charset='utf-8')
+    else:
+        mail_host.secureSend(message, 
+                             mto, 
+                             sender, 
+                             subject=subject, 
+                             charset='utf-8') # pragma: no cover
