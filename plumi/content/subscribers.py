@@ -59,31 +59,22 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
                     socket.setdefaulttimeout(10)
                     f = urlopen(url)
                     #check if the file is actually a jpeg image else use a standard one
-                    try:
-                        i = Image.open(url)
-                        if i.format == 'JPEG':
-                            logger.info('setting thumbnail to %s' % entry['path'])                      
-                            obj.setThumbnailImage(f.read())
-                            #self.reindexObject()
-                        else:
-                            obj.setThumbnailImage(defaultthumb)
-                    except:
+                    if f.headers['content-type'] == 'image/jpeg':
+                        logger.info('setting thumbnail to %s' % entry['path'])
+                        obj.setThumbnailImage(f.read())
+                    else:
                         obj.setThumbnailImage(defaultthumb)
+                    f.close()
                 except:
                     logger.warn("Can't retrieve thumbnail from %s. Most likely due to a XML-RPC deadlock between Twisted and Plone." % url)
                     logger.warn("Plumi will now assume that the thumbnail is accessible through the filesystem in the transcoded directory to facilitate dev builds. If using in production you should always serve the transcoded videos through Apache")
                     try:
-                        i = Image.open(url[url.find('transcoded'):])
-                        if i.format == 'JPEG':
-                            f = open(url[url.find('transcoded'):],'r')  
-                            logger.info('setting thumbnail to %s' % entry['path'])                      
-                            obj.setThumbnailImage(f.read())
-                            #self.reindexObject()
-                        else:
-                            obj.setThumbnailImage(defaultthumb)
+                        f = open(url[url.find('transcoded'):],'r')  
+                        logger.info('setting thumbnail to %s' % entry['path'])                      
+                        obj.setThumbnailImage(f.read())
+                        f.close()
                     except:
                         obj.setThumbnailImage(defaultthumb)         
-                f.close()
             except:
                 logger.error("cannot set thumbnail for %s. Error %s" % (obj, sys.exc_info()[0]))
 
