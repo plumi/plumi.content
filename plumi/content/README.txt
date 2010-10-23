@@ -227,12 +227,12 @@ Now we fill the form and submit it.
     >>> browser.getControl(name='calloutImageCaption').value = 'PlumiCallOut Sample'
     >>> browser.getControl(name='bodyText').value = 'PlumiCallOut Sample' 
     >>> browser.getControl(name='submissionCategories:list').value=('test',)
-    >>> browser.getControl(name='closingDate_year').value=('2010',)
-    >>> browser.getControl(name='closingDate_month').value=('01',)
-    >>> browser.getControl(name='closingDate_day').value=('01',)
-    >>> browser.getControl(name='closingDate_hour').value=('01',)    
-    >>> browser.getControl(name='closingDate_minute').value=('00',)    
-    >>> browser.getControl(name='closingDate_ampm').value=('AM',)      
+    >>> browser.getControl(name='expirationDate_year').value=('2010',)
+    >>> browser.getControl(name='expirationDate_month').value=('01',)
+    >>> browser.getControl(name='expirationDate_day').value=('01',)
+    >>> browser.getControl(name='expirationDate_hour').value=('01',)    
+    >>> browser.getControl(name='expirationDate_minute').value=('00',)    
+    >>> browser.getControl(name='expirationDate_ampm').value=('AM',)      
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
     True
@@ -318,12 +318,12 @@ Now we fill the form and submit it.
     >>> browser.getControl(name='calloutImageCaption').value = 'PlumiCallOut Sample'
     >>> browser.getControl(name='bodyText').value = 'PlumiCallOut Sample' 
     >>> browser.getControl(name='submissionCategories:list').value=('test',)
-    >>> browser.getControl(name='closingDate_year').value=('2010',)
-    >>> browser.getControl(name='closingDate_month').value=('01',)
-    >>> browser.getControl(name='closingDate_day').value=('01',)
-    >>> browser.getControl(name='closingDate_hour').value=('01',)    
-    >>> browser.getControl(name='closingDate_minute').value=('00',)    
-    >>> browser.getControl(name='closingDate_ampm').value=('AM',)      
+    >>> browser.getControl(name='expirationDate_year').value=('2010',)
+    >>> browser.getControl(name='expirationDate_month').value=('01',)
+    >>> browser.getControl(name='expirationDate_day').value=('01',)
+    >>> browser.getControl(name='expirationDate_hour').value=('01',)    
+    >>> browser.getControl(name='expirationDate_minute').value=('00',)    
+    >>> browser.getControl(name='expirationDate_ampm').value=('AM',)      
     >>> browser.getControl('Save').click()    
 
     >>> 'PlumiCallOut' in browser.contents
