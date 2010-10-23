@@ -185,6 +185,30 @@ def autoSubmit(obj, event):
         log.info('failed to autosubmit %s' % obj)        
         pass
 
+def notifyCommentAdded(obj ,event): 
+    """Notify owner of added comment""" 
+    log = logging.getLogger('plumi.content.subscribers') 
+    urltool = getToolByName(obj, 'portal_url') 
+    portal = urltool.getPortalObject() 
+    video = aq_parent(aq_parent(obj)) 
+    videoUrl = video.absolute_url() 
+     
+    creator= video.Creator() 
+    membr_tool = getToolByName(obj,'portal_membership') 
+    member=membr_tool.getMemberById(creator) 
+    mTo = member.getProperty('email',None) 
+    log.info('notifyCommentAdded') 
+    if mTo: 
+        mFrom = portal.getProperty('email_from_address') 
+        mSubj = _('Comment added on: ') + video.Title().decode('utf-8') 
+        mMsg = _('Hi ') + member.getProperty('fullname', creator) 
+        mMsg += '\n\n' + _('A comment has been added on ') + videoUrl + '\n\n' 
+        try:             
+            portal.MailHost.send(mMsg.encode('utf-8', 'ignore'), mTo, mFrom, mSubj.encode('utf-8', 'ignore')) 
+            log.info('notifyCommentAdded , im %s . sending email to %s from %s ' % (obj, mTo, mFrom) ) 
+        except: 
+            log.error('Didnt actually send email to contribution owner! Something amiss with SecureMailHost.') 
+
 def notify_moderator(obj, event):
     """Tell the moderator when a comment needs attention.
     

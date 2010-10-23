@@ -45,6 +45,13 @@
       handler=".subscribers.notify_moderator"
       />
 
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".subscribers.notifyCommentAdded"
+      />
+
+
   <!-- Bugfix for subscribers not working in plone.app.discussion for plone 3 -->
   <subscriber 
       for="Products.ATContentTypes.interface.news.IATNewsItem
