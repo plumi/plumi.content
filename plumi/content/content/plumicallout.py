@@ -56,6 +56,11 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 	max_size = zconf.ATImage.max_image_dimension,
         validators=(('isNonEmptyFile'),('checkImageMaxSize')),
         languageIndependent=True,
+        sizes= {'large'   : (768, 768),
+                'preview' : (400, 400),
+                'mini' :  (200, 200),
+                'thumb':  (128, 128),
+            },
     ),
 
     atapi.StringField(
