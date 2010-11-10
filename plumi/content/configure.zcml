@@ -19,7 +19,7 @@
       name="default"
       title="Plumi content types"
       directory="profiles/default"
-      description="Plumi content types package"
+      description="Automatically installed by the Plumi package. No need to install manually."
       i18n:attributes="title; description;"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
