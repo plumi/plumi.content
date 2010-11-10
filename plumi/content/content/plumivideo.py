@@ -15,7 +15,6 @@ from Products.ATContentTypes.configuration import zconf
 
 #third party products
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
-from Products.ATCountryWidget.Widget import CountryWidget
 from plone.app.blob.field import BlobField, BlobMarshaller
 # plumi.content imports
 from plumi.content import plumiMessageFactory as _
@@ -134,10 +133,11 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
     atapi.StringField(
         'Countries',
         storage=atapi.AnnotationStorage(),
-        widget=CountryWidget(
+        widget=atapi.SelectionWidget(
             label=_(u"Country of origin of the video"),
             i18n_domain='atcw',
         ),
+        vocabulary=NamedVocabulary("""video_countries"""),
         languageIndependent=True,
         schemata='categorization',        
     ),
