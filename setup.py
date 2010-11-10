@@ -51,6 +51,7 @@ setup(name='plumi.content',
       zip_safe=False,
       install_requires=['setuptools',
                         'Products.ATVocabularyManager',
+                        'Products.ATCountryWidget',
                         # -*- Extra requirements: -*-
                         ],
       tests_require=tests_require,
