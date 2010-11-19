@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser" 
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="plumi">
 
   <include package="plone.app.contentmenu" />
@@ -15,6 +16,27 @@
 	action="@@video_view"
 	description="Default representation of a Plumi video content type" />
 
+  <adapter factory=".brain_rendering.PlumiVideoBrain"
+	   provides=".interfaces.IPlumiVideoBrain" />
+
+ <adapter factory=".adapters.TopicVideosProvider"
+           provides=".interfaces.IVideosProvider" />
+
+ <adapter factory=".adapters.OrderedFolderVideosProvider"
+           provides=".interfaces.IVideosProvider" />
+
+  <!-- Resource directory for flowplayer -->
+  <browser:resourceDirectory
+      name="plumi.content.flowplayer"
+      directory="flowplayer"
+      />
+
+  <!-- Resource directory for stylesheets -->
+  <browser:resourceDirectory
+      name="plumi.content.stylesheets"
+      directory="stylesheets"
+      />
+
   <browser:page
     name="download"
     for="plumi.content.interfaces.IPlumiVideo"
@@ -23,10 +45,107 @@
     />
 
   <browser:page
+      name="flowplayerConfig.js"
+      for="plumi.content.interfaces.IPlumiVideo"
+      class=".video.flowplayerConfig"
+      permission="zope2.View"
+      layer=".interfaces.IThemeSpecific"
+      />
+
+  <browser:page
     name="reTranscode"
     for="plumi.content.interfaces.IPlumiVideo"
     class=".reTranscode.reTranscode"
     permission="cmf.ModifyPortalContent"
     template="reTranscode.pt"
     />
+
+  <browser:page
+      name="video_view"
+      for="plumi.content.interfaces.IPlumiVideo"
+      class=".video.VideoView"
+      template="templates/plumi_video_view.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="embed_view"
+      for="plumi.content.interfaces.IPlumiVideo"
+      class=".video.VideoView"
+      template="templates/plumi_embed_view.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      name="featured_videos_homepage"
+      class=".featured_videos.FeaturedVideosPage"
+      template="templates/featured.pt"
+      permission="zope2.View"
+      allowed_interface=".interfaces.ITopicsProvider"
+      />
+
+  <browser:page
+      for="zope.app.container.interfaces.IContainer"
+      name="video_listing"
+      class=".videos_listing.VideosListing"
+      template="templates/video_listing.pt"
+      permission="zope2.View"
+      allowed_attributes="videos empty parent_url renderers"
+      />
+
+  <browser:page
+      name="callout_view"
+      for="plumi.content.interfaces.IPlumiCallOut"
+      class=".callout.CalloutView"
+      template="templates/plumi_callout_view.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="*"
+      name="author_view"
+      class=".author.AuthorPage"
+      permission="zope2.View"
+      allowed_interface=".interfaces.IAuthorPage"
+      />
+
+  <browser:page
+      for="zope.app.container.interfaces.IContainer"
+      name="video_listing_view"
+      template="templates/video_listing_view.pt"
+      permission="zope2.View"
+      />
+
+
+  <browser:page
+      name="RSS2"
+      for="OFS.interfaces.IFolder"
+      class=".rssview.RSSView"
+      template="templates/RSS2.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="*"
+      name="recent_news_view"
+      class=".portlets.recent_news.RecentNewsPortlet"
+      permission="zope.Public"
+      allowed_interface="Products.CMFPlone.browser.interfaces.IRecentPortlet"
+      />
+
+  <browser:page
+      for="*"
+      name="recent_callouts_view"
+      class=".portlets.recent_callouts.RecentCalloutsPortlet"
+      permission="zope.Public"
+      allowed_interface="Products.CMFPlone.browser.interfaces.IRecentPortlet"
+      />
+
+ <!-- old Plumi 0.2.x Plumi Skin zcml -->
+ <five:implements
+      class="Products.ZCatalog.CatalogBrains.AbstractCatalogBrain"
+      interface=".interfaces.IAbstractCatalogBrain"
+      />
+
 </configure>

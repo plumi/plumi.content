@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+ <object name="plumi_content_custom_templates"
+    meta_type="Filesystem Directory View"
+    directory="plumi.content:skins/plumi_content_custom_templates"/>
+ <object name="plumi_content_custom_images"
+    meta_type="Filesystem Directory View"
+    directory="plumi.content:skins/plumi_content_custom_images"/>
+
+ <skin-path name="*">
+  <layer name="plumi_content_custom_templates"
+     insert-after="custom"/>
+  <layer name="plumi_content_custom_images"
+     insert-after="plumi_content_custom_templates"/>
+ </skin-path>
+</object>

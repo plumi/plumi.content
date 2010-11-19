@@ -53,7 +53,7 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
                 url = '%s/%s' % (entry['address'], entry['path'])
                 portal = getSiteManager()
                 skins_tool = getToolByName(portal, 'portal_skins')
-                defaultthumb = skins_tool['plumi_skin_custom_images']['defaultthumb.jpeg']
+                defaultthumb = skins_tool['plumi_content_custom_images']['defaultthumb.jpeg']
                 try:
                     logger.info("getting thumbnail from %s" % url)
                     socket.setdefaulttimeout(10)

@@ -6,7 +6,7 @@
   <property name="description"
     i18n:translate="">A video content</property>
   <property name="content_meta_type">PlumiVideo</property>
-  <property name="content_icon">document_icon.gif</property>
+  <property name="icon_expr"></property>
   <property name="product">plumi.content</property>
   <property name="factory">addPlumiVideo</property>
   <property name="immediate_view">atct_edit</property>

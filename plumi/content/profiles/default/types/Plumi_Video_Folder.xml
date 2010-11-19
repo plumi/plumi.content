@@ -6,7 +6,7 @@
   <property name="description"
     i18n:translate="">Folder for video content</property>
   <property name="content_meta_type">Plumi Video Folder</property>
-  <property name="content_icon">folder_icon.gif</property>
+  <property name="icon_expr"></property>
   <property name="product">plumi.content</property>
   <property name="factory">addPlumiVideoFolder</property>
   <property name="immediate_view">atct_edit</property>

@@ -1,0 +1,48 @@
+#video-core {
+  float: right;
+  padding-top: 0.5em;
+  width: 400px;
+  clear:right;
+  margin-left: 1.9em;
+}
+
+#video-about {
+  clear: both;
+  padding-top: 1em;
+}
+
+#no-video-player {
+  display: block;
+  margin-top: 2em;
+  width: 320px;
+  text-align: center;
+  text-decoration: none;
+}
+
+#video-transcoding {
+  clear: both;
+}
+
+
+#video-player div {
+  padding: 0.4em 0 0.6em 0;
+  font-color: #aaa;
+  font-size: 85%;
+}
+
+#video-player textarea {
+  background: #f4f4f4 url(++resource++plumi.skin.images/homepage_desc.gif) 0 0;
+  font-size: 90%;
+}
+
+#player {
+  display: block;
+  width: 320px;
+  height: 240px;
+}
+
+#player-videoview {
+display: block;
+  width: 400px;
+  height: 300px;
+}
