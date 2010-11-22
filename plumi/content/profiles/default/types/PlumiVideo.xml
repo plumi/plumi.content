@@ -4,7 +4,7 @@
    xmlns:i18n="http://namespaces.zope.org/i18n" i18n:domain="plumi">
   <property name="title" i18n:translate="">Video</property>
   <property name="description"
-    i18n:translate="">A video content</property>
+    i18n:translate=""></property>
   <property name="content_meta_type">PlumiVideo</property>
   <property name="icon_expr"></property>
   <property name="product">plumi.content</property>

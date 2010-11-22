@@ -125,7 +125,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         widget=atapi.RichWidget(
             label=_(u"Full Description"),
-            description=_(u"The description of the video content"),
         ),
         schemata='default',        
     ),
