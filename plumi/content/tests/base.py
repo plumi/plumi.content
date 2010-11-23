@@ -45,24 +45,23 @@ def setup_product():
     ztc.installProduct('PortalTransforms') 
     # to support tests for translated vocabularies
     ztc.installProduct('PloneLanguageTool')
-    ztc.installProduct('LinguaPlone')    
+    #ztc.installProduct('LinguaPlone')    
     # Load the ZCML configuration for the example.tests package.
     # This can of course use <include /> to include other packages.
 
     import Products.ATVocabularyManager
     import plumi.content
-    import plumi.skin
+    #import plumi.skin
     fiveconfigure.debug_mode = True
     zcml.load_config('configure.zcml', Products.ATVocabularyManager)
-    zcml.load_config('configure.zcml', Products.LinguaPlone)    
     zcml.load_config('configure.zcml', plumi.content)   
-    zcml.load_config('configure.zcml', plumi.skin)       
+    #zcml.load_config('configure.zcml', Products.LinguaPlone)    
+    #zcml.load_config('configure.zcml', plumi.skin)       
     fiveconfigure.debug_mode = False
         
     ztc.installProduct('ATVocabularyManager')
-    ztc.installProduct('ATCountryWidget')
     ztc.installPackage('plumi.content')
-    ztc.installPackage('plumi.skin')    
+    #ztc.installPackage('plumi.skin')    
     
     #import plumi.app
     
@@ -97,10 +96,9 @@ setup_product()
 def installWithinPortal(portal):
     qi = getToolByName(portal, 'portal_quickinstaller')
     qi.installProduct('ATVocabularyManager')
-    qi.installProduct('LinguaPlone')    
-    qi.installProduct('ATCountryWidget')
     qi.installProduct('plumi.content')    
-    qi.installProduct('plumi.skin')        
+    #qi.installProduct('LinguaPlone')    
+    #qi.installProduct('plumi.skin')        
 
 
 def getATVM(portal):

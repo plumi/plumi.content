@@ -9,8 +9,6 @@ from zope.component import getUtility
 from Products.CMFCore.interfaces import IPropertiesTool
 from collective.transcode.star.interfaces import ITranscodeTool
 
-
-
 def plumi30to31(context, logger=None):
 
     # Migrate callout dates

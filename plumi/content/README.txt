@@ -33,8 +33,8 @@ do this using the default user from PloneTestCase:
 
     >>> browser.open(portal_url)
 
-We have the login portlet, so let's use that.
 
+    >>> browser.getLink('Log in').click()
     >>> browser.getControl(name='__ac_name').value = portal_owner
     >>> browser.getControl(name='__ac_password').value = default_password
     >>> browser.getControl(name='submit').click()
@@ -160,10 +160,10 @@ contributor role assigned.
 
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
+    >>> browser.getLink('Log in').click()
     >>> browser.getControl(name='__ac_name').value = 'contributor'
     >>> browser.getControl(name='__ac_password').value = default_password
     >>> browser.getControl(name='submit').click()
-    >>> browser.open(portal_url)
 
 We use the 'Add new' menu to add a new content item.
 
@@ -189,6 +189,7 @@ Finally, let's login back as manager.
 
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
+    >>> browser.getLink('Log in').click()
     >>> browser.getControl(name='__ac_name').value = portal_owner
     >>> browser.getControl(name='__ac_password').value = default_password
     >>> browser.getControl(name='submit').click()

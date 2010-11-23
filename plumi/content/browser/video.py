@@ -15,10 +15,14 @@ from Products.CMFCore.utils import getToolByName
 # plumi 0.3 
 from interfaces import IVideoView, ITopicsProvider
 
-
-from plumi.app.config import TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER, GENRE_FOLDER, CATEGORIES_FOLDER
 from collective.transcode.star.interfaces import ITranscodeTool
- 
+
+try:
+    from plumi.app.config import TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER, GENRE_FOLDER, CATEGORIES_FOLDER
+    TAXONOMIES = True
+except ImportError:
+    TAXONOMIES = False
+
 
 # Internationalization
 _ = i18n.MessageFactory("plumi.content")
@@ -159,6 +163,8 @@ class VideoView( BrowserView ):
     def get_categories_dict(self, cats):
         """Uses the portal vocabularies to retrieve the video categories
         """
+        if not TAXONOMIES:
+            return ()
         voc = self.vocab_tool.getVocabularyByName('video_categories')
         url = "%s/%s/%s/" % (self.portal_url,
                              TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER)
@@ -170,6 +176,8 @@ class VideoView( BrowserView ):
     def get_genres_info(self, genres):
         """Uses the portal vocabularies to retrieve the video genres
         """
+        if not TAXONOMIES:
+            return ()
         voc = self.vocab_tool.getVocabularyByName('video_genre')
         url = "%s/%s/%s/" % (self.portal_url,
                              TOPLEVEL_TAXONOMY_FOLDER, GENRE_FOLDER)
@@ -190,6 +198,8 @@ class VideoView( BrowserView ):
     def get_country_info(self, country_id):
         """Fake the genres/categories process to return the country infos
         """
+        if not TAXONOMIES:
+            return ()
         voc = self.vocab_tool.getVocabularyByName('video_countries')
         country = voc[country_id]
         url = "%s/%s/%s/" % (self.portal_url,

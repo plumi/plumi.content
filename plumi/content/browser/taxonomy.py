@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
+import types
 from zope.interface import implements
 from Products.Five.browser  import BrowserView
 from Products.CMFCore.utils import getToolByName
-from plumi.app.config import TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER, COUNTRIES_FOLDER
 from interfaces import ITopicsProvider
 
-import types
+try:
+    from plumi.app.config import TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER, COUNTRIES_FOLDER
+    TAXONOMIES = True
+except ImportError:
+    TAXONOMIES = False
+
 
 class CategoriesProvider( BrowserView ):
     """A basic implementation of a category provider
@@ -16,15 +21,18 @@ class CategoriesProvider( BrowserView ):
         super(CategoriesProvider, self).__init__(context, request)
         purl = getToolByName(context, "portal_url")
         self.portal_url = purl()
-        
         # Categories and genres utils
-        vocabulary_tool = getToolByName(context, "portal_vocabularies")
-        self.countries_voc = vocabulary_tool.getVocabularyByName('video_countries')
-        self.cats_voc = vocabulary_tool.getVocabularyByName('video_categories')
-        self.cats_url = "%s/%s/%s/" % (self.portal_url, TOPLEVEL_TAXONOMY_FOLDER, 
+        if TAXONOMIES:
+            vocabulary_tool = getToolByName(context, "portal_vocabularies")
+            self.countries_voc = vocabulary_tool.getVocabularyByName('video_countries')
+            self.cats_voc = vocabulary_tool.getVocabularyByName('video_categories')
+            self.cats_url = "%s/%s/%s/" % (self.portal_url, TOPLEVEL_TAXONOMY_FOLDER, 
                                        CATEGORIES_FOLDER)
 
     def get_categories_info(self, cats):
+        if not TAXONOMIES:
+            return dict()
+
         #make a check its a tuple        
         if type(cats) is types.TupleType:
             return (dict(id = cat_id,
@@ -38,7 +46,7 @@ class CategoriesProvider( BrowserView ):
         if not country_id or len(country_id.strip())==0 or country_id:
             return None
 
-        if country_id not in self.countries_voc:
+        if not TAXONOMIES or country_id not in self.countries_voc:
             return country_id
 
         country = self.countries_voc[country_id]

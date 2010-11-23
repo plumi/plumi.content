@@ -14,8 +14,11 @@ from Products.CMFCore.utils import getToolByName
 # plumi 0.3 
 from interfaces import ICalloutView, ITopicsProvider
 
-from plumi.app.config import TOPLEVEL_TAXONOMY_FOLDER, SUBMISSIONS_FOLDER
- 
+try:
+    from plumi.app.config import TOPLEVEL_TAXONOMY_FOLDER, SUBMISSIONS_FOLDER
+    TAXONOMIES = True
+except:
+    TAXONOMIES = False 
 
 # Internationalization
 _ = i18n.MessageFactory("plumi.content")
@@ -63,6 +66,8 @@ class CalloutView( BrowserView ):
     def get_categories_dict(self, cats):
         """Uses the portal vocabularies to retrieve the callout categories
         """
+        if not TAXONOMIES:
+            return ()
         voc = self.vocab_tool.getVocabularyByName('submission_categories')
         url = "%s/%s/%s/" % (self.portal_url,
                              TOPLEVEL_TAXONOMY_FOLDER, SUBMISSIONS_FOLDER)
