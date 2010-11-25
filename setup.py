@@ -49,11 +49,12 @@ setup(name='plumi.content',
       include_package_data=True,
       zip_safe=False,
       install_requires=['setuptools',
+                        'plone.app.discussion',
                         'Products.ATVocabularyManager',
+                        'collective.contentlicensing',
+                        'collective.transcode.star',
                         'hachoir_metadata',
                         'hachoir_parser',
-                        'plone.app.discussion',
-                        'collective.contentlicensing',
                         # -*- Extra requirements: -*-
                         ],
       tests_require=tests_require,
@@ -61,14 +62,7 @@ setup(name='plumi.content',
       test_suite = 'plumi.content.tests.test_docs.test_suite',
       entry_points="""
       # -*- entry_points -*- 
-      [distutils.setup_keywords]
-      paster_plugins = setuptools.dist:assert_string_list
-
-      [egg_info.writers]
-      paster_plugins.txt = setuptools.command.egg_info:write_arg
-
       [z3c.autoinclude.plugin]
       target = plone
       """,
-      paster_plugins = ["ZopeSkel"],
       )
