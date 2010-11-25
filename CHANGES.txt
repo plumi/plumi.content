@@ -6,7 +6,7 @@ Release for Plumi 4.0beta [Dimitris Moraitis]
 - Dropped dependency on ATCountryWidget
 - Added dependency on ATVocabularyManager
 - Moved content views from plumi.skin
-- Dropped dependencies on plumi.skin and plumi.app, plumi.content should now work as a standalone plone product
+- Dropped dependencies on plumi.skin and plumi.app
 
 0.13 (2010-10-24)
 =================

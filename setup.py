@@ -54,7 +54,6 @@ setup(name='plumi.content',
                         'hachoir_parser',
                         'plone.app.discussion',
                         'collective.contentlicensing',
-                        'collective.transcode.star',
                         # -*- Extra requirements: -*-
                         ],
       tests_require=tests_require,
