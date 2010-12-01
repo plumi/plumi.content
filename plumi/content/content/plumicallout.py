@@ -52,7 +52,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Image"),
             description=_(u"Will be shown in the call out listings, and the call out item itself. Image will be scaled to a sensible size."),
         ),
-        required=True,
+        required=False,
 	max_size = zconf.ATImage.max_image_dimension,
         validators=(('isNonEmptyFile'),('checkImageMaxSize')),
         languageIndependent=True,
@@ -70,7 +70,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Image caption"),
             description=_(u"The text caption describing the image."),
         ),
-        required=True,
+        required=False,
     ),
 
     atapi.TextField(
@@ -80,7 +80,7 @@ PlumiCallOutSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Body Text"),
             description=_(u"The main description for the callout"),
         ),
-        required=True,
+        required=False,
     ),
 
     atapi.StringField(
