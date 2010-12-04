@@ -37,6 +37,7 @@
                        portal context/@@plone_portal_state/portal;">
 		<div class="roundborder rounded">
         <div tal:replace="structure provider:plone.abovecontent" />
+        <div tal:replace="structure provider:plone.abovecontenttitle" tal:condition="not:ajax_load" />
 
         <h1 class="documentFirstHeading"> 
           <metal:field use-macro="python:here.widget('title', mode='view')">
