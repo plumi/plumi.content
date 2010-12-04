@@ -6,7 +6,7 @@
   <property name="description"
     i18n:translate=""></property>
   <property name="content_meta_type">PlumiVideo</property>
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:$portal_url/tiny_video_icon.gif</property>
   <property name="product">plumi.content</property>
   <property name="factory">addPlumiVideo</property>
   <property name="immediate_view">atct_edit</property>
