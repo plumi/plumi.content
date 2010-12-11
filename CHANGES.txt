@@ -1,12 +1,23 @@
+4.0rc1 (2010-12-12)
+===================
+
+Release for Plumi 4.0rc1 [Dimitris Moraitis]
+
+ - add buildout for standalone plumi.content [dimo]
+ - remove extra icons form event and news items [clopy]
+ - add custom icons for content types [clopy]
+ - added abovecontenttitle viewlet manager to custom view templates [clopy]
+ - remove image, caption and body text as being compulsory in callouts [clopy]
+
 4.0b1 (2010-11-23)
-====================
+==================
 
 Release for Plumi 4.0beta [Dimitris Moraitis]
 
-- Dropped dependency on ATCountryWidget
-- Added dependency on ATVocabularyManager
-- Moved content views from plumi.skin
-- Dropped dependencies on plumi.skin and plumi.app
+ - Dropped dependency on ATCountryWidget [dimo]
+ - Added dependency on ATVocabularyManager [dimo]
+ - Moved content views from plumi.skin [dimo]
+ - Dropped dependencies on plumi.skin and plumi.app [dimo]
 
 0.13 (2010-10-24)
 =================
