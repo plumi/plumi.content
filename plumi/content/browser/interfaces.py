@@ -133,6 +133,7 @@ class IAuthorPage( Interface ):
     homefolder = Attribute(u"The homefolder, if it exists, of the author.")
     # custom attributes
     author_url = Attribute(u" ")
+    author_homepages = Attribute(u" ")
     author_street = Attribute(u" ")
     author_phone = Attribute(u" ")
     author_city = Attribute(u" ")
