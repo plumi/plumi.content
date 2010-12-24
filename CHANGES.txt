@@ -1,3 +1,10 @@
+4.0rc3 (2010-12-24)
+===================
+
+Release for Plumi 4.0rc2 [Dimitris Moraitis]
+
+ - fix broken imports [dimo, clopy]
+
 4.0rc2 (2010-12-23)
 ===================
 

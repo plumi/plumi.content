@@ -10,7 +10,6 @@ from Products.CMFCore.utils import getToolByName
 
 # Locally
 from interfaces import IFeaturedVideosRetriever, IPlumiVideoBrain
-#from plumi.app.config import *
 
 
 class FeaturedVideosPage( CategoriesProvider ):

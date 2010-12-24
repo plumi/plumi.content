@@ -6,7 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from interfaces import ITopicsProvider
 
 try:
-    from plumi.app.config import TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER, COUNTRIES_FOLDER
+    from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER, COUNTRIES_FOLDER
     TAXONOMIES = True
 except ImportError:
     TAXONOMIES = False

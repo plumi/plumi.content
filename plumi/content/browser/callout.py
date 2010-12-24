@@ -11,11 +11,10 @@ from zope.component import getUtility
 from Products.CMFCore.interfaces import IPropertiesTool
 from Products.CMFCore.utils import getToolByName
 
-# plumi 0.3 
 from interfaces import ICalloutView, ITopicsProvider
 
 try:
-    from plumi.app.config import TOPLEVEL_TAXONOMY_FOLDER, SUBMISSIONS_FOLDER
+    from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, SUBMISSIONS_FOLDER
     TAXONOMIES = True
 except:
     TAXONOMIES = False 
