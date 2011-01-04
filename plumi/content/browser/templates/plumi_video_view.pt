@@ -269,15 +269,6 @@
              i18n:translate="">more info</a>
                 </td>
               </tr>
-              <tr tal:define="language view/language"
-                  tal:condition="language">
-                <th i18n:translate="">Language</th>
-                <td tal:content="language/title"
-                    tal:attributes="class string:language-${language/id}">
-                  language
-                </td>
-              </tr>
-
               <tr tal:define="dp view/post_date"
                   tal:condition="dp">
                 <th i18n:translate="">Produced</th>
