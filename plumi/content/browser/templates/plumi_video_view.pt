@@ -139,12 +139,6 @@
             </a>
           </p>
 
-          <p class="download-block">
-            <a id="vlc-link"
-               href="http://www.videolan.org">
-              <span i18n:translate="">Videos best viewed on VLC player</span>
-            </a>
-          </p>
         </div> <!-- id=video-downloads -->
       </div> <!-- id=video-core -->
 
