@@ -62,7 +62,7 @@ class VideoView( BrowserView ):
         We might want the genre to be multivalued.
         """
         genres = self.context.getGenre()
-        if genres:
+        if genres and genres not in ['none', 'aaa_none']:
             return self.get_genres_info((genres,))
         return tuple()
 
