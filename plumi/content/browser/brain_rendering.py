@@ -24,6 +24,7 @@ class PlumiVideoBrain( Explicit ):
         self.video = context
         self.url = context.getURL()
         self.video_title = context.Title or context.id or 'Untitled'
+        self.creator = context.Creator
         self.__parent__ = provider
         self.categories = provider.get_categories_info(context['getCategories'])
         self.countries = None
