@@ -1,5 +1,15 @@
+4.0.1 (2011-1-13)
+=================
+
+Release for Plumi 4.0 [Dimitris Moraitis]
+
+ - fix country lookup in taxonomies [clopy]
+ - dont display the none genre [dimo]
+ - remove vlc link [dimo]
+ - fix a couple of taxonomy issues [clopy]
+
 4.0 (2010-12-30)
-===================
+================
 
 Release for Plumi 4.0 [Dimitris Moraitis]
 
@@ -19,7 +29,6 @@ Release for Plumi 4.0rc2 [Dimitris Moraitis]
 
  - Added abovecontenttitle viewlet on video listings [clopy]
  - Added homepages as a lines field to memberdata, which is aimed at containing URL's of members other homepages, for example Facebook, Myspace, Twitter, Kaskus etc that will later be jazzed up in author.cpt [axxs]
-
 
 4.0rc1 (2010-12-12)
 ===================
