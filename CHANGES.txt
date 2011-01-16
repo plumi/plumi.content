@@ -1,18 +1,13 @@
-4.0.1 (2011-1-13)
+4.0.2 (2011-1-16)
 =================
 
 Release for Plumi 4.0 [Dimitris Moraitis]
 
+ - fix country and category links when em.taxonomies not installed [dimo]
  - fix country lookup in taxonomies [clopy]
  - dont display the none genre [dimo]
  - remove vlc link [dimo]
  - fix a couple of taxonomy issues [clopy]
-
-4.0 (2010-12-30)
-================
-
-Release for Plumi 4.0 [Dimitris Moraitis]
-
  - reverted accidental commit, remove author and date from video listings [clopy]
 
 4.0rc3 (2010-12-24)
