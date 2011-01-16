@@ -7,6 +7,7 @@ from plumi.content.browser.interfaces import IAbstractCatalogBrain
 from interfaces import IPlumiVideoBrain, ITopicsProvider
 from zope.component import getUtility
 from Products.CMFCore.interfaces import IPropertiesTool
+from plumi.content.browser.video import VideoView
 from collective.transcode.star.interfaces import ITranscodeTool
 
 class PlumiVideoBrain( Explicit ):
@@ -25,10 +26,7 @@ class PlumiVideoBrain( Explicit ):
         self.url = context.getURL()
         self.video_title = context.Title or context.id or 'Untitled'
         self.__parent__ = provider
-        self.categories = provider.get_categories_info(context['getCategories'])
-        self.countries = None
         self.request = getattr(self.context, "REQUEST", None)
-        pprop = getUtility(IPropertiesTool)
         self.tt = getUtility(ITranscodeTool)
 
     def render_listing(self):
@@ -41,8 +39,12 @@ class PlumiVideoBrain( Explicit ):
         return self.template.__of__(self.request)(show_title=False,feature_video=True)
 
     @property
-    def country_dict(self):
-        return self.__parent__.get_country_info(self.video['getCountries'])
+    def categories(self):
+        return VideoView(self.__parent__.context,self.__parent__.request).get_categories_dict(self.video['getCategories'])
+
+    @property
+    def country(self):
+        return VideoView(self.__parent__.context,self.__parent__.request).get_country_info(self.video['getCountries'])
 
     @property
     def post_date(self):

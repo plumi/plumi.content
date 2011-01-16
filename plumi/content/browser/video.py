@@ -166,24 +166,28 @@ class VideoView( BrowserView ):
     def get_categories_dict(self, cats):
         """Uses the portal vocabularies to retrieve the video categories
         """
-        if not TAXONOMIES:
-            return ()
         voc = self.vocab_tool.getVocabularyByName('video_categories')
-        url = "%s/%s/%s/" % (self.portal_url,
+
+        if not TAXONOMIES:
+            url = "%s/search?getCategories=" % (self.portal_url)
+	else:
+            url = "%s/%s/%s/" % (self.portal_url,
                              TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER)
         return (dict(id = cat_id,
                      url = url + cat_id,
-                     title = voc[cat_id].Title()) for cat_id in cats)
+                     title = voc.get(cat_id,None) and voc[cat_id].Title()) for cat_id in cats)
 
     
     def get_genres_info(self, genres):
         """Uses the portal vocabularies to retrieve the video genres
         """
-        if not TAXONOMIES:
-            return ()
         voc = self.vocab_tool.getVocabularyByName('video_genre')
-        url = "%s/%s/%s/" % (self.portal_url,
-                             TOPLEVEL_TAXONOMY_FOLDER, GENRE_FOLDER)
+
+        if not TAXONOMIES:
+            url = "%s/search?getGenre=" % self.portal_url
+	else:
+            url = "%s/%s/%s/" % (self.portal_url,
+                                 TOPLEVEL_TAXONOMY_FOLDER, GENRE_FOLDER)
         return (dict(id = genre_id,
                      url = url + genre_id,
                      title = voc[genre_id].Title()) for genre_id in genres)
@@ -201,12 +205,14 @@ class VideoView( BrowserView ):
     def get_country_info(self, country_id):
         """Fake the genres/categories process to return the country infos
         """
-        if not TAXONOMIES:
-            return ()
         voc = self.vocab_tool.getVocabularyByName('video_countries')
         country = voc[country_id]
-        url = "%s/%s/%s/" % (self.portal_url,
-                             TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER)
+
+        if not TAXONOMIES:
+            url = "%s/search?getCountries=" % self.portal_url
+        else:
+            url = "%s/%s/%s/" % (self.portal_url,
+                                 TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER)
         return dict(id = country_id,
                     url = url + country_id,
                     title = country.Title())

@@ -157,7 +157,7 @@
             <ul>
               <li tal:repeat="genre genres">
                 <a href="" title="" id="" tal:condition="python: genre['id'] != 'aaa_none'"
-                   tal:attributes="href genre/url;
+                   tal:attributes="href genre/url|nothing;
                                    id genre/id;
                                    title genre/title;
                                    class string:genre-${genre/id};"
@@ -175,7 +175,7 @@
             <ul>
               <li tal:repeat="cat categories">
                 <a href="" title="" id=""
-                   tal:attributes="href cat/url;
+                   tal:attributes="href cat/url|nothing;
                                    id cat/id;
                                    title cat/title;
                                    class string:category-${cat/id};"
@@ -210,7 +210,7 @@
           <dd>
             <ul>
               <li>
-                <a tal:attributes="href country/url;
+                <a tal:attributes="href country/url|nothing;
                                    class string:country-${country/id}"
                    tal:content="country/title">countryname</a>
               </li>
