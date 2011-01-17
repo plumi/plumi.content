@@ -142,6 +142,7 @@ class IAuthorPage( Interface ):
     author_activities = Attribute(u" ")
     author_media_formats = Attribute(u" ")
     author_userbio = Attribute(u" ")
+    author_paypal = Attribute(u" ")
 
 class IVideosProvider( Interface ):
     u"""This interface defines a content types able to generate a list of
