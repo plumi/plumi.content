@@ -113,9 +113,8 @@
             </script>
 
         <a class="download" 
-           tal:define="bt_info view/bt_availability"
-           tal:condition="bt_info/available"
-           tal:attributes="href bt_info/url"> 
+           tal:condition="view/has_torrent"
+           tal:attributes="href string:${here/absolute_url}/@@download_torrent/${context/video_file/filename}"> 
           <img alt="" src=""
                tal:replace="structure here/torrent.png" 
            i18n:translate=""/>

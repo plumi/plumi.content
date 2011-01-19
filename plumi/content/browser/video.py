@@ -7,7 +7,7 @@ from Products.Five.browser  import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
-
+from plone.registry.interfaces import IRegistry 
 # CMF
 from Products.CMFCore.interfaces import IPropertiesTool
 from Products.CMFCore.utils import getToolByName
@@ -15,6 +15,7 @@ from Products.CMFCore.utils import getToolByName
 from interfaces import IVideoView, ITopicsProvider
 
 from collective.transcode.star.interfaces import ITranscodeTool
+import os.path
 
 try:
     from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER, GENRE_FOLDER, CATEGORIES_FOLDER
@@ -244,6 +245,19 @@ class VideoView( BrowserView ):
         if imgfield is None or imgfield is '' or imgfield.getSize(self.context) == (0, 0):
                 return False
         return True
+
+    @property
+    def has_torrent(self):
+        try:
+            registry = getUtility(IRegistry)
+            torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.torrent_dir']
+            torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename())
+            if os.path.exists(torrentPath):
+                return True
+            else:
+                return False
+        except:
+            return False
 
 class flowplayerConfig( BrowserView ):
     def transcoding(self, profile):
