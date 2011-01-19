@@ -25,6 +25,7 @@ class PlumiVideoBrain( Explicit ):
         self.video = context
         self.url = context.getURL()
         self.video_title = context.Title or context.id or 'Untitled'
+        self.creator = context.Creator
         self.__parent__ = provider
         self.request = getattr(self.context, "REQUEST", None)
         self.tt = getUtility(ITranscodeTool)

@@ -74,6 +74,10 @@ class AuthorPage( CategoriesProvider ):
 	return self.member.getProperty('userbio')
 
     @property
+    def author_paypal(self):
+	return self.member.getProperty('paypal')
+
+    @property
     def videos(self):
         query = dict(portal_type='PlumiVideo',
                      sort_on='effective',

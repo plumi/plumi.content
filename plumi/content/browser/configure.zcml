@@ -25,6 +25,10 @@
  <adapter factory=".adapters.OrderedFolderVideosProvider"
            provides=".interfaces.IVideosProvider" />
 
+  <permission
+    id="plumi.content.retranscodevideopermission"
+    title="plumi.content: ReTranscode Video" />
+
   <!-- Resource directory for flowplayer -->
   <browser:resourceDirectory
       name="plumi.content.flowplayer"
@@ -56,7 +60,7 @@
     name="reTranscode"
     for="plumi.content.interfaces.IPlumiVideo"
     class=".reTranscode.reTranscode"
-    permission="cmf.ModifyPortalContent"
+    permission="plumi.content.retranscodevideopermission"
     template="reTranscode.pt"
     />
 

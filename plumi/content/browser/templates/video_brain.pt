@@ -55,7 +55,10 @@
   <span class="featuredItemDetailsPosted discreet" i18n:translate="">
     Posted:
     <tal:date content="view/post_date" i18n:name="PostedDate"/>
+     by <a tal:attributes="href string:${context/portal_url}/author/${view/creator}" 
+           tal:content="view/creator" />
   </span>
+
 
   <p class="discreet plumi-nice-description rounded" tal:condition="not:options/feature_video">
     <tal:desc tal:content="video/Description" />

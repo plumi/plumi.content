@@ -133,7 +133,8 @@ class PlumiCallOut(base.ATCTContent):
 
     schema = PlumiCallOutSchema
     schema.changeSchemataForField('location', 'default') 
-    schema.moveField('location', after='description')
+    schema.moveField('bodyText', after='description')
+    schema.moveField('location', after='bodyText')
     schema.changeSchemataForField('expirationDate', 'default') 
     schema.moveField('expirationDate', after='closingDate')
 

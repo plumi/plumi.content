@@ -24,5 +24,10 @@
       <role name="Member"/>
       <role name="Owner"/>
     </permission>
+    <permission name="plumi.content: ReTranscode Video" acquire="False">
+      <role name="Manager" />
+      <role name="Editor" />
+      <role name="Reviewer" />
+    </permission>
   </permissions>
 </rolemap>

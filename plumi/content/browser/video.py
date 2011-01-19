@@ -101,14 +101,16 @@ class VideoView( BrowserView ):
         mtool  = getToolByName(self.context, "portal_membership")
         member = mtool.getAuthenticatedMember()
         mb_id  = member.getUserName()
-        
-        is_manager = 'Manager' in member.getRoles()
+        member_roles = member.getRoles()
+
+        is_manager = 'Manager' in member_roles
+        is_reviewer = 'Reviewer' in member_roles
         is_owner   = mb_id in self.context.users_with_local_role('Owner')
         #return is_manager or is_owner
         #XXX make this an configurable option, ie settable thru a configelet whether or not owner can see 
         #this template
-        #but for now just make it is_manager
-        return is_manager
+        #but for now just make it is_manager or is_reviewer
+        return is_manager or is_reviewer
 
     @property
     def bt_availability(self):
