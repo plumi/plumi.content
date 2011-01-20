@@ -123,6 +123,7 @@
            i18n:translate=""/>
           Download via BitTorrent
         </a>
+        (S: <span class="download" tal:content="view/seeders"></span>)
 
         <div id="video-downloads">
           <p class="download-block"> 

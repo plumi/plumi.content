@@ -16,6 +16,8 @@ from interfaces import IVideoView, ITopicsProvider
 
 from collective.transcode.star.interfaces import ITranscodeTool
 import os.path
+import bencode, hashlib
+from subprocess import Popen, PIPE
 
 try:
     from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER, GENRE_FOLDER, CATEGORIES_FOLDER
@@ -257,6 +259,29 @@ class VideoView( BrowserView ):
                 return False
         except:
             return False
+    @property
+    def seeders(self):
+        try:
+            torrent_dir = 'torrent_downloads'
+            torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent'
+            if os.path.exists(torrentPath):
+                dataf = open(torrentPath,"rb").read()
+                infos = bencode.bdecode(dataf)['info']
+                torrent_id = hashlib.sha1(bencode.bencode(infos)).hexdigest()
+                torrent_info_args = ['deluge-console', 'info' , torrent_id]
+                output = Popen(torrent_info_args, stdout=PIPE).communicate()[0]
+                start = output.find(self.context.UID())
+                output2 = output[start:]
+                end = output2.find(') Peers')
+                output3 = output2[:end]
+                start2 = output3.find('(')
+                seeders = output3[(start2+1):]
+                return seeders
+            else:
+                return 0
+        except:
+            return 0
+
 
 class flowplayerConfig( BrowserView ):
     def transcoding(self, profile):
