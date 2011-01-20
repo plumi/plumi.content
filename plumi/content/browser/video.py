@@ -16,7 +16,6 @@ from interfaces import IVideoView, ITopicsProvider
 
 from collective.transcode.star.interfaces import ITranscodeTool
 import os.path
-import bencode, hashlib
 from subprocess import Popen, PIPE
 
 try:
@@ -265,10 +264,7 @@ class VideoView( BrowserView ):
             torrent_dir = 'torrent_downloads'
             torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent'
             if os.path.exists(torrentPath):
-                dataf = open(torrentPath,"rb").read()
-                infos = bencode.bdecode(dataf)['info']
-                torrent_id = hashlib.sha1(bencode.bencode(infos)).hexdigest()
-                torrent_info_args = ['deluge-console', 'info' , torrent_id]
+                torrent_info_args = ['deluge-console', 'info']
                 output = Popen(torrent_info_args, stdout=PIPE).communicate()[0]
                 start = output.find(self.context.UID())
                 output2 = output[start:]
