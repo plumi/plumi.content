@@ -250,7 +250,7 @@ class VideoView( BrowserView ):
     def has_torrent(self):
         try:
             torrent_dir = 'torrent_downloads'
-            torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename())
+            torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent'
             if os.path.exists(torrentPath):
                 return True
             else:
