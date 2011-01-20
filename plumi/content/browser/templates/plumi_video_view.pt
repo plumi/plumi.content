@@ -63,6 +63,7 @@
           <div id="video-core" tal:define="transcoded python:view.transcoding('ogg') and view.transcoding('mp4');
                                      mp4 python:view.transcoding('mp4').replace('+','%2B'); 
                                      ogg python:view.transcoding('ogg');
+                                     low python:view.transcoding('low');
                                      thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_mini' or '';
                                      fullThumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage' or ''">
 
@@ -82,10 +83,12 @@
               </a>
             </tal:failed_transcode>
 
-            <!-- fallback for browsers who don't support video tag -->
+
                <a tal:attributes="href mp4" id="player-videoview" tal:condition="mp4" >
                </a>             
-            
+               <a tal:attributes="href low" id="player-low" tal:condition="low" >Slow Connection? Try a lower resolution.
+               </a>
+            <!-- fallback for browsers who don't support video tag -->            
         <video controls width="400" height="300" tal:condition="nothing"
                tal:attributes="poster string:${here/absolute_url}/thumbnailImage">
             <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />               
