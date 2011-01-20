@@ -249,8 +249,7 @@ class VideoView( BrowserView ):
     @property
     def has_torrent(self):
         try:
-            registry = getUtility(IRegistry)
-            torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.torrent_dir']
+            torrent_dir = 'torrent_downloads'
             torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename())
             if os.path.exists(torrentPath):
                 return True
