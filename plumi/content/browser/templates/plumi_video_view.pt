@@ -95,6 +95,8 @@
                </a>             
                <a tal:attributes="href string:#" id="player-low" tal:condition="low">Slow Connection? Try a lower resolution.
                </a>
+               <a tal:attributes="href string:##" id="player-high" tal:condition="mp4" style='display:none;'>Click here to view a higher resolution.
+               </a>
             <!-- fallback for browsers who don't support video tag -->            
         <video controls width="400" height="300" tal:condition="nothing"
                tal:attributes="poster string:${here/absolute_url}/thumbnailImage">
@@ -108,7 +110,7 @@
                     <textarea rows="2" onclick="this.focus();this.select();"><span tal:replace="string:<iframe src='${here/absolute_url}/embed_view' frameborder='0' width='400' height='300'></iframe>" /></textarea>
              </div>
              <script language="JavaScript" tal:define="thumbstr python: thumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or ''"
-                tal:content="string:  if ('${low}') { if ($.cookie('videores') == 'low') { videourl = '${low}' } else {  videourl = '${mp4}' } } else {  videourl = '${mp4}' }
+                tal:content="string:  if ('${low}') { if ($.cookie('videores') == 'low') { videourl = '${low}'; $('#player-high')[0].style.display = ''; $('#player-low')[0].style.display = 'none' } else {  videourl = '${mp4}' } } else {  videourl = '${mp4}' }
                 flowplayer('player-videoview','${portal/absolute_url}/%2B%2Bresource%2B%2Bplumi.content.flowplayer/flowplayer-3.2.2.swf',{
                    playlist:[
                             $thumbstr
@@ -124,7 +126,19 @@
              <script language="JavaScript" tal:content="string:$(function(){
                     $('#player-low').click(function () {
                       $.cookie('videores', 'low');
+                      $('#player-high')[0].style.display = ''; 
+                      $('#player-low')[0].style.display = 'none';
                       flowplayer(0).play({url:'${low}'});
+                      return false
+                    });
+                });">
+             </script>
+             <script language="JavaScript" tal:content="string:$(function(){
+                    $('#player-high').click(function () {
+                      $.cookie('videores', 'mp4');
+                      $('#player-high')[0].style.display = 'none'; 
+                      $('#player-low')[0].style.display = '';
+                      flowplayer(0).play({url:'${mp4}'});
                       return false
                     });
                 });">
