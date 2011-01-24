@@ -6,4 +6,7 @@
  <javascript cacheable="True" compression="none" cookable="True"
      enabled="True" expression=""
          id="++resource++plumi.content.flowplayer/flowplayer.embed-3.0.3.min.js" inline="False"/>
+ <javascript cacheable="True" compression="none" cookable="True"
+     enabled="True" expression=""
+         id="++resource++plumi.content.flowplayer/jquery.cookie.js" inline="False"/>
 </object>

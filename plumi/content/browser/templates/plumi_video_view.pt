@@ -91,10 +91,9 @@
               </a>
             </tal:failed_transcode>
 
-
                <a tal:attributes="href mp4" id="player-videoview" tal:condition="mp4" >
                </a>             
-               <a tal:attributes="href low" id="player-low" tal:condition="low" >Slow Connection? Try a lower resolution.
+               <a tal:attributes="href string:#" id="player-low" tal:condition="low">Slow Connection? Try a lower resolution.
                </a>
             <!-- fallback for browsers who don't support video tag -->            
         <video controls width="400" height="300" tal:condition="nothing"
@@ -109,12 +108,12 @@
                     <textarea rows="2" onclick="this.focus();this.select();"><span tal:replace="string:<iframe src='${here/absolute_url}/embed_view' frameborder='0' width='400' height='300'></iframe>" /></textarea>
              </div>
              <script language="JavaScript" tal:define="thumbstr python: thumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or ''"
-                tal:content="string:  
+                tal:content="string:  if ($.cookie('videores') == 'low') { videourl = '${low}' } else {  videourl = '${mp4}' }
                 flowplayer('player-videoview','${portal/absolute_url}/%2B%2Bresource%2B%2Bplumi.content.flowplayer/flowplayer-3.2.2.swf',{
                    playlist:[
                             $thumbstr
                         {
-                            url:'${mp4}',
+                            url:videourl,
                             autoPlay:false,
                             autoBuffering:false,
                             bufferLength:5
@@ -122,7 +121,14 @@
                     ]  
                 }); ">
             </script>
-
+             <script language="JavaScript" tal:content="string:$(function(){
+                    $('#player-low').click(function () {
+                      $.cookie('videores', 'low');
+                      flowplayer(0).play({url:'${low}'});
+                      return false
+                    });
+                });">
+             </script>
         <div id="video-downloads">
           <p class="download-block"> 
             <a id="download-link"
