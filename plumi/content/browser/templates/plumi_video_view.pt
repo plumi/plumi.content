@@ -18,9 +18,17 @@
     <meta name="description" tal:attributes="content here/description" />
     <link rel="image_src" tal:condition="view/hasThumbnailImage" tal:attributes="href string:${here/absolute_url}/thumbnailImage_mini" />
     <link rel="video_src" tal:attributes="href string:${swfplayer}?config={'embedded':'true','clip':'${mp4}','plugins':{'controls':{'url':'${swfcontrols}'}}}" /> 
-    <meta name="video_height" content="300" /> <!-- TODO make these consistent across the board -->
+    <meta name="video_height" content="300" /> 
     <meta name="video_width" content="400" />
     <meta name="video_type" content="application/x-shockwave-flash" />
+    <meta property="og:title" content="title" tal:attributes="content here/title" />
+    <meta property="og:description" content="description" tal:attributes="content here/description" />
+    <meta property="og:image" content="thumbnail" tal:condition="view/hasThumbnailImage" tal:attributes="content string:${here/absolute_url}/thumbnailImage_mini" />
+    <meta property="og:video" content="video" tal:attributes="content string:${swfplayer}?config={'embedded':'true','clip':'${mp4}','plugins':{'controls':{'url':'${swfcontrols}'}}}"/>
+    <meta name="og:video:height" content="300" /> 
+    <meta name="og:video:width" content="400" />
+
+
 </tal:block>
 <head>
     <metal:block fill-slot="column_two_slot" />
@@ -115,16 +123,6 @@
                 }); ">
             </script>
 
-        <a class="download" 
-           tal:condition="view/has_torrent"
-           tal:attributes="href string:${here/absolute_url}/@@download_torrent/${context/video_file/filename}"> 
-          <img alt="" src=""
-               tal:replace="structure here/torrent.png" 
-           i18n:translate=""/>
-          Download via BitTorrent
-        </a>
-        (S: <span class="download" tal:content="view/seeders"></span>)
-
         <div id="video-downloads">
           <p class="download-block"> 
             <a id="download-link"
@@ -135,6 +133,18 @@
                   tal:define="fsiz here/getObjSize"
                   tal:content="string:($fsiz)" />
           </p>
+
+          <p class="download-block" tal:condition="view/has_torrent">
+           <a id="torrent-link"
+             tal:attributes="href string:${here/absolute_url}/@@download_torrent/${context/video_file/filename}">
+            <img alt="" src=""
+                 tal:replace="structure here/torrent.png"
+             i18n:translate=""/>
+            Download via BitTorrent
+          </a>
+          <span tal:condition="view/has_torrent"> (Seeders: <span class="download" tal:content="view/seeders"></span>)</span>
+          </p>
+
           <p class="download-block" tal:condition="ogg">
             <a id="ogg-link"
                 tal:attributes="href ogg" i18n:translate="">
