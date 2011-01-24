@@ -238,6 +238,7 @@ class VideoView( BrowserView ):
             date = self.context.created()
         return self.context.toLocalizedTime(date)
 
+
     def hasThumbnailImage(self):
         if getattr(self.context,'thumbnailImage',None) is None:
                 return False
@@ -250,7 +251,8 @@ class VideoView( BrowserView ):
     @property
     def has_torrent(self):
         try:
-            torrent_dir = 'torrent_downloads'
+            registry = getUtility(IRegistry)
+            torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
             torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent'
             if os.path.exists(torrentPath):
                 return True
@@ -261,7 +263,8 @@ class VideoView( BrowserView ):
     @property
     def seeders(self):
         try:
-            torrent_dir = 'torrent_downloads'
+            registry = getUtility(IRegistry)
+            torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
             torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent'
             if os.path.exists(torrentPath):
                 torrent_info_args = ['deluge-console', 'info']

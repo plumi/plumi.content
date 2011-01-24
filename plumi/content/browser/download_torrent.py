@@ -25,12 +25,11 @@ class DownloadTorrent(BrowserView):
             self.fieldname = name
         else:
             raise NotFound(self, name, request)
-        
         return self
 
     def __call__(self):
         registry = getUtility(IRegistry)
-        torrent_dir = 'torrent_downloads'
+        torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
         torrentName = self.context.UID() + '_' + self.context.video_file.getFilename() + '.torrent'
         torrentPath = os.path.join(torrent_dir, torrentName)
 

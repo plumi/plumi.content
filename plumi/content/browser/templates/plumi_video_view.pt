@@ -132,14 +132,11 @@
             <span class="discreet"
                   tal:define="fsiz here/getObjSize"
                   tal:content="string:($fsiz)" />
-          </p>
+          </p>            
 
           <p class="download-block" tal:condition="view/has_torrent">
            <a id="torrent-link"
              tal:attributes="href string:${here/absolute_url}/@@download_torrent/${context/video_file/filename}">
-            <img alt="" src=""
-                 tal:replace="structure here/torrent.png"
-             i18n:translate=""/>
             Download via BitTorrent
           </a>
           <span tal:condition="view/has_torrent"> (Seeders: <span class="download" tal:content="view/seeders"></span>)</span>
