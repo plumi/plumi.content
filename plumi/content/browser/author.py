@@ -103,7 +103,7 @@ class AuthorPage( CategoriesProvider ):
         query = dict(portal_type='PlumiVideo',
                      sort_on='effective',
                      sort_order='reverse',
-                     Owner=self.author,
+                     Creator=self.author,
                      review_state=['published','featured'])
         brains = self.catalog(**query)[:5]
         return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
@@ -136,7 +136,7 @@ class AuthorPage( CategoriesProvider ):
         query = dict(portal_type='News Item',
                      sort_on='effective',
                      sort_order='reverse',
-                     Owner=self.author,
+                     Creator=self.author,
                      review_state=['published','featured'])
         brains = self.catalog(**query)[:5]
         return brains
@@ -146,7 +146,7 @@ class AuthorPage( CategoriesProvider ):
         query = dict(portal_type='Event',
                      sort_on='effective',
                      sort_order='reverse',
-                     Owner=self.author,
+                     Creator=self.author,
                      review_state=['published','featured'])
         brains = self.catalog(**query)[:5]
         return brains
