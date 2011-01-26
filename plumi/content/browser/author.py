@@ -35,6 +35,27 @@ class AuthorPage( CategoriesProvider ):
                 return url
 
     @property
+    def author_homepages_display(self):
+        u""" this should contain logic for working out popular 
+        social network URL's for later enhancements 
+        """
+        full_urls = []
+        for url in self.member.getProperty('homepages'):
+            if len(url)> 0 and not url[:7]=='http://':
+                    full_urls.append('http://'+url)
+            else:
+                    full_urls.append(url)
+        return full_urls
+
+    @property
+    def author_homepages(self):
+        for url in self.member.getProperty('homepages'):
+            if len(url)> 0 and not url[:7]=='http://':
+                return 'http://'+url
+            else:
+                return url
+
+    @property
     def author_street(self):
 	return self.member.getProperty('street')
 
