@@ -15,7 +15,6 @@
 <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
   <element value="Discussion Item"/>
-  <element value="Plumi Callout Folder"/>
   <element value="PlumiCallOut"/>
  </property>
   <property name="allow_discussion">True</property>
