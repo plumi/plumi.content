@@ -57,6 +57,7 @@
     <tal:date content="view/post_date" i18n:name="PostedDate"/>
      by <a tal:attributes="href string:${context/portal_url}/author/${view/creator}" 
            tal:content="view/creator" />
+    with <span tal:replace="view/total_comments">1</span> comments
   </span>
 
 
