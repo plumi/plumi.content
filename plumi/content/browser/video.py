@@ -238,14 +238,13 @@ class VideoView( BrowserView ):
     def authors_latest(self):
         catalog = getToolByName(self.context, "portal_catalog")
         query = dict(portal_type='PlumiVideo',
-                     Creator=self.context.Creator(),
+                     Creator=self.context.video_file.Creator(),
                      sort_on='effective',
                      sort_order='reverse',
                      review_state=['published','featured'])
-        selection = len(query)
-        if selection >= 5:
+        try:
             brains = sample(catalog(**query),5)
-        else:
+        except:
             brains = catalog(**query)
         return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
                 for brain in brains]
