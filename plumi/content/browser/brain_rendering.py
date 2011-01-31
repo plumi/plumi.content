@@ -46,6 +46,8 @@ class PlumiVideoBrain( Explicit ):
 
     @property
     def country(self):
+	if self.video['getCountries'] == '':
+	    return None
         return VideoView(self.__parent__.context,self.__parent__.request).get_country_info(self.video['getCountries'])
 
     @property

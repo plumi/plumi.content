@@ -86,6 +86,8 @@ class VideoView( BrowserView ):
             return None
         if country_id == 'OO':
             return None
+	if country_id == '':
+	    return None
         if country_id:
             return self.get_country_info(country_id)
         return None
@@ -292,7 +294,10 @@ class VideoView( BrowserView ):
                 end = output2.find(') Peers')
                 output3 = output2[:end]
                 start2 = output3.find('(')
-                seeders = output3[(start2+1):]
+		if output3[(start2+1):] == '':
+		    seeders = 0
+		else:
+                    seeders = output3[(start2+1):]
                 return seeders
             else:
                 return 0
