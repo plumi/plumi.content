@@ -369,9 +369,28 @@
         </div> <!-- id=video-transcoding -->
         </div> <!-- transcoding rights tal -->
         
-      
 	</div>
 
+<div id="authors_latest" tal:define="other_videos  view/authors_latest|nothing">
+    <h3 tal:condition="other_videos">Other videos by this author.</h3>
+<ul>
+    <li tal:repeat="video other_videos">
+        <h4>
+            <a class="video-download" title="View details about this video"
+                                        tal:attributes="href string:${video/url}/view;">
+                <img title="" alt="" tal:attributes="src string:${video/url}/thumbnailImage_thumb" />
+            </a>
+            <span class="featuredItemTitle" href="" tal:content="video/video_title"
+                                                 tal:attributes="href string:${video/url}/view;
+                                                                 title video/video_title" />
+        </h4>
+        <p class="discreet">
+        Posted on <span tal:replace="video/post_date" />
+        </p>
+    </li>
+</ul>
+
+</div>      
     </tal:main-macro>
 </metal:main>
 

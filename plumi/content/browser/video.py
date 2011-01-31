@@ -12,11 +12,15 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces import IPropertiesTool
 from Products.CMFCore.utils import getToolByName
 
+from zope.component import queryMultiAdapter
+from interfaces import IAuthorPage, IPlumiVideoBrain
+
 from interfaces import IVideoView, ITopicsProvider
 
 from collective.transcode.star.interfaces import ITranscodeTool
 import os.path
 from subprocess import Popen, PIPE
+from random import sample
 
 try:
     from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER, GENRE_FOLDER, CATEGORIES_FOLDER
@@ -230,6 +234,21 @@ class VideoView( BrowserView ):
         return dict(id = lang_id,
                     url = None,
                     title = language)
+
+    def authors_latest(self):
+        catalog = getToolByName(self.context, "portal_catalog")
+        query = dict(portal_type='PlumiVideo',
+                     Creator=self.context.Creator(),
+                     sort_on='effective',
+                     sort_order='reverse',
+                     review_state=['published','featured'])
+        selection = len(query)
+        if selection >= 5:
+            brains = sample(catalog(**query),5)
+        else:
+            brains = catalog(**query)
+        return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
+                for brain in brains]
 
     @property
     def post_date(self):
