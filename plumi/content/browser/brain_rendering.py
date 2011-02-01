@@ -42,13 +42,13 @@ class PlumiVideoBrain( Explicit ):
 
     @property
     def categories(self):
-        if self.video['getCategories'] == 'none':
-            return None
+        if self.video['getCategories'] == 'none' or self.video['getCategories'] == ():
+            return tuple()
         return VideoView(self.__parent__.context,self.__parent__.request).get_categories_dict(self.video['getCategories'])
 
     @property
     def country(self):
-        if self.video['getCountries'] == '':
+        if self.video['getCountries'] == '' or self.video['getCountries'] == 'none':
             return None
         return VideoView(self.__parent__.context,self.__parent__.request).get_country_info(self.video['getCountries'])
 
