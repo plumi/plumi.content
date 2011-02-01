@@ -10,6 +10,7 @@ from Products.CMFCore.utils import getToolByName
 
 # Locally
 from interfaces import IFeaturedVideosRetriever, IPlumiVideoBrain
+from DateTime.DateTime import DateTime
 
 
 class FeaturedVideosPage( CategoriesProvider ):
@@ -76,9 +77,12 @@ class FeaturedVideosPage( CategoriesProvider ):
 
     @property
     def callouts(self):
-        filtering = dict(portal_type=['PlumiCallOut'],
+        filtering = dict(portal_type='PlumiCallOut',
                          sort_on='effective',
                          sort_order='reverse',
                          review_state='featured',
                          limit=1)
-        return self.catalog(filtering)[:1]
+        for callout in self.catalog(filtering):
+            if callout['expires'] > DateTime():
+                return callout
+        return None
