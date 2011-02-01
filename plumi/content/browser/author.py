@@ -114,7 +114,7 @@ class AuthorPage( CategoriesProvider ):
         query = dict(portal_type='PlumiCallOut',
                      sort_on='effective',
                      sort_order='reverse',
-                     Owner=self.author,
+                     Creator=self.author,
                      review_state=['published','featured'])
         brains = self.catalog(**query)[:5]
         return brains
