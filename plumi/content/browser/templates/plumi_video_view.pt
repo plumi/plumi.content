@@ -378,7 +378,8 @@
         <h4>
             <a class="video-download" title="View details about this video"
                                         tal:attributes="href string:${video/url}/view;">
-                <img title="" alt="" tal:attributes="src string:${video/url}/thumbnailImage_thumb" />
+                <img title="" alt="" tal:attributes="alt video/video_title;
+                                                     src string:${video/url}/thumbnailImage_thumb" />
             </a>
             <span class="featuredItemTitle" href="" tal:content="video/video_title"
                                                  tal:attributes="href string:${video/url}/view;
