@@ -234,20 +234,24 @@ class VideoView( BrowserView ):
                     title = language)
 
     def authors_latest(self):
+        folder_path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
         catalog = getToolByName(self.context, "portal_catalog")
         query = dict(portal_type='PlumiVideo',
-                     Creator=self.context.Creator(),
+                     path={'query': folder_path, 'depth': 1},
                      sort_on='effective',
                      sort_order='reverse',
                      review_state=['published','featured'])
-        res = []
-        for brain in catalog(**query):
-            if not brain.UID in self.context.UID():
-                res.append(brain)
         try:
-            brains = sample(res,5)
+            brains = sample(catalog(**query),5)
         except:
-            brains = res
+            res = []
+            for brain in catalog(**query):
+                if not brain.UID in self.context.UID():
+                    #XXX this is not nice, tho limited to less than five getObjects it should be improved
+                    item = brain.getObject()
+                    if item.getThumbnailImage() is not None and item.getThumbnailImage() is not '': 
+                        res.append(brain)
+                brains = res
         return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
                 for brain in brains]
 
