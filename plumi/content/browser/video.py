@@ -251,7 +251,7 @@ class VideoView( BrowserView ):
                     item = brain.getObject()
                     if item.getThumbnailImage() is not None and item.getThumbnailImage() is not '': 
                         res.append(brain)
-                brains = res
+            brains = res
         return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
                 for brain in brains]
 
