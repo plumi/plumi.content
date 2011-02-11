@@ -1,3 +1,12 @@
+4.1 RC (2011-2-11)
+===============
+
+Release for Plumi 4.1 RC [unweb.me]
+
+ - Authors latest videos lookup changed to path restriction rather than creator [axxs]
+ - Added alt tag to thumbnail image [axxs]
+ - small fix on indentation as newly created video's resulted in an error, the brains variable was not defined [axxs]
+
 4.1b1 (2011-02-01)
 ==================
 
