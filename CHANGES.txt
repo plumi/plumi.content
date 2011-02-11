@@ -1,5 +1,5 @@
-4.1 RC (2011-2-11)
-===============
+4.1rc1 (2011-02-11)
+====================
 
 Release for Plumi 4.1 RC [unweb.me]
 
@@ -7,10 +7,11 @@ Release for Plumi 4.1 RC [unweb.me]
  - Added alt tag to thumbnail image [axxs]
  - small fix on indentation as newly created video's resulted in an error, the brains variable was not defined [axxs]
 
+
 4.1b1 (2011-02-01)
 ==================
 
-Release for Plumi 4.1b1 [Dimitris Moraitis]
+Release for Plumi 4.1b1 [unweb.me]
 
  - don't show categories if none is selected [clopy]
  - clean up vocabularies [clopy]
@@ -41,7 +42,7 @@ Release for Plumi 4.1b1 [Dimitris Moraitis]
 4.0.2 (2011-01-16)
 ==================
 
-Release for Plumi 4.0 [Dimitris Moraitis]
+Release for Plumi 4.0 [unweb.me]
 
  - fix country and category links when em.taxonomies not installed [dimo]
  - fix country lookup in taxonomies [clopy]
@@ -53,14 +54,14 @@ Release for Plumi 4.0 [Dimitris Moraitis]
 4.0rc3 (2010-12-24)
 ===================
 
-Release for Plumi 4.0rc2 [Dimitris Moraitis]
+Release for Plumi 4.0rc2 [unweb.me]
 
  - fix broken imports [dimo, clopy]
 
 4.0rc2 (2010-12-23)
 ===================
 
-Release for Plumi 4.0rc2 [Dimitris Moraitis]
+Release for Plumi 4.0rc2 [unweb.me]
 
  - Added abovecontenttitle viewlet on video listings [clopy]
  - Added homepages as a lines field to memberdata, which is aimed at containing URL's of members other homepages, for example Facebook, Myspace, Twitter, Kaskus etc that will later be jazzed up in author.cpt [axxs]
@@ -68,7 +69,7 @@ Release for Plumi 4.0rc2 [Dimitris Moraitis]
 4.0rc1 (2010-12-12)
 ===================
 
-Release for Plumi 4.0rc1 [Dimitris Moraitis]
+Release for Plumi 4.0rc1 [unweb.me]
 
  - add buildout for standalone plumi.content [dimo]
  - remove extra icons form event and news items [clopy]
@@ -79,7 +80,7 @@ Release for Plumi 4.0rc1 [Dimitris Moraitis]
 4.0b1 (2010-11-23)
 ==================
 
-Release for Plumi 4.0beta [Dimitris Moraitis]
+Release for Plumi 4.0beta [unweb.me]
 
  - Dropped dependency on ATCountryWidget [dimo]
  - Added dependency on ATVocabularyManager [dimo]
