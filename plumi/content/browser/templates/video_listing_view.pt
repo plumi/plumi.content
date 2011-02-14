@@ -8,11 +8,10 @@
       <metal:main_macro define-macro="main">
 	<metal:body define-macro="body_macro">
 
-
+        <div tal:replace="structure provider:plone.abovecontenttitle" tal:condition="not:ajax_load" />
         <h1 class="documentFirstHeading" tal:content="here/title_or_id">
             Title
         </h1>
-        <div tal:replace="structure provider:plone.belowcontenttitle" />
         <a href=""
          class="link-parent"
          tal:define="template_id template/getId;

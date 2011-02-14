@@ -49,6 +49,13 @@
     />
 
   <browser:page
+    name="download_torrent"
+    for="plumi.content.interfaces.IPlumiVideo"
+    class=".download_torrent.DownloadTorrent"
+    permission="zope2.View"
+    />
+
+  <browser:page
       name="flowplayerConfig.js"
       for="plumi.content.interfaces.IPlumiVideo"
       class=".video.flowplayerConfig"

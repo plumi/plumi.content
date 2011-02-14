@@ -57,6 +57,7 @@
     <tal:date content="view/post_date" i18n:name="PostedDate"/>
      by <a tal:attributes="href string:${context/portal_url}/author/${view/creator}" 
            tal:content="view/creator" />
+    with <span tal:replace="view/total_comments">1</span> comments
   </span>
 
 
@@ -85,7 +86,7 @@
  </p>
   
   <dl class="plumi-categories plumi-props-listing"
-      tal:define="categories view/categories"
+      tal:define="categories video/categories"
       tal:condition="categories">
     <dt i18n:translate="">Categories</dt>
     <dd>
@@ -103,15 +104,15 @@
   </dl>
 
    <dl class="plumi-categories plumi-props-listing"
-      tal:define="country video/country_dict; "
+      tal:define="country video/country; "
       tal:condition="country">
     <dt i18n:translate="">Country</dt>
     <dd><ul><li>
 	  <a href="" title="" id=""
-	     tal:attributes="href country/url ;
-			     id country/id ;
-			     title country/title ;
-			     " tal:content="country/title"/>
+	     tal:attributes="href country/url|nothing ;
+			     id country/id|nothing ;
+			     title country/title|nothing ;
+			     " tal:content="country/title" tal:omit-tag="not: country/url|nothing"/>
 	     </li></ul>
     </dd>
   </dl>

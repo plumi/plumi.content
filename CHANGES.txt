@@ -1,7 +1,75 @@
+4.1rc1 (2011-02-11)
+====================
+
+Release for Plumi 4.1 RC [unweb.me]
+
+ - Authors latest videos lookup changed to path restriction rather than creator [axxs]
+ - Added alt tag to thumbnail image [axxs]
+ - small fix on indentation as newly created video's resulted in an error, the brains variable was not defined [axxs]
+
+
+4.1b1 (2011-02-01)
+==================
+
+Release for Plumi 4.1b1 [unweb.me]
+
+ - don't show categories if none is selected [clopy]
+ - clean up vocabularies [clopy]
+ - only show non-expired featured callouts on front page [clopy]
+ - Remove the currently viewed video from the lookup on a sample of the users videos [axxs]
+ - fix error on video listings, update video template [clopy]
+ - Fix for ValueError if the sample of users videos was insufficient [axxs]
+ - Initial layout of random sampling of other content by author on a video view as per ticket #478 [axxs]
+ - Added comments count to the video listing rendering [axxs]
+ - removed the ability to add subfolders of the same type from Plumi_Video_Folder and Plumi_Callout_Folder [axxs]
+ - Updated help for the Paypal donation mechanism [axxs]
+ - author page layouts and check to see data entered before display of the donate button [axxs]
+ - metadata file so authors comments show on getAuthorsComments [axxs]
+ - Restrict content types allowed in the callout and video folders as per part of ticket 578 [axxs]
+ - Added calls to show user social networking homepages, somehow lost in a branch merge [axxs]
+ - low/high resolution links for video [clopy]
+ - display high-res mp4 when low is not available despite what the cookie says [clopy]
+ - fix torrent details on video view [clopy]
+ - Author page listing content based on Owner rather than Creator ticket #479 [axxs]
+ - code cleanup [clopy]
+ - provide basic seeders number [clopy]
+ - added mising torrent extension [clopy]
+ - fix torrent check path [clopy]
+ - change download torrent path to a safa directory [clopy]
+ - added torrent support for videos [clopy]
+
+
+4.0.2 (2011-01-16)
+==================
+
+Release for Plumi 4.0 [unweb.me]
+
+ - fix country and category links when em.taxonomies not installed [dimo]
+ - fix country lookup in taxonomies [clopy]
+ - dont display the none genre [dimo]
+ - remove vlc link [dimo]
+ - fix a couple of taxonomy issues [clopy]
+ - reverted accidental commit, remove author and date from video listings [clopy]
+
+4.0rc3 (2010-12-24)
+===================
+
+Release for Plumi 4.0rc2 [unweb.me]
+
+ - fix broken imports [dimo, clopy]
+
+4.0rc2 (2010-12-23)
+===================
+
+Release for Plumi 4.0rc2 [unweb.me]
+
+ - Added abovecontenttitle viewlet on video listings [clopy]
+ - Added homepages as a lines field to memberdata, which is aimed at containing URL's of members other homepages, for example Facebook, Myspace, Twitter, Kaskus etc that will later be jazzed up in author.cpt [axxs]
+
 4.0rc1 (2010-12-12)
 ===================
 
-Release for Plumi 4.0rc1 [Dimitris Moraitis]
+Release for Plumi 4.0rc1 [unweb.me]
 
  - add buildout for standalone plumi.content [dimo]
  - remove extra icons form event and news items [clopy]
@@ -12,7 +80,7 @@ Release for Plumi 4.0rc1 [Dimitris Moraitis]
 4.0b1 (2010-11-23)
 ==================
 
-Release for Plumi 4.0beta [Dimitris Moraitis]
+Release for Plumi 4.0beta [unweb.me]
 
  - Dropped dependency on ATCountryWidget [dimo]
  - Added dependency on ATVocabularyManager [dimo]

@@ -134,9 +134,9 @@
 <!-- Callouts -->
 <div id="featured-callouts"
      class="featured-block"
-     tal:define="results view/callouts">
+     tal:condition="view/callouts">
 
-  <dl tal:repeat="obj results">
+  <dl tal:define="obj view/callouts">
     <dt class="featuredHeader">
       <a href="#"
          tal:attributes="href string:$portal_url/callouts/RSS">

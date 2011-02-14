@@ -6,7 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from interfaces import ITopicsProvider
 
 try:
-    from plumi.app.config import TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER, COUNTRIES_FOLDER
+    from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER, COUNTRIES_FOLDER
     TAXONOMIES = True
 except ImportError:
     TAXONOMIES = False
@@ -43,7 +43,7 @@ class CategoriesProvider( BrowserView ):
     def get_country_info(self, country_id):
         """Fake the genres/categories process to return the country infos
         """
-        if not country_id or len(country_id.strip())==0 or country_id:
+        if not country_id or len(country_id.strip())==0:
             return None
 
         if not TAXONOMIES or country_id not in self.countries_voc:
