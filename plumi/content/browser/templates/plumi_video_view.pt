@@ -159,7 +159,7 @@
              tal:attributes="href string:${here/absolute_url}/@@download_torrent/${context/video_file/filename}">
             Download via BitTorrent
           </a>
-          <span tal:condition="view/has_torrent"> (Seeders: <span tal:content="view/seeders"></span>)</span>
+          <span tal:condition="view/has_torrent"> (Seeders: <span tal:content="view/get_seeders"></span>)</span>
           </p>
 
           <p class="download-block" tal:condition="ogg">
