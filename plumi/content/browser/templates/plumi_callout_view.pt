@@ -63,7 +63,7 @@
         <dl class="callout-categories"
                 tal:define="categories view/categories"
                 tal:condition="categories">
-              <dt i18n:translate="">Categories</dt>
+              <dt i18n:translate="">Topics</dt>
               <dd>
                 <ul>
                   <li tal:repeat="cat categories">
