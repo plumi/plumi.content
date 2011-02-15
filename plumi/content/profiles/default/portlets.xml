@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-<portlets>
+<portlets
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="plumi">
 
 <assignment
      remove="True"
@@ -9,4 +11,12 @@
      type="portlets.News"
      name="news"
      />
+
+   <portlet
+     addview="plumi.content.browser.portlets.ActiveMembers"
+     title="Active Members"
+     description="Listing of the top contributors of video content"
+     i18n:attributes="title; description"
+   />
+
 </portlets>
