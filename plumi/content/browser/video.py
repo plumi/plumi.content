@@ -21,9 +21,6 @@ from collective.transcode.star.interfaces import ITranscodeTool
 import os.path
 from subprocess import Popen, PIPE
 from random import sample
-import bencode, hashlib
-from deluge.ui.client import client
-from twisted.internet import reactor
 
 try:
     from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER, GENRE_FOLDER, CATEGORIES_FOLDER
@@ -293,39 +290,23 @@ class VideoView( BrowserView ):
         try:
             registry = getUtility(IRegistry)
             torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
-            torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent' 
-            with open(torrentPath,"rb") as f:
-                dataf = f.read()
-            f.close()
-            infos = bencode.bdecode(dataf)['info']
-            torrentId = hashlib.sha1(bencode.bencode(infos)).hexdigest()
-
-            d = client.connect()
-            d.setTimeout(4)
-
-            def on_connect_success(result):
-                def on_get_config_value(value, key):
-                    self.seeders = value['total_seeds']
-                    # Disconnect from the daemon once we've got what we needed
-                    client.disconnect()
-                    reactor.crash()
-
-                client.core.get_torrent_status(torrentId,["total_seeds"]).addCallback(on_get_config_value, "torrent_status")
-
-            d.addCallback(on_connect_success)
-
-            def on_connect_fail(result):
-                client.disconnect()
-                reactor.crash()
-                print "Connection failed!"
-                print "result:", result
-
-            d.addErrback(on_connect_fail)
-            reactor.run(installSignalHandlers=0)
-            return self.seeders
-                    
-        except Exception, e:
-            reactor.crash()
+            torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent'
+            if os.path.exists(torrentPath):
+                torrent_info_args = ['deluge-console', 'info']
+                output = Popen(torrent_info_args, stdout=PIPE).communicate()[0]
+                start = output.find(self.context.UID())
+                output2 = output[start:]
+                end = output2.find(') Peers')
+                output3 = output2[:end]
+                start2 = output3.find('(')
+		if output3[(start2+1):] == '':
+		    seeders = 0
+		else:
+                    seeders = output3[(start2+1):]
+                return seeders
+            else:
+                return 0
+        except:
             return 0
 
 
