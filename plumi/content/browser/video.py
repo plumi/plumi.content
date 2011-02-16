@@ -22,6 +22,8 @@ import os.path
 from subprocess import Popen, PIPE
 from random import sample
 import bencode, hashlib
+from deluge.ui.client import client
+from twisted.internet import reactor
 
 try:
     from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER, GENRE_FOLDER, CATEGORIES_FOLDER
@@ -292,13 +294,14 @@ class VideoView( BrowserView ):
             registry = getUtility(IRegistry)
             torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
             torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent' 
-            dataf = open(torrentPath,"rb").read()
+            with open(torrentPath,"rb") as f:
+                dataf = f.read()
+            f.close()
             infos = bencode.bdecode(dataf)['info']
             torrentId = hashlib.sha1(bencode.bencode(infos)).hexdigest()
 
-            from deluge.ui.client import client
-            from twisted.internet import reactor
             d = client.connect()
+            d.setTimeout(4)
 
             def on_connect_success(result):
                 def on_get_config_value(value, key):
@@ -307,11 +310,13 @@ class VideoView( BrowserView ):
                     client.disconnect()
                     reactor.crash()
 
-                client.core.get_torrent_status("f5a103b643d4adc212e379b5a857699668de5f5f",["total_seeds"]).addCallback(on_get_config_value, "torrent_status")
+                client.core.get_torrent_status(torrentId,["total_seeds"]).addCallback(on_get_config_value, "torrent_status")
 
             d.addCallback(on_connect_success)
 
             def on_connect_fail(result):
+                client.disconnect()
+                reactor.crash()
                 print "Connection failed!"
                 print "result:", result
 
