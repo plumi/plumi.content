@@ -12,6 +12,15 @@
      name="news"
      />
 
+<assignment
+     remove="True"
+     manager="plone.rightcolumn"
+     category="context"
+     key="/"
+     type="portlets.Events"
+     name="events"
+     />
+
    <portlet
      addview="plumi.content.browser.portlets.ActiveMembers"
      title="Active Members"
