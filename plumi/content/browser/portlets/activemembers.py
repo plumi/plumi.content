@@ -62,14 +62,15 @@ class Renderer(base.Renderer):
     def results(self):
         now = datetime.datetime.now()
         portal_catalog = getToolByName(self, 'portal_catalog')
-        brains = portal_catalog.uniqueValuesFor('Creator')
+        mtool = getToolByName(self,'portal_membership')
+        members = [member for member in mtool.listMembers() if not member.has_role(['Manager','Reviewer',])]
         results = portal_catalog(created={ 'query' : [pastmonthdate(now), now], 'range':'minmax'}
                                  )
         creators = []
         thelist = []
         for creator in results:
             creators.append(creator.Creator)
-        for item in brains:
+        for item in members:
            thelist.append((creators.count(item), item))
         adict = dict(thelist)
         return sortedDictValues(adict)[:self.data.count]
