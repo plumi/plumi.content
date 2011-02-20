@@ -372,7 +372,7 @@
 	</div>
 
 <div id="authors_latest" tal:define="other_videos  view/authors_latest|nothing">
-    <h3 tal:condition="other_videos">Other videos by this author.</h3>
+    <h1 class="documentFirstHeading" tal:condition="other_videos">Other videos by this author.</h1>
 <ul>
     <li tal:repeat="video other_videos">
         <h4>

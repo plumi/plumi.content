@@ -1,11 +1,9 @@
 <dl class="portlet portletActiveMembers"
     i18n:domain="plumi.portlets">
 
-    <dt class="portletHeader">
+    <dt class="portletHeader activeMembersHeader">
         <span class="portletTopLeft"></span>
-        <span>
           <a tal:attributes="href string:${here/portal_url}/active-members" alt="More Active Members">Active Members</a>
-        </span>
         <span class="portletTopRight"></span>
     </dt>
 

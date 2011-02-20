@@ -46,3 +46,11 @@ display: block;
   width: 400px;
   height: 300px;
 }
+
+#statistics span.discreet {
+font-weight: bold;
+}
+
+.activeMembersHeader {
+margin-bottom: 10px;
+}
