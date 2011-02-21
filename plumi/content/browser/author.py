@@ -41,7 +41,9 @@ class AuthorPage( CategoriesProvider ):
         """
         full_urls = []
         for url in self.member.getProperty('homepages'):
-            if len(url)> 0 and not url[:7]=='http://':
+            #XXX we do > 1 to remove possible empty first field from display
+            # this should be cleaner
+            if len(url)> 1 and not url[:7]=='http://':
                     full_urls.append('http://'+url)
             else:
                     full_urls.append(url)
