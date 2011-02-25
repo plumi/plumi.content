@@ -102,10 +102,11 @@ class AuthorPage( CategoriesProvider ):
 
     @property
     def videos(self):
+        homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
         query = dict(portal_type='PlumiVideo',
+                     path={'query': homeurl},
                      sort_on='effective',
                      sort_order='reverse',
-                     Creator=self.author,
                      review_state=['published','featured'])
         brains = self.catalog(**query)[:5]
         return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
@@ -113,10 +114,10 @@ class AuthorPage( CategoriesProvider ):
 
     @property
     def callouts(self):
+        homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
         query = dict(portal_type='PlumiCallOut',
                      sort_on='effective',
                      sort_order='reverse',
-                     Creator=self.author,
                      review_state=['published','featured'])
         brains = self.catalog(**query)[:5]
         return brains
@@ -135,20 +136,20 @@ class AuthorPage( CategoriesProvider ):
 
     @property
     def news(self):
+        homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
         query = dict(portal_type='News Item',
                      sort_on='effective',
                      sort_order='reverse',
-                     Creator=self.author,
                      review_state=['published','featured'])
         brains = self.catalog(**query)[:5]
         return brains
 
     @property
     def events(self):
+        homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
         query = dict(portal_type='Event',
                      sort_on='effective',
                      sort_order='reverse',
-                     Creator=self.author,
                      review_state=['published','featured'])
         brains = self.catalog(**query)[:5]
         return brains
