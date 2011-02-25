@@ -21,6 +21,7 @@ from collective.transcode.star.interfaces import ITranscodeTool
 import os.path
 from subprocess import Popen, PIPE
 from random import sample
+import urllib2, simplejson
 
 try:
     from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER, GENRE_FOLDER, CATEGORIES_FOLDER
@@ -43,7 +44,6 @@ class VideoView( BrowserView ):
         super(VideoView, self).__init__(context, request)
         self.portal_url = getToolByName(self.context, "portal_url")()
         self.vocab_tool = getToolByName(self.context, "portal_vocabularies")
-        self.seeders = 0
 
         self.annotations = IAnnotations(self.context)
         self.transcode_profiles = self.annotations.get('plumi.transcode.profiles')
@@ -285,8 +285,23 @@ class VideoView( BrowserView ):
                 return False
         except:
             return False
-    @property
-    def get_seeders(self):
+
+
+class SeedersView( BrowserView ):
+    u"""This browser view is used to return the torrent seeders for the video
+    """
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def __call__(self):
+        self.request.response.setHeader('Content-Type', 'application/json')
+        result = self.getSeeders()
+        return simplejson.dumps(result)
+
+    def getSeeders(self):
+        """ Return number of seeders from torrent client 
+        """
         try:
             registry = getUtility(IRegistry)
             torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']

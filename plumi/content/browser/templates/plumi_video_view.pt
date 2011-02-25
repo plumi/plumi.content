@@ -159,8 +159,27 @@
              tal:attributes="href string:${here/absolute_url}/@@download_torrent/${context/video_file/filename}">
             Download via BitTorrent
           </a>
-          <span tal:condition="view/has_torrent"> (Seeders: <span tal:content="view/get_seeders"></span>)</span>
+          <span tal:condition="view/has_torrent"> (Seeders: <span class="seeders"></span>)</span>
           </p>
+            <script>
+
+                function getSeeders() {
+                    jq.ajax({
+                        url: location.href.split('/view')[0] + '/@@seeders',
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            jq('span.seeders').html(data);
+                            jq('span.seeders').fadeIn();
+                        },
+                        error: function(){
+                        }
+                    });
+                }
+
+                jq(window).load(function() {getSeeders();});
+
+            </script>
 
           <p class="download-block" tal:condition="ogg">
             <a id="ogg-link"

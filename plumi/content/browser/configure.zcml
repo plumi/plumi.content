@@ -170,6 +170,13 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      name="seeders"
+      for="plumi.content.interfaces.IPlumiVideo"
+      permission="zope2.View"
+      class=".video.SeedersView" />
+
+
   <plone:portlet
       name="plumi.content.browser.portlets.ActiveMembers"
       interface=".portlets.activemembers.IActiveMembers"
