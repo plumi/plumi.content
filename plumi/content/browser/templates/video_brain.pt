@@ -28,6 +28,7 @@
                                                                                             url:"$address/$path",
                                                                                             autoPlay:false,
                                                                                             autoBuffering:false,
+                                                                                            onStart:function(){try{piwikTracker.trackLink("${view/url}","link")} catch(err){}}
                                                                                         }
                                                                                     ]}  );'> </script>
 
