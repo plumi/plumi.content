@@ -313,11 +313,11 @@ class SeedersView( BrowserView ):
                 output2 = output[start:]
                 end = output2.find(') Peers')
                 output3 = output2[:end]
-                start2 = output3.find('(')
-		if output3[(start2+1):] == '':
+                start2 = output3.find('Seeds: 0 (')
+		if output3[(start2+10):] == '':
 		    seeders = 0
 		else:
-                    seeders = output3[(start2+1):]
+                    seeders = output3[(start2+10):]
                 return seeders
             else:
                 return 0
