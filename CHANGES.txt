@@ -1,3 +1,12 @@
+4.1.1 (2011-03-09)
+==================
+
+Release for Plumi 4.1.1 [unweb.me]
+
+ - fixed seeders bug on videos with filename containing space and parentheses [clopy]
+ - fixed jquery call in video view [clopy]
+
+
 4.1 (2011-02-28)
 ====================
 
