@@ -29,15 +29,6 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
  
-  <!-- Register the upgrade step -->
-  <genericsetup:upgradeStep
-      title="Plumi 3.0 to 3.1"
-      description=""
-      source="0.2"
-      destination="0.9"
-      handler="plumi.content.setuphandlers.plumi30to31"
-      profile="plumi.content:default" />
-
   <!-- -*- extra stuff goes here -*- -->
   <subscriber handler=".subscribers.notifyModifiedPlumiVideo" />
   <subscriber handler=".subscribers.notifyInitPlumiVideo" />
