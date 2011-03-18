@@ -73,9 +73,9 @@
                                 <p class="documentDescription"                                 
                                    tal:define="lp_translating_from request/lp_translating_from | here/getCanonicalLanguage;
                                                lp_translating_to request/lp_translating_to | here/getLanguage;
-                                               langs here/getUntranslatedLanguages"
+                                               langs here/getUntranslatedLanguages|nothing"
                                    i18n:translate="description_translating_from_to"
-                                   tal:condition="python: lp_translating_from != lp_translating_to">
+                                   tal:condition="python: langs and lp_translating_from != lp_translating_to">
                                     Translating from
                                     <span i18n:name="from">
                                         <select name="lp_translating_from">
