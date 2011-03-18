@@ -27,9 +27,13 @@ class PlumiVideoBrain( Explicit ):
         self.video_title = context.Title or context.id or 'Untitled'
         self.creator = context.Creator
         try:
-            self.total_comments = context.total_comments
+            if context.total_comments == 0:
+                self.total_comments = "0"
+            else:
+                self.total_comments = context.total_comments
         except:
-            self.total_comments = 0
+            #return None if plone.app.discussion is not installed
+            self.total_comments = None
         self.__parent__ = provider
         self.request = getattr(self.context, "REQUEST", None)
 
