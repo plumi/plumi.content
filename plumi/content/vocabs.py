@@ -11,6 +11,7 @@ vocab_set['video_countries'] = (
         )
 
 vocab_set['video_categories'] = (
+         ('none', _(u'----------------')),
         )
 vocab_set['video_genre'] = (
          ('none', _(u'----------------')),

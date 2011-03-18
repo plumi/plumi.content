@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+ <!-- metadata -->
+ <column value="hasImageAndCaption"/>
+ <column value="isTranscodedPlumiVideoObj"/>
+ <column value="isPublishablePlumiVideoObj"/>
+ <column value="videoDuration"/>
+ 
+ <column value="getGenre"/>
+ <column value="getCategories"/>
+ <column value="getCountries"/>
+ <column value="getSubmissionCategories"/>
+
+ 
+ <!-- indexes -->
+ <index name="getGenre" meta_type="KeywordIndex">
+    <indexed_attr value="getGenre"/>
+ </index>
+ <index name="getCategories" meta_type="KeywordIndex">
+    <indexed_attr value="getCategories"/>
+ </index>
+ <index name="getCountries" meta_type="KeywordIndex">
+    <indexed_attr value="getCountries"/>
+ </index>
+ <index name="getSubmissionCategories" meta_type="KeywordIndex">
+    <indexed_attr value="getSubmissionCategories"/>
+ </index>
+
+
+
+</object>

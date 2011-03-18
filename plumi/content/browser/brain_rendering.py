@@ -26,10 +26,12 @@ class PlumiVideoBrain( Explicit ):
         self.url = context.getURL()
         self.video_title = context.Title or context.id or 'Untitled'
         self.creator = context.Creator
-        self.total_comments = context.total_comments
+        try:
+            self.total_comments = context.total_comments
+        except:
+            self.total_comments = 0
         self.__parent__ = provider
         self.request = getattr(self.context, "REQUEST", None)
-        self.tt = getUtility(ITranscodeTool)
 
     def render_listing(self):
         return self.template.__of__(self.request)(show_title=True,feature_video=False)
@@ -61,7 +63,8 @@ class PlumiVideoBrain( Explicit ):
 
     def transcoded(self, uid, profile):
         try:
-            entry = self.tt[uid]['video_file'][profile]
+            tt = getUtility(ITranscodeTool)
+            entry = tt[uid]['video_file'][profile]
             return '%s/%s' % (entry['address'], entry['path'])
         except:
             return False
