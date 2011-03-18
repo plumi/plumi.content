@@ -15,6 +15,7 @@
   <include package=".content" />
   <include package=".portlets" />
 
+  <include package="Products.ATVocabularyManager" />
   <!-- File System Directory Views registration -->
   <cmf:registerDirectory name="plumi_content_custom_templates"/>
   <cmf:registerDirectory name="plumi_content_custom_images"/>

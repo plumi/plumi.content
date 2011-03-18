@@ -59,7 +59,7 @@ def setup_product():
     #zcml.load_config('configure.zcml', plumi.skin)       
     fiveconfigure.debug_mode = False
         
-    ztc.installProduct('ATVocabularyManager')
+    ztc.installPackage('ATVocabularyManager')
     ztc.installPackage('plumi.content')
     #ztc.installPackage('plumi.skin')    
     
@@ -91,18 +91,16 @@ def setup_product():
 # PloneTestCase set up this product on installation.
 
 setup_product()
+ptc.installProduct('ATVocabularyManager')
+ptc.installProduct('plumi.content')
+ptc.setupPloneSite(products=('plumi.content',))
 
-
-def installWithinPortal(portal):
-    qi = getToolByName(portal, 'portal_quickinstaller')
-    qi.installProduct('ATVocabularyManager')
-    qi.installProduct('plumi.content')    
+#def installWithinPortal(portal):
+    #qi = getToolByName(portal, 'portal_quickinstaller')
+    #qi.installProduct('ATVocabularyManager')
+    #qi.installProduct('plumi.content')    
     #qi.installProduct('LinguaPlone')    
     #qi.installProduct('plumi.skin')        
-
-
-def getATVM(portal):
-    return portal['portal_vocabularies']
     
     
 class TestCase(ptc.PloneTestCase):
@@ -119,16 +117,7 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
     layer = bbb.plone
 
     def afterSetUp(self):
-        installWithinPortal(self.portal)
-        self.atvm = getATVM(self.portal)
         self.loginAsPortalOwner()
-        self.atvm.invokeFactory('SimpleVocabulary', 'submission_categories')
-        self.atvm.invokeFactory('SimpleVocabulary', 'video_genre')
-        self.atvm.invokeFactory('SimpleVocabulary', 'video_categories')
-        self.atvm['submission_categories'].invokeFactory('SimpleVocabularyTerm','test')
-        self.atvm['video_genre'].invokeFactory('SimpleVocabularyTerm','test')
-        self.atvm['video_categories'].invokeFactory('SimpleVocabularyTerm','test')        
-                    
         roles = ('Member', 'Contributor')
         self.portal.portal_membership.addMember('contributor',
                                                 'secret',

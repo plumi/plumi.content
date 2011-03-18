@@ -24,8 +24,6 @@ long_description = (
     read('CONTRIBUTORS.txt')
     )
 
-tests_require=['zope.testing']
-
 setup(name='plumi.content',
       version=version,
       description="Plumi Content Types Product",
@@ -58,8 +56,9 @@ setup(name='plumi.content',
                         'hachoir_parser',
                         # -*- Extra requirements: -*-
                         ],
-      tests_require=tests_require,
-      extras_require=dict(tests=tests_require),
+      extras_require = {
+          'test': ['plone.app.testing',]
+      },
       test_suite = 'plumi.content.tests.test_docs.test_suite',
       entry_points="""
       # -*- entry_points -*- 

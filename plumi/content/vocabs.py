@@ -18,5 +18,8 @@ vocab_set['video_genre'] = (
         )
 vocab_set['submission_categories'] = (
          ('none', _(u'----------------')),
+         ('dvd', _(u'DVD')),
+         ('production', _(u'Production')),
+         ('other', _(u'Other')),         
         ) 
 
