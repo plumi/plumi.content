@@ -25,7 +25,7 @@ from DateTime import DateTime
 from urllib2 import urlopen
 import socket
 from PIL import Image
-
+from Products.CMFCore.WorkflowCore import WorkflowException
 
 logger = logging.getLogger('plumi.content.subscribers')
 
@@ -105,22 +105,8 @@ def notifyActionSucceededPlumiVideo(obj,event):
         IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
     elif state == 'published':
         log.info('doing published tasks')
-
         obj.reindexObject()
-
-        #refresh the catalog
-        #XXX make it configurable to run a catalog refresh each time , or not?
-        #portal_catalog = getToolByName(obj,'portal_catalog')
-        #portal_catalog.refreshCatalog()
-
-        #update the tag cloud
-        portal_url = getToolByName(obj, "portal_url")
-        portal = portal_url.getPortalObject()
-        tc = getattr(portal,'tagcloud',None)
-        if tc is not None:
-            log.info('FIXME - refresh tag cloud!')
-            # XXX re-implement vaporisation compatibility
-            #notify(TreeUpdateEvent(tc))
+        
         #emails 
         IPlumiWorkflow(obj).notifyOwnerVideoPublished()
 
@@ -143,8 +129,6 @@ def notifyModifiedPlumiVideo(obj ,event):
     if request.has_key('video_file_file'): #new video uploaded
         log.info('notifyModifiedPlumiVideo: video replaced;')
         setup_metadata(obj)
-        #setup_transcoding(obj)
-    #THE END
 
 @adapter(IPlumiVideo, IObjectInitializedEvent)
 def notifyInitPlumiVideo(obj ,event):
@@ -154,7 +138,11 @@ def notifyInitPlumiVideo(obj ,event):
     log = logging.getLogger('plumi.content.subscribers')
     log.info("notifyInitPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
     #decide what to do , based on workflow of object
-    state = workflow.getInfoFor(obj,'review_state')
+    try:
+        state = workflow.getInfoFor(obj,'review_state')
+    except WorkflowException:
+        log.info('failed to get workflow state for %s' % obj)            
+        state = None
     request = getSite().REQUEST    
     #VISIBLE
     if state == 'visible' and request.has_key('form.button.save'):
@@ -165,8 +153,7 @@ def notifyInitPlumiVideo(obj ,event):
             IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
     setup_metadata(obj)
-    #setup_transcoding(obj)
-    #THE END
+
 
 @adapter(IPlumiVideo, IObjectInitializedEvent)
 def autoSubmit(obj, event):
@@ -179,11 +166,8 @@ def autoSubmit(obj, event):
         if not state in ['published','pending']:
             workflow.doActionFor(obj, 'submit')
             log.info('autosubmit %s' % obj)
-        worked = True
     except WorkflowException:
-        worked = False
         log.info('failed to autosubmit %s' % obj)        
-        pass
 
 def notifyCommentAdded(obj ,event): 
     """Notify owner of added comment""" 

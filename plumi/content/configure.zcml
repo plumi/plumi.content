@@ -5,100 +5,65 @@
     xmlns:browser="http://namespaces.zope.org/browser" 
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:zcml="http://namespaces.zope.org/zcml"     
     i18n_domain="plumi">
 
-  <five:registerPackage package="." initialize=".initialize" />
+    <five:registerPackage package="." initialize=".initialize" />
+    
+    
+    <!-- Include the sub-packages that use their own configure.zcml files. -->
+    <include package=".browser" />
+    <include package=".content" />
+    <include package=".portlets" />
+    
+    <include package="Products.ATVocabularyManager" />
+    <!-- File System Directory Views registration -->
+    <cmf:registerDirectory name="plumi_content_custom_templates"/>
+    <cmf:registerDirectory name="plumi_content_custom_images"/>
+    
+    <!-- Register the installation GenericSetup extension profile -->
+    <genericsetup:registerProfile
+        name="default"
+        title="Plumi content types"
+        directory="profiles/default"
+        description="Automatically installed by the Plumi package. No need to install manually."
+        i18n:attributes="title; description;"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+    
+    <!-- -*- extra stuff goes here -*- -->
+    <adapter factory=".adapters.PlumiWorkflowAdapter" />
 
+    <subscriber handler=".subscribers.notifyModifiedPlumiVideo" />
+    <subscriber handler=".subscribers.notifyInitPlumiVideo" />
+    <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
+    <subscriber handler=".subscribers.notifyTranscodeSucceededPlumiVideo" />
 
-  <!-- Include the sub-packages that use their own configure.zcml files. -->
-  <include package=".browser" />
-  <include package=".content" />
-  <include package=".portlets" />
-
-  <include package="Products.ATVocabularyManager" />
-  <!-- File System Directory Views registration -->
-  <cmf:registerDirectory name="plumi_content_custom_templates"/>
-  <cmf:registerDirectory name="plumi_content_custom_images"/>
-
-  <!-- Register the installation GenericSetup extension profile -->
-  <genericsetup:registerProfile
-      name="default"
-      title="Plumi content types"
-      directory="profiles/default"
-      description="Automatically installed by the Plumi package. No need to install manually."
-      i18n:attributes="title; description;"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
- 
-  <!-- -*- extra stuff goes here -*- -->
-  <subscriber handler=".subscribers.notifyModifiedPlumiVideo" />
-  <subscriber handler=".subscribers.notifyInitPlumiVideo" />
-  <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
-  <subscriber handler=".subscribers.notifyTranscodeSucceededPlumiVideo" />
-
-  <subscriber
-      for="plone.app.discussion.interfaces.IComment
-           zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler=".subscribers.notify_moderator"
-      />
-
-  <subscriber
-      for="plone.app.discussion.interfaces.IComment
-           zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler=".subscribers.notifyCommentAdded"
-      />
-
-
-  <!-- Bugfix for subscribers not working in plone.app.discussion for plone 3 -->
-  <subscriber 
-      for="Products.ATContentTypes.interface.news.IATNewsItem
-           Products.Archetypes.interfaces.IObjectInitializedEvent"
-      handler=".subscribers.autoSubmit" />
-
-  <subscriber 
-      for="Products.ATContentTypes.interface.event.IATEvent
-           Products.Archetypes.interfaces.IObjectInitializedEvent"
-      handler=".subscribers.autoSubmit" />      
-  <subscriber 
-      for="plumi.content.interfaces.plumicallout.IPlumiCallOut
-           Products.Archetypes.interfaces.IObjectInitializedEvent"
-      handler=".subscribers.autoSubmit" />    
-
-  <subscriber
-      for="plone.app.discussion.interfaces.IComment
-           zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler="plone.app.discussion.comment.notify_workflow"
-      />
-
-  <subscriber
-      for="plone.app.discussion.interfaces.IComment
-           zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler="plone.app.discussion.comment.notify_content_object"
-      />
-
-  <subscriber
-      for="plone.app.discussion.interfaces.IComment
-           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-      handler="plone.app.discussion.comment.notify_content_object"
-      />
-
-  <subscriber
-      for="plone.app.discussion.interfaces.IComment
-           zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler="plone.app.discussion.tool.index_object"
-      />
-
-  <subscriber
-      for="plone.app.discussion.interfaces.IComment
-           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-      handler="plone.app.discussion.tool.unindex_object"
-      />
-
-  <subscriber
-      for="Products.CMFCore.interfaces.IContentish
-           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-      handler="plone.app.discussion.comment.notify_content_object_deleted"
-      />
-  
-  <adapter factory=".adapters.PlumiWorkflowAdapter" />
+    <subscriber 
+        for="Products.ATContentTypes.interface.news.IATNewsItem
+             Products.Archetypes.interfaces.IObjectInitializedEvent"
+        handler=".subscribers.autoSubmit" />
+    
+    <subscriber 
+        for="Products.ATContentTypes.interface.event.IATEvent
+             Products.Archetypes.interfaces.IObjectInitializedEvent"
+        handler=".subscribers.autoSubmit" />
+        
+    <subscriber 
+        for="plumi.content.interfaces.plumicallout.IPlumiCallOut
+             Products.Archetypes.interfaces.IObjectInitializedEvent"
+        handler=".subscribers.autoSubmit" />
+        
+    <configure zcml:condition="installed plone.app.discussion">   
+        <subscriber
+            for="plone.app.discussion.interfaces.IComment
+                 zope.lifecycleevent.interfaces.IObjectAddedEvent"
+            handler=".subscribers.notify_moderator"
+            />
+        <subscriber
+            for="plone.app.discussion.interfaces.IComment
+                 zope.lifecycleevent.interfaces.IObjectAddedEvent"
+            handler=".subscribers.notifyCommentAdded"
+            />      
+    </configure>
 </configure>

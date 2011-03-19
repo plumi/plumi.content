@@ -3,12 +3,6 @@ Introduction
 
 This is a full-blown functional test. The emphasis here is on testing what
 the user may input and see, and the system is largely tested as a black box.
-We use PloneTestCase to set up this test as well, so we have a full Plone site
-to play with. We *can* inspect the state of the portal, e.g. using 
-self.portal and self.folder, but it is often frowned upon since you are not
-treating the system as a black box. Also, if you, for example, log in or set
-roles using calls like self.setRoles(), these are not reflected in the test
-browser, which runs as a separate session.
 
 Being a doctest, we can tell a story here.
 
@@ -16,27 +10,28 @@ First, we must perform some setup. We use the testbrowser that is shipped
 with Five, as this provides proper Zope 2 integration. Most of the 
 documentation, though, is in the underlying zope.testbrower package.
 
-    >>> from Products.Five.testbrowser import Browser
-    >>> browser = Browser()
+    >>> from plone.testing.z2 import Browser
+    >>> browser = Browser(layer['app'])
     >>> browser.handleErrors = False
-    >>> portal_url = self.portal.absolute_url()
+    >>> portal = layer['portal']
+    >>> portal_url = portal.absolute_url()
 
 The following is useful when writing and debugging testbrowser tests. It lets
 us see all error messages in the error_log.
 
-    >>> self.portal.error_log._ignored_exceptions = ()
+    >>> portal.error_log._ignored_exceptions = ()
 
 With that in place, we can go to the portal front page and log in. We will
-do this using the default user from PloneTestCase:
+do this using the default user from plone.app.testing:
 
-    >>> from Products.PloneTestCase.setup import portal_owner, default_password
+    >>> from plone.app.testing.interfaces import SITE_OWNER_NAME, SITE_OWNER_PASSWORD, TEST_USER_NAME, TEST_USER_PASSWORD
 
     >>> browser.open(portal_url)
 
 
     >>> browser.getLink('Log in').click()
-    >>> browser.getControl(name='__ac_name').value = portal_owner
-    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
+    >>> browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
     >>> browser.getControl(name='submit').click()
 
 Here, we set the value of the fields on the login form and then simulate a
@@ -61,7 +56,7 @@ Specific PLUMI test setup
 We are going to make PlumiVideo/PlumiCallOut types for the purposes of this test have global allow True
 
     >>> from Products.CMFCore.utils import getToolByName
-    >>> types=getToolByName(self.portal,'portal_types')
+    >>> types=getToolByName(portal,'portal_types')
     >>> fti_pv = getattr(types,'PlumiVideo')
     >>> fti_pv.manage_changeProperties(global_allow=True)
     >>> fti_pv.globalAllow()
@@ -119,7 +114,7 @@ We check that the changes were applied.
     >>> 'New Plumi Callout Folder Sample' in browser.contents
     True
 
-Removing a/an Plumi Callout Folder content item
+Removing a Plumi Callout Folder content item
 --------------------------------
 
 If we go to the home page, we can see a tab with the 'New Plumi Callout Folder
@@ -161,8 +156,8 @@ contributor role assigned.
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
     >>> browser.getLink('Log in').click()
-    >>> browser.getControl(name='__ac_name').value = 'contributor'
-    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='__ac_name').value = TEST_USER_NAME
+    >>> browser.getControl(name='__ac_password').value = TEST_USER_PASSWORD
     >>> browser.getControl(name='submit').click()
 
 We use the 'Add new' menu to add a new content item.
@@ -190,8 +185,8 @@ Finally, let's login back as manager.
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
     >>> browser.getLink('Log in').click()
-    >>> browser.getControl(name='__ac_name').value = portal_owner
-    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
+    >>> browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
     >>> browser.getControl(name='submit').click()
 
     Go into the just made plumi callout folder , so we can make the PlumiCallouts below
@@ -295,8 +290,8 @@ contributor role assigned.
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
     >>> browser.getLink('Log in').click()    
-    >>> browser.getControl(name='__ac_name').value = 'contributor'
-    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='__ac_name').value = TEST_USER_NAME
+    >>> browser.getControl(name='__ac_password').value = TEST_USER_PASSWORD
     >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url+'/plumi-callout-folder-sample')
 
@@ -338,8 +333,8 @@ Finally, let's login back as manager.
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
     >>> browser.getLink('Log in').click()    
-    >>> browser.getControl(name='__ac_name').value = portal_owner
-    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
+    >>> browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
     >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url)
 
@@ -432,8 +427,8 @@ contributor role assigned.
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
     >>> browser.getLink('Log in').click()    
-    >>> browser.getControl(name='__ac_name').value = 'contributor'
-    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='__ac_name').value = TEST_USER_NAME
+    >>> browser.getControl(name='__ac_password').value = TEST_USER_PASSWORD
     >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url)
 
@@ -462,8 +457,8 @@ Finally, let's login back as manager.
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
     >>> browser.getLink('Log in').click()    
-    >>> browser.getControl(name='__ac_name').value = portal_owner
-    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
+    >>> browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
     >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url)
 
@@ -493,7 +488,7 @@ Then we select the type of item we want to add. In this case we select
 Now we fill the form and submit it.
   
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
-    >>> browser.getControl(name='description').value = 'PlumiVideo Sample Description'    
+    >>> browser.getControl(name='description').value = 'PlumiVideo Sample Description'
     >>> browser.getControl(name='DateProduced_year').value=('2010',)
     >>> browser.getControl(name='DateProduced_month').value=('01',)
     >>> browser.getControl(name='DateProduced_day').value=('01',)       
@@ -523,10 +518,10 @@ We check that the changes were applied.
     True
     >>> browser.getControl('Next').click()
     >>> 'Changes saved' in browser.contents
-    True    
+    True
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
-    True             
+    True
     >>> 'New PlumiVideo Sample' in browser.contents
     True
 
@@ -573,8 +568,8 @@ contributor role assigned.
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
     >>> browser.getLink('Log in').click()
-    >>> browser.getControl(name='__ac_name').value = 'contributor'
-    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='__ac_name').value = TEST_USER_NAME
+    >>> browser.getControl(name='__ac_password').value = TEST_USER_PASSWORD
     >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url)
 
@@ -606,7 +601,7 @@ Now we fill the form and submit it.
     >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')  
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
-    True              
+    True
 
 Done! We added a new PlumiVideo content item logged in as contributor.
 
@@ -615,8 +610,8 @@ Finally, let's login back as manager.
     >>> browser.getLink('Log out').click()
     >>> browser.open(portal_url)
     >>> browser.getLink('Log in').click()
-    >>> browser.getControl(name='__ac_name').value = portal_owner
-    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='__ac_name').value = SITE_OWNER_NAME
+    >>> browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
     >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url)
 
