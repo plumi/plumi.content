@@ -7,7 +7,7 @@ from zope.component import queryMultiAdapter
 from Products.CMFCore.utils import getToolByName
 from interfaces import IAuthorPage, IPlumiVideoBrain
 import logging
-
+from zope.location.interfaces import LocationError
 
 class AuthorPage( CategoriesProvider ):
     u"""This browser view is used to gather informations about
@@ -102,25 +102,32 @@ class AuthorPage( CategoriesProvider ):
 
     @property
     def videos(self):
-        homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
-        query = dict(portal_type='PlumiVideo',
-                     path={'query': homeurl},
-                     sort_on='effective',
-                     sort_order='reverse',
-                     review_state=['published','featured'])
-        brains = self.catalog(**query)[:5]
-        return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
-                for brain in brains]
+		try:
+			homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
+			query = dict(portal_type='PlumiVideo',
+						 path={'query': homeurl},
+						 sort_on='effective',
+						 sort_order='reverse',
+						 review_state=['published','featured'])
+			brains = self.catalog(**query)[:5]
+			return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
+					for brain in brains]
+		except LocationError:
+			return []
 
     @property
     def callouts(self):
-        homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
-        query = dict(portal_type='PlumiCallOut',
-                     sort_on='effective',
-                     sort_order='reverse',
-                     review_state=['published','featured'])
-        brains = self.catalog(**query)[:5]
-        return brains
+		try:
+			homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
+			query = dict(portal_type='PlumiCallOut',
+						 path={'query': homeurl},
+						 sort_on='effective',
+						 sort_order='reverse',
+						 review_state=['published','featured'])
+			brains = self.catalog(**query)[:5]
+			return brains
+		except LocationError:
+			return []		
         
     @property
     def portrait(self):
@@ -138,6 +145,7 @@ class AuthorPage( CategoriesProvider ):
     def news(self):
         homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
         query = dict(portal_type='News Item',
+					 path={'query': homeurl},
                      sort_on='effective',
                      sort_order='reverse',
                      review_state=['published','featured'])
@@ -146,11 +154,15 @@ class AuthorPage( CategoriesProvider ):
 
     @property
     def events(self):
-        homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
-        query = dict(portal_type='Event',
-                     sort_on='effective',
-                     sort_order='reverse',
-                     review_state=['published','featured'])
-        brains = self.catalog(**query)[:5]
-        return brains
+		try:
+			homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
+			query = dict(portal_type='Event',
+						 path={'query': homeurl},
+						 sort_on='effective',
+						 sort_order='reverse',
+						 review_state=['published','featured'])
+			brains = self.catalog(**query)[:5]
+			return brains
+		except LocationError:
+			return []		
 
