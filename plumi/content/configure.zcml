@@ -38,6 +38,7 @@
     <subscriber handler=".subscribers.notifyInitPlumiVideo" />
     <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
     <subscriber handler=".subscribers.notifyTranscodeSucceededPlumiVideo" />
+    <subscriber handler=".subscribers.copyFile" />
 
     <subscriber 
         for="Products.ATContentTypes.interface.news.IATNewsItem

@@ -26,6 +26,7 @@ from urllib2 import urlopen
 import socket
 from PIL import Image
 from Products.CMFCore.WorkflowCore import WorkflowException
+from collective.transcode.star.subscribers import is_transcode_installed
 
 logger = logging.getLogger('plumi.content.subscribers')
 
@@ -237,3 +238,19 @@ def notify_moderator(obj, event):
                              sender, 
                              subject=subject, 
                              charset='utf-8') # pragma: no cover
+
+@adapter(IPlumiVideo, IObjectAddedEvent)
+def copyFile(obj, event):
+    if obj.isTemporary():
+        return
+    if is_transcode_installed(obj) is False:
+        return
+    if not obj.UID():
+        return
+    try:
+        tt = getUtility(ITranscodeTool)
+        tt.add(obj, force=True)
+        logger.info("Copying and reTranscoding")
+    except Exception, e:
+        logger.error("Could not transcode resource %s\n Exception: %s" % (obj.absolute_url(), e))
+
