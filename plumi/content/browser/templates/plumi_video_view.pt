@@ -93,9 +93,9 @@
 
                <a tal:attributes="href mp4" id="player-videoview" tal:condition="mp4" >
                </a>             
-               <a tal:attributes="href string:#" id="player-low" tal:condition="low">Slow Connection? Try a lower resolution.
+               <a tal:attributes="href string:#" id="player-low" tal:condition="low" i18n:translate="slow_connection_low_res">Slow Connection? Try a lower resolution.
                </a>
-               <a tal:attributes="href string:##" id="player-high" tal:condition="mp4" style='display:none;'>Click here to view a higher resolution.
+               <a tal:attributes="href string:##" id="player-high" tal:condition="mp4" style='display:none;' i18n:translate="click_high_res">Click here to view a higher resolution.
                </a>
             <!-- fallback for browsers who don't support video tag -->            
         <video controls width="400" height="300" tal:condition="nothing"
