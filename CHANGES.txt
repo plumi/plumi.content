@@ -1,3 +1,21 @@
+4.2rc1 (2011-05-10)
+===================
+
+Release for Plumi 4.2rc1 [unweb.me]
+
+- add i18n tags for switching high/low res videos [dimo]
+- pep8 compatibility [dimo]
+- author page listing fixes [dimo]
+- use xmltestreport runner [dimo]
+- update tests to use plone.app.testing [dimo]
+- fix doctests [dimo]
+- don't display comments text when plone.app.discussion is not installed [clopy]
+- added indexes, made plone.app.discussion optional [clopy]
+- added empty vocabulary creation on install [clopy]
+- update to Plone 4.0.4, include testrunner [dimo]
+- dont fail if LinguaPlone is not installed [dimo]
+
+
 4.1.1 (2011-03-09)
 ==================
 
