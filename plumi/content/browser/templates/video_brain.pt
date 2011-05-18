@@ -1,7 +1,7 @@
 <tal:video define="video nocall: view/video;
                     hasThumb python:True;
                     thumb string:${view/url}/thumbnailImage_thumb;
-                    fullThumb string:${view/url}/thumbnailImage;
+                    fullThumb string:${view/url}/thumbnailImage_preview;
                     thumbCaption string:'';">
 
  <span tal:omit-tag="" tal:condition="not:options/feature_video">
