@@ -33,7 +33,8 @@
                        getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
                        templateId template/getId;
                        fullDescription here/getFullDescription;">
-		<div class="roundborder rounded">
+		<div class="roundborder rounded" tal:define="original_url python:here.absolute_url();
+                                                     portal context/@@plone_portal_state/portal">
 
           <div id="video-core" tal:define="transcoded python:view.transcoding('ogg') and view.transcoding('mp4');
                                      mp4 python:view.transcoding('mp4').replace('+','%2B'); 
@@ -61,11 +62,11 @@
                <a tal:attributes="href mp4" id="player-videoview" tal:condition="mp4" >
                </a>             
             
-        <video controls width="400" height="300" tal:condition="nothing"
-               tal:attributes="poster string:${here/absolute_url}/thumbnailImage">
-            <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />               
-            <source tal:condition="ogg" tal:attributes="src ogg" type="video/ogg" />
-         </video>        
+            <video controls width="400" height="300" tal:condition="nothing"
+                   tal:attributes="poster string:${here/absolute_url}/thumbnailImage">
+                <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />               
+                <source tal:condition="ogg" tal:attributes="src ogg" type="video/ogg" />
+             </video>        
              <script language="JavaScript" tal:define="thumbstr python: thumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or ''"
                 tal:content="string:  
                 flowplayer('player-videoview','${view/portal_url}/%2B%2Bresource%2B%2Bplumi.content.flowplayer/flowplayer-3.2.2.swf',{
@@ -80,7 +81,10 @@
                     ]  
                 });">
             </script>
-      </div> <!-- id=video-core -->
+          </div> <!-- id=video-core -->
+          <div id="original-link" style="float:right;">
+                <a style="color:#000000;" tal:attributes="href string:$original_url">View original at <span tal:replace="structure portal/Title"></span></a>
+          </div>
       
 	</div>
 
