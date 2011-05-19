@@ -107,7 +107,7 @@
             <div tal:omit-tag="" tal:condition="mp4">        
                     <div class="embed" id="embedDiv" i18n:translate="copy_embed_code">
                  Copy the following to embed the movie into another web page:</div>
-                    <textarea rows="2" onclick="this.focus();this.select();"><span tal:replace="string:<iframe src='${here/absolute_url}/embed_view' frameborder='0' width='400' height='320'></iframe>" /></textarea>
+                    <textarea rows="2" onclick="this.focus();this.select();"><span tal:replace="string:<iframe src='${here/absolute_url}/embed_view' frameborder='0' width='400' height='300'></iframe>" /></textarea>
              </div>
              <script language="JavaScript" tal:define="thumbstr python: thumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or ''"
                 tal:content="string:  if ('${low}') { if (jq.cookie('videores') == 'low') { videourl = '${low}'; $('#player-high')[0].style.display = ''; $('#player-low')[0].style.display = 'none' } else {  videourl = '${mp4}' } } else {  videourl = '${mp4}' }
