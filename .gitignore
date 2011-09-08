@@ -1,0 +1,3 @@
+*.py?
+
+plumi.content.egg-info/
