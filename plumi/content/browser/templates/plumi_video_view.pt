@@ -118,7 +118,8 @@
                             url:videourl,
                             autoPlay:false,
                             autoBuffering:false,
-                            bufferLength:5
+                            bufferLength:5,
+                            scaling:'fit'
                         }
                     ]  
                 }); ">
@@ -128,7 +129,7 @@
                       jq.cookie('videores', 'low');
                       $('#player-high')[0].style.display = ''; 
                       $('#player-low')[0].style.display = 'none';
-                      flowplayer(0).play({url:'${low}'});
+                      flowplayer(0).play({url:'${low}',scaling:'fit'});
                       return false
                     });
                 });">
@@ -138,7 +139,7 @@
                       jq.cookie('videores', 'mp4');
                       $('#player-high')[0].style.display = 'none'; 
                       $('#player-low')[0].style.display = '';
-                      flowplayer(0).play({url:'${mp4}'});
+                      flowplayer(0).play({url:'${mp4}',scaling:'fit'});
                       return false
                     });
                 });">
