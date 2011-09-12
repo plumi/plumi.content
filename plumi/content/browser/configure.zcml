@@ -89,15 +89,6 @@
       />
 
   <browser:page
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-      name="featured_videos_homepage"
-      class=".featured_videos.FeaturedVideosPage"
-      template="templates/featured.pt"
-      permission="zope2.View"
-      allowed_interface=".interfaces.ITopicsProvider"
-      />
-
-  <browser:page
       for="zope.app.container.interfaces.IContainer"
       name="video_listing"
       class=".videos_listing.VideosListing"
