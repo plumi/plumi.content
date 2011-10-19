@@ -36,6 +36,7 @@ class IVideoView( Interface ):
     bt_availability = Attribute("A dict giving info about the BT status of the"
                                 " file. It's a dict with two keys.")
 
+
 class ITopicsProvider( Interface ):
     u"""The browser views implementing this interface have for mission
     to retrieve a list of categories with all the linked infos from the
@@ -62,6 +63,7 @@ class ITopicsProvider( Interface ):
         Having it stored as the parent is also very important for the security
         context to be kept.
         """)
+
 
 class IFeaturedVideosRetriever( IBrowserView, ITopicsProvider ):
     u"""This interface defines a featured videos retriever.
