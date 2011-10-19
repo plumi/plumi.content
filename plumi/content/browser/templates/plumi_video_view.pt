@@ -77,12 +77,12 @@
                                      thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_mini' or '';
                                      fullThumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_preview' or ''">
 
-            <tal:failed_transcode condition="not: mp4">
+            <tal:failed_transcode condition="python:not webm and not mp4">
               <a id="no-video-player"
                  tal:attributes="href string:$fullThumb">
 
                 <img tal:attributes="src thumb;
-                                        alt here/thumbnailImageDescription;
+                                     alt here/thumbnailImageDescription;
                                      style string:margin-bottom:5px;" />
                 <span>
                   <img tal:replace="structure here/search_icon.gif" />
@@ -99,11 +99,13 @@
                </a>
                <a tal:attributes="href string:##" id="player-high" tal:condition="mp4" style='display:none;' i18n:translate="click_high_res">Click here to view a higher resolution.
                </a>
-            <!-- fallback for browsers who don't support video tag -->            
-        <video controls width="400" height="300"
+
+            <!-- HTML5 video tag with fallback -->
+            <video controls width="400" height="300"
                tal:attributes="poster string:${here/absolute_url}/thumbnailImage">
-            <source tal:condition="webm" tal:attributes="src webm" type="video/webm" />               
-         </video>        
+                <source tal:condition="webm" tal:attributes="src webm" type="video/webm" />
+                <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />
+            </video>
 
             <div tal:omit-tag="" tal:condition="mp4">        
                     <div class="embed" id="embedDiv" i18n:translate="copy_embed_code">
