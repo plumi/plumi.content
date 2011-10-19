@@ -100,7 +100,7 @@
                <a tal:attributes="href string:##" id="player-high" tal:condition="mp4" style='display:none;' i18n:translate="click_high_res">Click here to view a higher resolution.
                </a>
             <!-- fallback for browsers who don't support video tag -->            
-        <video controls width="400" height="300" tal:condition="nothing"
+        <video controls width="400" height="300"
                tal:attributes="poster string:${here/absolute_url}/thumbnailImage">
             <source tal:condition="webm" tal:attributes="src webm" type="video/webm" />               
          </video>        
