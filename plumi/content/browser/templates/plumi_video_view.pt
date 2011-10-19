@@ -68,10 +68,12 @@
             This item does not have any body text, click the edit tab to change it.
         </p>
 
-          <div id="video-core" tal:define="transcoded python:view.transcoding('ogg') and view.transcoding('mp4');
+          <div id="video-core" tal:define="transcoded python:view.transcoding('webm') and view.transcoding('mp4');
                                      mp4 python:view.transcoding('mp4').replace('+','%2B'); 
                                      ogg python:view.transcoding('ogg');
                                      low python:view.transcoding('low');
+                                     webm python:view.transcoding('webm');
+                                     webmlow python:view.transcoding('webmlow');
                                      thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_mini' or '';
                                      fullThumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_preview' or ''">
 
@@ -100,8 +102,7 @@
             <!-- fallback for browsers who don't support video tag -->            
         <video controls width="400" height="300" tal:condition="nothing"
                tal:attributes="poster string:${here/absolute_url}/thumbnailImage">
-            <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />               
-            <source tal:condition="ogg" tal:attributes="src ogg" type="video/ogg" />
+            <source tal:condition="webm" tal:attributes="src webm" type="video/webm" />               
          </video>        
 
             <div tal:omit-tag="" tal:condition="mp4">        
