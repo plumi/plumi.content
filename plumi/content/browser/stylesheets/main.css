@@ -54,3 +54,12 @@ font-weight: bold;
 .activeMembersHeader {
 margin-bottom: 10px;
 }
+
+#video-core, #player-videoview {
+    width: 525px !important;
+}
+
+#video-infos {
+    width: 215px !important;
+}
+

@@ -10,24 +10,21 @@
 <tal:block metal:fill-slot="head_slot" 
            condition="python:view.transcoding('mp4')" 
            define="mp4 python:view.transcoding('mp4');
-                   portal context/@@plone_portal_state/portal;
-                   swfplayer string:${portal/absolute_url}/%2B%2Bresource%2B%2Bplumi.content.flowplayer/flowplayer-3.2.2.swf;
-                   swfcontrols string:${portal/absolute_url}/%2B%2Bresource%2B%2Bplumi.content.flowplayer/flowplayer.controls-3.2.1.swf">
+                   portal context/@@plone_portal_state/portal">
     <meta name="medium" content="video" />
     <meta name="title" tal:attributes="content here/title" />
     <meta name="description" tal:attributes="content here/description" />
     <link rel="image_src" tal:condition="view/hasThumbnailImage" tal:attributes="href string:${here/absolute_url}/thumbnailImage_mini" />
-    <link rel="video_src" tal:attributes="href string:${swfplayer}?config={'embedded':'true','clip':'${mp4}','plugins':{'controls':{'url':'${swfcontrols}'}}}" /> 
     <meta name="video_height" content="300" /> 
     <meta name="video_width" content="400" />
     <meta name="video_type" content="application/x-shockwave-flash" />
     <meta property="og:title" content="title" tal:attributes="content here/title" />
     <meta property="og:description" content="description" tal:attributes="content here/description" />
     <meta property="og:image" content="thumbnail" tal:condition="view/hasThumbnailImage" tal:attributes="content string:${here/absolute_url}/thumbnailImage_mini" />
-    <meta property="og:video" content="video" tal:attributes="content string:${swfplayer}?config={'embedded':'true','clip':'${mp4}','plugins':{'controls':{'url':'${swfcontrols}'}}}"/>
     <meta name="og:video:height" content="300" /> 
     <meta name="og:video:width" content="400" />
-
+    <script src="++resource++collective.mediaelementjs/mediaelement-and-player.min.js"></script>
+    <link rel="stylesheet" href="++resource++collective.mediaelementjs/mediaelementplayer.min.css" />
 
 </tal:block>
 <head>
@@ -46,7 +43,6 @@
 		<div class="roundborder rounded">
         <div tal:replace="structure provider:plone.abovecontent" />
         <div tal:replace="structure provider:plone.abovecontenttitle" tal:condition="not:ajax_load" />
-
         <h1 class="documentFirstHeading"> 
           <metal:field use-macro="python:here.widget('title', mode='view')">
             Title
@@ -70,6 +66,7 @@
 
           <div id="video-core" tal:define="transcoded python:view.transcoding('ogg') and view.transcoding('mp4');
                                      mp4 python:view.transcoding('mp4').replace('+','%2B'); 
+                                     webm python:view.transcoding('webm').replace('+','%2B'); 
                                      ogg python:view.transcoding('ogg');
                                      low python:view.transcoding('low');
                                      thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_mini' or '';
@@ -91,25 +88,32 @@
               </a>
             </tal:failed_transcode>
 
-               <a tal:attributes="href mp4" id="player-videoview" tal:condition="mp4" >
+               <!--a tal:attributes="href mp4" id="player-videoview" tal:condition="mp4" >
                </a>             
                <a tal:attributes="href string:#" id="player-low" tal:condition="low" i18n:translate="slow_connection_low_res">Slow Connection? Try a lower resolution.
                </a>
                <a tal:attributes="href string:##" id="player-high" tal:condition="mp4" style='display:none;' i18n:translate="click_high_res">Click here to view a higher resolution.
-               </a>
-            <!-- fallback for browsers who don't support video tag -->            
-        <video controls width="400" height="300" tal:condition="nothing"
-               tal:attributes="poster string:${here/absolute_url}/thumbnailImage">
-            <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />               
-            <source tal:condition="ogg" tal:attributes="src ogg" type="video/ogg" />
-         </video>        
+               </a -->
+            <video controls width="525" height="300" tal:attributes="poster string:${here/absolute_url}/thumbnailImage" controls="controls" preload="none">
+                <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />               
+                <source tal:condition="webm" tal:attributes="src webm" type="video/webm" />
+                <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
+                    <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
+                    <param name="flashvars" tal:attributes="value string:controls=true&poster=${thumb}&file=${mp4}" />       
+                    <!-- Image as a last resort -->
+                    <img tal:attributes="src thumb" width="525" height="300" title="No video playback capabilities" />
+                </object>
+             </video>
+             <script>
+                $('video').mediaelementplayer(/* Options */);
+             </script>
 
             <div tal:omit-tag="" tal:condition="mp4">        
                     <div class="embed" id="embedDiv" i18n:translate="copy_embed_code">
                  Copy the following to embed the movie into another web page:</div>
-                    <textarea rows="2" onclick="this.focus();this.select();"><span tal:replace="string:<iframe src='${here/absolute_url}/embed_view' frameborder='0' width='400' height='300'></iframe>" /></textarea>
+                    <textarea rows="2" onclick="this.focus();this.select();"><span tal:replace="string:<iframe src='${here/absolute_url}/embed_view' frameborder='0' width='525' height='300'></iframe>" /></textarea>
              </div>
-             <script language="JavaScript" tal:define="thumbstr python: thumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or ''"
+             <!--script language="JavaScript" tal:define="thumbstr python: thumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or ''"
                 tal:content="string:  if ('${low}') { if (jq.cookie('videores') == 'low') { videourl = '${low}'; $('#player-high')[0].style.display = ''; $('#player-low')[0].style.display = 'none' } else {  videourl = '${mp4}' } } else {  videourl = '${mp4}' }
                 flowplayer('player-videoview','${portal/absolute_url}/%2B%2Bresource%2B%2Bplumi.content.flowplayer/flowplayer-3.2.2.swf',{
                    playlist:[
@@ -143,7 +147,7 @@
                       return false
                     });
                 });">
-             </script>
+             </script-->
         <div id="video-downloads">
           <p class="download-block"> 
             <a id="download-link"
@@ -162,7 +166,7 @@
           </a>
           <span tal:condition="view/has_torrent"> (Seeders: <span class="seeders"></span>)</span>
           </p>
-            <script>
+            <!--script>
 
                 function getSeeders() {
                     jq.ajax({
@@ -180,7 +184,7 @@
 
                 jq(window).load(function() {getSeeders();});
 
-            </script>
+            </script-->
 
           <p class="download-block" tal:condition="ogg">
             <a id="ogg-link"
@@ -413,7 +417,7 @@
 
 </div>      
     </tal:main-macro>
+    <script type="text/javascript" src="http://s3.www.universalsubtitles.org/js/unisubs-widgetizer.js"></script>
 </metal:main>
-
 </body>
 </html>

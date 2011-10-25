@@ -30,12 +30,6 @@
     id="plumi.content.retranscodevideopermission"
     title="plumi.content: ReTranscode Video" />
 
-  <!-- Resource directory for flowplayer -->
-  <browser:resourceDirectory
-      name="plumi.content.flowplayer"
-      directory="flowplayer"
-      />
-
   <!-- Resource directory for stylesheets -->
   <browser:resourceDirectory
       name="plumi.content.stylesheets"
@@ -55,14 +49,6 @@
     class=".download_torrent.DownloadTorrent"
     permission="zope2.View"
     />
-
-  <browser:page
-      name="flowplayerConfig.js"
-      for="plumi.content.interfaces.IPlumiVideo"
-      class=".video.flowplayerConfig"
-      permission="zope2.View"
-      layer=".interfaces.IThemeSpecific"
-      />
 
   <browser:page
     name="reTranscode"
