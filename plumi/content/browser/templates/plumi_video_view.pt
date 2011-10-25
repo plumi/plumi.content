@@ -64,20 +64,22 @@
             This item does not have any body text, click the edit tab to change it.
         </p>
 
-          <div id="video-core" tal:define="transcoded python:view.transcoding('ogg') and view.transcoding('mp4');
+          <div id="video-core" tal:define="transcoded python:view.transcoding('webm') and view.transcoding('mp4');
                                      mp4 python:view.transcoding('mp4').replace('+','%2B'); 
                                      webm python:view.transcoding('webm').replace('+','%2B'); 
                                      ogg python:view.transcoding('ogg');
                                      low python:view.transcoding('low');
+                                     webm python:view.transcoding('webm');
+                                     webmlow python:view.transcoding('webmlow');
                                      thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_mini' or '';
                                      fullThumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_preview' or ''">
 
-            <tal:failed_transcode condition="not: mp4">
+            <tal:failed_transcode condition="python:not webm and not mp4">
               <a id="no-video-player"
                  tal:attributes="href string:$fullThumb">
 
                 <img tal:attributes="src thumb;
-                                        alt here/thumbnailImageDescription;
+                                     alt here/thumbnailImageDescription;
                                      style string:margin-bottom:5px;" />
                 <span>
                   <img tal:replace="structure here/search_icon.gif" />
@@ -93,6 +95,7 @@
                <a tal:attributes="href string:#" id="player-low" tal:condition="low" i18n:translate="slow_connection_low_res">Slow Connection? Try a lower resolution.
                </a>
                <a tal:attributes="href string:##" id="player-high" tal:condition="mp4" style='display:none;' i18n:translate="click_high_res">Click here to view a higher resolution.
+
                </a -->
             <video controls width="525" height="300" tal:attributes="poster string:${here/absolute_url}/thumbnailImage" controls="controls" preload="none">
                 <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />               
