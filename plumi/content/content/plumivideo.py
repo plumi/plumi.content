@@ -95,7 +95,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Website URL"),
         ),
         languageIndependent=True,
-        schemata='default',        
+        schemata='default',
     ),
 
     atapi.StringField(
@@ -104,7 +104,16 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.StringWidget(
             label=_(u"Distributor"),
         ),
-        schemata='default',                
+        schemata='default',
+    ),
+
+    atapi.StringField(
+        'VideoLanguage',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            label=_(u"Video Language"),
+        ),
+        schemata='default',
     ),
     
     atapi.DateTimeField(
@@ -126,7 +135,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.RichWidget(
             label=_(u"Full Description"),
         ),
-        schemata='default',        
+        schemata='default',
     ),
 
     atapi.StringField(
@@ -246,6 +255,8 @@ class PlumiVideo(base.ATCTContent):
     FullDescription = atapi.ATFieldProperty('FullDescription')
 
     Distributor = atapi.ATFieldProperty('Distributor')
+
+    VideoLanguage = atapi.ATFieldProperty('VideoLanguage')
 
     WebsiteURL = atapi.ATFieldProperty('WebsiteURL')
 

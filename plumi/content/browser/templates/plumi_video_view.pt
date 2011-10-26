@@ -301,6 +301,14 @@
                   Director
                 </td>
               </tr>
+              <tr tal:condition="here/VideoLanguage">
+                <th i18n:translate="">
+                  Video Language
+                </th>
+                <td tal:content="here/VideoLanguage">
+                  Director
+                </td>
+              </tr>
               <tr tal:condition="here/ProducerEmail"
                   tal:define="emailaddy here/ProducerEmail">
                 <th i18n:translate="">Contact</th>
