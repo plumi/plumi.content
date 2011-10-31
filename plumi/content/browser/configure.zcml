@@ -153,6 +153,12 @@
       permission="zope2.View"
       class=".video.SeedersView" />
 
+<!-- Resource directory for flowplayer -->
+
+  <browser:resourceDirectory
+    name="plumi.content.flowplayer"
+    directory="flowplayer" />
+
 
   <plone:portlet
       name="plumi.content.browser.portlets.ActiveMembers"
