@@ -92,11 +92,7 @@
 
                <!--a tal:attributes="href mp4" id="player-videoview" tal:condition="mp4"  >
                </a-->             
-               <a tal:attributes="href string:#" id="player-low" tal:condition="webmlow" i18n:translate="slow_connection_low_res">Slow Connection? Try a lower resolution.
-               </a>
-               <a tal:attributes="href string:##" id="player-high" tal:condition="webm" style='display:none;' i18n:translate="click_high_res">Click here to view a higher resolution.
 
-               </a>
              <video id="main-video" controls width="525" height="300" tal:attributes="poster string:${here/absolute_url}/thumbnailImage" controls="controls" preload="none">
                 <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />
                 <source tal:condition="webm" tal:attributes="src webm" type="video/webm" />
@@ -108,10 +104,7 @@
                 </object>
              </video>
             <script>
-                var v = document.getElementsByTagName("video")[0];
-                new MediaElement(v, {success: function(media) {
-                    media.stop();
-                }});
+
                 $('video').mediaelementplayer({
                     // initial volume when the player starts
                     startVolume: 0.8,
@@ -120,6 +113,11 @@
                  
                 });
             </script>
+               <a tal:attributes="href string:#" id="player-low" tal:condition="webmlow" i18n:translate="slow_connection_low_res">Slow Connection? Try a lower resolution.
+               </a>
+               <a tal:attributes="href string:##" id="player-high" tal:condition="webm" style='display:none;' i18n:translate="click_high_res">Click here to view a higher resolution.
+
+               </a>
             <div tal:omit-tag="" tal:condition="mp4">        
                     <div class="embed" id="embedDiv" i18n:translate="copy_embed_code">
                  Copy the following to embed the movie into another web page:</div>
