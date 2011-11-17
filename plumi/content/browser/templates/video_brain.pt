@@ -14,24 +14,40 @@
   </span>
  <span tal:omit-tag="" tal:condition="options/feature_video" 
         tal:define="mp4 video/isTranscodedPlumiVideoObj/mp4|nothing;
-		    path mp4/path|nothing;
+                    webm video/isTranscodedPlumiVideoObj/webm|nothing;
+		            path mp4/path|nothing;
                     address mp4/address|nothing;
-		    path python:path and path.replace('+','%2B');
-                    thumbstr python: hasThumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or '';
-                    swfplayer string:${here/absolute_url}/%2B%2Bresource%2B%2Bplumi.content.flowplayer/flowplayer-3.2.2.swf;
-                    swfcontrols string:${here/absolute_url}/%2B%2Bresource%2B%2Bplumi.content.flowplayer/flowplayer.controls-3.2.1.swf">
-               <a class="featured-video-image" tal:attributes="href string:$address/$path" id="player" tal:condition="mp4" >
-               </a>   
-         <script language="JavaScript" tal:content='string:flowplayer("player", "$swfplayer", 
-                                                                        { playlist:[$thumbstr
-                                                                                        {
-                                                                                            url:"$address/$path",
-                                                                                            autoPlay:false,
-                                                                                            autoBuffering:false,
-                                                                                            scaling: "fit",
-                                                                                            onStart:function(){try{piwikTracker.trackLink("${view/url}","link")} catch(err){}}
-                                                                                        }
-                                                                                    ]}  );'> </script>
+		            path python:path and path.replace('+','%2B');
+                    pathwebm webm/path|nothing;
+                    addresswebm webm/address|nothing;
+                    thumbstr python: hasThumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or ''">
+
+    <script src="++resource++plumi.content.mediaelement/mediaelement-and-player.js"></script>
+    <link rel="stylesheet" href="++resource++plumi.content.mediaelement/mediaelementplayer.min.css" />
+
+     <video id="main-video" class="featured-video" controls width="320" height="240" tal:attributes="poster fullThumb" controls="controls" preload="none">
+        <source tal:condition="mp4" tal:attributes="src string:$address/$path" type="video/mp4" />
+        <source tal:condition="webm" tal:attributes="src string:$addresswebm/$pathwebm" type="video/webm" />
+        <object width="320" height="240" type="application/x-shockwave-flash" data="++resource++plumi.content.mediaelement/flashmediaelement.swf">
+            <param name="movie" value="++resource++plumi.content.mediaelement/flashmediaelement.swf" />
+            <param name="flashvars" tal:attributes="value string:controls=true&poster=${thumb}&file=${mp4}" />
+            <!-- Image as a last resort -->
+            <img tal:attributes="src thumb" width="320" height="240" title="No video playback capabilities" />
+        </object>
+     </video>
+    <script>
+        var v = document.getElementsByTagName("video")[0];
+        new MediaElement(v, {success: function(media) {
+            media.stop();
+        }});
+        $('video').mediaelementplayer({
+            // initial volume when the player starts
+            startVolume: 0.8,
+            // the order of controls you want on the control bar (and other plugins below)
+            features: ['playpause','progress','current','duration','volume','fullscreen'],
+         
+        });
+    </script>
 
   </span>
   
