@@ -104,7 +104,10 @@
                 </object>
              </video>
             <script>
-
+                var v = document.getElementsByTagName("video")[0];
+                new MediaElement(v, {success: function(media) {
+                    media.stop();
+                }});
                 $('video').mediaelementplayer({
                     // initial volume when the player starts
                     startVolume: 0.8,
