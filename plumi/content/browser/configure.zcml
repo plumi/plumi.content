@@ -159,6 +159,9 @@
     name="plumi.content.flowplayer"
     directory="flowplayer" />
 
+  <browser:resourceDirectory
+    name="plumi.content.mediaelement"
+    directory="mediaelement" />
 
   <plone:portlet
       name="plumi.content.browser.portlets.ActiveMembers"
