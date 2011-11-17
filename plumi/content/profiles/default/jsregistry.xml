@@ -2,5 +2,5 @@
 <object name="portal_javascripts">
  <javascript cacheable="True" compression="none" cookable="True"
      enabled="True" expression=""
-         id="++resource++plumi.content.flowplayer/jquery.cookie.js" inline="False"/>
+         id="++resource++plumi.content.mediaelement/jquery.cookie.js" inline="False"/>
 </object>
