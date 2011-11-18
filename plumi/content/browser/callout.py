@@ -13,19 +13,21 @@ from Products.CMFCore.utils import getToolByName
 
 from interfaces import ICalloutView, ITopicsProvider
 
+
 try:
-    from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, SUBMISSIONS_FOLDER
+    from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER,\
+                                        SUBMISSIONS_FOLDER
     TAXONOMIES = True
 except:
-    TAXONOMIES = False 
+    TAXONOMIES = False
 
 # Internationalization
 _ = i18n.MessageFactory("plumi.content")
 
-class CalloutView( BrowserView ):
+class CalloutView(BrowserView):
     u"""This browser view is used as utility for the callout view
     """
-    implements( ICalloutView, ITopicsProvider )
+    implements(ICalloutView, ITopicsProvider)
 
     def __init__(self, context, request):
         super(CalloutView, self).__init__(context, request)
@@ -55,11 +57,12 @@ class CalloutView( BrowserView ):
 
     def hasThumbnailImage(self):
         if getattr(self.context,'calloutImage',None) is None:
-                return False
+            return False
         imgfield = self.context.getField('calloutImage')
         #XXX test if the field is ok
-        if imgfield is None or imgfield is '' or imgfield.getSize(self.context) == (0, 0):
-                return False
+        if imgfield is None or imgfield is '' or\
+        imgfield.getSize(self.context) == (0, 0):
+            return False
         return True
 
     def get_categories_dict(self, cats):
@@ -69,8 +72,7 @@ class CalloutView( BrowserView ):
             return ()
         voc = self.vocab_tool.getVocabularyByName('submission_categories')
         url = "%s/%s/%s/" % (self.portal_url,
-                             TOPLEVEL_TAXONOMY_FOLDER, SUBMISSIONS_FOLDER)
+                            TOPLEVEL_TAXONOMY_FOLDER, SUBMISSIONS_FOLDER)
         return (dict(id = cat_id,
                      url = url + cat_id,
                      title = voc[cat_id].Title()) for cat_id in cats)
-

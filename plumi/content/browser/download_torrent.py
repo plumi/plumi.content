@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse, NotFound
 
@@ -5,15 +7,16 @@ from Acquisition import aq_base
 from Products.Five.browser import BrowserView
 
 from zope.component import getUtility
-from plone.registry.interfaces import IRegistry 
+from plone.registry.interfaces import IRegistry
 import os.path
 from httplib import HTTPResponse
 import urllib
 
+
 class DownloadTorrent(BrowserView):
     """Download a torrent file, via ../context/@@download_torrent
     """
-    
+
     implements(IPublishTraverse)
 
     def __init__(self, context, request):
@@ -35,11 +38,14 @@ class DownloadTorrent(BrowserView):
 
         if os.path.exists(torrentPath):
             fo = open(torrentPath, "rb")
-            str = fo.read();
+            str = fo.read()
             fo.close()
-            self.request.response.setHeader("Content-Type", "application/x-torrent")
-            self.request.response.setHeader("Content-Length", os.path.getsize(torrentPath))
-            self.request.response.setHeader("Content-Disposition", "attachment; filename=\"%s\"" % torrentName)
+            self.request.response.setHeader("Content-Type",
+                                            "application/x-torrent")
+            self.request.response.setHeader("Content-Length",
+                                            os.path.getsize(torrentPath))
+            self.request.response.setHeader("Content-Disposition",
+                                    "attachment; filename=\"%s\"" % torrentName)
             return str
         else:
             raise NotFound(self, self.context, self.request)

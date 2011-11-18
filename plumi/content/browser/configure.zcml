@@ -1,6 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser" 
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
@@ -10,15 +10,15 @@
 
   <!-- -*- extra stuff goes here -*- -->
   <browser:menuItem
-	for="plumi.content.interfaces.IPlumiVideo"
-	menu="plone_displayviews"
-	title="Plumi Video view"
-	i18n:attributes="title"
-	action="@@video_view"
-	description="Default representation of a Plumi video content type" />
+    for="plumi.content.interfaces.IPlumiVideo"
+    menu="plone_displayviews"
+    title="Plumi Video view"
+    i18n:attributes="title"
+    action="@@video_view"
+    description="Default representation of a Plumi video content type" />
 
   <adapter factory=".brain_rendering.PlumiVideoBrain"
-	   provides=".interfaces.IPlumiVideoBrain" />
+       provides=".interfaces.IPlumiVideoBrain" />
 
  <adapter factory=".adapters.TopicVideosProvider"
            provides=".interfaces.IVideosProvider" />

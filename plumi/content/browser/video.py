@@ -7,7 +7,7 @@ from Products.Five.browser  import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
-from plone.registry.interfaces import IRegistry 
+from plone.registry.interfaces import IRegistry
 # CMF
 from Products.CMFCore.interfaces import IPropertiesTool
 from Products.CMFCore.utils import getToolByName
@@ -21,10 +21,15 @@ from collective.transcode.star.interfaces import ITranscodeTool
 import os.path
 from subprocess import Popen, PIPE
 from random import sample
-import urllib2, simplejson
+import urllib2
+import simplejson
+
 
 try:
-    from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER, GENRE_FOLDER, CATEGORIES_FOLDER
+    from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER,\
+                                        COUNTRIES_FOLDER,\
+                                        GENRE_FOLDER,\
+                                        CATEGORIES_FOLDER
     TAXONOMIES = True
 except ImportError:
     TAXONOMIES = False
@@ -33,10 +38,11 @@ except ImportError:
 # Internationalization
 _ = i18n.MessageFactory("plumi.content")
 
-class VideoView( BrowserView ):
+
+class VideoView(BrowserView):
     u"""This browser view is used as utility for the atvideo view
     """
-    implements( IVideoView, ITopicsProvider )
+    implements(IVideoView, ITopicsProvider)
 
     #__call__ = ViewPageTemplateFile('templates/plumi_video_view.pt')
 
@@ -51,10 +57,9 @@ class VideoView( BrowserView ):
             self.transcode_profiles = {}
 
         pprop = getUtility(IPropertiesTool)
-        
+
         (self.transcoding_ready,
          self.transcoding_status) = self.get_transcoding_status()
-
 
     @property
     def categories(self):
@@ -83,7 +88,7 @@ class VideoView( BrowserView ):
     @property
     def country(self):
         country_id = self.context.getCountries()
-        if country_id in ['OO', 'none','']:
+        if country_id in ['OO', 'none', '']:
             return None
         if country_id:
             return self.get_country_info(country_id)
@@ -103,47 +108,46 @@ class VideoView( BrowserView ):
 
     @property
     def transcoding_rights(self):
-        mtool  = getToolByName(self.context, "portal_membership")
+        mtool = getToolByName(self.context, "portal_membership")
         member = mtool.getAuthenticatedMember()
-        mb_id  = member.getUserName()
+        mb_id = member.getUserName()
         member_roles = member.getRoles()
 
         is_manager = 'Manager' in member_roles
         is_reviewer = 'Reviewer' in member_roles
-        is_owner   = mb_id in self.context.users_with_local_role('Owner')
-        #return is_manager or is_owner
-        #XXX make this an configurable option, ie settable thru a configelet whether or not owner can see 
-        #this template
-        #but for now just make it is_manager or is_reviewer
+        is_owner = mb_id in self.context.users_with_local_role('Owner')
+        """Return is_manager or is_owner. XXX make this an configurable option,
+        ie settable thru a configelet whether or not owner can see this
+        template, but for now just make it is_manager or is_reviewer.
+        """
         return is_manager or is_reviewer
 
     @property
     def bt_availability(self):
-        #XXX fix bittorrent functionality 
-
-        #media_tool = getToolByName(self.context, "portal_atmediafiletool")
-        #enabled_bt = media_tool.getEnable_bittorrent()
-        #enable_ext_bt = media_tool.getEnable_remote_bittorrent()
-        #bt_url = self.context.getTorrentURL()
+        """XXX fix bittorrent functionality
+        media_tool = getToolByName(self.context, "portal_atmediafiletool")
+        enabled_bt = media_tool.getEnable_bittorrent()
+        enable_ext_bt = media_tool.getEnable_remote_bittorrent()
+        bt_url = self.context.getTorrentURL()
+        """
         bt_url = ''
-        
+
         available = False
-        return dict(available = available,
-                    url = bt_url)
+        return dict(available=available, url=bt_url)
 
     def transcoding(self, profile):
         try:
             tt = getUtility(ITranscodeTool)
             entry = tt[self.context.UID()]['video_file'][profile]
             return entry['address'] + '/' + entry['path']
-        except Exception,e:
+        except Exception, e:
             pass
 
-	if profile == 'mp4':
+        if profile == 'mp4':
             ctype = self.context.video_file.getContentType()
             if 'mp4' in ctype or 'flv' in ctype:
-                return self.context.absolute_url() + '/download/video_file/%s' % self.context.video_file.getFilename()
-
+                return self.context.absolute_url() +\
+                '/download/video_file/%s' % self.context.video_file.getFilename()
         return ''
 
     def can_use_video_tag(self):
@@ -151,8 +155,7 @@ class VideoView( BrowserView ):
         return self.transcoding('mp4') and self.transcoding('ogg')
 
     def get_transcoding_status(self):
-        """Returns true if mp4 transcoding has succeeded. 
-        """
+        """Returns true if mp4 transcoding has succeeded"""
         profile = 'mp4'
         status = None
         try:
@@ -162,56 +165,47 @@ class VideoView( BrowserView ):
             pass
 
         if not status:
-           return (False, _(u"The transcoding has not started."))
+            return (False, _(u"The transcoding has not started."))
         elif status == 'ok':
             return (True, _(u"The transcoding has worked successfully."))
         elif status == 'pending':
             return (False, _(u"The transcoding is in progress."))
         else:
             return (False, _(u"The transcoding failed. %s" % status))
-   
+
     def get_categories_dict(self, cats):
-        """Uses the portal vocabularies to retrieve the video categories
-        """
+        """Uses the portal vocabularies to retrieve the video categories"""
         voc = self.vocab_tool.getVocabularyByName('video_categories')
 
         if not TAXONOMIES:
             url = "%s/search?getCategories=" % (self.portal_url)
-	else:
+        else:
             url = "%s/%s/%s/" % (self.portal_url,
                              TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER)
-        return (dict(id = cat_id,
-                     url = url + cat_id,
-                     title = voc.get(cat_id,None) and voc[cat_id].Title()) for cat_id in cats)
+        return (dict(id=cat_id,
+                     url=url + cat_id,
+                     title=voc.get(cat_id, None) and voc[cat_id].Title()) for cat_id in cats)
 
-    
     def get_genres_info(self, genres):
-        """Uses the portal vocabularies to retrieve the video genres
-        """
+        """Uses the portal vocabularies to retrieve the video genres"""
         voc = self.vocab_tool.getVocabularyByName('video_genre')
 
         if not TAXONOMIES:
             url = "%s/search?getGenre=" % self.portal_url
-	else:
+        else:
             url = "%s/%s/%s/" % (self.portal_url,
                                  TOPLEVEL_TAXONOMY_FOLDER, GENRE_FOLDER)
-        return (dict(id = genre_id,
-                     url = url + genre_id,
-                     title = voc[genre_id].Title()) for genre_id in genres)
-
+        return (dict(id=genre_id,
+                     url=url + genre_id,
+                     title=voc[genre_id].Title()) for genre_id in genres)
 
     def get_subjects_info(self, subjects):
-        """Fake the genres/categories process to return keywords infos
-        """
+        """Fake the genres/categories process to return keywords infos"""
         url = "%s/search?Subject=" % (self.portal_url)
-        return (dict(id = kw,
-                     url = url + kw,
-                     title = kw) for kw in subjects)
-
+        return (dict(id=kw, url=url + kw, title=kw) for kw in subjects)
 
     def get_country_info(self, country_id):
-        """Fake the genres/categories process to return the country infos
-        """
+        """Fake the genres/categories process to return the country infos"""
         voc = self.vocab_tool.getVocabularyByName('video_countries')
         country = voc[country_id]
 
@@ -220,19 +214,13 @@ class VideoView( BrowserView ):
         else:
             url = "%s/%s/%s/" % (self.portal_url,
                                  TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER)
-        return dict(id = country_id,
-                    url = url + country_id,
-                    title = country.Title())
-
+        return dict(id=country_id, url=url + country_id, title=country.Title())
 
     def get_language_info(self, lang_id):
-        """Fake the genres/categories process to return the language infos
-        """
+        """Fake the genres/categories process to return the language infos"""
         voc = self.vocab_tool.getVocabularyByName('video_language')
         language = voc[lang_id].Title()
-        return dict(id = lang_id,
-                    url = None,
-                    title = language)
+        return dict(id=lang_id, url=None, title=language)
 
     def authors_latest(self):
         folder_path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
@@ -241,16 +229,19 @@ class VideoView( BrowserView ):
                      path={'query': folder_path, 'depth': 1},
                      sort_on='effective',
                      sort_order='reverse',
-                     review_state=['published','featured'])
+                     review_state=['published', 'featured'])
         try:
-            brains = sample(catalog(**query),5)
+            brains = sample(catalog(**query), 5)
         except:
             res = []
             for brain in catalog(**query):
                 if not brain.UID in self.context.UID():
-                    #XXX this is not nice, tho limited to less than five getObjects it should be improved
+                    """ this is not nice, tho limited to less than five
+                    getObjects it should be improved
+                    """
                     item = brain.getObject()
-                    if item.getThumbnailImage() is not None and item.getThumbnailImage() is not '': 
+                    if item.getThumbnailImage() is not None and\
+                    item.getThumbnailImage() is not '':
                         res.append(brain)
             brains = res
         return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
@@ -263,14 +254,14 @@ class VideoView( BrowserView ):
             date = self.context.created()
         return self.context.toLocalizedTime(date)
 
-
     def hasThumbnailImage(self):
-        if getattr(self.context,'thumbnailImage',None) is None:
+        if getattr(self.context, 'thumbnailImage', None) is None:
                 return False
         imgfield = self.context.getField('thumbnailImage')
         #XXX test if the field is ok
-        if imgfield is None or imgfield is '' or imgfield.getSize(self.context) == (0, 0):
-                return False
+        if imgfield is None or imgfield is '' or\
+        imgfield.getSize(self.context) == (0, 0):
+            return False
         return True
 
     @property
@@ -278,7 +269,8 @@ class VideoView( BrowserView ):
         try:
             registry = getUtility(IRegistry)
             torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
-            torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent' 
+            torrentPath = os.path.join(torrent_dir, self.context.UID() + '_' +\
+                            self.context.video_file.getFilename()) + '.torrent'
             if os.path.exists(torrentPath):
                 return True
             else:
@@ -287,7 +279,7 @@ class VideoView( BrowserView ):
             return False
 
 
-class SeedersView( BrowserView ):
+class SeedersView(BrowserView):
     u"""This browser view is used to return the torrent seeders for the video
     """
     def __init__(self, context, request):
@@ -300,12 +292,12 @@ class SeedersView( BrowserView ):
         return simplejson.dumps(result)
 
     def getSeeders(self):
-        """ Return number of seeders from torrent client 
-        """
+        """ Return number of seeders from torrent client"""
         try:
             registry = getUtility(IRegistry)
             torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
-            torrentPath = os.path.join(torrent_dir,self.context.UID() + '_' + self.context.video_file.getFilename()) + '.torrent'
+            torrentPath = os.path.join(torrent_dir, self.context.UID() + '_' +\
+                            self.context.video_file.getFilename()) + '.torrent'
             if os.path.exists(torrentPath):
                 torrent_info_args = ['deluge-console', 'info']
                 output = Popen(torrent_info_args, stdout=PIPE).communicate()[0]
@@ -314,24 +306,26 @@ class SeedersView( BrowserView ):
                 end = output2.find(') Peers')
                 output3 = output2[:end]
                 start2 = output3.find('Seeds: 0 (')
-		if output3[(start2+10):] == '':
-		    seeders = 0
-		else:
+                if output3[(start2+10):] == '':
+                    seeders = 0
+                else:
                     seeders = output3[(start2+10):]
-                return seeders
+                    return seeders
             else:
                 return 0
         except:
             return 0
 
 
-class flowplayerConfig( BrowserView ):
+class flowplayerConfig(BrowserView):
+
     def transcoding(self, profile):
-        if self.transcode_profiles.has_key(profile):
+        if profile in self.transcode_profiles:
             if self.transcode_profiles[profile]['status'] == 0:
                 return self.transcode_profiles[profile]['URL']
         return ''
-    def __call__(self, request=None, response=None ):
+
+    def __call__(self, request=None, response=None):
 
         self.request.response.setHeader("Content-type", "text/javascript")
 
@@ -344,7 +338,7 @@ class flowplayerConfig( BrowserView ):
     'embedded': 'true',
     // common clip properties
     'clip': {
-        'url': '%s', 
+        'url': '%s',
     },
     'plugins': {
         // use youtube controlbar
@@ -354,6 +348,5 @@ class flowplayerConfig( BrowserView ):
             'backgroundColor': '#115233'
         }
     }
-} 
+}
         """ % (self.transcoding('mp4'), self.portal_url, )
-

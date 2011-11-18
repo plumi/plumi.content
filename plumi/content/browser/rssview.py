@@ -1,6 +1,7 @@
-##################################################################################
+###############################################################################
 #
-#    Copyright (C) 2007-2009 Andy Nicholson, EngageMedia Collective Inc., All rights reserved.
+#    Copyright (C) 2007-2009 Andy Nicholson, EngageMedia Collective Inc.,
+#    All rights reserved.
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -16,11 +17,11 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-##################################################################################
+###############################################################################
 
-__author__  = '''Andy Nicholson'''
+__author__ = '''Andy Nicholson'''
 __docformat__ = 'plaintext'
-__version__   = '$ Revision 0.0 $'[11:-2]
+__version__ = '$ Revision 0.0 $'[11:-2]
 
 try:
     from Products.Five.browser import BrowserView
@@ -30,16 +31,19 @@ from collective.contentlicensing.browser import RSSView as DefaultRSSView
 from Products.CMFCore.utils import getToolByName
 import types
 
+
 class RSSView(DefaultRSSView):
     """ Implements ATVideo RSS view """
 
     def getRSSObjects(self):
         """ Get RSS objects. """
-        syn_tool = getToolByName( self, 'portal_syndication' )
+        syn_tool = getToolByName(self, 'portal_syndication')
         #assume its a topic, self.aq_parent
         if self.aq_parent.portal_type == 'Topic':
-            #use qRSS2Syndication.utils to get the 'syndication_information' tool, for now, since we
-            #have set this up for all the folders/topics in the ATVideo installer
+            """ use qRSS2Syndication.utils to get the 'syndication_information'
+            tool, for now, since we have set this up for all the folders/topics
+            in the ATVideo installer
+            """
             syinfo = getattr(self.aq_parent, 'syndication_information', None)
             if syinfo is not None:
                 limit = syinfo.max_items
@@ -47,31 +51,39 @@ class RSSView(DefaultRSSView):
                 limit = 10
             brains = self.aq_parent.queryCatalog(sort_limit=limit)[:limit]
         else:
-            portal_catalog = getToolByName( self, 'portal_catalog' )
+            portal_catalog = getToolByName(self, 'portal_catalog')
             #constrain the videos selected to be the path of the view context
             path = "/".join(self.aq_parent.getPhysicalPath())
-            brains = portal_catalog.searchResults(path=path, portal_type='PlumiVideo', sort_on='effective', sort_order='reverse', review_state=['published', 'featured'] )
+            brains = portal_catalog.searchResults(path=path,
+                                        portal_type='PlumiVideo',
+                                        sort_on='effective',
+                                        sort_order='reverse',
+                                        review_state=['published', 'featured'])
 
         #ONLY RETURN BRAINS!!
         bb = []
-        for b in brains: 
-            #check the custom catalog attribute (see catalog_extension.py)
-            # we return the dict attached to the custom metadata, for use in the RSSView
-            x=getattr(b,'isPublishableATEngageVideoObj',None)
-            if x is not None and type(x)==types.DictType and x['published'] is True:
+        for b in brains:
+            """ check the custom catalog attribute (see catalog_extension.py)
+            we return the dict attached to the custom metadata, for use in the
+            RSSView
+            """
+            x = getattr(b, 'isPublishableATEngageVideoObj', None)
+            if x is not None and type(x) == types.DictType and\
+            x['published'] is True:
                 bb.append(b)
             if x is None:
-                #we are not dealing with ATVideo objects, so just add them into the results
-                #
+                """ we are not dealing with ATVideo objects,
+                so just add them into the results
+                """
                 bb.append(b)
         return bb
-        
+
     def defaultLicense(self):
         """ get default site license """
         pprops = getToolByName(self, 'portal_properties')
         return pprops.content_licensing_properties.getProperty('DefaultSiteLicense', None)
 
-    def emailFromAdress(self):        
+    def emailFromAdress(self):
         urltool = getToolByName(self.context, 'portal_url')
         portal = urltool.getPortalObject()
-        return portal.getProperty('email_from_address', None)        
+        return portal.getProperty('email_from_address', None)

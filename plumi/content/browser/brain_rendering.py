@@ -10,16 +10,17 @@ from Products.CMFCore.interfaces import IPropertiesTool
 from plumi.content.browser.video import VideoView
 from collective.transcode.star.interfaces import ITranscodeTool
 
-class PlumiVideoBrain( Explicit ):
+
+class PlumiVideoBrain(Explicit):
     u"""Basic Plumi implementation of a video brain renderer.
     """
-    
+
     implements(IPlumiVideoBrain)
     adapts(IAbstractCatalogBrain, ITopicsProvider)
 
     template = ViewPageTemplateFile('templates/video_brain.pt')
     __allow_access_to_unprotected_subobjects__ = True
-    
+
     def __init__(self, context, provider):
         self.context = context
         self.video = context
@@ -38,25 +39,32 @@ class PlumiVideoBrain( Explicit ):
         self.request = getattr(self.context, "REQUEST", None)
 
     def render_listing(self):
-        return self.template.__of__(self.request)(show_title=True,feature_video=False)
-    
+        return self.template.__of__(self.request)(show_title=True,
+                                                  feature_video=False)
+
     def render(self):
-        return self.template.__of__(self.request)(show_title=False,feature_video=False)
+        return self.template.__of__(self.request)(show_title=False,
+                                                  feature_video=False)
 
     def render_feature_video(self):
-        return self.template.__of__(self.request)(show_title=False,feature_video=True)
+        return self.template.__of__(self.request)(show_title=False,
+                                                  feature_video=True)
 
     @property
     def categories(self):
-        if self.video['getCategories'] == 'none' or self.video['getCategories'] == ():
+        if self.video['getCategories'] == 'none' or\
+        self.video['getCategories'] == ():
             return tuple()
-        return VideoView(self.__parent__.context,self.__parent__.request).get_categories_dict(self.video['getCategories'])
+        return VideoView(self.__parent__.context,
+        self.__parent__.request).get_categories_dict(self.video['getCategories'])
 
     @property
     def country(self):
-        if self.video['getCountries'] == '' or self.video['getCountries'] == 'none':
+        if self.video['getCountries'] == '' or\
+        self.video['getCountries'] == 'none':
             return None
-        return VideoView(self.__parent__.context,self.__parent__.request).get_country_info(self.video['getCountries'])
+        return VideoView(self.__parent__.context,
+        self.__parent__.request).get_country_info(self.video['getCountries'])
 
     @property
     def post_date(self):

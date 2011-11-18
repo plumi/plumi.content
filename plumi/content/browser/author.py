@@ -25,10 +25,11 @@ class AuthorPage(CategoriesProvider):
         self.author = (len(request.traverse_subpath) > 0 and
                        request.traverse_subpath[0] or
                        request.get('author', None))
-        #new way. XXX
-        #self.author = (len(request.traverse_subpath) > 0 and
-        #               url_unquote_plus(request.traverse_subpath[0])) or
-        #               request.get('author', None)
+        """new way. XXX
+        self.author = (len(request.traverse_subpath) > 0 and
+                       url_unquote_plus(request.traverse_subpath[0])) or
+                       request.get('author', None)
+        """
         self.logging = logging.getLogger('plumi.content.browser.author')
         self.member = self.context['acl_users'].getUserById(self.author)
 
@@ -109,8 +110,7 @@ class AuthorPage(CategoriesProvider):
     @property
     def videos(self):
         try:
-            homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).
-                               getPhysicalPath())
+            homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
             query = dict(portal_type='PlumiVideo',
                          path={'query': homeurl},
                          sort_on='effective',
@@ -125,8 +125,7 @@ class AuthorPage(CategoriesProvider):
     @property
     def callouts(self):
         try:
-            homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author)
-                               .getPhysicalPath())
+            homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
             query = dict(portal_type='PlumiCallOut',
                          path={'query': homeurl},
                          sort_on='effective',
@@ -151,8 +150,7 @@ class AuthorPage(CategoriesProvider):
 
     @property
     def news(self):
-        homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author)
-                           .getPhysicalPath())
+        homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
         query = dict(portal_type='News Item',
                      path={'query': homeurl},
                      sort_on='effective',
@@ -164,8 +162,7 @@ class AuthorPage(CategoriesProvider):
     @property
     def events(self):
         try:
-            homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author)
-                               .getPhysicalPath())
+            homeurl = '/'.join(self.mtool.getHomeFolder(id=self.author).getPhysicalPath())
             query = dict(portal_type='Event',
                          path={'query': homeurl},
                          sort_on='effective',

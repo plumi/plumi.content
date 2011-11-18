@@ -1,15 +1,19 @@
+# -*- coding: utf-8 -*-
+
 from plonetheme.classic.browser.interfaces import IThemeSpecific as IClassicTheme
 from zope.interface import Interface, Attribute
 from zope.publisher.interfaces.browser import IBrowserView
 
+
 class IThemeSpecific(IClassicTheme):
     """theme-specific layer"""
 
-class ICalloutView( Interface ):
-    u"""Callout view
-    """
 
-class IVideoView( Interface ):
+class ICalloutView(Interface):
+    u"""Callout view"""
+
+
+class IVideoView(Interface):
     u"""Gathers useful properties from the video and format them for
     display purposes. The lists are all made the same way. They are
     lists of dicts. The dict has 3 keys : title, url and id. Values
@@ -37,7 +41,7 @@ class IVideoView( Interface ):
                                 " file. It's a dict with two keys.")
 
 
-class ITopicsProvider( Interface ):
+class ITopicsProvider(Interface):
     u"""The browser views implementing this interface have for mission
     to retrieve a list of categories with all the linked infos from the
     adapted object.
@@ -65,32 +69,32 @@ class ITopicsProvider( Interface ):
         """)
 
 
-class IFeaturedVideosRetriever( IBrowserView, ITopicsProvider ):
+class IFeaturedVideosRetriever(IBrowserView, ITopicsProvider):
     u"""This interface defines a featured videos retriever.
     It will fetch the lastest reviewed video, the news and
     the list of the latest videos on the site.
     """
     portal_url = Attribute(u"The url of the portal root.")
-    
+
     featured_items = Attribute(u"The current highlighted items.")
-    
+
     news_and_events = Attribute(u"A list of events and news to display.")
-    
+
     latest_videos = Attribute(u"A list of the latest videos to display.")
-    
+
     featured_video_url = Attribute(u"The url of the page for the featured "
                                    u"videos.")
-    
+
     listing_video_url = Attribute(u"The url of the page listing all the "
                                   u"videos.")
 
 
-
-class IAbstractCatalogBrain( Interface ):
+class IAbstractCatalogBrain(Interface):
     u"""Marker interface
     """
 
-class IPlumiVideoBrain( Interface ):
+
+class IPlumiVideoBrain(Interface):
     u"""Video Brain Renderer. This multiadapter takes care of rendering a brain
     representing a video, in its context. The context has to be category-aware.
     There are two ways of rendering the brain. See below.
@@ -103,7 +107,6 @@ class IPlumiVideoBrain( Interface ):
     country = Attribute(u"A list of the video country. "
                            u"See ITopicsProvider for more details")
 
-
     def render():
         u"""Renders the video brain using the template. Calling this
         method will render the template passing the option 'show_title'
@@ -113,8 +116,9 @@ class IPlumiVideoBrain( Interface ):
     def render_feature_video():
         u"""Renders the video brain using the template. Calling this
         method will render the template passing the option 'show_title'
-        as False, so the title of the video won't be rendered, and with 'feature_video' 
-	set True to enable the flash video player, or whatever needs to be conditionally pulled in.
+        as False, so the title of the video won't be rendered, and with
+        'feature_video' set True to enable the flash video player, or whatever
+        needs to be conditionally pulled in.
         """
 
     def render_listing():
@@ -124,7 +128,8 @@ class IPlumiVideoBrain( Interface ):
         used in listings, as the name suggest.
         """
 
-class IAuthorPage( Interface ):
+
+class IAuthorPage(Interface):
     u"""This interface defines a page that is meant to grab an author's
     items and infos out of the catalog and membership tool.
     """
@@ -145,7 +150,8 @@ class IAuthorPage( Interface ):
     author_userbio = Attribute(u" ")
     author_paypal = Attribute(u" ")
 
-class IVideosProvider( Interface ):
+
+class IVideosProvider(Interface):
     u"""This interface defines a content types able to generate a list of
     videos.
     """

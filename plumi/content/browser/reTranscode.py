@@ -2,6 +2,7 @@ from Products.Five.browser import BrowserView
 from zope.component import getUtility
 from collective.transcode.star.interfaces import ITranscodeTool
 
+
 class reTranscode(BrowserView):
 
     def __init__(self, context, request):
