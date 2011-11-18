@@ -153,12 +153,6 @@
       permission="zope2.View"
       class=".video.SeedersView" />
 
-<!-- Resource directory for mediaelement -->
-
-  <browser:resourceDirectory
-    name="plumi.content.mediaelement"
-    directory="mediaelement" />
-
   <plone:portlet
       name="plumi.content.browser.portlets.ActiveMembers"
       interface=".portlets.activemembers.IActiveMembers"

@@ -1,3 +1,0 @@
-#!/usr/bin/python
-from m4baker.m4baker import main; main()
-

@@ -22,9 +22,6 @@
                     addresswebm webm/address|nothing;
                     thumbstr python: hasThumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or ''">
 
-    <script src="++resource++plumi.content.mediaelement/mediaelement-and-player.js"></script>
-    <link rel="stylesheet" href="++resource++plumi.content.mediaelement/mediaelementplayer.min.css" />
-
      <video id="main-video" class="featured-video" controls width="320" height="240" tal:attributes="poster fullThumb" controls="controls" preload="none">
         <source tal:condition="mp4" tal:attributes="src string:$address/$path" type="video/mp4" />
         <source tal:condition="webm" tal:attributes="src string:$addresswebm/$pathwebm" type="video/webm" />
@@ -35,19 +32,6 @@
             <img tal:attributes="src thumb" width="320" height="240" title="No video playback capabilities" />
         </object>
      </video>
-    <script>
-        var v = document.getElementsByTagName("video")[0];
-        new MediaElement(v, {success: function(media) {
-            media.stop();
-        }});
-        $('video').mediaelementplayer({
-            // initial volume when the player starts
-            startVolume: 0.8,
-            // the order of controls you want on the control bar (and other plugins below)
-            features: ['playpause','progress','current','duration','volume','fullscreen'],
-         
-        });
-    </script>
 
   </span>
   

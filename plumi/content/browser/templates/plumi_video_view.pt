@@ -23,8 +23,6 @@
     <meta property="og:image" content="thumbnail" tal:condition="view/hasThumbnailImage" tal:attributes="content string:${here/absolute_url}/thumbnailImage_mini" />
     <meta name="og:video:height" content="300" /> 
     <meta name="og:video:width" content="400" />
-    <script src="++resource++plumi.content.mediaelement/mediaelement-and-player.js"></script>
-    <link rel="stylesheet" href="++resource++plumi.content.mediaelement/mediaelementplayer.min.css" />
 
 </tal:block>
 <head>
@@ -103,15 +101,6 @@
                     <img tal:attributes="src thumb" width="525" height="300" title="No video playback capabilities" />
                 </object>
              </video>
-            <script>
-                $('video').mediaelementplayer({
-                    // initial volume when the player starts
-                    startVolume: 0.8,
-                    // the order of controls you want on the control bar (and other plugins below)
-                    features: ['playpause','progress','current','duration','volume','fullscreen'],
-                 
-                });
-            </script>
                <a tal:attributes="href string:#" id="player-low" tal:condition="webmlow" i18n:translate="slow_connection_low_res">Slow Connection? Try a lower resolution.
                </a>
                <a tal:attributes="href string:##" id="player-high" tal:condition="webm" style='display:none;' i18n:translate="click_high_res">Click here to view a higher resolution.

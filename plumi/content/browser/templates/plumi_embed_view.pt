@@ -17,8 +17,7 @@
         <link rel="image_src" tal:condition="view/hasThumbnailImage" tal:attributes="href string:${here/absolute_url}/thumbnailImage_mini" />
         <meta name="video_height" content="300" /> <!-- TODO make these consistent across the board -->
         <meta name="video_width" content="400" />
-        <script src="++resource++plumi.content.mediaelement/mediaelement-and-player.js"></script>
-        <link rel="stylesheet" href="++resource++plumi.content.mediaelement/mediaelementplayer.min.css" />
+
     </tal:block>
 </head>
 
@@ -66,19 +65,6 @@
                     <img tal:attributes="src thumb" width="525" height="300" title="No video playback capabilities" />
                 </object>
              </video>
-            <script>
-                var v = document.getElementsByTagName("video")[0];
-                new MediaElement(v, {success: function(media) {
-                    media.stop();
-                }});
-                $('video').mediaelementplayer({
-                    // initial volume when the player starts
-                    startVolume: 0.8,
-                    // the order of controls you want on the control bar (and other plugins below)
-                    features: ['playpause','progress','current','duration','volume','fullscreen'],
-                 
-                });
-            </script>
           </div> <!-- id=video-core -->      
 	</div>
 
