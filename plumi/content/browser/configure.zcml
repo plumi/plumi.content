@@ -164,4 +164,10 @@
       editview=".portlets.activemembers.EditForm"
       />
       
+  <!-- old Plumi 0.2.x Plumi Skin zcml -->
+  <five:implements
+      class="Products.ZCatalog.CatalogBrains.AbstractCatalogBrain"
+      interface=".interfaces.IAbstractCatalogBrain"
+      />
+
 </configure>

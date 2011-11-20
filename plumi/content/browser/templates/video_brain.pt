@@ -13,18 +13,13 @@
   </tal:image>
   </span>
  <span tal:omit-tag="" tal:condition="options/feature_video" 
-        tal:define="mp4 video/isTranscodedPlumiVideoObj/mp4|nothing;
-                    webm video/isTranscodedPlumiVideoObj/webm|nothing;
-		            path mp4/path|nothing;
-                    address mp4/address|nothing;
-		            path python:path and path.replace('+','%2B');
-                    pathwebm webm/path|nothing;
-                    addresswebm webm/address|nothing;
+        tal:define="mp4 video/isTranscodedPlumiVideoObj/mp4-low|nothing;
+                    webm video/isTranscodedPlumiVideoObj/webm-low|nothing;
                     thumbstr python: hasThumb and ('{url: \'%s\',type:\'image\'},'%fullThumb) or ''">
 
      <video id="main-video" class="featured-video" controls width="320" height="240" tal:attributes="poster fullThumb" controls="controls" preload="none">
-        <source tal:condition="mp4" tal:attributes="src string:$address/$path" type="video/mp4" />
-        <source tal:condition="webm" tal:attributes="src string:$addresswebm/$pathwebm" type="video/webm" />
+        <source tal:condition="mp4" tal:attributes="src string:${mp4/address}/${mp4/path}" type="video/mp4" />
+        <source tal:condition="webm" tal:attributes="src string:${webm/address}/${webm/path}" type="video/webm" />
         <object width="320" height="240" type="application/x-shockwave-flash" data="++resource++plumi.content.mediaelement/flashmediaelement.swf">
             <param name="movie" value="++resource++plumi.content.mediaelement/flashmediaelement.swf" />
             <param name="flashvars" tal:attributes="value string:controls=true&poster=${thumb}&file=${mp4}" />
