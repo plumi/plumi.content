@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '4.2'
+version = '4.3'
 
 long_description = (
     read('README.txt')
@@ -34,8 +34,8 @@ setup(name='plumi.content',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'License :: OSI Approved :: GNU General Public License (GPL)',
-	'Environment :: Web Environment',
-	'Programming Language :: Python',
+        'Environment :: Web Environment',
+        'Programming Language :: Python',
         ],
       keywords='plone plumi content',
       author='Andy Nicholson',
@@ -54,6 +54,7 @@ setup(name='plumi.content',
                         'collective.transcode.star',
                         'hachoir_metadata',
                         'hachoir_parser',
+                        'simplejson'
                         # -*- Extra requirements: -*-
                         ],
       extras_require = {

@@ -94,8 +94,8 @@
              <video id="main-video" controls width="525" height="300" tal:attributes="poster string:${here/absolute_url}/thumbnailImage" controls="controls">
                 <source tal:condition="webm" tal:attributes="src webm" type="video/webm" />
                 <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />
-                <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++plumi.content.mediaelement/flashmediaelement.swf">
-                    <param name="movie" value="++resource++plumi.content.mediaelement/flashmediaelement.swf" />
+                <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
+                    <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
                     <param name="flashvars" tal:attributes="value string:controls=true&poster=${thumb}&file=${mp4}" />
                     <!-- Image as a last resort -->
                     <img tal:attributes="src thumb" width="525" height="300" title="No video playback capabilities" />
