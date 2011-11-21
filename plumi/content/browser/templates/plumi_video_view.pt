@@ -166,13 +166,14 @@
           </a>
           <span tal:condition="view/has_torrent"> (Seeders: <span class="seeders"></span>)</span>
           </p>
-            <!--script>
+            <script>
 
                 function getSeeders() {
                     jq.ajax({
                         url: location.href.split('/view')[0] + '/@@seeders',
                         type: "GET",
                         dataType: "json",
+                        timeout: 5000,
                         success: function(data) {
                             jq('span.seeders').html(data);
                             jq('span.seeders').fadeIn();
@@ -184,7 +185,7 @@
 
                 jq(window).load(function() {getSeeders();});
 
-            </script-->
+            </script>
 
         </div> <!-- id=video-downloads -->
       </div> <!-- id=video-core -->
