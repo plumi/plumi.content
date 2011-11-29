@@ -266,6 +266,21 @@
           </dd>
         </dl>
 
+        <dl class="videoitemtop plumi-props-listing plumi-keywords"
+            tal:define="video_language view/video_language"
+            tal:condition="video_language">
+          <dt i18n:translate="">Language</dt>
+          <dd>
+            <ul>
+              <li>
+                <a tal:attributes="href video_language/url|nothing;
+                                   class string:video_language-${video_language/id}"
+                   tal:content="video_language/title">languagename</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+
         <div class="vcard">
           <table summary="Event details" class="vertical listing">
             <thead>

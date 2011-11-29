@@ -95,6 +95,13 @@ class VideoView(BrowserView):
         return None
 
     @property
+    def video_language(self):
+        video_language_id = self.context.getVideoLanguage()
+        if video_language_id:
+            return self.get_video_language_info(video_language_id)
+        return None
+
+    @property
     def language(self):
         lang_id = self.context.Language()
         if lang_id:
@@ -215,6 +222,14 @@ class VideoView(BrowserView):
             url = "%s/%s/%s/" % (self.portal_url,
                                  TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER)
         return dict(id=country_id, url=url + country_id, title=country.Title())
+
+    def get_video_language_info(self, video_language_id):
+        """Fake the genres/categories process to return the video language infos"""
+        voc = self.vocab_tool.getVocabularyByName('video_languages')
+        video_language = voc[video_language_id]
+
+        url = "%s/search?getVideoLanguage=" % self.portal_url
+        return dict(id=video_language_id, url=url + video_language_id, title=video_language.Title())
 
     def get_language_info(self, lang_id):
         """Fake the genres/categories process to return the language infos"""

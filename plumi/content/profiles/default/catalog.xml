@@ -7,6 +7,7 @@
  <column value="videoDuration"/>
  
  <column value="getGenre"/>
+ <column value="getVideoLanguage"/>
  <column value="getCategories"/>
  <column value="getCountries"/>
  <column value="getSubmissionCategories"/>
@@ -18,6 +19,9 @@
  </index>
  <index name="getCategories" meta_type="KeywordIndex">
     <indexed_attr value="getCategories"/>
+ </index>
+ <index name="getVideoLanguage" meta_type="KeywordIndex">
+    <indexed_attr value="getVideoLanguage"/>
  </index>
  <index name="getCountries" meta_type="KeywordIndex">
     <indexed_attr value="getCountries"/>

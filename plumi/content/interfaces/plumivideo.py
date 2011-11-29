@@ -94,6 +94,12 @@ class IPlumiVideo(Interface):
         description=_(u"The video categories - select as many as applicable."),
     )
 
+    Categories = schema.List(
+        title=_(u"Video Language"), 
+        required=False,
+        description=_(u"The video language."),
+    )
+
     Genre = schema.TextLine(
         title=_(u"Video Genre"), 
         required=False,

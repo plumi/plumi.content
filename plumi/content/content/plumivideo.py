@@ -106,15 +106,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
         schemata='default',
     ),
-
-    atapi.StringField(
-        'VideoLanguage',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.StringWidget(
-            label=_(u"Video Language"),
-        ),
-        schemata='default',
-    ),
     
     atapi.DateTimeField(
         'DateProduced',
@@ -127,6 +118,18 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 		required=True,
         validators=('isValidDate'),
         schemata='default',                
+    ),
+
+    atapi.StringField(
+        'VideoLanguage',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.SelectionWidget(
+            label=_(u"Language of the video"),
+            i18n_domain='plumi',
+        ),
+        vocabulary=NamedVocabulary("""video_languages"""),
+        languageIndependent=True,
+        schemata='default',
     ),
             
     atapi.TextField(
@@ -256,13 +259,13 @@ class PlumiVideo(base.ATCTContent):
 
     Distributor = atapi.ATFieldProperty('Distributor')
 
-    VideoLanguage = atapi.ATFieldProperty('VideoLanguage')
-
     WebsiteURL = atapi.ATFieldProperty('WebsiteURL')
 
     ProductionCompanyName = atapi.ATFieldProperty('ProductionCompanyName')
 
     ProjectName = atapi.ATFieldProperty('ProjectName')
+
+    VideoLanguage = atapi.ATFieldProperty('VideoLanguage')
 
     ProducerMailingAddress = atapi.ATFieldProperty('ProducerMailingAddress')
 
