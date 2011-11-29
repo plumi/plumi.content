@@ -67,6 +67,14 @@ class PlumiVideoBrain(Explicit):
         self.__parent__.request).get_country_info(self.video['getCountries'])
 
     @property
+    def video_language(self):
+        if self.video['getVideoLanguage'] == '' or\
+        self.video['getVideoLanguage'] == 'none':
+            return None
+        return VideoView(self.__parent__.context,
+        self.__parent__.request).get_video_language_info(self.video['getVideoLanguage'])
+
+    @property
     def post_date(self):
         date = self.video.effective
         if not date or date.year() == 1000:

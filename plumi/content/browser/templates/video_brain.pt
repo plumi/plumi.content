@@ -117,5 +117,19 @@
 	     </li></ul>
     </dd>
   </dl>
+
+   <dl class="plumi-videolanguage plumi-props-listing"
+      tal:define="video_language video/video_language; "
+      tal:condition="video_language">
+    <dt i18n:translate="">Video Language</dt>
+    <dd><ul><li>
+	  <a href="" title="" id=""
+	     tal:attributes="href video_language/url|nothing ;
+			     id video_language/id|nothing ;
+			     title video_language/title|nothing ;
+			     " tal:content="video_language/title" tal:omit-tag="not: video_language/url|nothing"/>
+	     </li></ul>
+    </dd>
+  </dl>
  
 </tal:video>
