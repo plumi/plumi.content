@@ -71,6 +71,8 @@ class PlumiVideoBrain(Explicit):
         if self.video['getVideoLanguage'] == '' or\
         self.video['getVideoLanguage'] == 'none':
             return None
+        if not self.video['getVideoLanguage']:
+            return None
         return VideoView(self.__parent__.context,
         self.__parent__.request).get_video_language_info(self.video['getVideoLanguage'])
 
