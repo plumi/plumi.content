@@ -16,7 +16,7 @@
         <meta name="description" tal:attributes="content here/description" />
         <link rel="image_src" tal:condition="view/hasThumbnailImage" tal:attributes="href string:${here/absolute_url}/thumbnailImage_mini" />
         <meta name="video_height" content="300" /> <!-- TODO make these consistent across the board -->
-        <meta name="video_width" content="400" />
+        <meta name="video_width" content="525" />
 
     </tal:block>
 </head>
