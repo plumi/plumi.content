@@ -434,14 +434,16 @@
 
 </div>      
     </tal:main-macro>
-    <script type="text/javascript" src="unisubs-outer.js"></script>
+    <script type="text/javascript" src="http://s3.www.universalsubtitles.org/js/unisubs-widgetizer.js"></script>
     <script type="text/javascript">
     // Fullscreen video width fix (unisubs/mediaelementjs conflict)
     $('.mejs-fullscreen-button button').live('click',function(){
         $('#main-video').attr('style','');
         if ($(this).parent().hasClass('mejs-unfullscreen')) {
-            $('span.unisubs-captionSpan').css('margin-top','10%');
-            $('span.unisubs-captionSpan').css('margin-left','30%');
+            $('span.unisubs-captionSpan').css('margin-top','auto');
+            $('span.unisubs-captionSpan').css('margin-left','40%');
+            $('span.unisubs-captionSpan').css('margin-right','auto');
+            $('span.unisubs-captionSpan').css('margin-bottom','40px');
         } else {
             $('span.unisubs-captionSpan').css('margin-top','0');
             $('span.unisubs-captionSpan').css('margin-left','0');

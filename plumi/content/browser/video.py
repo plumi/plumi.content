@@ -231,12 +231,6 @@ class VideoView(BrowserView):
         url = "%s/search?getVideoLanguage=" % self.portal_url
         return dict(id=video_language_id, url=url + video_language_id, title=video_language.Title())
 
-    def get_language_info(self, lang_id):
-        """Fake the genres/categories process to return the language infos"""
-        voc = self.vocab_tool.getVocabularyByName('video_language')
-        language = voc[lang_id].Title()
-        return dict(id=lang_id, url=None, title=language)
-
     def authors_latest(self):
         folder_path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
         catalog = getToolByName(self.context, "portal_catalog")
