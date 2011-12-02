@@ -434,7 +434,7 @@
 
 </div>      
     </tal:main-macro>
-    <script type="text/javascript" src="http://s3.www.universalsubtitles.org/js/unisubs-widgetizer.js"></script>
+    <script type="text/javascript" src="unisubs-outer.js"></script>
 </metal:main>
 </body>
 </html>
