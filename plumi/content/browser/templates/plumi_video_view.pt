@@ -439,6 +439,13 @@
     // Fullscreen video width fix (unisubs/mediaelementjs conflict)
     $('.mejs-fullscreen-button button').live('click',function(){
         $('#main-video').attr('style','');
+        if ($(this).parent().hasClass('mejs-unfullscreen')) {
+            $('span.unisubs-captionSpan').css('margin-top','10%');
+            $('span.unisubs-captionSpan').css('margin-left','30%');
+        } else {
+            $('span.unisubs-captionSpan').css('margin-top','0');
+            $('span.unisubs-captionSpan').css('margin-left','0');
+        }
     });
     </script>
 </metal:main>
