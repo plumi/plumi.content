@@ -129,6 +129,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
         vocabulary=NamedVocabulary("""video_languages"""),
         languageIndependent=True,
+        default=u"en",
         schemata='default',
     ),
             
