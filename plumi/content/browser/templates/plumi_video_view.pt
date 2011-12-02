@@ -435,6 +435,12 @@
 </div>      
     </tal:main-macro>
     <script type="text/javascript" src="unisubs-outer.js"></script>
+    <script type="text/javascript">
+    // Fullscreen video width fix (unisubs/mediaelementjs conflict)
+    $('.mejs-fullscreen-button button').live('click',function(){
+        $('#main-video').attr('style','');
+    });
+    </script>
 </metal:main>
 </body>
 </html>
