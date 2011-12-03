@@ -1,3 +1,22 @@
+4.3b2 (2011-12-03)
+==================
+
+ - don't stretch videos on playback [clopy]
+ - add scaling to front page video for 16:9 support [clopy]
+ - moved repo to github [garbas]
+ - copied relevant parts from propertiestool.xml that were removed from plumi.app [garbas]
+ - moved featured_videos_homepage from plumi.content to plumi.app [garbas]
+ - html5 support [clopy, cpsaltis, dimo]
+ - added Video Language field [clopy]
+ - Universal Subtitles support [clopy, cpsaltis, dimo]
+ - removed Flowplayer dependency, replace with MediaElementJS [clopy, dimo]
+ - conform to pep8 [cpsaltis]
+ - update plumi.content buildout [dimo]
+ - add video language to listings [clopy]
+ - update dacebook meta tags for 16:9 video [clopy]
+ - add uninstall profile [dimo]
+
+
 4.2 (2011-06-02)
 ================
 
