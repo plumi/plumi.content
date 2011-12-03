@@ -30,6 +30,16 @@
         i18n:attributes="title; description;"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
+        
+   <!-- Generic Setup Profile -->
+   <genericsetup:registerProfile
+        name="uninstall"
+        title="Plumi content types uninstall"
+        directory="profiles/uninstall"
+        description="Uninstall profile for plumi.content"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+        
     
     <!-- -*- extra stuff goes here -*- -->
     <adapter factory=".adapters.PlumiWorkflowAdapter" />
