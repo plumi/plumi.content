@@ -15,10 +15,9 @@ def setupVocabs(portal, logger):
     for vkey in vocabs.keys():
         # create vocabulary if it doesnt exist:
         vocabname = vkey
-        if atvm.getVocabularyByName(vocabname):
-            atvm._delOb(vocabname)
-        logger.debug("adding vocabulary %s" % vocabname)
-        _createObjectByType('SimpleVocabulary', atvm, vocabname)
+        if not atvm.getVocabularyByName(vocabname):
+            _createObjectByType('SimpleVocabulary', atvm, vocabname)
+            logger.debug("adding vocabulary %s" % vocabname)
 
         vocab = atvm[vocabname]
 
