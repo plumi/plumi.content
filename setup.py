@@ -40,7 +40,7 @@ setup(name='plumi.content',
       keywords='plone plumi content',
       author='Andy Nicholson',
       author_email='andy@infiniterecursion.com.au',
-      url='https://svn.plone.org/svn/collective/plumi.content/trunk',
+      url='https://github.com/plumi/plumi.content',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['plumi', ],
@@ -62,7 +62,7 @@ setup(name='plumi.content',
       },
       test_suite = 'plumi.content.tests.test_docs.test_suite',
       entry_points="""
-      # -*- entry_points -*- 
+      # -*- entry_points -*-
       [z3c.autoinclude.plugin]
       target = plone
       """,
