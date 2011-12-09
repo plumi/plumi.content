@@ -31,7 +31,7 @@
   </span>
 
   <script language="javascript">
-    $('video').mediaelementplayer(/* Options */);
+    var player = new MediaElementPlayer('video');
   </script>
 
   <h4 tal:condition="options/show_title">
@@ -104,7 +104,7 @@
     </dd>
   </dl>
 
-   <dl class="plumi-categories plumi-props-listing"
+   <dl class="plumi-country plumi-props-listing"
       tal:define="country video/country; "
       tal:condition="country">
     <dt i18n:translate="">Country</dt>
