@@ -17,6 +17,9 @@
         <link rel="image_src" tal:condition="view/hasThumbnailImage" tal:attributes="href string:${here/absolute_url}/thumbnailImage_mini" />
         <meta name="video_height" content="300" /> <!-- TODO make these consistent across the board -->
         <meta name="video_width" content="525" />
+        <script src="jquery.js" type="text/javascript"></script>
+        <script src="++resource++collective.mediaelementjs/mediaelement-and-player.min.js" type="text/javascript"></script>
+        <style type="text/css" media="screen">@import url(++resource++collective.mediaelementjs/mediaelementplayer.min.css);</style>
 
     </tal:block>
 </head>
@@ -32,29 +35,12 @@
 		<div class="roundborder rounded" tal:define="original_url python:here.absolute_url();
                                                      portal context/@@plone_portal_state/portal">
 
-          <div id="video-core" tal:define="transcoded python:view.transcoding('ogg') and view.transcoding('mp4');
-                                     webm python:view.transcoding('webm').replace('+','%2B'); 
-                                     mp4 python:view.transcoding('mp4').replace('+','%2B'); 
-                                     ogg python:view.transcoding('ogg');
+          <div id="video-core" tal:define="transcoded python:view.transcoding('mp4');
+                                     webm python:view.transcoding('webm-high').replace('+','%2B'); 
+                                     mp4 python:view.transcoding('mp4-high').replace('+','%2B'); 
                                      thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_mini' or '';
                                      fullThumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage' or ''">
 
-            <tal:failed_transcode condition="not: mp4">
-              <a id="no-video-player"
-                 tal:attributes="href string:$fullThumb">
-
-                <img tal:attributes="src thumb;
-                                        alt here/thumbnailImageDescription;
-                                     style string:margin-bottom:5px;" />
-                <span>
-                  <img tal:replace="structure here/search_icon.gif" />
-                  <tal:larger i18n:translate="thumbnail_click_to_enlarge">
-                    View larger image
-                  </tal:larger>
-                </span>
-              </a>
-            </tal:failed_transcode>        
-            
               <video controls width="525" height="300" tal:attributes="poster string:${here/absolute_url}/thumbnailImage" controls="controls" preload="none">
                 <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />               
                 <source tal:condition="webm" tal:attributes="src webm" type="video/webm" />
@@ -67,6 +53,9 @@
              </video>
           </div> <!-- id=video-core -->      
 	</div>
+        <script language="javascript">
+           var player = new MediaElementPlayer('video');
+        </script>
 
     </tal:main-macro>
 </metal:main>
