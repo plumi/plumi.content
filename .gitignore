@@ -1,3 +1,12 @@
 *.py?
-
+.installed.cfg
+.mr.developer.cfg
 plumi.content.egg-info/
+bin/
+develop-eggs/
+eggs/
+include/
+lib/
+parts/
+src/
+var/
