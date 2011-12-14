@@ -25,16 +25,16 @@ def extract(filename):
         return None
 
     if not parser:
-        logger.error("Unable to create parser.\n")
+        logger.info("Unable to create parser.\n")
         return None
     try:
         metadata = extractMetadata(parser)
     except HachoirError, err:
-        logger.error("stream error! %s\n" % unicode(err))
+        logger.info("empty stream! %s\n" % unicode(err))
         return None
 
     if metadata is None:
-        logger.error("unable to extract metadata.\n")
+        logger.info("unable to extract metadata.\n")
         return None
 
     return metadata
@@ -63,8 +63,9 @@ def metadata_hook(status, obj):
         video_info['height'] = metadata.get('height')
         video_info['aspect_ratio'] = video_info['width']/video_info['height']
     except (ValueError, AttributeError):
-        logger.error('Could not get video dimensions')
+        logger.info('Could not get video dimensions')
     try:
         video_info['duration'] = metadata.get('duration')
     except (ValueError, AttributeError):
-        logger.error('Could not get video duration')
+        logger.info('Could not get video duration')
+    transaction.commit()        

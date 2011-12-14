@@ -26,17 +26,12 @@ class IVideoView(Interface):
                          "the language exists. None otherwise.")
     country = Attribute("The country where the video is from. "
                         "Returns a dict if country exists. None otherwise.")
-    use_vpip = Attribute("Boolean.")
     enclosure = Attribute("Boolean determining if the video enclosure has a "
                           "length. See ATMediaFile.content.mediafile for more "
                           "info.")
-
     transcoding_rights = Attribute("Boolean representing the right to see "
                                    "transcoding information.")
-    transcoding_status = Attribute("Status of the video transcoding.")
-    transcoding_result = Attribute("Boolean representing the transcoding "
-                                   "results.")
-
+    transcoding = Attribute("Status of the video transcoding.")
     bt_availability = Attribute("A dict giving info about the BT status of the"
                                 " file. It's a dict with two keys.")
 

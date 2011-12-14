@@ -8,9 +8,7 @@
 
 <!-- meta and link tags for facebook integration -->
 <tal:block metal:fill-slot="head_slot" 
-           condition="python:view.transcoding('mp4')" 
-           define="mp4 python:view.transcoding('mp4');
-                   portal context/@@plone_portal_state/portal">
+           define="portal context/@@plone_portal_state/portal">
     <meta name="medium" content="video" />
     <meta name="title" tal:attributes="content here/title" />
     <meta name="description" tal:attributes="content here/description" />
@@ -32,19 +30,19 @@
 
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main"
-           tal:define="kssClassesView context/@@kss_field_decorator_view;
-                       getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
-                       templateId template/getId;
-                       fullDescription here/getFullDescription;
-                       is_editable context/@@plone_context_state/is_editable;
-                       portal context/@@plone_portal_state/portal;">
+        tal:define="fullDescription here/getFullDescription;
+                    is_editable context/@@plone_context_state/is_editable;
+                    portal context/@@plone_portal_state/portal;
+                    transcoding view/transcoding;
+                    video_info view/video_info;
+                    video_href string:${here/absolute_url}/@@download/video_file/${context/video_file/filename}">
 		<div class="roundborder rounded">
         <div tal:replace="structure provider:plone.abovecontent" />
         <div tal:replace="structure provider:plone.abovecontenttitle" tal:condition="not:ajax_load" />
         <h1 class="documentFirstHeading"> 
-          <metal:field use-macro="python:here.widget('title', mode='view')">
-            Title
-          </metal:field>
+            <metal:field use-macro="python:here.widget('title', mode='view')">
+                Title
+            </metal:field>
         </h1>
 
         <div tal:replace="structure provider:plone.belowcontenttitle" />
@@ -57,136 +55,66 @@
 
 
         <p tal:condition="python: not fullDescription and is_editable"
-           i18n:translate="no_body_text"
-           class="discreet">
-            This item does not have any body text, click the edit tab to change it.
+            i18n:translate="no_body_text"
+            class="discreet">
+             This item does not have any body text, click the edit tab to change it.
         </p>
 
-          <div id="video-core" tal:define="
-                                     jpeg python:view.transcoding('jpeg'); 
-                                     mp4_high python:view.transcoding('mp4-high'); 
-                                     mp4_low python:view.transcoding('mp4-how'); 
-                                     webm_high python:view.transcoding('webm-high'); 
-                                     webm_low python:view.transcoding('webm-low'); 
-				     mp4 python: mp4_high or mp4_low;
-				     webm python: webm_high or webm_low;
-				     transcoded python: mp4 and webm;
-                                     thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_mini' or '';
-                                     fullThumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_preview' or ''">
-
-            <tal:failed_transcode condition="not: transcoded">
-              <a id="no-video-player"
-                 tal:attributes="href string:$fullThumb">
-
-                <img tal:attributes="src thumb;
-                                     alt here/thumbnailImageDescription;
-                                     style string:margin-bottom:5px;" />
-                <span>
-                  <img tal:replace="structure here/search_icon.gif" />
-                  <tal:larger i18n:translate="thumbnail_click_to_enlarge">
-                    View larger image
-                  </tal:larger>
-                </span>
-              </a>
-            </tal:failed_transcode>
-
-               <!--a tal:attributes="href mp4" id="player-videoview" tal:condition="mp4"  >
-               </a-->             
-
-             <video id="main-video" controls width="525" height="300" tal:attributes="poster jpeg|string:${here/absolute_url}/thumbnailImage" controls="controls" tal:condition="transcoded">
-                <source tal:condition="webm" tal:attributes="src webm" type="video/webm" />
-                <source tal:condition="mp4" tal:attributes="src mp4" type="video/mp4" />
-                <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
+        <div id="video-core" tal:define="thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_preview' or ''">
+            <tal:no_transcode condition="not: transcoding">
+                <video id="main-video" width="525" height="300" controls
+                  tal:attributes="poster thumb">
+                  <source src="" tal:attributes="src video_href; type view/context/content_type" />
+                  <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
                     <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
-                    <param name="flashvars" tal:attributes="value string:controls=true&poster=${thumb}&file=${mp4}" />
-                    <!-- Image as a last resort -->
-                    <img tal:attributes="src thumb" width="525" height="300" title="No video playback capabilities" />
-                </object>
-             </video>
-               <a tal:attributes="href string:#" id="player-low" tal:condition="webm_high" i18n:translate="slow_connection_low_res">Slow Connection? Try a lower resolution.
-               </a>
-               <a tal:attributes="href string:#" id="player-high" tal:condition="webm_low" style='display:none;' i18n:translate="click_high_res">Click here to view a higher resolution.
+                    <param name="flashvars" value="" tal:attributes="value python:'controls=true&poster=%s&file=%s' % (thumb, video_href)" />
+                  </object>
+                </video>
+                <p class="documentByLine" tal:content="video_info/duration|nothing"></p>
+                <script>
+                $('video#main-video').mediaelementplayer();
+                </script>            
+            </tal:no_transcode>
 
-               </a>
-            <div tal:omit-tag="" tal:condition="mp4">        
-                    <div class="embed" id="embedDiv" i18n:translate="copy_embed_code">
-                 Copy the following to embed the movie into another web page:</div>
-                    <textarea rows="2" onclick="this.focus();this.select();"><span tal:replace="string:<iframe src='${here/absolute_url}/embed_view' frameborder='0' width='525' height='300'></iframe>" /></textarea>
-             </div>
-             <script language="javascript">
-                var player = new MediaElementPlayer('video');
-             </script>
-             <script language="JavaScript" tal:content="string:$(function(){
-                    $('#player-low').click(function () {
-                      jq.cookie('videores', 'low');
-                      jq('#player-high')[0].style.display = ''; 
-                      jq('#player-low')[0].style.display = 'none';
-                      var extension = $('video')[0].currentSrc.split('.')[$('video')[0].currentSrc.split('.').length -1];
-                      if (extension == 'webm') {
-                          player.setSrc('${webm_low}');
-                      } else {
-                          player.setSrc('${mp4_low}');
-                      }
-                      player.play(); 
-                      return false
-                    });
-                });">
-             </script>
-             <script language="JavaScript" tal:content="string:$(function(){
-                    $('#player-high').click(function () {
-                      jq.cookie('videores', 'high');
-                      jq('#player-high')[0].style.display = 'none';
-                      jq('#player-low')[0].style.display = '';
-                      var extension = $('video')[0].currentSrc.split('.')[$('video')[0].currentSrc.split('.').length -1];
-                      if (extension == 'webm') {
-                          player.setSrc('${webm_high}');
-                      } else {
-                          player.setSrc('${mp4_high}');
-                      }
-                      player.play(); 
-                      return false
-                    });
-                });">
-             </script>
+            <div id="viewlet-above-content" tal:content="structure provider:plone.abovecontentbody" tal:condition="transcoding" />
+
+
         <div id="video-downloads">
-          <p class="download-block"> 
-            <a id="download-link"
-                tal:attributes="href string:${here/absolute_url}/@@download/video_file/${context/video_file/filename}" i18n:translate="">
-              Download Hi-Res / Screening Version
-            </a>
-            <span class="discreet"
-                  tal:define="fsiz here/getObjSize"
-                  tal:content="string:($fsiz)" />
-          </p>            
-
-          <p class="download-block" tal:condition="view/has_torrent">
-           <a id="torrent-link"
-             tal:attributes="href string:${here/absolute_url}/@@download_torrent/${context/video_file/filename}">
-            Download via BitTorrent
-          </a>
-          <span tal:condition="view/has_torrent"> (Seeders: <span class="seeders"></span>)</span>
-          </p>
-            <script>
-
-                function getSeeders() {
-                    jq.ajax({
-                        url: location.href.split('/view')[0] + '/@@seeders',
-                        type: "GET",
-                        dataType: "json",
-                        timeout: 5000,
-                        success: function(data) {
-                            jq('span.seeders').html(data);
-                            jq('span.seeders').fadeIn();
-                        },
-                        error: function(){
-                        }
-                    });
-                }
-
-                jq(window).load(function() {getSeeders();});
-
-            </script>
-
+            <p class="download-block"> 
+                <a id="download-link"
+                    tal:attributes="href string:${here/absolute_url}/@@download/video_file/${context/video_file/filename}" i18n:translate="">
+                  Download Hi-Res / Screening Version
+                </a>
+                <span class="discreet"
+                      tal:define="fsiz here/getObjSize"
+                      tal:content="string:($fsiz)" />
+            </p>            
+            <tal:torrent tal:condition="view/has_torrent">
+                <p class="download-block">
+                 <a id="torrent-link"
+                   tal:attributes="href string:${here/absolute_url}/@@download_torrent/${context/video_file/filename}">
+                  Download via BitTorrent
+                </a>
+                <span> (Seeders: <span class="seeders"></span>)</span>
+                </p>
+                <script>
+                    function getSeeders() {
+                        jq.ajax({
+                            url: location.href.split('/view')[0] + '/@@seeders',
+                            type: "GET",
+                            dataType: "json",
+                            timeout: 5000,
+                            success: function(data) {
+                                jq('span.seeders').html(data);
+                                jq('span.seeders').fadeIn();
+                            },
+                            error: function(){
+                            }
+                        });
+                    }
+                    jq(window).load(function() {getSeeders();});
+                </script>
+            </tal:torrent>
         </div> <!-- id=video-downloads -->
       </div> <!-- id=video-core -->
 
@@ -388,15 +316,21 @@
                setTimeout(function(){jq("#notificationDiv").fadeOut(500);},15000)
            }
         </script>
-        <div id="video-transcoding" tal:define="transcoding view/transcoding_status">
+        <div id="video-transcoding" tal:define="transcoding view/transcoding">
 
     	<h1 class="documentFirstHeading" i18n:translate="transcoding"> 
 			Transcoding
 		</h1>    
 
 
-          <strong i18n:translate="transcode_status">Transcode Status</strong> 
-          <p tal:content="transcoding" />
+          <strong i18n:translate="transcode_status">Transcode Status</strong>
+          <ul>
+            <li tal:repeat="profile transcoding">
+                <a tal:omit-tag="python:transcoding[profile][0] != 'ok'" tal:attributes="href python:transcoding[profile][1]">
+                    <strong tal:content="profile" />
+                </a> - <span tal:content="python:transcoding[profile][0] == 'ok' and '100%' or '%s%%' % transcoding[profile][1]" />
+            </li>
+          </ul>
 
           <p><span tal:omit-tag="" i18n:translate="restart_transcoding">
             You may like to try to</span>
@@ -404,7 +338,7 @@
                onclick="showNotification()"
                >re-start transcoding.</a>              
           </p>
-          <div id="notificationDiv">
+          <div id="notificationDiv" style="display:none">
               <strong>reTranscoding...</strong> <p> Please refresh the page in 5-15 minutes (the larger your video the longer it will take) to see the retranscoded file.</p>
           </div>
         </div> <!-- id=video-transcoding -->
@@ -412,44 +346,28 @@
         
 	</div>
 
-<div id="authors_latest" tal:define="other_videos  view/authors_latest|nothing">
-    <h1 class="documentFirstHeading" tal:condition="other_videos">Other videos by this author</h1>
-<ul>
-    <li tal:repeat="video other_videos">
-        <h4>
-            <a class="video-download" title="View details about this video"
-                                        tal:attributes="href string:${video/url}/view;">
-                <img title="" alt="" tal:attributes="alt video/video_title;
-                                                     src string:${video/url}/thumbnailImage_thumb" />
-            </a>
-            <span class="featuredItemTitle" href="" tal:content="video/video_title"
-                                                 tal:attributes="href string:${video/url}/view;
-                                                                 title video/video_title" />
-        </h4>
-        <p class="discreet">
-        Posted on <span tal:replace="video/post_date" />
-        </p>
-    </li>
-</ul>
-
-</div>      
+    <div id="authors_latest" tal:define="other_videos  view/authors_latest|nothing">
+        <h1 class="documentFirstHeading" tal:condition="other_videos">Other videos by this author</h1>
+    <ul>
+        <li tal:repeat="video other_videos">
+            <h4>
+                <a class="video-download" title="View details about this video"
+                                            tal:attributes="href string:${video/url}/view;">
+                    <img title="" alt="" tal:attributes="alt video/video_title;
+                                                         src string:${video/url}/thumbnailImage_thumb" />
+                </a>
+                <span class="featuredItemTitle" href="" tal:content="video/video_title"
+                                                     tal:attributes="href string:${video/url}/view;
+                                                                     title video/video_title" />
+            </h4>
+            <p class="discreet">
+            Posted on <span tal:replace="video/post_date" />
+            </p>
+        </li>
+    </ul>
+    
+    </div>      
     </tal:main-macro>
-    <script type="text/javascript" src="http://s3.www.universalsubtitles.org/js/unisubs-widgetizer.js"></script>
-    <script type="text/javascript">
-    // Fullscreen video width fix (unisubs/mediaelementjs conflict)
-    $('.mejs-fullscreen-button button').live('click',function(){
-        $('#main-video').attr('style','');
-        if ($(this).parent().hasClass('mejs-unfullscreen')) {
-            $('span.unisubs-captionSpan').css('margin-top','auto');
-            $('span.unisubs-captionSpan').css('margin-left','40%');
-            $('span.unisubs-captionSpan').css('margin-right','auto');
-            $('span.unisubs-captionSpan').css('margin-bottom','40px');
-        } else {
-            $('span.unisubs-captionSpan').css('margin-top','0');
-            $('span.unisubs-captionSpan').css('margin-left','0');
-        }
-    });
-    </script>
 </metal:main>
 </body>
 </html>

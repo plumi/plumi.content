@@ -5,169 +5,161 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="plumi">
-
-  <include package="plone.app.contentmenu" />
-
-  <!-- -*- extra stuff goes here -*- -->
-  <browser:menuItem
-    for="plumi.content.interfaces.IPlumiVideo"
-    menu="plone_displayviews"
-    title="Plumi Video view"
-    i18n:attributes="title"
-    action="@@video_view"
-    description="Default representation of a Plumi video content type" />
-
-  <adapter factory=".brain_rendering.PlumiVideoBrain"
-       provides=".interfaces.IPlumiVideoBrain" />
-
- <adapter factory=".adapters.TopicVideosProvider"
-           provides=".interfaces.IVideosProvider" />
-
- <adapter factory=".adapters.OrderedFolderVideosProvider"
-           provides=".interfaces.IVideosProvider" />
-
-  <permission
-    id="plumi.content.retranscodevideopermission"
-    title="plumi.content: ReTranscode Video" />
-
-  <!-- Resource directory for stylesheets -->
-  <browser:resourceDirectory
-      name="plumi.content.stylesheets"
-      directory="stylesheets"
-      />
-
-  <browser:page
-    name="download"
-    for="plumi.content.interfaces.IPlumiVideo"
-    class=".download.Download"
-    permission="zope2.View"
-    />
-
-  <browser:page
-    name="download_torrent"
-    for="plumi.content.interfaces.IPlumiVideo"
-    class=".download_torrent.DownloadTorrent"
-    permission="zope2.View"
-    />
-
-  <browser:page
-    name="reTranscode"
-    for="plumi.content.interfaces.IPlumiVideo"
-    class=".reTranscode.reTranscode"
-    permission="plumi.content.retranscodevideopermission"
-    template="reTranscode.pt"
-    />
-
-  <browser:page
-      name="video_view"
+    
+    <include package="plone.app.contentmenu" />
+    
+    <!-- -*- extra stuff goes here -*- -->
+    <browser:menuItem
       for="plumi.content.interfaces.IPlumiVideo"
-      class=".video.VideoView"
-      template="templates/plumi_video_view.pt"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      name="embed_view"
+      menu="plone_displayviews"
+      title="Plumi Video view"
+      i18n:attributes="title"
+      action="@@video_view"
+      description="Default representation of a Plumi video content type" />
+    
+    <adapter factory=".brain_rendering.PlumiVideoBrain"
+         provides=".interfaces.IPlumiVideoBrain" />
+    
+    <adapter factory=".adapters.TopicVideosProvider"
+             provides=".interfaces.IVideosProvider" />
+    
+    <adapter factory=".adapters.OrderedFolderVideosProvider"
+             provides=".interfaces.IVideosProvider" />
+    
+    <permission
+      id="plumi.content.retranscodevideopermission"
+      title="plumi.content: ReTranscode Video" />
+    
+    <!-- Resource directory for stylesheets -->
+    <browser:resourceDirectory
+        name="plumi.content.stylesheets"
+        directory="stylesheets"
+        />
+    
+    <browser:page
+      name="download"
       for="plumi.content.interfaces.IPlumiVideo"
-      class=".video.VideoView"
-      template="templates/plumi_embed_view.pt"
+      class=".download.Download"
       permission="zope2.View"
       />
-
-  <browser:page
-      for="zope.app.container.interfaces.IContainer"
-      name="video_listing"
-      class=".videos_listing.VideosListing"
-      template="templates/video_listing.pt"
-      permission="zope2.View"
-      allowed_attributes="videos empty parent_url renderers"
-      />
-
-  <browser:page
-      name="callout_view"
-      for="plumi.content.interfaces.IPlumiCallOut"
-      class=".callout.CalloutView"
-      template="templates/plumi_callout_view.pt"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      for="*"
-      name="author_view"
-      class=".author.AuthorPage"
-      permission="zope2.View"
-      allowed_interface=".interfaces.IAuthorPage"
-      />
-
-  <browser:page
-      for="zope.app.container.interfaces.IContainer"
-      name="video_listing_view"
-      template="templates/video_listing_view.pt"
-      permission="zope2.View"
-      />
-
-
-  <browser:page
-      name="RSS2"
-      for="OFS.interfaces.IFolder"
-      class=".rssview.RSSView"
-      template="templates/RSS2.pt"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      for="*"
-      name="recent_news_view"
-      class=".portlets.recent_news.RecentNewsPortlet"
-      permission="zope.Public"
-      allowed_interface="Products.CMFPlone.browser.interfaces.IRecentPortlet"
-      />
-
-  <browser:page
-      for="*"
-      name="recent_callouts_view"
-      class=".portlets.recent_callouts.RecentCalloutsPortlet"
-      permission="zope.Public"
-      allowed_interface="Products.CMFPlone.browser.interfaces.IRecentPortlet"
-      />
-
- <browser:page
-      name="transmission.xml"
-      for="OFS.interfaces.IFolder"
-      class=".rssview.RSSView"
-      template="templates/transmission.pt"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      name="transmission_template"
-      for="OFS.interfaces.IFolder"
-      class=".rssview.RSSView"
-      template="templates/transmission_template.pt"
-      permission="zope2.View"
-      />
-
-  <browser:page
-      name="seeders"
+    
+    <browser:page
+      name="download_torrent"
       for="plumi.content.interfaces.IPlumiVideo"
+      class=".download_torrent.DownloadTorrent"
       permission="zope2.View"
-      class=".video.SeedersView" />
-
-  <plone:portlet
-      name="plumi.content.browser.portlets.ActiveMembers"
-      interface=".portlets.activemembers.IActiveMembers"
-      assignment=".portlets.activemembers.Assignment"
-      view_permission="zope2.View"
-      edit_permission="cmf.ManagePortal"
-      renderer=".portlets.activemembers.Renderer"
-      addview=".portlets.activemembers.AddForm"
-      editview=".portlets.activemembers.EditForm"
       />
-      
-  <!-- old Plumi 0.2.x Plumi Skin zcml -->
-  <five:implements
-      class="Products.ZCatalog.CatalogBrains.AbstractCatalogBrain"
-      interface=".interfaces.IAbstractCatalogBrain"
+    
+    <browser:page
+      name="reTranscode"
+      for="plumi.content.interfaces.IPlumiVideo"
+      class=".reTranscode.reTranscode"
+      permission="plumi.content.retranscodevideopermission"
+      template="reTranscode.pt"
       />
+    
+    <browser:page
+        name="video_view"
+        for="plumi.content.interfaces.IPlumiVideo"
+        class=".video.VideoView"
+        template="templates/plumi_video_view.pt"
+        permission="zope2.View"
+        />
+    
+    <browser:page
+        for="zope.app.container.interfaces.IContainer"
+        name="video_listing"
+        class=".videos_listing.VideosListing"
+        template="templates/video_listing.pt"
+        permission="zope2.View"
+        allowed_attributes="videos empty parent_url renderers"
+        />
+    
+    <browser:page
+        name="callout_view"
+        for="plumi.content.interfaces.IPlumiCallOut"
+        class=".callout.CalloutView"
+        template="templates/plumi_callout_view.pt"
+        permission="zope2.View"
+        />
+    
+    <browser:page
+        for="*"
+        name="author_view"
+        class=".author.AuthorPage"
+        permission="zope2.View"
+        allowed_interface=".interfaces.IAuthorPage"
+        />
+    
+    <browser:page
+        for="zope.app.container.interfaces.IContainer"
+        name="video_listing_view"
+        template="templates/video_listing_view.pt"
+        permission="zope2.View"
+        />
+    
+    
+    <browser:page
+        name="RSS2"
+        for="OFS.interfaces.IFolder"
+        class=".rssview.RSSView"
+        template="templates/RSS2.pt"
+        permission="zope2.View"
+        />
+    
+    <browser:page
+        for="*"
+        name="recent_news_view"
+        class=".portlets.recent_news.RecentNewsPortlet"
+        permission="zope.Public"
+        allowed_interface="Products.CMFPlone.browser.interfaces.IRecentPortlet"
+        />
+    
+    <browser:page
+        for="*"
+        name="recent_callouts_view"
+        class=".portlets.recent_callouts.RecentCalloutsPortlet"
+        permission="zope.Public"
+        allowed_interface="Products.CMFPlone.browser.interfaces.IRecentPortlet"
+        />
+    
+    <browser:page
+        name="transmission.xml"
+        for="OFS.interfaces.IFolder"
+        class=".rssview.RSSView"
+        template="templates/transmission.pt"
+        permission="zope2.View"
+        />
+    
+    <browser:page
+        name="transmission_template"
+        for="OFS.interfaces.IFolder"
+        class=".rssview.RSSView"
+        template="templates/transmission_template.pt"
+        permission="zope2.View"
+        />
+    
+    <browser:page
+        name="seeders"
+        for="plumi.content.interfaces.IPlumiVideo"
+        permission="zope2.View"
+        class=".video.SeedersView" />
+    
+    <plone:portlet
+        name="plumi.content.browser.portlets.ActiveMembers"
+        interface=".portlets.activemembers.IActiveMembers"
+        assignment=".portlets.activemembers.Assignment"
+        view_permission="zope2.View"
+        edit_permission="cmf.ManagePortal"
+        renderer=".portlets.activemembers.Renderer"
+        addview=".portlets.activemembers.AddForm"
+        editview=".portlets.activemembers.EditForm"
+        />
+        
+    <!-- old Plumi 0.2.x Plumi Skin zcml -->
+    <five:implements
+        class="Products.ZCatalog.CatalogBrains.AbstractCatalogBrain"
+        interface=".interfaces.IAbstractCatalogBrain"
+        />
 
 </configure>

@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import urllib2
+import simplejson
+import os.path
+from subprocess import Popen, PIPE
+from random import sample
 
 # Five & zope3 thingies
 from zope import i18n
@@ -8,23 +13,17 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
+from zope.component import queryMultiAdapter
+
 # CMF
 from Products.CMFCore.interfaces import IPropertiesTool
 from Products.CMFCore.utils import getToolByName
 
-from zope.component import queryMultiAdapter
-from interfaces import IAuthorPage, IPlumiVideoBrain
-
-from interfaces import IVideoView, ITopicsProvider
-
+from plumi.content.browser.interfaces import IVideoView, ITopicsProvider, IAuthorPage, IPlumiVideoBrain
+from collective.mediaelementjs.interfaces import IMediaInfo
 from collective.transcode.star.interfaces import ITranscodeTool
-import os.path
-from subprocess import Popen, PIPE
-from random import sample
-import urllib2
-import simplejson
 
-
+# check if em.taxonomies is installed
 try:
     from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER,\
                                         COUNTRIES_FOLDER,\
@@ -44,22 +43,16 @@ class VideoView(BrowserView):
     """
     implements(IVideoView, ITopicsProvider)
 
-    #__call__ = ViewPageTemplateFile('templates/plumi_video_view.pt')
-
     def __init__(self, context, request):
         super(VideoView, self).__init__(context, request)
         self.portal_url = getToolByName(self.context, "portal_url")()
         self.vocab_tool = getToolByName(self.context, "portal_vocabularies")
-
-        self.annotations = IAnnotations(self.context)
-        self.transcode_profiles = self.annotations.get('plumi.transcode.profiles')
-        if not self.transcode_profiles:
-            self.transcode_profiles = {}
-
         pprop = getUtility(IPropertiesTool)
 
-        (self.transcoding_ready,
-         self.transcoding_status) = self.get_transcoding_status()
+    @property
+    def video_info(self):
+        annotations = IAnnotations(self.context, None)
+        return annotations.get('plumi.video_info')
 
     @property
     def categories(self):
@@ -115,6 +108,7 @@ class VideoView(BrowserView):
 
     @property
     def transcoding_rights(self):
+        # TODO: this is ugly! we shouldn't check for role names but for permissions
         mtool = getToolByName(self.context, "portal_membership")
         member = mtool.getAuthenticatedMember()
         mb_id = member.getUserName()
@@ -142,43 +136,25 @@ class VideoView(BrowserView):
         available = False
         return dict(available=available, url=bt_url)
 
-    def transcoding(self, profile):
+    def playable(self):
+        """ Is the source video in a web friendly format? """
+        return len([ True for ext in ['.webm','.mp4','.m4v']
+                    if self.context.video_file.filename.endswith(ext)])
+    
+    @property    
+    def transcoding(self):
+        ret = {}
         try:
             tt = getUtility(ITranscodeTool)
-            entry = tt[self.context.UID()]['video_file'][profile]
-            return entry['address'] + '/' + entry['path']
+            entry = tt[self.context.UID()]['video_file']
+            for k in entry.keys():
+                ret[k] = [entry[k]['status'],
+                          entry[k]['status'] == 'ok' and entry[k]['address'] + '/' + entry[k]['path'] or \
+                          entry[k]['status'] == 'pending' and \
+                          tt.getProgress(entry[k]['jobId']) or '0']
+            return ret
         except Exception, e:
-            pass
-
-        if profile == 'mp4':
-            ctype = self.context.video_file.getContentType()
-            if 'mp4' in ctype or 'flv' in ctype:
-                return self.context.absolute_url() +\
-                '/download/video_file/%s' % self.context.video_file.getFilename()
-        return ''
-
-    def can_use_video_tag(self):
-        """Returns true if we have both an mp4 and ogg"""
-        return self.transcoding('mp4') and self.transcoding('ogg')
-
-    def get_transcoding_status(self):
-        """Returns true if mp4 transcoding has succeeded"""
-        profile = 'mp4'
-        status = None
-        try:
-            tt = getUtility(ITranscodeTool)
-            status = tt[self.context.UID()]['video_file'][profile]['status']
-        except Exception, e:
-            pass
-
-        if not status:
-            return (False, _(u"The transcoding has not started."))
-        elif status == 'ok':
-            return (True, _(u"The transcoding has worked successfully."))
-        elif status == 'pending':
-            return (False, _(u"The transcoding is in progress."))
-        else:
-            return (False, _(u"The transcoding failed. %s" % status))
+            return False
 
     def get_categories_dict(self, cats):
         """Uses the portal vocabularies to retrieve the video categories"""
