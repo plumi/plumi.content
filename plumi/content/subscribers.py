@@ -65,17 +65,18 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
                     else:
                         obj.setThumbnailImage(defaultthumb)
                     f.close()
-                except:
+                except Exception as e:
                     logger.warn("Can't retrieve thumbnail from %s. Most likely due to a XML-RPC deadlock between Twisted and Plone." % url)
                     logger.warn("Plumi will now assume that the thumbnail is accessible through the filesystem in the transcoded directory to facilitate dev builds. If using in production you should always serve the transcoded videos through Apache")
-                    try:
-                        f = open(url[url.find('transcoded'):],'r')  
-                        logger.info('setting thumbnail to %s' % entry['path'])                      
-                        obj.setThumbnailImage(f.read())
-                        f.close()
-                    except:
-                        obj.setThumbnailImage(defaultthumb)         
-            except:
+                    if url.find('transcoded') > -1:
+                        f = open(url[url.find('transcoded'):],'r')
+                    elif url.find('videos') > -1:
+                        f = open(url[url.find('videos'):],'r')
+                        
+                    logger.info('setting thumbnail to %s' % entry['path'])                      
+                    obj.setThumbnailImage(f.read())
+                    f.close()
+            except Exception as e:
                 logger.error("cannot set thumbnail for %s. Error %s" % (obj, sys.exc_info()[0]))
 
 
@@ -199,7 +200,6 @@ def notify_moderator(obj, event):
        This method sends an email to the site admin (mail control panel setting)
        when a new comment has been added 
     """
-    
     # Check if moderator notification is enabled
     registry = queryUtility(IRegistry)
     settings = registry.forInterface(IDiscussionSettings)
@@ -224,9 +224,10 @@ def notify_moderator(obj, event):
     #comment = conversation.getComments().next()
     subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
     message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
-        mapping={'title': obj.title,
-                 'link': content_object.absolute_url()}),
-        context=obj.REQUEST)
+                mapping={'title': obj.title,
+                         'link': content_object.absolute_url()}),
+                context=obj.REQUEST,
+                )
 
     # Send email
     if PLONE_4:
@@ -236,4 +237,4 @@ def notify_moderator(obj, event):
                              mto, 
                              sender, 
                              subject=subject, 
-                             charset='utf-8') # pragma: no cover
+                             charset='utf-8')

@@ -130,10 +130,10 @@
            tal:condition="fieldsets">
         <tal:block repeat="set fieldsets">
           <tal:current condition="python:set == fieldset and fieldsets != ['default']">
-		<img tal:attributes="src python:portal_url + '/++resource++plumi.skin.images/step%d' % (1+repeat['set'].index) + '_on.gif'" /> 
+		<img tal:attributes="src python:portal_url + '/++resource++plumi.content.images/step%d' % (1+repeat['set'].index) + '_on.gif'" /> 
           </tal:current>
           <tal:others condition="python:set != fieldset">
-		<img tal:attributes="src python:portal_url + '/++resource++plumi.skin.images/step%d' % (1+repeat['set'].index) + '_off.gif'" /> 
+		<img tal:attributes="src python:portal_url + '/++resource++plumi.content.images/step%d' % (1+repeat['set'].index) + '_off.gif'" /> 
           </tal:others>
         </tal:block>
       </div>            
