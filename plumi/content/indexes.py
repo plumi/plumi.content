@@ -34,8 +34,8 @@ def hasImageAndCaption(object,**kw):
 def isTranscodedPlumiVideoObj(object,**kw):
     logger=logging.getLogger('plumi.content.indexes')
     logger.debug(' isTranscodedPlumiVideoObj - have %s ' % object )
-    tt = getUtility(ITranscodeTool)
     try:
+        tt = getUtility(ITranscodeTool)
         return tt[object.UID()]['video_file']
     except:
         return
