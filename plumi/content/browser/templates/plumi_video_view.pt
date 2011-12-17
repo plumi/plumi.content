@@ -8,7 +8,8 @@
 
 <!-- meta and link tags for facebook integration -->
 <tal:block metal:fill-slot="head_slot" 
-           define="portal context/@@plone_portal_state/portal">
+           define="portal context/@@plone_portal_state/portal;
+                   transcoding view/transcoding">
     <meta name="medium" content="video" />
     <meta name="title" tal:attributes="content here/title" />
     <meta name="description" tal:attributes="content here/description" />
@@ -16,11 +17,19 @@
     <meta name="video_height" content="300" /> 
     <meta name="video_width" content="525" />
     <meta name="video_type" content="application/x-shockwave-flash" />
+    <meta property="og:type" content="article">
+    <meta property="og:url" tal:attributes="content string:${here/absolute_url}">
     <meta property="og:title" content="title" tal:attributes="content here/title" />
     <meta property="og:description" content="description" tal:attributes="content here/description" />
     <meta property="og:image" content="thumbnail" tal:condition="view/hasThumbnailImage" tal:attributes="content string:${here/absolute_url}/thumbnailImage_mini" />
-    <meta name="og:video:height" content="300" /> 
-    <meta name="og:video:width" content="525" />
+    <meta property="og:video:width" content="525" />
+    <meta property="og:video:height" content="300" />
+    <meta property="og:video:type" content="application/x-shockwave-flash" tal:omit-tag="python:transcoding['mp4-high'][0] != 'ok'" />
+    <meta property="og:video" tal:omit-tag="python:transcoding['mp4-high'][0] != 'ok'" tal:attributes="content python:transcoding['mp4-high'][1]" />
+    <meta property="og:video:type" content="video/mp4" tal:omit-tag="python:transcoding['mp4-high'][0] != 'ok'" />
+    <meta property="og:video" tal:omit-tag="python:transcoding['webm-high'][0] != 'ok'" tal:attributes="content python:transcoding['webm-high'][1]" />
+    <meta property="og:video:type" content="video/webm" />
+    <meta property="og:video" tal:condition="view/profiles/webm-high/path|nothing" content="view/profiles/webm-high/path" />
 
 </tal:block>
 <head>
@@ -52,7 +61,6 @@
             Description
             </metal:field>
         </p>
-
 
         <p tal:condition="python: not fullDescription and is_editable"
             i18n:translate="no_body_text"
