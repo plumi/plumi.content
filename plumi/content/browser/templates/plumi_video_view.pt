@@ -25,8 +25,8 @@
     <meta property="og:image" content="thumbnail" tal:condition="view/hasThumbnailImage" tal:attributes="content string:${here/absolute_url}/thumbnailImage_mini" />
     <meta property="og:video:width" content="525" />
     <meta property="og:video:height" content="300" />
-    <meta property="og:video:type" content="video/mp4" tal:omit-tag="python:transcoding['mp4'][0] != 'ok'" />
-    <meta property="og:video" tal:omit-tag="python:transcoding['mp4'][0] != 'ok'" tal:attributes="content python:transcoding['mp4'][1]" />
+    <meta property="og:video:type" content="video/mp4" tal:condition="python: mp4 and mp4[0]=='ok'" />
+    <meta property="og:video" tal:condition="python: mp4 and mp4[0]=='ok'" tal:attributes="content python:mp4[1]" />
 </tal:block>
 <head>
     <metal:block fill-slot="column_two_slot" />
