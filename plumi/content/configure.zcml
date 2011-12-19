@@ -8,8 +8,7 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"     
     i18n_domain="plumi">
 
-    <five:registerPackage package="." initialize=".initialize" />
-    
+    <five:registerPackage package="." initialize=".initialize" />    
     
     <!-- Include the sub-packages that use their own configure.zcml files. -->
     <include package=".browser" />
@@ -17,6 +16,7 @@
     <include package=".portlets" />
     
     <include package="Products.ATVocabularyManager" />
+    
     <!-- File System Directory Views registration -->
     <cmf:registerDirectory name="plumi_content_custom_templates"/>
     <cmf:registerDirectory name="plumi_content_custom_images"/>
@@ -38,9 +38,21 @@
         directory="profiles/uninstall"
         description="Uninstall profile for plumi.content"
         provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-        
+        />    
     
+    <!-- new indexes -->
+    <adapter name="hasImageAndCaption"
+        factory=".indexes.hasImageAndCaption"/>
+      
+    <adapter name="isTranscodedPlumiVideoObj"
+        factory=".indexes.isTranscodedPlumiVideoObj"/>
+      
+    <adapter name="isPublishablePlumiVideoObj"
+        factory=".indexes.isPublishablePlumiVideoObj"/>
+      
+    <adapter name="videoDuration"
+        factory=".indexes.videoDuration" />
+        
     <!-- -*- extra stuff goes here -*- -->
     <adapter factory=".adapters.PlumiWorkflowAdapter" />
 

@@ -35,7 +35,19 @@
         name="plumi.content.stylesheets"
         directory="stylesheets"
         />
-    
+
+    <!-- Resource directory for javascript -->
+    <browser:resourceDirectory
+        name="plumi.content.javascripts"
+        directory="javascripts"
+        />
+
+    <!-- Resource directory for images -->
+    <browser:resourceDirectory
+        name="plumi.content.images"
+        directory="images"
+        />
+
     <browser:page
       name="download"
       for="plumi.content.interfaces.IPlumiVideo"

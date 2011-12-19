@@ -2,8 +2,5 @@
 <object name="portal_javascripts">
  <javascript cacheable="True" compression="none" cookable="True"
      enabled="True" expression=""
-         id="++resource++plumi.content.stylesheets/jquery.cookie.js" inline="False"/>
- <javascript cacheable="True" compression="none" cookable="True"
-     enabled="True" expression=""
-         id="++resource++plumi.content.stylesheets/plumi.various.js" inline="False"/>
+         id="++resource++plumi.content.javascripts/plumi.various.js" inline="False"/>
 </object>

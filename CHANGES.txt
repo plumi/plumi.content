@@ -1,3 +1,15 @@
+4.3rc1 (2011-12-18)
+===================
+
+ - don't recreate vocabularies if they are already there [dimo]
+ - update buildout to Plone 4.1.3 [cpsaltis]
+ - add ffmpeg to buildout [cpsaltis]
+ - major update in plumi_video_view.pt [dimo]
+ - move over required images and indexes from plumi.skin and plumi.app [dimo]
+ - dont assume transcodetool is available [dimo]
+ - fix opengraph tags [clopy, dimo]
+
+
 4.3b2 (2011-12-03)
 ==================
 

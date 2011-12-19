@@ -1,58 +1,57 @@
 #video-core {
-  float: right;
-  padding-top: 0.5em;
-  width: 400px;
-  clear:right;
-  margin-left: 1.9em;
+    float: right;
+    padding-top: 0.5em;
+    width: 400px;
+    clear:right;
+    margin-left: 1.9em;
 }
 
 #video-about {
-  clear: both;
-  padding-top: 1em;
+    clear: both;
+    padding-top: 1em;
 }
 
 #no-video-player {
-  display: block;
-  margin-top: 2em;
-  width: 320px;
-  text-align: center;
-  text-decoration: none;
+    display: block;
+    margin-top: 2em;
+    width: 320px;
+    text-align: center;
+    text-decoration: none;
 }
 
 #video-transcoding {
-  clear: both;
+    clear: both;
 }
 
 
 #video-player div {
-  padding: 0.4em 0 0.6em 0;
-  font-color: #aaa;
-  font-size: 85%;
+    padding: 0.4em 0 0.6em 0;
+    font-size: 85%;
 }
 
 #video-player textarea {
-  background: #f4f4f4 url(++resource++plumi.skin.images/homepage_desc.gif) 0 0;
-  font-size: 90%;
+    background: #f4f4f4 url(++resource++plumi.skin.images/homepage_desc.gif) 0 0;
+    font-size: 90%;
 }
 
 #player {
-  display: block;
-  width: 320px;
-  height: 240px;
+    display: block;
+    width: 320px;
+    height: 240px;
 }
 
 #player-videoview {
-display: block;
-  width: 400px;
-  height: 300px;
+    display: block;
+    width: 400px;
+    height: 300px;
 }
 
 #statistics span.discreet {
-font-weight: bold;
+    font-weight: bold;
 }
 
 .activeMembersHeader {
-margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 #video-core, #player-videoview {
@@ -67,3 +66,54 @@ margin-bottom: 10px;
     float:right;
 }
 
+#content dd.featuredItem {
+    margin: 0;
+    clear: both;
+}
+
+.featured-video-image,
+.featured-item-image {
+    float: left;
+    margin: 5px 10px 5px 0px;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+
+.featured-video-duration {
+    float: right;
+    margin: 0 3em;    
+}
+
+.featured-video-duration span {
+    color: #666;
+}
+
+.featuredItemDetailsPosted {
+    display: block;
+}
+
+dt.featuredHeader {
+    color: black;
+    border-width: 0 0 1px 0;
+    border-color: #c8dca8;
+    border-style: solid;
+    font-size: 120%;
+    margin-top: -12px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.feedButton {
+    margin-top: 6px;
+    padding-left: 3px;
+}
+
+span.featured-read-more {
+    clear: left;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.plumi-props-listing {
+    display: none;
+}

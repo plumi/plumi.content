@@ -8,20 +8,25 @@
 
 <!-- meta and link tags for facebook integration -->
 <tal:block metal:fill-slot="head_slot" 
-           define="portal context/@@plone_portal_state/portal">
+           define="portal context/@@plone_portal_state/portal;
+                   transcoding view/transcoding;
+                   mp4 transcoding/mp4-high|transcoding/mp4-low|nothing;
+                   webm transcoding/webm-high|transcoding/webm-low|nothing">
     <meta name="medium" content="video" />
     <meta name="title" tal:attributes="content here/title" />
     <meta name="description" tal:attributes="content here/description" />
     <link rel="image_src" tal:condition="view/hasThumbnailImage" tal:attributes="href string:${here/absolute_url}/thumbnailImage_mini" />
     <meta name="video_height" content="300" /> 
     <meta name="video_width" content="525" />
-    <meta name="video_type" content="application/x-shockwave-flash" />
+    <meta property="og:type" content="article">
+    <meta property="og:url" tal:attributes="content string:${here/absolute_url}">
     <meta property="og:title" content="title" tal:attributes="content here/title" />
     <meta property="og:description" content="description" tal:attributes="content here/description" />
     <meta property="og:image" content="thumbnail" tal:condition="view/hasThumbnailImage" tal:attributes="content string:${here/absolute_url}/thumbnailImage_mini" />
-    <meta name="og:video:height" content="300" /> 
-    <meta name="og:video:width" content="525" />
-
+    <meta property="og:video:width" content="525" />
+    <meta property="og:video:height" content="300" />
+    <meta property="og:video:type" content="video/mp4" tal:condition="python: mp4 and mp4[0]=='ok'" />
+    <meta property="og:video" tal:condition="python: mp4 and mp4[0]=='ok'" tal:attributes="content python:mp4[1]" />
 </tal:block>
 <head>
     <metal:block fill-slot="column_two_slot" />
@@ -52,7 +57,6 @@
             Description
             </metal:field>
         </p>
-
 
         <p tal:condition="python: not fullDescription and is_editable"
             i18n:translate="no_body_text"
@@ -328,7 +332,7 @@
             <li tal:repeat="profile transcoding">
                 <a tal:omit-tag="python:transcoding[profile][0] != 'ok'" tal:attributes="href python:transcoding[profile][1]">
                     <strong tal:content="profile" />
-                </a> - <span tal:content="python:transcoding[profile][0] == 'ok' and '100%' or '%s%%' % transcoding[profile][1]" />
+                </a> - <span tal:content="python:transcoding[profile][0] == 'ok' and '100%' or '%s%%' % transcoding[profile][1]" tal:condition="python:transcoding[profile]" />
             </li>
           </ul>
 
