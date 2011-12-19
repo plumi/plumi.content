@@ -120,18 +120,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata='default',                
     ),
 
-    atapi.StringField(
-        'VideoLanguage',
-        storage=atapi.AnnotationStorage(),
-        widget=atapi.SelectionWidget(
-            label=_(u"Language of the video"),
-            i18n_domain='plumi',
-        ),
-        vocabulary=NamedVocabulary("""video_languages"""),
-        languageIndependent=True,
-        default=u"en",
-        schemata='default',
-    ),
             
     atapi.TextField(
         'FullDescription',
@@ -152,6 +140,20 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         vocabulary=NamedVocabulary("""video_countries"""),
         languageIndependent=True,
         schemata='categorization',        
+    ),
+
+    atapi.StringField(
+        'VideoLanguage',
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.SelectionWidget(
+            label=_(u"Primary Language of the video"),
+            i18n_domain='plumi',
+        ),
+        vocabulary=NamedVocabulary("""video_languages"""),
+        languageIndependent=True,
+        default=u"en",
+		required=True,
+        schemata='categorization',                
     ),
 
     atapi.StringField(
