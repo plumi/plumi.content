@@ -122,3 +122,7 @@ span.featured-read-more {
     cursor: pointer;
     font-size: 110%;
 }
+
+#viewlet-above-content span.discreet {
+    font-size: 105% !important;
+}
