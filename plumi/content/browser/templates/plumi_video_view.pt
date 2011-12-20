@@ -127,7 +127,7 @@
                                                 mp4low transcoding/mp4-low|nothing;
                                                 webmhigh transcoding/webm-high|nothing;
                                                 webmlow transcoding/webm-low|nothing">
-                <span class="download-all" i18n:translate="download_all"> Download in other formats (</span>
+                <span class="download-all" i18n:translate="download_all"> Download in other formats:</span><br />(
                 <a tal:condition="mp4high" tal:attributes="href python:mp4high[1]" i18n:translate="mp4_high_res">Mp4 High Res</a>
                 <span> | </span>
                 <a tal:condition="mp4low" tal:attributes="href python:mp4low[1]" i18n:translate="mp4_low_res">Mp4 Low Res</a>
