@@ -117,3 +117,7 @@ span.featured-read-more {
 .plumi-props-listing {
     display: none;
 }
+
+#player-high a, #player-low a {
+    cursor: pointer;
+}
