@@ -120,4 +120,5 @@ span.featured-read-more {
 
 #player-high a, #player-low a {
     cursor: pointer;
+    font-size: 110%;
 }
