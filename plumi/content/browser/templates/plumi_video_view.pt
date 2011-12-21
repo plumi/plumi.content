@@ -111,7 +111,7 @@
                             url: location.href.split('/view')[0] + '/@@seeders',
                             type: "GET",
                             dataType: "json",
-                            timeout: 5000,
+                            timeout: 10000,
                             success: function(data) {
                                 jq('span.seeders').html(data);
                                 jq('span.seeders').fadeIn();
