@@ -62,8 +62,9 @@
     width: 205px !important;
 }
 
-.featured-video {
+div.featured-video {
     float:right;
+    margin-top:42px;
 }
 
 #content dd.featuredItem {
