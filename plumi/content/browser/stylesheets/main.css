@@ -114,10 +114,6 @@ span.featured-read-more {
     margin-bottom: 10px;
 }
 
-.plumi-props-listing {
-    display: none;
-}
-
 #player-high a, #player-low a {
     cursor: pointer;
     font-size: 120%;
