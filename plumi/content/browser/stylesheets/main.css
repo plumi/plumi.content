@@ -123,6 +123,6 @@ span.featured-read-more {
     font-size: 110%;
 }
 
-#viewlet-above-content span.discreet {
-    font-size: 105% !important;
+.embed-box span.discreet {
+    font-size: 130% !important;
 }
