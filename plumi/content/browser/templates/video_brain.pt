@@ -17,8 +17,8 @@
                     webm video/isTranscodedPlumiVideoObj/webm-low|nothing;">
 
      <video id="main-video" class="featured-video" controls width="320" height="183" tal:attributes="poster fullThumb" controls="controls" preload="none">
-        <source tal:condition="webm" tal:attributes="src string:${webm/address}/${webm/path}" type="video/webm" />
-        <source tal:condition="mp4" tal:attributes="src string:${mp4/address}/${mp4/path}" type="video/mp4" />
+        <source tal:condition="python:webm and webm['status']=='ok'" tal:attributes="src string:${webm/address}/${webm/path}" type="video/webm" />
+        <source tal:condition="python:mp4 and mp4['status']=='ok'" tal:attributes="src string:${mp4/address}/${mp4/path}" type="video/mp4" />
         <object width="320" height="183" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
             <param name="movie" value="++resource++plumi.content.mediaelement/flashmediaelement.swf" />
             <param name="flashvars" tal:attributes="value string:controls=true&poster=${thumb}&file=${mp4}" />
