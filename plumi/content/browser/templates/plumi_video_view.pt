@@ -71,7 +71,7 @@
         <div id="video-core" tal:define="thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_preview' or ''">
             <tal:no_transcode condition="not: transcoding">
                 <video id="main-video" width="525" height="300" controls
-                  tal:attributes="poster thumb">
+                  tal:attributes="poster thumb" preload="metadata">
                   <source src="" tal:attributes="src video_href; type view/context/content_type" />
                   <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
                     <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
@@ -123,19 +123,25 @@
                     jq(window).load(function() {getSeeders();});
                 </script>
             </tal:torrent>
-            <p class="download-all" tal:define="mp4high transcoding/mp4-high|nothing;
+            <p class="download-block" tal:define="mp4high transcoding/mp4-high|nothing;
                                                 mp4low transcoding/mp4-low|nothing;
                                                 webmhigh transcoding/webm-high|nothing;
                                                 webmlow transcoding/webm-low|nothing">
-                <span class="download-all" i18n:translate="download_all"> Download in other formats:</span><br />(
-                <a tal:condition="mp4high" tal:attributes="href python:mp4high[1]" i18n:translate="mp4_high_res">Mp4 High Res</a>
-                <span> | </span>
-                <a tal:condition="mp4low" tal:attributes="href python:mp4low[1]" i18n:translate="mp4_low_res">Mp4 Low Res</a>
-                <span> | </span>
-                <a tal:condition="webmhigh" tal:attributes="href python:webmhigh[1]" i18n:translate="webm_high_res">WebM High Res</a>
-                <span> | </span>
-                <a tal:condition="webmlow" tal:attributes="href python:webmlow[1]" i18n:translate="webm_low_res">WebM Low Res</a>
-                <span>)</span>
+                <tal:webmhigh tal:condition="python: webmhigh and webmhigh[0]=='ok'">
+                    <a tal:condition="webmhigh" tal:attributes="href python:webmhigh[1]" i18n:translate="webm_high_res" target="_blank">WebM High Res</a>
+                    <span> | </span>
+                </tal:webmhigh>
+                <tal:webmlow tal:condition="python: webmlow and webmlow[0]=='ok'">
+                    <a tal:condition="webmlow" tal:attributes="href python:webmlow[1]" i18n:translate="webm_low_res" target="_blank">WebM Low Res</a>
+                    <span> | </span>
+                </tal:webmlow>
+                <tal:mp4high tal:condition="python: mp4high and mp4high[0]=='ok'">
+                    <a tal:attributes="href python:mp4high[1]" i18n:translate="mp4_high_res" target="_blank">Mp4 High Res</a>
+                    <span> | </span>
+                </tal:mp4high>
+                <tal:mp4low tal:condition="python: mp4low and mp4low[0]=='ok'">                
+                    <a tal:attributes="href python:mp4low[1]" i18n:translate="mp4_low_res" target="_blank">Mp4 Low Res</a>
+                </tal:mp4low>                
             </p>
         </div> <!-- id=video-downloads -->
       </div> <!-- id=video-core -->

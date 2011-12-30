@@ -1,3 +1,15 @@
+4.3rc2 (2011-12-21)
+===================
+
+ - improve download links and has_torrent call [dimo]
+ - minor css fixes [clopy, dimo]
+ - check if transcoding is complete before trying to display video [dimo]
+ - increase seeders timeout to 10 seconds [clopy]
+ - fix template error when file is untranscoded [clopy]
+ - add links to transcoded files [clopy, dimo]
+ - fix opengraph specs for Facebook integration [clopy]
+ 
+
 4.3rc1 (2011-12-18)
 ===================
 

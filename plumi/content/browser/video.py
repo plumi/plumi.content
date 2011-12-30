@@ -253,6 +253,11 @@ class VideoView(BrowserView):
     def has_torrent(self):
         try:
             registry = getUtility(IRegistry)
+            seeder = [i for i in getToolByName(self.context,
+                        "portal_quickinstaller").listInstalledProducts()
+                      if i['id']=='collective.seeder']
+            if not seeder:
+                return False
             torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
             torrentPath = os.path.join(torrent_dir, self.context.UID() + '_' +\
                             self.context.video_file.getFilename()) + '.torrent'
