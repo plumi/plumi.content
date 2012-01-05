@@ -26,7 +26,7 @@
     <meta property="og:video:width" content="525" />
     <meta property="og:video:height" content="300" />
     <meta property="og:video:type" content="application/x-shockwave-flash" tal:condition="python: mp4 and mp4[0]=='ok'" />
-    <meta property="og:video" tal:condition="python: mp4 and mp4[0]=='ok'" tal:attributes="content python: context.absolute_url() + '/++resource++collective.mediaelementjs/flashmediaelement.swf?controls=true&file=' + mp4[1]" />
+    <meta property="og:video" tal:condition="python: mp4 and mp4[0]=='ok'" tal:attributes="content python: context.portal_url() + '/++resource++collective.mediaelementjs/flashmediaelement.swf?controls=true&file=' + mp4[1]" />
     <meta property="og:video:type" content="video/mp4" tal:condition="python: mp4 and mp4[0]=='ok'" />
     <meta property="og:video" tal:condition="python: mp4 and mp4[0]=='ok'" tal:attributes="content python:mp4[1]" />
     <meta property="og:video:type" content="video/webm" tal:condition="python: webm and webm[0]=='ok'" />
