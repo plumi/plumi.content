@@ -1,3 +1,11 @@
+4.3 (2012-01-05)
+================
+ 
+ - reindex on retranscode [dimo]
+ - remove left margin in video player [clopy]
+ - fix mp4 url for FB meta tags [clopy]
+ - dont display download links if transcoding not complete [dimo]
+
 4.3rc2 (2011-12-21)
 ===================
 
