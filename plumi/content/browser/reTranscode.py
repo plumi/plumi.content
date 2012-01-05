@@ -10,4 +10,6 @@ class reTranscode(BrowserView):
 
     def __call__(self):
         tt = getUtility(ITranscodeTool)
-        return tt.add(self.context, force=True)
+        res = tt.add(self.context, force=True)
+        self.context.reindexObject()
+        return res
