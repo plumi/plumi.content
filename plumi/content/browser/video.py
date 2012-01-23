@@ -28,7 +28,8 @@ try:
     from em.taxonomies.config import TOPLEVEL_TAXONOMY_FOLDER,\
                                         COUNTRIES_FOLDER,\
                                         GENRE_FOLDER,\
-                                        CATEGORIES_FOLDER
+                                        CATEGORIES_FOLDER, \
+                                        LANGUAGES_FOLDER
     TAXONOMIES = True
 except ImportError:
     TAXONOMIES = False
@@ -204,7 +205,7 @@ class VideoView(BrowserView):
         voc = self.vocab_tool.getVocabularyByName('video_languages')
         video_language = voc[video_language_id]
 
-        url = "%s/search?getVideoLanguage=" % self.portal_url
+        url = "%s/%s/%s/" % (self.portal_url, TOPLEVEL_TAXONOMY_FOLDER, LANGUAGES_FOLDER)
         return dict(id=video_language_id, url=url + video_language_id, title=video_language.Title())
 
     def authors_latest(self):
