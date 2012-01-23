@@ -204,8 +204,10 @@ class VideoView(BrowserView):
         """Fake the genres/categories process to return the video language infos"""
         voc = self.vocab_tool.getVocabularyByName('video_languages')
         video_language = voc[video_language_id]
-
-        url = "%s/%s/%s/" % (self.portal_url, TOPLEVEL_TAXONOMY_FOLDER, LANGUAGES_FOLDER)
+        if not TAXONOMIES:
+            url = "%s/search?getCountries=" % self.portal_url
+        else:
+            url = "%s/%s/%s/" % (self.portal_url, TOPLEVEL_TAXONOMY_FOLDER, LANGUAGES_FOLDER)
         return dict(id=video_language_id, url=url + video_language_id, title=video_language.Title())
 
     def authors_latest(self):
