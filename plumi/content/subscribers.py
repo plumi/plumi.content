@@ -120,7 +120,7 @@ def notifyModifiedPlumiVideo(obj ,event):
     log.info("notifyModifiedPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
     request = getSite().REQUEST    
     #VISIBLE
-    if state == 'visible' and request.has_key('form.button.save'):
+    if state in ['private','visible'] and request.has_key('form.button.save'):
         #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
         # The adapter object will implement the logic for various content types
         if IPlumiWorkflow(obj).autoPublishOrHide():
@@ -146,17 +146,15 @@ def notifyInitPlumiVideo(obj ,event):
         state = None
     request = getSite().REQUEST    
     #VISIBLE
-    if state == 'visible' and request.has_key('form.button.save'):
+    #if state in ['private','visible'] and request.has_key('form.button.save'):
         #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
         # The adapter object will implement the logic for various content types
-        if IPlumiWorkflow(obj).autoPublishOrHide():
-            IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
-            IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+    #    if IPlumiWorkflow(obj).autoPublishOrHide():
+    #        IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+    #        IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
-    setup_metadata(obj)
+    #setup_metadata(obj)
 
-
-@adapter(IPlumiVideo, IObjectInitializedEvent)
 def autoSubmit(obj, event):
     """ Automatically submit news items, events & callouts """
     log = logging.getLogger('plumi.content.subscribers')    
