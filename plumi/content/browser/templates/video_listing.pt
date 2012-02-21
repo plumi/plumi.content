@@ -1,4 +1,4 @@
-<tal:topiccontents define="results view/videos;
+<tal:topiccontents define="results view/renderers;
                            Batch python:modules['Products.CMFPlone'].Batch;
                            b_size python:20;
                            b_start python:0;b_start request/b_start | b_start;
@@ -14,7 +14,7 @@
 	  class="featured-block videos-listing">
 	
 	<dd class="featuredItem"
-	    tal:repeat="obj view/renderers">
+	    tal:repeat="obj batch">
 	  <tal:video replace="structure obj/render_listing" />
 	</dd>
       </dl>
