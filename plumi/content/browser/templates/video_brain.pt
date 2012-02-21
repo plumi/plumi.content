@@ -16,7 +16,7 @@
         tal:define="mp4 video/isTranscodedPlumiVideoObj/mp4-low|nothing;
                     webm video/isTranscodedPlumiVideoObj/webm-low|nothing;">
 
-     <video id="main-video" class="featured-video" controls width="320" height="183" tal:attributes="poster fullThumb" controls="controls" preload="none">
+     <video id="main-video" class="featured-video" controls width="320" height="183" tal:attributes="poster fullThumb" controls="controls" preload="metadata">
         <source tal:condition="python:webm and webm['status']=='ok'" tal:attributes="src string:${webm/address}/${webm/path}" type="video/webm" />
         <source tal:condition="python:mp4 and mp4['status']=='ok'" tal:attributes="src string:${mp4/address}/${mp4/path}" type="video/mp4" />
         <object width="320" height="183" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
@@ -130,3 +130,4 @@
   </dl>
  
 </tal:video>
+<script type="text/javascript" src="http://s3.www.universalsubtitles.org/js/unisubs-widgetizer.js"></script>

@@ -266,10 +266,14 @@ class PlumiWorkflowAdapter(object):
             try:
                 workflow = getToolByName(self.context, 'portal_workflow')
                 state = workflow.getInfoFor(self.context,'review_state')
+                if state == 'private':
+                    workflow.doActionFor(self.context, 'show')
+                state = workflow.getInfoFor(self.context,'review_state')
                 #dont try to resubmit if already published.
                 if not state == 'published':
                     workflow.doActionFor(self.context, 'submit')
-                worked = True
+                    import transaction; transaction.commit()
+                    worked = True
             except WorkflowException:
                 worked = False
                 pass
