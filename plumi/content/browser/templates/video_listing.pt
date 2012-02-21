@@ -1,6 +1,6 @@
 <tal:topiccontents define="results view/videos;
                            Batch python:modules['Products.CMFPlone'].Batch;
-                           b_size python:20; b_size request/b_size | b_size;
+                           b_size python:20;
                            b_start python:0;b_start request/b_start | b_start;
                            batch python:Batch(results, b_size, int(b_start));
 			   template_id string:video_listing_view">
