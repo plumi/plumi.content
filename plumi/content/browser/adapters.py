@@ -17,7 +17,7 @@ class TopicVideosProvider(object):
         """It would be much better not to count on the acquisition and
         old python script, and recode this part.
         """
-        self.videos = context.queryCatalog(batch=True)
+        self.videos = context.queryCatalog()
 
 
 class OrderedFolderVideosProvider(object):
@@ -35,7 +35,6 @@ class OrderedFolderVideosProvider(object):
             content_filter['portal_type']='PlumiVideo'
             content_filter['sort_on'] = 'effective'
             content_filter['sort_order'] = 'reverse'
-            self.videos = context.getFolderContents(batch=True,
-                                                contentFilter=content_filter)
+            self.videos = context.getFolderContents(contentFilter=content_filter)
         else:
-            self.videos = context.getFolderContents(batch=True)
+            self.videos = context.getFolderContents()

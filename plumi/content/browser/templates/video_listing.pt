@@ -1,8 +1,11 @@
-<tal:topiccontents define="topicContents view/videos;
-			   batch topicContents;
+<tal:topiccontents define="results view/videos;
+                           Batch python:modules['Products.CMFPlone'].Batch;
+                           b_size python:20; b_size request/b_size | b_size;
+                           b_start python:0;b_start request/b_start | b_start;
+                           batch python:Batch(results, b_size, int(b_start));
 			   template_id string:video_listing_view">
-  <div class="discreet">There are <b tal:content="python:len(topicContents)"></b> videos available</div>
-  <tal:listing condition="topicContents">
+  <div class="discreet">There are <b tal:content="python:len(results)"></b> videos available</div>
+  <tal:listing condition="results">
     <!-- Navigation -->
     <div metal:use-macro="here/batch_macros/macros/navigation" />
 	      
