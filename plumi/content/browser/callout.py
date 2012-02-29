@@ -68,11 +68,8 @@ class CalloutView(BrowserView):
     def get_categories_dict(self, cats):
         """Uses the portal vocabularies to retrieve the callout categories
         """
-        if not TAXONOMIES:
-            return ()
+        url = "%s/search?getSubmissionCategories=" % (self.portal_url)
         voc = self.vocab_tool.getVocabularyByName('submission_categories')
-        url = "%s/%s/%s/" % (self.portal_url,
-                            TOPLEVEL_TAXONOMY_FOLDER, SUBMISSIONS_FOLDER)
         return (dict(id = cat_id,
                      url = url + cat_id,
                      title = voc[cat_id].Title()) for cat_id in cats)
