@@ -162,6 +162,9 @@ def autoSubmit(obj, event):
     try:
         state = workflow.getInfoFor(obj,'review_state')
         #dont try to resubmit if already published.
+        if state == 'private':
+           workflow.doActionFor(obj, 'show')
+           log.info('autosubmit %s' % obj)
         if not state in ['published','pending']:
             workflow.doActionFor(obj, 'submit')
             log.info('autosubmit %s' % obj)
