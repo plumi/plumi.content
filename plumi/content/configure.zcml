@@ -63,7 +63,6 @@
     <subscriber handler=".subscribers.notifyInitNewsItem" />
     <subscriber handler=".subscribers.notifyInitEventItem" />
     <subscriber handler=".subscribers.notifyInitCallout" />
-    <subscriber handler=".subscribers.notifyInitImage" />
 
     <subscriber 
         for="Products.ATContentTypes.interface.news.IATNewsItem
