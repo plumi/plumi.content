@@ -15,7 +15,11 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from zope.i18n import translate
 from zope.i18nmessageid import Message
 
+from Products.ATContentTypes.interfaces.image import IATImage
+from Products.ATContentTypes.interfaces.event import IATEvent
+from Products.ATContentTypes.interfaces.news import IATNewsItem
 from plumi.content.interfaces.plumivideo import IPlumiVideo
+from plumi.content.interfaces.plumicallout import IPlumiCallOut
 from plumi.content.interfaces.workflow import IPlumiWorkflow
 from plumi.content.metadataextractor import setup_metadata
 from plumi.content import plumiMessageFactory as _
@@ -131,6 +135,48 @@ def notifyModifiedPlumiVideo(obj ,event):
         log.info('notifyModifiedPlumiVideo: video replaced;')
         setup_metadata(obj)
 
+@adapter(IATNewsItem, IObjectInitializedEvent)
+def notifyInitNewsItem(obj ,event):
+    """This gets called on IObjectInitializedEvent - called whenever the object is initialized."""
+    workflow = getToolByName(obj,'portal_workflow')
+    state = workflow.getInfoFor(obj,'review_state','')
+    log = logging.getLogger('plumi.content.subscribers')
+    log.info("notifyInitNewsItem... %s in state (%s) with event %s " % (obj.Title(), state,  event))
+    request = getSite().REQUEST    
+    #VISIBLE
+    if state in ['private','visible'] and request.has_key('form.button.save'):
+        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
+        # The adapter object will implement the logic for various content types
+        notify_reviewers(obj)
+
+@adapter(IATEvent, IObjectInitializedEvent)
+def notifyInitEventItem(obj ,event):
+    """This gets called on IObjectInitializedEvent - called whenever the object is initialized."""
+    workflow = getToolByName(obj,'portal_workflow')
+    state = workflow.getInfoFor(obj,'review_state','')
+    log = logging.getLogger('plumi.content.subscribers')
+    log.info("notifyInitEventItem... %s in state (%s) with event %s " % (obj.Title(), state,  event))
+    request = getSite().REQUEST    
+    #VISIBLE
+    if state in ['private','visible'] and request.has_key('form.button.save'):
+        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
+        # The adapter object will implement the logic for various content types
+        notify_reviewers(obj)
+
+@adapter(IPlumiCallOut, IObjectInitializedEvent)
+def notifyInitCallout(obj ,event):
+    """This gets called on IObjectInitializedEvent - called whenever the object is initialized."""
+    workflow = getToolByName(obj,'portal_workflow')
+    state = workflow.getInfoFor(obj,'review_state','')
+    log = logging.getLogger('plumi.content.subscribers')
+    log.info("notifyInitCallout... %s in state (%s) with event %s " % (obj.Title(), state,  event))
+    request = getSite().REQUEST    
+    #VISIBLE
+    if state in ['private','visible'] and request.has_key('form.button.save'):
+        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
+        # The adapter object will implement the logic for various content types
+        notify_reviewers(obj)
+
 @adapter(IPlumiVideo, IObjectInitializedEvent)
 def notifyInitPlumiVideo(obj ,event):
     """This gets called on IObjectInitializedEvent - which occurs when a new object is created."""
@@ -239,3 +285,41 @@ def notify_moderator(obj, event):
                              sender, 
                              subject=subject, 
                              charset='utf-8')
+
+
+def notify_reviewers(obj):
+    """Tell the reviewers when an item was submited.
+    
+       This method sends an email to the site admin (mail control panel setting)
+       when a new object has been submitted
+    """
+    obj_title = obj.Title()
+    obj_url= obj.absolute_url()
+    creator = obj.Creator()
+    membr_tool = getToolByName(getSite(),'portal_membership')
+    member=membr_tool.getMemberById(creator)
+    creator_info = {'fullname':member.getProperty('fullname', 'Fullname missing'),
+                    'email':member.getProperty('email', None)}
+    #XXX is there a better way to search for reviewers ??
+    for reviewer in getSite().portal_membership.listMembers():
+        memberId = reviewer.id
+        if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
+            try:
+                mTo = reviewer.getProperty('email',None)
+                urltool = getToolByName(getSite(), 'portal_url')
+                portal = urltool.getPortalObject()
+                mFrom = portal.getProperty('email_from_address')
+                mSubj = '%s -- submitted for your review' % obj_title
+                mMsg = 'To: %s\n' % mTo
+                mMsg += 'From: %s\n' % mFrom
+                mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                    
+                mMsg += _('Item has been submitted for your review').encode('utf-8','ignore') + '\n'
+                mMsg += _('Please review the submitted content. ').encode('utf-8','ignore') + '\n\n'
+                mMsg += 'Title: %s\n\n' % obj_title
+                mMsg += '%s/view \n\n' % obj_url
+                mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                mMsg += 'Email: %s\n\n' % creator_info['email']                    
+                logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (getSite(), mTo, mFrom) )
+                getSite().MailHost.send(mMsg, subject=mSubj)
+            except Exception, e:
+                logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
