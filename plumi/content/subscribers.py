@@ -135,48 +135,6 @@ def notifyModifiedPlumiVideo(obj ,event):
         log.info('notifyModifiedPlumiVideo: video replaced;')
         setup_metadata(obj)
 
-@adapter(IATNewsItem, IObjectInitializedEvent)
-def notifyInitNewsItem(obj ,event):
-    """This gets called on IObjectInitializedEvent - called whenever the object is initialized."""
-    workflow = getToolByName(obj,'portal_workflow')
-    state = workflow.getInfoFor(obj,'review_state','')
-    log = logging.getLogger('plumi.content.subscribers')
-    log.info("notifyInitNewsItem... %s in state (%s) with event %s " % (obj.Title(), state,  event))
-    request = getSite().REQUEST    
-    #VISIBLE
-    if state in ['private','visible'] and request.has_key('form.button.save'):
-        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
-        # The adapter object will implement the logic for various content types
-        notify_reviewers(obj)
-
-@adapter(IATEvent, IObjectInitializedEvent)
-def notifyInitEventItem(obj ,event):
-    """This gets called on IObjectInitializedEvent - called whenever the object is initialized."""
-    workflow = getToolByName(obj,'portal_workflow')
-    state = workflow.getInfoFor(obj,'review_state','')
-    log = logging.getLogger('plumi.content.subscribers')
-    log.info("notifyInitEventItem... %s in state (%s) with event %s " % (obj.Title(), state,  event))
-    request = getSite().REQUEST    
-    #VISIBLE
-    if state in ['private','visible'] and request.has_key('form.button.save'):
-        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
-        # The adapter object will implement the logic for various content types
-        notify_reviewers(obj)
-
-@adapter(IPlumiCallOut, IObjectInitializedEvent)
-def notifyInitCallout(obj ,event):
-    """This gets called on IObjectInitializedEvent - called whenever the object is initialized."""
-    workflow = getToolByName(obj,'portal_workflow')
-    state = workflow.getInfoFor(obj,'review_state','')
-    log = logging.getLogger('plumi.content.subscribers')
-    log.info("notifyInitCallout... %s in state (%s) with event %s " % (obj.Title(), state,  event))
-    request = getSite().REQUEST    
-    #VISIBLE
-    if state in ['private','visible'] and request.has_key('form.button.save'):
-        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
-        # The adapter object will implement the logic for various content types
-        notify_reviewers(obj)
-
 @adapter(IPlumiVideo, IObjectInitializedEvent)
 def notifyInitPlumiVideo(obj ,event):
     """This gets called on IObjectInitializedEvent - which occurs when a new object is created."""
@@ -200,6 +158,19 @@ def notifyInitPlumiVideo(obj ,event):
     #        IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
     #setup_metadata(obj)
+
+def notifyInitItem(obj, event):
+    """This gets called on IObjectInitializedEvent - called whenever the object is initialized."""
+    workflow = getToolByName(obj,'portal_workflow')
+    state = workflow.getInfoFor(obj,'review_state','')
+    log = logging.getLogger('plumi.content.subscribers')
+    log.info("notifyInitItem... %s in state (%s) with event %s " % (obj.Title(), state,  event))
+    request = getSite().REQUEST    
+    #VISIBLE
+    if state in ['private','visible'] and request.has_key('form.button.save'):
+        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
+        # The adapter object will implement the logic for various content types
+        notify_reviewers(obj)
 
 def autoSubmit(obj, event):
     """ Automatically submit news items, events & callouts """

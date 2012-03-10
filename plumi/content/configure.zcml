@@ -60,9 +60,21 @@
     <subscriber handler=".subscribers.notifyInitPlumiVideo" />
     <subscriber handler=".subscribers.notifyActionSucceededPlumiVideo" />
     <subscriber handler=".subscribers.notifyTranscodeSucceededPlumiVideo" />
-    <subscriber handler=".subscribers.notifyInitNewsItem" />
-    <subscriber handler=".subscribers.notifyInitEventItem" />
-    <subscriber handler=".subscribers.notifyInitCallout" />
+
+    <subscriber 
+        for="Products.ATContentTypes.interface.news.IATNewsItem
+             Products.Archetypes.interfaces.IObjectInitializedEvent"
+        handler=".subscribers.notifyInitItem" />
+
+    <subscriber 
+        for="Products.ATContentTypes.interface.event.IATEvent
+             Products.Archetypes.interfaces.IObjectInitializedEvent"
+        handler=".subscribers.notifyInitItem" />
+
+    <subscriber 
+        for="plumi.content.interfaces.plumicallout.IPlumiCallOut
+             Products.Archetypes.interfaces.IObjectInitializedEvent"
+        handler=".subscribers.notifyInitItem" />
 
     <subscriber 
         for="Products.ATContentTypes.interface.news.IATNewsItem
