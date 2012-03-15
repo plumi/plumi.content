@@ -165,12 +165,7 @@ def notifyInitItem(obj, event):
     state = workflow.getInfoFor(obj,'review_state','')
     log = logging.getLogger('plumi.content.subscribers')
     log.info("notifyInitItem... %s in state (%s) with event %s " % (obj.Title(), state,  event))
-    request = getSite().REQUEST    
-    #VISIBLE
-    if state in ['private','visible'] and request.has_key('form.button.save'):
-        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
-        # The adapter object will implement the logic for various content types
-        notify_reviewers(obj)
+    notify_reviewers(obj)
 
 def autoSubmit(obj, event):
     """ Automatically submit news items, events & callouts """

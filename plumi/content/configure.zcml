@@ -77,6 +77,11 @@
         handler=".subscribers.notifyInitItem" />
 
     <subscriber 
+        for="Products.ATContentTypes.interfaces.image.IATImage
+             Products.Archetypes.interfaces.IObjectInitializedEvent"
+        handler=".subscribers.notifyInitItem" />
+
+    <subscriber 
         for="Products.ATContentTypes.interface.news.IATNewsItem
              Products.Archetypes.interfaces.IObjectInitializedEvent"
         handler=".subscribers.autoSubmit" />
