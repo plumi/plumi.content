@@ -124,3 +124,7 @@ span.featured-read-more {
     font-size: 130% !important;
     color: black;
 }
+
+div#featured-item dl#featured-video dl.plumi-categories {
+    width: 260px;
+}
