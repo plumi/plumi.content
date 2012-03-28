@@ -1,14 +1,14 @@
 4.3.1 (2012-03-28)
 =================
 
- - point video language link to taxonomy page
- - removed duplicate language from video information
- - members allowed to publish videos only in their home folders
- - update subscribers for new workflow
- - display Universal Subtitles widget in home page
- - display number of total videos on taxonomy pages
- - added notifications to reviewers for events, news, callouts and images
- - wrap categories under fetaured video if they exceed a specified size
+ - point video language link to taxonomy page [clopy]
+ - removed duplicate language from video information [provetza]
+ - members allowed to publish videos only in their home folders [dimo]
+ - update subscribers for new workflow [dimo]
+ - display Universal Subtitles widget in home page [dimo]
+ - display number of total videos on taxonomy pages [provetza]
+ - added notifications to reviewers for events, news, callouts and images [clopy]
+ - wrap categories under fetaured video if they exceed a specified size [clopy]
 
 4.3 (2012-01-05)
 ================
