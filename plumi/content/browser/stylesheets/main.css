@@ -128,3 +128,7 @@ span.featured-read-more {
 div#featured-item dl#featured-video dl.plumi-categories {
     width: 260px;
 }
+
+.plumi-categories {
+    clear:both;
+}
