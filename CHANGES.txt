@@ -9,6 +9,7 @@
  - display number of total videos on taxonomy pages [provetza]
  - added notifications to reviewers for events, news, callouts and images [clopy]
  - wrap categories under fetaured video if they exceed a specified size [clopy]
+ - css fix for the plumi categories on front page [clopy]
 
 4.3 (2012-01-05)
 ================
