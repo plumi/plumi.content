@@ -15,6 +15,7 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from zope.i18n import translate
 from zope.i18nmessageid import Message
 
+from plone.app.async.interfaces import IAsyncService
 from Products.ATContentTypes.interfaces.image import IATImage
 from Products.ATContentTypes.interfaces.event import IATEvent
 from Products.ATContentTypes.interfaces.news import IATNewsItem
@@ -133,7 +134,9 @@ def notifyModifiedPlumiVideo(obj ,event):
     #PENDING , other states..
     if request.has_key('video_file_file'): #new video uploaded
         log.info('notifyModifiedPlumiVideo: video replaced;')
-        setup_metadata(obj)
+        async = getUtility(IAsyncService)
+        job = async.queueJob(setup_metadata, obj)
+        print "job queued: %s" % job
 
 @adapter(IPlumiVideo, IObjectInitializedEvent)
 def notifyInitPlumiVideo(obj ,event):

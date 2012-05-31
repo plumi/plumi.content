@@ -6,6 +6,8 @@ from interfaces.workflow import IPlumiWorkflow
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
+from zope.component import getUtility
+from plone.app.async.interfaces import IAsyncService
 
 from zope import i18n
 _ = i18n.MessageFactory("plumi")
@@ -17,6 +19,7 @@ class PlumiWorkflowAdapter(object):
 
     def __init__(self, context):
         self.context = context
+        self.async = getUtility(IAsyncService)
 
     def notifyOwnerVideoSubmitted(self):
         """ Email the owner of the submitted video """
@@ -44,7 +47,8 @@ class PlumiWorkflowAdapter(object):
                     mMsg += '%s/view \n\n' % obj_url
                     #send email to object owner
                     logger.info('notifyOwnerVideoSubmitted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg, subject=mSubj)
+                    job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                    print "job queued: %s" % job
                 except Exception, e:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost. %s' % e)
 
@@ -82,7 +86,8 @@ class PlumiWorkflowAdapter(object):
                         mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
                         mMsg += 'Email: %s\n\n' % creator_info['email']                    
                         logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        self.context.MailHost.send(mMsg, subject=mSubj)
+                        job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                        print "job queued: %s" % job
                     except Exception, e:
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
 
@@ -119,7 +124,8 @@ class PlumiWorkflowAdapter(object):
                         mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
                         mMsg += 'Email: %s\n\n' % creator_info['email']
                         logger.info('notifyReviewersVideoRejected , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        self.context.MailHost.send(mMsg,subject=mSubj)
+                        job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                        print "job queued: %s" % job
                     except Exception, e:
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
 
@@ -155,7 +161,8 @@ class PlumiWorkflowAdapter(object):
                         mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
                         mMsg += 'Email: %s\n\n' % creator_info['email']
                         logger.info('notifyReviewersVideoRetracted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        self.context.MailHost.send(mMsg, subject=mSubj)
+                        job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                        print "job queued: %s" % job
                     except Exception, e:
                         logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
 
@@ -186,7 +193,8 @@ class PlumiWorkflowAdapter(object):
                     mSubj = 'Your contribution : %s : was published.' % obj_title
                     #send email to object owner
                     logger.info('notifyOwnerVideoPublished , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                    job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                    print "job queued: %s" % job
                 except Exception, e:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost. %s' % e)
 
@@ -219,7 +227,8 @@ class PlumiWorkflowAdapter(object):
                     mSubj = 'Your contribution : %s : was rejected.' % obj_title
                     #send email to object owner
                     logger.info('notifyOwnerVideoRejected , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                    job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                    print "job queued: %s" % job
                 except Exception, e:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost. %s' % e)
 
@@ -247,7 +256,8 @@ class PlumiWorkflowAdapter(object):
                     mSubj = 'Your contribution : %s : was retracted.' % obj_title
                     #send email to object owner
                     logger.info('notifyOwnerVideoRetracted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                    self.context.MailHost.send(mMsg, mTo, mFrom, mSubj)
+                    job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                    print "job queued: %s" % job
                 except Exception, e:
                     logger.error('Didnt actually send email! Something amiss with SecureMailHost. %s' % e)
 
@@ -272,7 +282,6 @@ class PlumiWorkflowAdapter(object):
                 #dont try to resubmit if already published.
                 if not state == 'published':
                     workflow.doActionFor(self.context, 'submit')
-                    import transaction; transaction.commit()
                     worked = True
             except WorkflowException:
                 worked = False
@@ -282,3 +291,7 @@ class PlumiWorkflowAdapter(object):
 
         #return value
         return worked
+    
+def sendMail(context, msg, subj):
+    context.MailHost.send(msg, subject=subj)
+    print "mail sent"

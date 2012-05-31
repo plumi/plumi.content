@@ -1,5 +1,5 @@
 4.3.1 (2012-03-28)
-=================
+==================
 
  - point video language link to taxonomy page [clopy]
  - removed duplicate language from video information [provetza]

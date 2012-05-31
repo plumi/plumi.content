@@ -1,6 +1,5 @@
 #the extract function is ripped from p4a.video
 
-import transaction
 from zope.annotation.interfaces import IAnnotations
 
 from ZODB.PersistentMapping import PersistentMapping
@@ -40,14 +39,6 @@ def extract(filename):
     return metadata
 
 def setup_metadata(obj):
-    trans = transaction.get()
-    trans.addAfterCommitHook(metadata_hook, (obj,))
-
-def metadata_hook(status, obj):
-    if not status:
-        logger.error('commit aborted, not changing metadata')
-        return
-
     annotations = IAnnotations(obj, None)
     if not annotations.has_key('plumi.video_info'):
         annotations['plumi.video_info'] = PersistentMapping()
@@ -68,4 +59,3 @@ def metadata_hook(status, obj):
         video_info['duration'] = metadata.get('duration')
     except (ValueError, AttributeError):
         logger.info('Could not get video duration')
-    transaction.commit()        
