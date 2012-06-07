@@ -12,6 +12,9 @@ class IThemeSpecific(IClassicTheme):
 class ICalloutView(Interface):
     u"""Callout view"""
 
+class IPublishForm(Interface):
+    u"""Publish form view"""
+
 
 class IVideoView(Interface):
     u"""Gathers useful properties from the video and format them for

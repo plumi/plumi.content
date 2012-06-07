@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plumi">
+
+<!-- meta and link tags for facebook integration -->
+<tal:block metal:fill-slot="head_slot" 
+           define="portal context/@@plone_portal_state/portal;">
+</tal:block>
+<head>
+    <metal:block fill-slot="column_two_slot" />
+</head>
+<body>
+<metal:main fill-slot="main">
+<tal:main-macro metal:define-macro="main">
+    <div id="upload-form-top">
+        <div id="upload-widget">
+            UPLOAD WIDGET
+        </div>      
+        <div id="mobilise-text">
+            Having problems?
+        </div>  
+        <ul class="tabs" id="upload-tabs">
+	        <li id="tab-basic" class="form-tabs"><a href="#">BASIC INFO</a></li>
+	        <li id="tab-categorize" class="form-tabs"><a href="#">CATEGORIZE</a></li>
+	        <li id="tab-mobilise" class="form-tabs"><a href="#">MOBILISE</a></li>
+        </ul>
+    </div>
+    <div id="upload-form-middle" class="panes">
+        <div id="tab1-content" class="tabcontent">
+            *these fields are compulsory
+        </div>
+        <div id="tab2-content" class="tabcontent">
+           <div id="categorise-column1" class="tab2-columns">
+            CATEGORISE
+           </div>
+           <div id="categorise-column2" class="tab2-columns">
+            CREDITS
+           </div>
+        </div>
+        <div id="tab3-content" class="tabcontent">
+            Learn more...
+        </div>  
+    </div>
+    <script language="javascript">
+        // perform JavaScript after the document is scriptable.
+        $(function() {
+            // setup ul.tabs to work as tabs for each div directly under div.panes
+            $("ul.tabs").tabs("div.panes > div");
+        });
+    </script>
+</tal:main-macro>
+</metal:main>
+</body>
+</html>

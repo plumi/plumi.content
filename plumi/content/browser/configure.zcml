@@ -49,6 +49,13 @@
         />
 
     <browser:page
+        name="publish_form"
+        for="*"
+        permission="zope2.View"
+        template="templates/publish_form.pt"
+        class=".publish_form.PublishForm" />
+
+    <browser:page
       name="download"
       for="plumi.content.interfaces.IPlumiVideo"
       class=".download.Download"
