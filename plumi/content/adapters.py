@@ -66,30 +66,31 @@ class PlumiWorkflowAdapter(object):
             member=membr_tool.getMemberById(creator)
             creator_info = {'fullname':member.getProperty('fullname', 'Fullname missing'),
                             'email':member.getProperty('email', None)}
-            #XXX is there a better way to search for reviewers ??
-            for reviewer in self.context.portal_membership.listMembers():
+
+            #search for reviewers 
+            reviewers = membr_tool.searchForMembers(roles=['Reviewer'])
+            for reviewer in reviewers:
                 memberId = reviewer.id
-                if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
-                    try:
-                        mTo = reviewer.getProperty('email',None)
-                        urltool = getToolByName(self.context, 'portal_url')
-                        portal = urltool.getPortalObject()
-                        mFrom = portal.getProperty('email_from_address')
-                        mSubj = '%s -- submitted for your review' % obj_title
-                        mMsg = 'To: %s\n' % mTo
-                        mMsg += 'From: %s\n' % mFrom
-                        mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                    
-                        mMsg += _('Item has been submitted for your review').encode('utf-8','ignore') + '\n'
-                        mMsg += _('Please review the submitted content. ').encode('utf-8','ignore') + '\n\n'
-                        mMsg += 'Title: %s\n\n' % obj_title
-                        mMsg += '%s/view \n\n' % obj_url
-                        mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
-                        mMsg += 'Email: %s\n\n' % creator_info['email']                    
-                        logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
-                        print "job queued: %s" % job
-                    except Exception, e:
-                        logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
+                try:
+                    mTo = reviewer.getProperty('email',None)
+                    urltool = getToolByName(self.context, 'portal_url')
+                    portal = urltool.getPortalObject()
+                    mFrom = portal.getProperty('email_from_address')
+                    mSubj = '%s -- submitted for your review' % obj_title
+                    mMsg = 'To: %s\n' % mTo
+                    mMsg += 'From: %s\n' % mFrom
+                    mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                    
+                    mMsg += _('Item has been submitted for your review').encode('utf-8','ignore') + '\n'
+                    mMsg += _('Please review the submitted content. ').encode('utf-8','ignore') + '\n\n'
+                    mMsg += 'Title: %s\n\n' % obj_title
+                    mMsg += '%s/view \n\n' % obj_url
+                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                    mMsg += 'Email: %s\n\n' % creator_info['email']                    
+                    logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
+                    job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                    print "job queued: %s" % job
+                except Exception, e:
+                    logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
 
 
     def notifyReviewersVideoRejected(self):
@@ -105,29 +106,30 @@ class PlumiWorkflowAdapter(object):
             member=membr_tool.getMemberById(creator)
             creator_info = {'fullname':member.getProperty('fullname', 'Fullname missing'),
                             'email':member.getProperty('email', None)}
-            #XXX is there a better way to search for reviewers ??
-            for reviewer in self.context.portal_membership.listMembers():
+
+            #search for reviewers 
+            reviewers = membr_tool.searchForMembers(roles=['Reviewer'])
+            for reviewer in reviewers:
                 memberId = reviewer.id
-                if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():   
-                    try:
-                        mTo = reviewer.getProperty('email',None)
-                        urltool = getToolByName(self.context, 'portal_url')
-                        portal = urltool.getPortalObject()
-                        mFrom = portal.getProperty('email_from_address')
-                        mSubj = '%s -- has been rejected' % obj_title                
-                        mMsg = 'To: %s\n' % mTo
-                        mMsg += 'From: %s\n' % mFrom
-                        mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                                  
-                        mMsg += _('Item has been rejected..').encode('utf-8','ignore') + '\n'
-                        mMsg += 'Title: %s\n\n' % obj_title
-                        mMsg += '%s/view \n\n' % obj_url
-                        mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
-                        mMsg += 'Email: %s\n\n' % creator_info['email']
-                        logger.info('notifyReviewersVideoRejected , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
-                        print "job queued: %s" % job
-                    except Exception, e:
-                        logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
+                try:
+                    mTo = reviewer.getProperty('email',None)
+                    urltool = getToolByName(self.context, 'portal_url')
+                    portal = urltool.getPortalObject()
+                    mFrom = portal.getProperty('email_from_address')
+                    mSubj = '%s -- has been rejected' % obj_title                
+                    mMsg = 'To: %s\n' % mTo
+                    mMsg += 'From: %s\n' % mFrom
+                    mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                                  
+                    mMsg += _('Item has been rejected..').encode('utf-8','ignore') + '\n'
+                    mMsg += 'Title: %s\n\n' % obj_title
+                    mMsg += '%s/view \n\n' % obj_url
+                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                    mMsg += 'Email: %s\n\n' % creator_info['email']
+                    logger.info('notifyReviewersVideoRejected , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
+                    job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                    print "job queued: %s" % job
+                except Exception, e:
+                    logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
 
     def notifyReviewersVideoRetracted(self):
         """ Email the reviewers of the retracted video """
@@ -142,29 +144,29 @@ class PlumiWorkflowAdapter(object):
             member=membr_tool.getMemberById(creator)
             creator_info = {'fullname':member.getProperty('fullname', 'Fullname missing'),
                             'email':member.getProperty('email', None)}
-            #XXX is there a better way to search for reviewers ??
-            for reviewer in self.context.portal_membership.listMembers():
+            #search for reviewers 
+            reviewers = membr_tool.searchForMembers(roles=['Reviewer'])
+            for reviewer in reviewers:
                 memberId = reviewer.id
-                if 'Reviewer' in membr_tool.getMemberById(memberId).getRoles():
-                    try:
-                        mTo = reviewer.getProperty('email',None)
-                        urltool = getToolByName(self.context, 'portal_url')
-                        portal = urltool.getPortalObject()
-                        mFrom = portal.getProperty('email_from_address')
-                        mSubj = '%s -- has been retracted' % obj_title                
-                        mMsg = 'To: %s\n' % mTo
-                        mMsg += 'From: %s\n' % mFrom
-                        mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'
-                        mMsg += _('Item has been retracted..').encode('utf-8','ignore') + '\n'
-                        mMsg += 'Title: %s\n\n' % obj_title
-                        mMsg += '%s/view \n\n' % obj_url
-                        mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
-                        mMsg += 'Email: %s\n\n' % creator_info['email']
-                        logger.info('notifyReviewersVideoRetracted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
-                        job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
-                        print "job queued: %s" % job
-                    except Exception, e:
-                        logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
+                try:
+                    mTo = reviewer.getProperty('email',None)
+                    urltool = getToolByName(self.context, 'portal_url')
+                    portal = urltool.getPortalObject()
+                    mFrom = portal.getProperty('email_from_address')
+                    mSubj = '%s -- has been retracted' % obj_title                
+                    mMsg = 'To: %s\n' % mTo
+                    mMsg += 'From: %s\n' % mFrom
+                    mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'
+                    mMsg += _('Item has been retracted..').encode('utf-8','ignore') + '\n'
+                    mMsg += 'Title: %s\n\n' % obj_title
+                    mMsg += '%s/view \n\n' % obj_url
+                    mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                    mMsg += 'Email: %s\n\n' % creator_info['email']
+                    logger.info('notifyReviewersVideoRetracted , im %s . sending email to %s from %s ' % (self.context, mTo, mFrom) )
+                    job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)
+                    print "job queued: %s" % job
+                except Exception, e:
+                    logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
 
     def notifyOwnerVideoPublished(self):
         """ Email the owner of the published video """

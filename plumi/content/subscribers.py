@@ -201,12 +201,16 @@ def notifyCommentAdded(obj ,event):
     mTo = member.getProperty('email',None) 
     log.info('notifyCommentAdded') 
     if mTo: 
-        mFrom = portal.getProperty('email_from_address') 
-        mSubj = _('Comment added on: ') + video.Title().decode('utf-8') 
-        mMsg = _('Hi ') + member.getProperty('fullname', creator) 
-        mMsg += '\n\n' + _('A comment has been added on ') + videoUrl + '\n\n' 
-        try:             
-            portal.MailHost.send(mMsg.encode('utf-8', 'ignore'), mTo, mFrom, mSubj.encode('utf-8', 'ignore')) 
+        try:
+            mFrom = portal.getProperty('email_from_address') 
+            mSubj = _('Comment added on: ') + video.Title().decode('utf-8') 
+            mMsg = 'To: %s\n' % mTo
+            mMsg += 'From: %s\n' % mFrom
+            mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'   
+            mMsg = _('Hi ') + member.getProperty('fullname', creator) 
+            mMsg += '\n\n' + _('A comment has been added on ') + videoUrl + '\n\n' 
+            async = getUtility(IAsyncService)
+            job = async.queueJob(sendMail, obj, mMsg, mSubj)
             log.info('notifyCommentAdded , im %s . sending email to %s from %s ' % (obj, mTo, mFrom) ) 
         except: 
             log.error('Didnt actually send email to contribution owner! Something amiss with SecureMailHost.') 
