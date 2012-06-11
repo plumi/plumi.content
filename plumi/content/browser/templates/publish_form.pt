@@ -18,7 +18,7 @@
 <tal:main-macro metal:define-macro="main">
     <div id="upload-form-top">
         <div id="upload-widget">
-            UPLOAD WIDGET
+            Add a video file...
         </div>      
         <div id="mobilise-text">
             Having problems?

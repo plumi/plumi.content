@@ -138,13 +138,15 @@ div#featured-item dl#featured-video dl.plumi-categories {
 }
 
 #upload-widget {
-    height: 100px;
-    background-color: black;       
+    background-color: black;
     color: white;
-    margin-bottom: 30px;
-    width: 500px;
     float: left;
+    height: 60px;
+    margin-bottom: 30px;
     margin-right: 50px;
+    padding-left: 100px;
+    padding-top: 40px;
+    width: 400px;
 }
 
 .form-tabs {
@@ -156,10 +158,15 @@ div#featured-item dl#featured-video dl.plumi-categories {
     color: white;
 }
 
-#upload-tabs {
+#content #upload-tabs {
     padding-left: 30px;    
     clear: left;
+    list-style-image: none !important;
 }
+
+#content #upload-tabs a, #content #upload-tabs a:visited, #content #upload-tabs a.current {
+    color: white !important;
+} 
 
 .tab2-columns {
     float: left;
@@ -174,7 +181,7 @@ div#featured-item dl#featured-video dl.plumi-categories {
 /* TABS */
 
 /* root element for tabs  */
-ul.tabs {
+#content ul.tabs {
     list-style:none;
     margin:0 !important;
     padding:0;
@@ -189,6 +196,7 @@ ul.tabs li {
     padding:0;
     margin:0 !important;
     list-style-image:none !important;
+    border: 1px solid white;
 }
 
 /* link inside the tab. uses a background image */
@@ -198,7 +206,6 @@ ul.tabs a {
     display:block;
     height: 30px;
     line-height:30px;
-    width: 134px;
     text-align:center;
     text-decoration:none;
     color:#333;
