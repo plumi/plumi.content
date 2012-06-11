@@ -218,6 +218,10 @@ ul.tabs a {
     top:1px;
 }
 
+#categorise-tags {
+    clear: both;
+}
+
 ul.tabs a:active {
     outline:none;
 }

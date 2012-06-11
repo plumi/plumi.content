@@ -36,7 +36,7 @@
             <input id="form_title" type="text" class="form_input" /> <br /><br />
             <span class="form_legends">Short Summary</span><span class="form_required">*</span><br /><span class="form_help"> (describe your video in 160 characters) </span>
             <textarea id="form_summary" class="form_input"></textarea> <br /><br />
-            <span class="form_description">Description</span><span class="form_required">*</span><br /><span class="form_help"> (you can add HTML and images) </span><br /><br />
+            <span class="form_description">Description</span><span class="form_required">*</span><br /><span class="form_help"> (you can add HTML and images) </span><br />
             <textarea id="form_description" class="form_input"></textarea> <br /><br />
             <span class="form_legends">Year Produced</span><span class="form_required">*</span><br />
             <select id="form_year" class="form_select"> 
@@ -56,12 +56,55 @@
             <input id="form_thumb" type="file" />
         </div>
         <div id="tab2-content" class="tabcontent">
-           <div id="categorise-column1" class="tab2-columns">
-            CATEGORISE
-           </div>
-           <div id="categorise-column2" class="tab2-columns">
-            CREDITS
-           </div>
+            <div id="categorise-column1" class="tab2-columns">
+                CATEGORISE<br /><br />
+                <span class="form_legends">Genre</span><br />
+                <select id="form_genre" class="form_select"> 
+                    <option value="None">None</option>
+                    <option value="Documentary">Documentary</option>
+                </select>
+                <br /><br />
+                <span class="form_legends">Country</span><br />
+                <select id="form_country" class="form_select"> 
+                    <option value="International">International</option>
+                    <option value="EN">England</option>
+                </select>
+                <br /><br />
+                <span class="form_legends">Location(e.g. City or Region)</span><br />
+                <input id="form_location" type="text" class="form_input" />
+                <br /><br />
+                <span class="form_legends">Country</span><br />
+                <select id="form_topics" multiple="multiple" class="form_select"> 
+                    <option value="Activism">Activism</option>
+                    <option value="Animal Rights">Animal Rights</option>
+                </select>
+                <br /><br />
+            </div>
+            <div id="categorise-column2" class="tab2-columns">
+                CREDITS<br /><br />
+                <span class="form_legends">Director</span><br />
+                <input id="form_director" type="text" class="form_input" />
+                <br /><br />
+                <span class="form_legends">Producer</span><br />
+                <input id="form_producer" type="text" class="form_input" />
+                <br /><br />
+                <span class="form_legends">E-mail Address</span><br />
+                <input id="form_email" type="text" class="form_input" />
+                <br /><br />
+                <span class="form_legends">Organisation / Project Name</span><br />
+                <input id="form_organisation" type="text" class="form_input" />
+                <br /><br />
+                <span class="form_legends">Production Company</span><br />
+                <input id="form_company" type="text" class="form_input" />
+                <br /><br />
+                <span class="form_legends">Website URL</span><br />
+                <input id="form_website" type="text" class="form_input" />
+                <br /><br />
+            </div>
+            <div id="categorise-tags">
+                <span class="form_legends">Tags (separate with commas)</span><br />
+                <input type="text" id="form_tags" class="form_input" size="55" />
+            </div>
         </div>
         <div id="tab3-content" class="tabcontent">
             Learn more...
