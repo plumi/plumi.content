@@ -31,7 +31,29 @@
     </div>
     <div id="upload-form-middle" class="panes">
         <div id="tab1-content" class="tabcontent">
-            *these fields are compulsory
+            *these fields are compulsory <br /><br />
+            <span class="form_legends">Title</span><span class="form_required">*</span><br />
+            <input id="form_title" type="text" class="form_input" /> <br /><br />
+            <span class="form_legends">Short Summary</span><span class="form_required">*</span><br /><span class="form_help"> (describe your video in 160 characters) </span>
+            <textarea id="form_summary" class="form_input"></textarea> <br /><br />
+            <span class="form_description">Description</span><span class="form_required">*</span><br /><span class="form_help"> (you can add HTML and images) </span><br /><br />
+            <textarea id="form_description" class="form_input"></textarea> <br /><br />
+            <span class="form_legends">Year Produced</span><span class="form_required">*</span><br />
+            <select id="form_year" class="form_select"> 
+                <option value="2012">2012</option>
+                <option value="2011">2011</option>
+            </select>
+            <br /><br />
+            <span class="form_legends">Video Language</span><span class="form_required">*</span><br />
+            <select id="form_language" class="form_select"> 
+                <option value="EN">English</option>
+                <option value="GR">Greek</option>
+            </select>
+            <br /><br />
+            License*
+            <br /><br />
+            <span class="form_legends">Add Thumbnail (we will automatically generate an image, but you may prefer to upload your own)</span><br />
+            <input id="form_thumb" type="file" />
         </div>
         <div id="tab2-content" class="tabcontent">
            <div id="categorise-column1" class="tab2-columns">
@@ -44,6 +66,7 @@
         <div id="tab3-content" class="tabcontent">
             Learn more...
         </div>  
+        <input type="button" name="submit" value="SAVE CHANGES" id="form_submit" />
     </div>
     <script language="javascript">
         // perform JavaScript after the document is scriptable.

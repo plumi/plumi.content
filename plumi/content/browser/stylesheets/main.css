@@ -177,6 +177,10 @@ div#featured-item dl#featured-video dl.plumi-categories {
     clear:both;    
 }
 
+#form_submit {
+    clear:left;
+}
+
 
 /* TABS */
 
