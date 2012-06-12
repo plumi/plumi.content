@@ -166,7 +166,11 @@ div#featured-item dl#featured-video dl.plumi-categories {
 
 #content #upload-tabs a, #content #upload-tabs a:visited, #content #upload-tabs a.current {
     color: white !important;
-} 
+}
+
+#content #upload-tabs a.current {
+    background-color: gray;
+}
 
 .tab2-columns {
     float: left;
