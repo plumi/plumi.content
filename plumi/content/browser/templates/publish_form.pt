@@ -56,31 +56,28 @@
                     </div>
                 </form>
 
-        <div id="mobilise-text">
-            Having problems?
-        </div>  
-        <ul class="tabs" id="upload-tabs">
-	        <li id="tab-basic" class="form-tabs"><a href="#">BASIC INFO</a></li>
-	        <li id="tab-categorize" class="form-tabs"><a href="#">CATEGORIZE</a></li>
-	        <li id="tab-mobilise" class="form-tabs"><a href="#">MOBILISE</a></li>
+        <ul class="formTabs" id="upload-tabs">
+	        <li id="tab-basic" class="formTab firstFormTab"><a href="#" class="required"><span>Basic Info</span></a></li>
+	        <li id="tab-categorize" class="formTab"><a href="#">Categorize</a></li>
+	        <li id="tab-mobilise" class="formTab lastFormTab"><a href="#">Mobilise</a></li>
         </ul>
     </div>
     <div id="upload-form-middle" class="panes">
         <div id="tab1-content" class="tabcontent">
             *these fields are compulsory <br /><br />
-            <span class="form_legends">Title</span><span class="form_required">*</span><br />
+            <label class="formQuestion">Title</label><span class="form_required">*</span><br />
             <input id="form_title" type="text" class="form_input" style="width:400px" /> <br /><br />
-            <span class="form_legends">Short Summary</span><span class="form_required">*</span><br /><span class="form_help"> (describe your video in 160 characters) </span><br />
+            <label class="formQuestion">Short Summary</label><span class="form_required">*</span><br /><span class="formHelp"> (describe your video in 160 characters) </span>
             <textarea id="form_summary" class="form_input" style="width:400px"></textarea> <br /><br />
-            <span class="form_description">Description</span><span class="form_required">*</span><br /><span class="form_help"> (you can add HTML and images) </span><br />
+            <label class="formQuestion">Description</label><span class="form_required">*</span><br /><span class="formHelp"> (you can add HTML and images) </span>
             <textarea id="form_description" class="form_input" style="width:400px"></textarea> <br /><br />
-            <span class="form_legends">Year Produced</span><span class="form_required">*</span><br />
+            <label class="formQuestion">Year Produced</label><span class="form_required">*</span><br />
             <select id="form_year" class="form_select"> 
                 <option value="2012">2012</option>
                 <option value="2011">2011</option>
             </select>
             <br /><br />
-            <span class="form_legends">Video Language</span><span class="form_required">*</span><br />
+            <label class="formQuestion">Video Language</label><span class="form_required">*</span><br />
             <select id="form_language" class="form_select"> 
                 <option value="EN">English</option>
                 <option value="GR">Greek</option>
@@ -88,28 +85,29 @@
             <br /><br />
             License*
             <br /><br />
-            <span class="form_legends">Add Thumbnail (we will automatically generate an image, but you may prefer to upload your own)</span><br />
+            <label class="formQuestion">Add Thumbnail</label><br /> 
+            <span class="formHelp">(we will automatically generate an image, but you may prefer to upload your own)</span>
             <input id="form_thumb" type="file" />
         </div>
         <div id="tab2-content" class="tabcontent">
             <div id="categorise-column1" class="tab2-columns">
-                CATEGORISE<br /><br />
-                <span class="form_legends">Genre</span><br />
+                <b>CATEGORISE</b><br /><br />
+                <label class="formQuestion">Genre</label><br />
                 <select id="form_genre" class="form_select"> 
                     <option value="None">None</option>
                     <option value="Documentary">Documentary</option>
                 </select>
                 <br /><br />
-                <span class="form_legends">Country</span><br />
+                <label class="formQuestion">Country</label><br />
                 <select id="form_country" class="form_select"> 
                     <option value="International">International</option>
                     <option value="EN">England</option>
                 </select>
                 <br /><br />
-                <span class="form_legends">Location(e.g. City or Region)</span><br />
+                <label class="formQuestion">Location(e.g. City or Region)</label><br />
                 <input id="form_location" type="text" class="form_input" />
                 <br /><br />
-                <span class="form_legends">Country</span><br />
+                <label class="formQuestion">Country</label><br />
                 <select id="form_topics" multiple="multiple" class="form_select"> 
                     <option value="Activism">Activism</option>
                     <option value="Animal Rights">Animal Rights</option>
@@ -117,28 +115,28 @@
                 <br /><br />
             </div>
             <div id="categorise-column2" class="tab2-columns">
-                CREDITS<br /><br />
-                <span class="form_legends">Director</span><br />
+                <b>CREDITS</b><br /><br />
+                <label class="formQuestion">Director</label><br />
                 <input id="form_director" type="text" class="form_input" />
                 <br /><br />
-                <span class="form_legends">Producer</span><br />
+                <label class="formQuestion">Producer</label><br />
                 <input id="form_producer" type="text" class="form_input" />
                 <br /><br />
-                <span class="form_legends">E-mail Address</span><br />
+                <label class="formQuestion">E-mail Address</label><br />
                 <input id="form_email" type="text" class="form_input" />
                 <br /><br />
-                <span class="form_legends">Organisation / Project Name</span><br />
+                <label class="formQuestion">Organisation / Project Name</label><br />
                 <input id="form_organisation" type="text" class="form_input" />
                 <br /><br />
-                <span class="form_legends">Production Company</span><br />
+                <label class="formQuestion">Production Company</label><br />
                 <input id="form_company" type="text" class="form_input" />
                 <br /><br />
-                <span class="form_legends">Website URL</span><br />
+                <label class="formQuestion">Website URL</label><br />
                 <input id="form_website" type="text" class="form_input" />
                 <br /><br />
             </div>
             <div id="categorise-tags">
-                <span class="form_legends">Tags (separate with commas)</span><br />
+                <label class="formQuestion">Tags </label><br /><span class="formHelp">(separate with commas)</span>
                 <input type="text" id="form_tags" class="form_input" size="55" />
             </div>
         </div>
@@ -151,7 +149,7 @@
         // perform JavaScript after the document is scriptable.
         $(function() {
             // setup ul.tabs to work as tabs for each div directly under div.panes
-            $("ul.tabs").tabs("div.panes > div");
+            $("ul.formTabs").tabs("div.panes > div");
         });
     </script>
 </tal:main-macro>
