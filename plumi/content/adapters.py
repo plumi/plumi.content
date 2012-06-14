@@ -1,4 +1,7 @@
 import logging
+import datetime, pytz
+import sys
+
 from zope.component import adapts
 from zope.interface import implements
 from interfaces.plumivideo import IPlumiVideo
@@ -11,7 +14,6 @@ from plone.app.async.interfaces import IAsyncService
 
 from zope import i18n
 _ = i18n.MessageFactory("plumi")
-import sys
 
 class PlumiWorkflowAdapter(object):
     implements(IPlumiWorkflow)

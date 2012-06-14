@@ -1,10 +1,14 @@
 import sys
 import logging
-from zope.component import adapter
-from zope.component import getUtility, queryUtility
+import socket
+import datetime, pytz
+from urllib2 import urlopen
+from DateTime import DateTime
+from PIL import Image
 
 from Acquisition import aq_parent
 from zope.app.component.hooks import getSite
+from zope.component import getUtility, queryUtility
 from Products.CMFCore.utils import getToolByName
 from zope.component import getSiteManager
 from Products.CMFCore.interfaces import IActionSucceededEvent
@@ -14,6 +18,7 @@ from plone.registry.interfaces import IRegistry
 from plone.app.discussion.interfaces import IDiscussionSettings
 from zope.i18n import translate
 from zope.i18nmessageid import Message
+from zope.component import adapter
 
 from plone.app.async.interfaces import IAsyncService
 from Products.ATContentTypes.interfaces.image import IATImage
@@ -27,10 +32,6 @@ from plumi.content.metadataextractor import setup_metadata
 from plumi.content import plumiMessageFactory as _
 from collective.transcode.star.interfaces import ITranscodedEvent, ITranscodeTool
 from plone.app.discussion.interfaces import IComment, ICommentingTool
-from DateTime import DateTime
-from urllib2 import urlopen
-import socket
-from PIL import Image
 from Products.CMFCore.WorkflowCore import WorkflowException
 
 logger = logging.getLogger('plumi.content.subscribers')
@@ -58,32 +59,34 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
                 entry = tt[obj.UID()]['video_file'][event.profile]                
                 url = '%s/%s' % (entry['address'], entry['path'])
                 portal = getSiteManager()
-                skins_tool = getToolByName(portal, 'portal_skins')
-                defaultthumb = skins_tool['plumi_content_custom_images']['defaultthumb.jpeg']
-                try:
-                    logger.info("getting thumbnail from %s" % url)
-                    socket.setdefaulttimeout(10)
-                    f = urlopen(url)
-                    #check if the file is actually a jpeg image else use a standard one
-                    if f.headers['content-type'] == 'image/jpeg':
-                        logger.info('setting thumbnail to %s' % entry['path'])
-                        obj.setThumbnailImage(f.read())
-                    else:
-                        obj.setThumbnailImage(defaultthumb)
-                    f.close()
-                except Exception as e:
-                    logger.warn("Can't retrieve thumbnail from %s. Most likely due to a XML-RPC deadlock between Twisted and Plone." % url)
-                    logger.warn("Plumi will now assume that the thumbnail is accessible through the filesystem in the transcoded directory to facilitate dev builds. If using in production you should always serve the transcoded videos through Apache")
-                    if url.find('transcoded') > -1:
-                        f = open(url[url.find('transcoded'):],'r')
-                    elif url.find('videos') > -1:
-                        f = open(url[url.find('videos'):],'r')
-                        
-                    logger.info('setting thumbnail to %s' % entry['path'])                      
-                    obj.setThumbnailImage(f.read())
-                    f.close()
+                async = getUtility(IAsyncService)
+                temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2)
+                job = async.queueJob(getThumbnail, obj, url, begin_after=temp_time)
+                logger.info('getThumbail')
             except Exception as e:
                 logger.error("cannot set thumbnail for %s. Error %s" % (obj, sys.exc_info()[0]))
+
+def getThumbnail(obj, url):
+    "get thumbnail from url"
+    logger.info("getting thumbnail from %s" % url)
+    portal = getSiteManager()
+    skins_tool = getToolByName(portal, 'portal_skins')
+    defaultthumb = skins_tool['plumi_content_custom_images']['defaultthumb.jpeg'].getObjectFSPath()
+    dd = open(defaultthumb)
+    try:
+        socket.setdefaulttimeout(10)
+        f = urlopen(url)
+        #check if the file is actually a jpeg image else use a standard one
+        if f.headers['content-type'] == 'image/jpeg':
+            logger.info('setting thumbnail to %s' % url)
+            obj.setThumbnailImage(f.read())
+            f.close()
+        else:
+            obj.setThumbnailImage(dd.read())
+            dd.close()
+    except:
+        obj.setThumbnailImage(dd.read())
+        dd.close()
 
 
 @adapter(IPlumiVideo, IActionSucceededEvent)
@@ -124,20 +127,22 @@ def notifyModifiedPlumiVideo(obj ,event):
     state = workflow.getInfoFor(obj,'review_state','')
     log = logging.getLogger('plumi.content.subscribers')
     log.info("notifyModifiedPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
-    request = getSite().REQUEST    
-    #VISIBLE
-    if state in ['private','visible'] and request.has_key('form.button.save'):
-        #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
-        # The adapter object will implement the logic for various content types
-        if IPlumiWorkflow(obj).autoPublishOrHide():
-            IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
-            IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
-    #PENDING , other states..
-    if request.has_key('video_file_file'): #new video uploaded
-        log.info('notifyModifiedPlumiVideo: video replaced;')
-        async = getUtility(IAsyncService)
-        job = async.queueJob(setup_metadata, obj)
-        print "job queued: %s" % job
+    if getSite():
+        request = getSite().REQUEST    
+        #VISIBLE
+        if state in ['private','visible'] and request.has_key('form.button.save'):
+            #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
+            # The adapter object will implement the logic for various content types
+            if IPlumiWorkflow(obj).autoPublishOrHide():
+                IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+                IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+        #PENDING , other states..
+        if request.has_key('video_file_file'): #new video uploaded
+            log.info('notifyModifiedPlumiVideo: video replaced;')
+            async = getUtility(IAsyncService)
+            temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2) 
+            job = async.queueJob(setup_metadata, obj, begin_after=temp_time)
+            print "job queued: %s" % job
 
 @adapter(IPlumiVideo, IObjectInitializedEvent)
 def notifyInitPlumiVideo(obj ,event):
