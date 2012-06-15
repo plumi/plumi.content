@@ -113,6 +113,9 @@
             </select>
             <br /><br />
             License*
+                <tal:licensingfield>
+		          <div tal:replace="structure context/@@dc_metadata|nothing" />
+                </tal:licensingfield>  
             <br /><br />
             <label class="formQuestion">Add Thumbnail</label><br /> 
             <span class="formHelp">(we will automatically generate an image, but you may prefer to upload your own)</span>
@@ -180,7 +183,7 @@
             // setup ul.tabs to work as tabs for each div directly under div.panes
             $("ul.formTabs").tabs("div.panes > div");
         });
-        $('#fileupload').fileupload({
+        j$('#fileupload').fileupload({
             url: 'upload.json',
             maxNumberOfFiles: 1,
             autoUpload: true

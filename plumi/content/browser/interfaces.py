@@ -3,6 +3,7 @@
 from plonetheme.classic.browser.interfaces import IThemeSpecific as IClassicTheme
 from zope.interface import Interface, Attribute
 from zope.publisher.interfaces.browser import IBrowserView
+from collective.contentlicensing.DublinCoreExtensions.interfaces import ILicensable
 
 
 class IThemeSpecific(IClassicTheme):
@@ -12,7 +13,7 @@ class IThemeSpecific(IClassicTheme):
 class ICalloutView(Interface):
     u"""Callout view"""
 
-class IPublishForm(Interface):
+class IPublishForm(Interface, ILicensable):
     u"""Publish form view"""
 
 
