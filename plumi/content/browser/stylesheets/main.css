@@ -159,32 +159,29 @@ div#featured-item dl#featured-video dl.plumi-categories {
 }
 
 #content #upload-tabs {
-    padding-left: 30px;    
+    padding-left: 30px;
     clear: left;
     list-style-image: none !important;
 }
 
 .tab2-columns {
     float: left;
-    width: 230px;  
+    width: 230px;
 }
 
 .tabcontent {
-    clear:both;    
+    clear:both;
 }
 
 #form_submit {
     clear:left;
 }
 
-
 /* TABS */
-
 
 li.formTab a.current {
     background: none repeat scroll 0 0 #F4F4F4;
 }
-
 
 /* initially all panes are hidden */
 .panes .pane {
@@ -193,4 +190,20 @@ li.formTab a.current {
 
 #upload-form-middle #categorise-tags {
     clear: both;
+}
+
+#upload-form-top .controls button.delete, #upload-form-top .controls button.start, #upload-form-top .controls button.cancel, #upload-form-top .controls input.toggle {
+    display:none !important;
+}
+
+#upload-form-top span.success {
+    padding: 25px 204px 26px;
+}
+
+#upload-form-top div.row {
+    clear: both;
+}
+
+#upload-form-top table.zebra-striped {
+    width: 535px;
 }
