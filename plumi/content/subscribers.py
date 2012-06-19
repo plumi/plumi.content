@@ -66,7 +66,8 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
             except Exception as e:
                 logger.error("cannot set thumbnail for %s. Error %s" % (obj, sys.exc_info()[0]))
 
-def getThumbnail(obj, url):
+def getThumbnail(obj, url, begin_after=None):
+    #begin_after is a foo variable, needed for backward compatibility with plone.app.async
     "get thumbnail from url"
     logger.info("getting thumbnail from %s" % url)
     portal = getSiteManager()

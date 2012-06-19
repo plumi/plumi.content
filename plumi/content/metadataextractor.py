@@ -38,7 +38,8 @@ def extract(filename):
 
     return metadata
 
-def setup_metadata(obj):
+def setup_metadata(obj, begin_after=None):
+    #begin_after is a foo variable, needed for backward compatibility with plone.app.async
     annotations = IAnnotations(obj, None)
     if not annotations.has_key('plumi.video_info'):
         annotations['plumi.video_info'] = PersistentMapping()
