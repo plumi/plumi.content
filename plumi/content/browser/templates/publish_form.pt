@@ -120,6 +120,39 @@
             <label class="formQuestion">Add Thumbnail</label><br /> 
             <span class="formHelp">(we will automatically generate an image, but you may prefer to upload your own)</span>
             <input id="form_thumb" type="file" />
+
+        <div class="tab1-content-right" >
+            <div class="form_help_box" >
+            HAVING PROBLEMS?
+            If your internet connection is slow or unstable, you may want to <b>upload via FTP</b> instead. 
+            Or <b>contact us for help.</b>      
+            </div>
+            <div class="form_help_box" >
+            <b>RECOMMENDED VIDEO SETTINGS</b>
+            Click to Expand Further...
+
+            Codec: Ogg Theora, H264, WebM or XviD
+            Bitrate: Between 2000 & 5000 kbps
+            Frame size: Standard Definition
+            (PAL) 720 X 576
+            (NTSC)
+            High Definition
+            1280 x 720
+            Frame Rate: 25 fps (PAL) or 30FPS (NTSC)
+            Size: Up to 1 GB file size.
+            </div>
+            <div class="form_help_box" >
+            <b>Be pithy.</b> This is your chance to grab your audience. What is your film about, what will make people want to view it?      
+            </div>
+            <div class="form_help_box" >
+            <b>Tell us more about your video.</b> Videos with a bit of context make much more sense to your audience. Tell us how your video fits into it's time and place, and how the events depicted are related to any campaigns or social movements. 
+            </div>
+            <div class="form_help_box" >
+            <b>Copyright / Open Content License.</b> Choose how you want your video to be used by others. All videos on EngageMedia are available for download. You can give or withold permission to screen your video for commercial or non-commercial purposes, and even allow others to use parts of your work in their own - it's up to you. Choose the license that is most appropriate for you by answering these questions.
+            </div>
+        </div>
+
+
         </div>
         <div id="tab2-content" class="tabcontent">
             <div id="categorise-column1" class="tab2-columns">
