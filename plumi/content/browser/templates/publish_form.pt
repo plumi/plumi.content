@@ -151,8 +151,6 @@
             <b>Copyright / Open Content License.</b> Choose how you want your video to be used by others. All videos on EngageMedia are available for download. You can give or withold permission to screen your video for commercial or non-commercial purposes, and even allow others to use parts of your work in their own - it's up to you. Choose the license that is most appropriate for you by answering these questions.
             </div>
         </div>
-
-
         </div>
         <div id="tab2-content" class="tabcontent">
             <div id="categorise-column1" class="tab2-columns">
@@ -204,6 +202,27 @@
                 <label class="formQuestion">Tags </label><br /><span class="formHelp">(separate with commas)</span>
                 <input type="text" id="form_tags" class="form_input" size="55" />
             </div>
+        <div class="tab2-content-right" >
+            <div class="form_help_box" >
+            HAVING PROBLEMS?
+            If your internet connection is slow or unstable, you may want to <b>upload via FTP</b> instead. 
+            Or <b>contact us for help.</b>      
+            </div>
+            <div class="form_help_box" >
+            <b>Categorisation.</b> The better you can categorize your video, the higher the change your audience will find it.             </div>
+            <div class="form_help_box" >
+            <b>Credits.</b> Let the audience know about some of the creators of the project, and how to contact you. You can always put a full credits list in the full description if you like. If your video is associated with a project or campaign you can list it here. You can also link to a website about the film, or the project or issue around which it is based. 
+            </div>
+            <div class="form_help_box" >
+            <b>Organisation / Project Name.</b> Is your film connected to a project, initiative, compilation or campaign?List it here.        
+            </div>
+            <div class="form_help_box" >
+            <b>Website URL.</b> This is the main website associated with your film.
+            You will have a chance to add other related links on the next page.
+            <div class="form_help_box" >
+            <b>Tags.</b> Add some keywords that represent your film. For example "financial institutions" or "queer".      
+            </div>
+        </div>
         </div>
         <div id="tab3-content" class="tabcontent">
             Learn more...
