@@ -223,12 +223,58 @@
             <b>Tags.</b> Add some keywords that represent your film. For example "financial institutions" or "queer".      
             </div>
         </div>
-        </div>
-        <div id="tab3-content" class="tabcontent">
-            Learn more...
-        </div>  
+
         <input type="button" name="submit" value="SAVE CHANGES" id="form_submit" />
+
+        </div>
     </div>
+
+
+        <div id="tab3-content" class="tabcontent">
+            <div id="categorise-column2" class="tab3-columns">
+                Learn more
+            </div>
+
+            <div class="tab2-content-right" >
+                <div class="form_help_box" >
+            HAVING PROBLEMS?
+            If your internet connection is slow or unstable, you may want to <b>upload via FTP</b> instead. 
+            Or <b>contact us for help.</b>      
+                </div>
+
+
+                <div class="form_help_box" >
+            <b>Mobilise...strategy & action.</b> After watching your video, your audience may be inspired to learn more, make their own voice heard, connect with others working around these issues and take actions themselves. Help your audience find a sense of agency, and take that step to create change. 
+                </div>
+
+
+                <div class="form_help_box" >
+            <b>Knowledge is power.</b> Empower your audience with more info about these issues, that builds on what you've discussed in your film. Include links to articles, newsletters, publications and other videos too.      
+                </div>
+
+
+                <div class="form_help_box" >
+            <b>Make your voice heard.<b> We believe in participatory media, that gives audiences the chance to share their knowledge and views, and become part of the conversation. Armed with information, your audiences will want to engage in the debate around the issues you have raised.      
+                </div>
+
+
+                <div class="form_help_box" >
+            <b>Joining forces.</b> Strong social movements create lasting social change. Make links between supporters and activists, old and new, and help build a solid grounding for action. Help your audience explore the intersectionalities between the work they already do, and the issues in your film.    
+                </div>
+
+
+                <div class="form_help_box" >
+            <b>Learn, discuss, join, act!</b> Your film could be the catalyst that makes someone jump out of their armchair and become an activist in this area. Make that leap as small as it can be. Help your audience take the next step and take action around the issues in the film by taking part in protests, direct action, events, contacting their MPs, making media themselves, or whatever actions the issues demand.       
+                </div>
+
+            </div>
+
+        </div>
+
+        </div>
+
+
+
     <script language="javascript">
         // perform JavaScript after the document is scriptable.
         j$(function() {
