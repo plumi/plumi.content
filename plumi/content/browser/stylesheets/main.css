@@ -206,4 +206,5 @@ li.formTab a.current {
 
 #upload-form-top table.zebra-striped {
     width: 535px;
+    display:none;
 }

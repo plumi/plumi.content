@@ -179,7 +179,7 @@
     </div>
     <script language="javascript">
         // perform JavaScript after the document is scriptable.
-        $(function() {
+        j$(function() {
             // setup ul.tabs to work as tabs for each div directly under div.panes
             $("ul.formTabs").tabs("div.panes > div");
         });
@@ -188,6 +188,7 @@
             maxNumberOfFiles: 1,
             autoUpload: true
         });
+        j$('#fileupload').bind('fileuploadstarted', function (e,data) {$(".btn.success, .alert-message.success").hide(); $("#upload-form-top table.zebra-striped").show(); });
     </script>
 </tal:main-macro>
 </metal:main>
