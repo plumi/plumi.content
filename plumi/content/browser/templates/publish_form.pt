@@ -107,7 +107,14 @@
             </select>
             <br /><br />
             <label class="formQuestion">Video Language</label><span class="form_required">*</span><br />
-
+            <select id="form_language" class="form_select"
+                    tal:define="video_languages view/get_video_languages;"
+                    tal:condition="video_languages"> 
+                    <option tal:repeat="video_language video_languages"
+                            tal:attributes="value python:video_language[0]"
+                            tal:content="python:video_language[1]">
+                    </option>
+            </select>
             <br /><br />
             License*
                 <tal:licensingfield>

@@ -29,5 +29,10 @@ class PublishForm(BrowserView):
     def get_video_languages(self):
         """Fake the genres/categories process to return the video language infos"""
         voc = self.vocab_tool.getVocabularyByName('video_languages')
-        return voc
+        lanugagesDict = []        
+        voc_terms = voc.getDisplayList(self).items()
+
+        for term in voc_terms:
+            lanugagesDict.append( (term[0], term[1]) )
+        return lanugagesDict
 
