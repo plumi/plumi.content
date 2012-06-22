@@ -3,5 +3,6 @@
   <version>0.9</version>
   <dependencies>
     <dependency>profile-Products.ATVocabularyManager:default</dependency>
+    <dependency>profile-collective.upload:default</dependency>
   </dependencies>
 </metadata>
