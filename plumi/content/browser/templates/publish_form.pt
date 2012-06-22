@@ -47,7 +47,7 @@
 
     <link rel="stylesheet" type="text/css" media="screen" href="++resource++collective.upload/jquery.fileupload-ui.css" />
     <div id="upload-form-top">
-                <form id="fileupload" action="." tal:attributes="action string:${context/absolute_url}/media_uploader" method="POST" enctype="multipart/form-data">
+                <form id="fileupload" action="." tal:attributes="action string:${context/absolute_url}/plumi_uploader" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="cell position-0 width-full fileupload-buttonbar">
                             <div class="controls">
@@ -107,10 +107,7 @@
             </select>
             <br /><br />
             <label class="formQuestion">Video Language</label><span class="form_required">*</span><br />
-            <select id="form_language" class="form_select"> 
-                <option value="EN">English</option>
-                <option value="GR">Greek</option>
-            </select>
+
             <br /><br />
             License*
                 <tal:licensingfield>
@@ -282,7 +279,6 @@
             $("ul.formTabs").tabs("div.panes > div");
         });
         j$('#fileupload').fileupload({
-            url: 'upload.json',
             maxNumberOfFiles: 1,
             autoUpload: true
         });
