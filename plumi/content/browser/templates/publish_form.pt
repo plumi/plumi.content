@@ -6,47 +6,50 @@
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plumi">
 
-<!-- meta and link tags for facebook integration -->
-<tal:block metal:fill-slot="head_slot" 
-           define="portal context/@@plone_portal_state/portal;">
-</tal:block>
-<head>
-    <metal:block fill-slot="column_two_slot" />
-</head>
-<body>
-<metal:main fill-slot="main">
-<tal:main-macro metal:define-macro="main">
-    <div id="multipleupload-code">
-        <script>
-            var $_original = jQuery.noConflict();
-        </script>
-        <script src="jsvariables" type="text/javascript">
-        </script>
-        <script src="++resource++collective.upload/jquery.1.7.1.js"></script>
-        <script>
-            var j$ = $;
-            $ = $_original;
-            jQuery = $_original;
-        </script>
-        <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-        <script src="++resource++collective.upload/jquery.ui.widget.js"></script>
-        <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-        <script src="++resource++collective.upload/load-image.min.js"></script>
-        <!-- The Canvas to Blob plugin is included for image resizing functionality -->
-        <script src="++resource++collective.upload/canvas-to-blob.min.js"></script>
-
-        <script src="++resource++collective.upload/jquery.iframe-transport.js"></script>
-        <script src="++resource++collective.upload/jquery.fileupload.js"></script>
-        <!-- The File Upload image processing plugin -->
-        <script src="++resource++collective.upload/jquery.fileupload-ip.js"></script>
-
-        <script src="++resource++collective.upload/jquery.fileupload-ui.js"></script>
-        <script src="++resource++collective.upload/application.js"></script>
-        <script src="++resource++collective.upload/media-upload-init-behavior.js"></script>
-    </div>
-
-    <link rel="stylesheet" type="text/css" media="screen" href="++resource++collective.upload/jquery.fileupload-ui.css" />
-    <div id="upload-form-top">
+    <!-- meta and link tags for facebook integration -->
+    <tal:block metal:fill-slot="head_slot" 
+               define="portal context/@@plone_portal_state/portal;">
+    </tal:block>
+    
+    <head>
+        <metal:block fill-slot="top_slot"
+                 tal:define="dummy python:request.set('disable_border',1)" />        
+    </head>
+    
+    <body>
+        <metal:main fill-slot="main">
+        <tal:main-macro metal:define-macro="main">
+            <div id="multipleupload-code">
+                <script>
+                    var $_original = jQuery.noConflict();
+                </script>
+                <script src="jsvariables" type="text/javascript">
+                </script>
+                <script src="++resource++collective.upload/jquery.1.7.1.js"></script>
+                <script>
+                    var j$ = $;
+                    $ = $_original;
+                    jQuery = $_original;
+                </script>
+                <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+                <script src="++resource++collective.upload/jquery.ui.widget.js"></script>
+                <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+                <script src="++resource++collective.upload/load-image.min.js"></script>
+                <!-- The Canvas to Blob plugin is included for image resizing functionality -->
+                <script src="++resource++collective.upload/canvas-to-blob.min.js"></script>
+        
+                <script src="++resource++collective.upload/jquery.iframe-transport.js"></script>
+                <script src="++resource++collective.upload/jquery.fileupload.js"></script>
+                <!-- The File Upload image processing plugin -->
+                <script src="++resource++collective.upload/jquery.fileupload-ip.js"></script>
+        
+                <script src="++resource++collective.upload/jquery.fileupload-ui.js"></script>
+                <script src="++resource++collective.upload/application.js"></script>
+                <script src="++resource++collective.upload/media-upload-init-behavior.js"></script>
+            </div>
+        
+            <link rel="stylesheet" type="text/css" media="screen" href="++resource++plumi.content.stylesheets/publish.css" />
+            <div id="upload-form-top">
                 <form id="fileupload" action="." tal:attributes="action string:${context/absolute_url}/plumi_uploader" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="cell position-0 width-full fileupload-buttonbar">
@@ -84,214 +87,176 @@
                         </div>
                     </div>
                 </form>
+        
+                <ul class="formTabs" id="upload-tabs">
+        	        <li id="tab-basic" class="formTab firstFormTab"><a href="#" class="required"><span>Basic Info</span></a></li>
+        	        <li id="tab-categorize" class="formTab"><a href="#">Categorize</a></li>
+                </ul>
+            </div>
+            
+            <div id="upload-form-middle" class="panes">
+                <div id="tab1-content" class="tabcontent">
 
-        <ul class="formTabs" id="upload-tabs">
-	        <li id="tab-basic" class="formTab firstFormTab"><a href="#" class="required"><span>Basic Info</span></a></li>
-	        <li id="tab-categorize" class="formTab"><a href="#">Categorize</a></li>
-	        <li id="tab-mobilise" class="formTab lastFormTab"><a href="#">Mobilise</a></li>
-        </ul>
-    </div>
-    <div id="upload-form-middle" class="panes">
-        <div id="tab1-content" class="tabcontent">
-            *these fields are compulsory <br /><br />
-            <label class="formQuestion">Title</label><span class="form_required">*</span><br />
-            <input id="form_title" type="text" class="form_input" style="width:400px" /> <br /><br />
-            <label class="formQuestion">Short Summary</label><span class="form_required">*</span><br /><span class="formHelp"> (describe your video in 160 characters) </span>
-            <textarea id="form_summary" class="form_input" style="width:400px"></textarea> <br /><br />
-            <label class="formQuestion">Description</label><span class="form_required">*</span><br /><span class="formHelp"> (you can add HTML and images) </span>
-            <textarea id="form_description" class="form_input" style="width:400px"></textarea> <br /><br />
-            <label class="formQuestion">Year Produced</label><span class="form_required">*</span><br />
-            <select id="form_year" class="form_select"> 
-                <option value="2012">2012</option>
-                <option value="2011">2011</option>
-            </select>
-            <br /><br />
-            <label class="formQuestion">Video Language</label><span class="form_required">*</span><br />
-            <select id="form_language" class="form_select"
-                    tal:define="video_languages view/get_video_languages;"
-                    tal:condition="video_languages"> 
-                    <option tal:repeat="video_language video_languages"
-                            tal:attributes="value python:video_language[0]"
-                            tal:content="python:video_language[1]">
-                    </option>
-            </select>
-            <br /><br />
-            License*
-                <tal:licensingfield>
-		          <div tal:replace="structure context/@@dc_metadata|nothing" />
-                </tal:licensingfield>  
-            <br /><br />
-            <label class="formQuestion">Add Thumbnail</label><br /> 
-            <span class="formHelp">(we will automatically generate an image, but you may prefer to upload your own)</span>
-            <input id="form_thumb" type="file" />
-
-        <div class="tab1-content-right" >
-            <div class="form_help_box" >
-            HAVING PROBLEMS?
-            If your internet connection is slow or unstable, you may want to <b>upload via FTP</b> instead. 
-            Or <b>contact us for help.</b>      
-            </div>
-            <div class="form_help_box" >
-            <b>RECOMMENDED VIDEO SETTINGS</b>
-            Click to Expand Further...
-
-            Codec: Ogg Theora, H264, WebM or XviD
-            Bitrate: Between 2000 & 5000 kbps
-            Frame size: Standard Definition
-            (PAL) 720 X 576
-            (NTSC)
-            High Definition
-            1280 x 720
-            Frame Rate: 25 fps (PAL) or 30FPS (NTSC)
-            Size: Up to 1 GB file size.
-            </div>
-            <div class="form_help_box" >
-            <b>Be pithy.</b> This is your chance to grab your audience. What is your film about, what will make people want to view it?      
-            </div>
-            <div class="form_help_box" >
-            <b>Tell us more about your video.</b> Videos with a bit of context make much more sense to your audience. Tell us how your video fits into it's time and place, and how the events depicted are related to any campaigns or social movements. 
-            </div>
-            <div class="form_help_box" >
-            <b>Copyright / Open Content License.</b> Choose how you want your video to be used by others. All videos on EngageMedia are available for download. You can give or withold permission to screen your video for commercial or non-commercial purposes, and even allow others to use parts of your work in their own - it's up to you. Choose the license that is most appropriate for you by answering these questions.
-            </div>
-        </div>
-        </div>
-        <div id="tab2-content" class="tabcontent">
-            <div id="categorise-column1" class="tab2-columns">
-                <b>CATEGORISE</b><br /><br />
-                <label class="formQuestion">Genre</label><br />
-                <select id="form_genre" class="form_select"> 
-                    <option value="None">None</option>
-                    <option value="Documentary">Documentary</option>
-                </select>
-                <br /><br />
-                <label class="formQuestion">Country</label><br />
-                <select id="form_country" class="form_select"> 
-                    <option value="International">International</option>
-                    <option value="EN">England</option>
-                </select>
-                <br /><br />
-                <label class="formQuestion">Location(e.g. City or Region)</label><br />
-                <input id="form_location" type="text" class="form_input" />
-                <br /><br />
-                <label class="formQuestion">Country</label><br />
-                <select id="form_topics" multiple="multiple" class="form_select"> 
-                    <option value="Activism">Activism</option>
-                    <option value="Animal Rights">Animal Rights</option>
-                </select>
-                <br /><br />
-            </div>
-            <div id="categorise-column2" class="tab2-columns">
-                <b>CREDITS</b><br /><br />
-                <label class="formQuestion">Director</label><br />
-                <input id="form_director" type="text" class="form_input" />
-                <br /><br />
-                <label class="formQuestion">Producer</label><br />
-                <input id="form_producer" type="text" class="form_input" />
-                <br /><br />
-                <label class="formQuestion">E-mail Address</label><br />
-                <input id="form_email" type="text" class="form_input" />
-                <br /><br />
-                <label class="formQuestion">Organisation / Project Name</label><br />
-                <input id="form_organisation" type="text" class="form_input" />
-                <br /><br />
-                <label class="formQuestion">Production Company</label><br />
-                <input id="form_company" type="text" class="form_input" />
-                <br /><br />
-                <label class="formQuestion">Website URL</label><br />
-                <input id="form_website" type="text" class="form_input" />
-                <br /><br />
-            </div>
-            <div id="categorise-tags">
-                <label class="formQuestion">Tags </label><br /><span class="formHelp">(separate with commas)</span>
-                <input type="text" id="form_tags" class="form_input" size="55" />
-            </div>
-        <div class="tab2-content-right" >
-            <div class="form_help_box" >
-            HAVING PROBLEMS?
-            If your internet connection is slow or unstable, you may want to <b>upload via FTP</b> instead. 
-            Or <b>contact us for help.</b>      
-            </div>
-            <div class="form_help_box" >
-            <b>Categorisation.</b> The better you can categorize your video, the higher the change your audience will find it.             </div>
-            <div class="form_help_box" >
-            <b>Credits.</b> Let the audience know about some of the creators of the project, and how to contact you. You can always put a full credits list in the full description if you like. If your video is associated with a project or campaign you can list it here. You can also link to a website about the film, or the project or issue around which it is based. 
-            </div>
-            <div class="form_help_box" >
-            <b>Organisation / Project Name.</b> Is your film connected to a project, initiative, compilation or campaign?List it here.        
-            </div>
-            <div class="form_help_box" >
-            <b>Website URL.</b> This is the main website associated with your film.
-            You will have a chance to add other related links on the next page.
-            <div class="form_help_box" >
-            <b>Tags.</b> Add some keywords that represent your film. For example "financial institutions" or "queer".      
-            </div>
-        </div>
-
-        <input type="button" name="submit" value="SAVE CHANGES" id="form_submit" />
-
-        </div>
-    </div>
+                    <div class="field" id="archetypes-fieldname-title">
+                        <span></span>
+                        <label class="formQuestion" for="title">
+                            Title
+                            <span class="required" title="Required">&nbsp;</span>
+                            <span class="formHelp" id="title_help"></span>
+                        </label>
+                        <div class="fieldErrorBox"></div>
+                        <input name="title" class="blurrable firstToFocus" id="title" value="" size="30" maxlength="255" placeholder="" type="text">
+                    </div>                    
 
 
-        <div id="tab3-content" class="tabcontent">
-            <div id="categorise-column2" class="tab3-columns">
-                Learn more
-            </div>
-
-            <div class="tab2-content-right" >
-                <div class="form_help_box" >
-            HAVING PROBLEMS?
-            If your internet connection is slow or unstable, you may want to <b>upload via FTP</b> instead. 
-            Or <b>contact us for help.</b>      
+                    <label class="formQuestion">Short Summary</label><span class="form_required">*</span><span class="formHelp"> (describe your video in 160 characters) </span>
+                    <textarea id="form_summary" class="form_input" style="width:400px"></textarea> 
+                    <label class="formQuestion">Description</label><span class="form_required">*</span><span class="formHelp"> (you can add HTML and images) </span>
+                    <textarea id="form_description" class="form_input" style="width:400px"></textarea> 
+                    <label class="formQuestion">Year Produced</label><span class="form_required">*</span>
+                    <select id="form_year" class="form_select"> 
+                        <option value="2012">2012</option>
+                        <option value="2011">2011</option>
+                    </select>
+                    
+                    <label class="formQuestion">Video Language</label><span class="form_required">*</span>
+                    <select id="form_language" class="form_select"
+                            tal:define="video_languages view/get_video_languages;"
+                            tal:condition="video_languages"> 
+                            <option tal:repeat="video_language video_languages"
+                                    tal:attributes="value python:video_language[0]"
+                                    tal:content="python:video_language[1]">
+                            </option>
+                    </select>
+                    
+                    License*
+                        <tal:licensingfield>
+        		          <div tal:replace="structure context/@@dc_metadata|nothing" />
+                        </tal:licensingfield>  
+                    
+                    <label class="formQuestion">Add Thumbnail</label> 
+                    <span class="formHelp">(we will automatically generate an image, but you may prefer to upload your own)</span>
+                    <input id="form_thumb" type="file" />
+        
+                <div class="tab1-content-right" >
+                    <div class="form_help_box" >
+                    HAVING PROBLEMS?
+                    If your internet connection is slow or unstable, you may want to <b>upload via FTP</b> instead. 
+                    Or <b>contact us for help.</b>      
+                    </div>
+                    <div class="form_help_box" >
+                    <b>RECOMMENDED VIDEO SETTINGS</b>
+                    Click to Expand Further...
+        
+                    Codec: Ogg Theora, H264, WebM or XviD
+                    Bitrate: Between 2000 & 5000 kbps
+                    Frame size: Standard Definition
+                    (PAL) 720 X 576
+                    (NTSC)
+                    High Definition
+                    1280 x 720
+                    Frame Rate: 25 fps (PAL) or 30FPS (NTSC)
+                    Size: Up to 1 GB file size.
+                    </div>
+                    <div class="form_help_box" >
+                    <b>Be pithy.</b> This is your chance to grab your audience. What is your film about, what will make people want to view it?      
+                    </div>
+                    <div class="form_help_box" >
+                    <b>Tell us more about your video.</b> Videos with a bit of context make much more sense to your audience. Tell us how your video fits into it's time and place, and how the events depicted are related to any campaigns or social movements. 
+                    </div>
+                    <div class="form_help_box" >
+                    <b>Copyright / Open Content License.</b> Choose how you want your video to be used by others. All videos on EngageMedia are available for download. You can give or withold permission to screen your video for commercial or non-commercial purposes, and even allow others to use parts of your work in their own - it's up to you. Choose the license that is most appropriate for you by answering these questions.
+                    </div>
                 </div>
-
-
-                <div class="form_help_box" >
-            <b>Mobilise...strategy & action.</b> After watching your video, your audience may be inspired to learn more, make their own voice heard, connect with others working around these issues and take actions themselves. Help your audience find a sense of agency, and take that step to create change. 
                 </div>
-
-
-                <div class="form_help_box" >
-            <b>Knowledge is power.</b> Empower your audience with more info about these issues, that builds on what you've discussed in your film. Include links to articles, newsletters, publications and other videos too.      
+                <div id="tab2-content" class="tabcontent">
+                    <div id="categorise-column1" class="tab2-columns">
+                        <label class="formQuestion">Genre</label>
+                        <select id="form_genre" class="form_select"> 
+                            <option value="None">None</option>
+                            <option value="Documentary">Documentary</option>
+                        </select>
+                        <label class="formQuestion">Country</label>
+                        <select id="form_country" class="form_select"> 
+                            <option value="International">International</option>
+                            <option value="EN">England</option>
+                        </select>
+                        <label class="formQuestion">Location(e.g. City or Region)</label>
+                        <input id="form_location" type="text" class="form_input" />
+                        <label class="formQuestion">Country</label>
+                        <select id="form_topics" multiple="multiple" class="form_select"> 
+                            <option value="Activism">Activism</option>
+                            <option value="Animal Rights">Animal Rights</option>
+                        </select>
+                    </div>
+                    <div id="categorise-column2" class="tab2-columns">
+                        <b>CREDITS</b>
+                        <label class="formQuestion">Director</label>
+                        <input id="form_director" type="text" class="form_input" />
+                        
+                        <label class="formQuestion">Producer</label>
+                        <input id="form_producer" type="text" class="form_input" />
+                        
+                        <label class="formQuestion">E-mail Address</label>
+                        <input id="form_email" type="text" class="form_input" />
+                        
+                        <label class="formQuestion">Organisation / Project Name</label>
+                        <input id="form_organisation" type="text" class="form_input" />
+                        
+                        <label class="formQuestion">Production Company</label>
+                        <input id="form_company" type="text" class="form_input" />
+                        
+                        <label class="formQuestion">Website URL</label>
+                        <input id="form_website" type="text" class="form_input" />
+                    </div>
+                    <div id="categorise-tags">
+                        <label class="formQuestion">Tags </label><span class="formHelp">(separate with commas)</span>
+                        <input type="text" id="form_tags" class="form_input" size="55" />
+                    </div>
+                <div class="tab2-content-right" >
+                    <div class="form_help_box" >
+                    HAVING PROBLEMS?
+                    If your internet connection is slow or unstable, you may want to <b>upload via FTP</b> instead. 
+                    Or <b>contact us for help.</b>      
+                    </div>
+                    <div class="form_help_box" >
+                    <b>Categorisation.</b> The better you can categorize your video, the higher the change your audience will find it.             </div>
+                    <div class="form_help_box" >
+                    <b>Credits.</b> Let the audience know about some of the creators of the project, and how to contact you. You can always put a full credits list in the full description if you like. If your video is associated with a project or campaign you can list it here. You can also link to a website about the film, or the project or issue around which it is based. 
+                    </div>
+                    <div class="form_help_box" >
+                    <b>Organisation / Project Name.</b> Is your film connected to a project, initiative, compilation or campaign?List it here.        
+                    </div>
+                    <div class="form_help_box" >
+                    <b>Website URL.</b> This is the main website associated with your film.
+                    You will have a chance to add other related links on the next page.
+                    <div class="form_help_box" >
+                    <b>Tags.</b> Add some keywords that represent your film. For example "financial institutions" or "queer".      
+                    </div>
                 </div>
-
-
-                <div class="form_help_box" >
-            <b>Make your voice heard.<b> We believe in participatory media, that gives audiences the chance to share their knowledge and views, and become part of the conversation. Armed with information, your audiences will want to engage in the debate around the issues you have raised.      
+        
+                <input type="button" name="submit" value="SAVE CHANGES" id="form_submit" />
+        
                 </div>
-
-
-                <div class="form_help_box" >
-            <b>Joining forces.</b> Strong social movements create lasting social change. Make links between supporters and activists, old and new, and help build a solid grounding for action. Help your audience explore the intersectionalities between the work they already do, and the issues in your film.    
-                </div>
-
-
-                <div class="form_help_box" >
-            <b>Learn, discuss, join, act!</b> Your film could be the catalyst that makes someone jump out of their armchair and become an activist in this area. Make that leap as small as it can be. Help your audience take the next step and take action around the issues in the film by taking part in protests, direct action, events, contacting their MPs, making media themselves, or whatever actions the issues demand.       
-                </div>
-
             </div>
-
-        </div>
-
-        </div>
-
-
-
-    <script language="javascript">
-        // perform JavaScript after the document is scriptable.
-        j$(function() {
-            // setup ul.tabs to work as tabs for each div directly under div.panes
-            $("ul.formTabs").tabs("div.panes > div");
-        });
-        j$('#fileupload').fileupload({
-            maxNumberOfFiles: 1,
-            autoUpload: true
-        });
-        j$('#fileupload').bind('fileuploadstarted', function (e,data) {$(".btn.success, .alert-message.success").hide(); $("#upload-form-top table.zebra-striped").show(); });
-    </script>
-</tal:main-macro>
-</metal:main>
-</body>
+        
+            </div>
+        
+        
+            <script language="javascript">
+                // perform JavaScript after the document is scriptable.
+                j$(function() {
+                    // setup ul.tabs to work as tabs for each div directly under div.panes
+                    $("ul.formTabs").tabs("div.panes > div");
+                });
+                j$('#fileupload').fileupload({
+                    maxNumberOfFiles: 1,
+                    autoUpload: true
+                });
+                j$('#fileupload').bind('fileuploadstarted', function (e,data) {$(".btn.success, .alert-message.success").hide(); $("#upload-form-top table.zebra-striped").show(); });
+            </script>
+        </tal:main-macro>
+        
+        </metal:main>
+    </body>
 </html>
