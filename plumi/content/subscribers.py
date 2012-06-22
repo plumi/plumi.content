@@ -140,9 +140,12 @@ def notifyModifiedPlumiVideo(obj ,event):
         if request.has_key('video_file_file'): #new video uploaded
             log.info('notifyModifiedPlumiVideo: video replaced;')
             async = getUtility(IAsyncService)
-            temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2) 
-            job = async.queueJob(setup_metadata, obj, begin_after=temp_time)
-            print "job queued: %s" % job
+            temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2)
+            try: 
+                job = async.queueJob(setup_metadata, obj, begin_after=temp_time)
+                log.info("job queued: %s" % job)
+            except Exception as e:
+                log.error('failed to queue setup_metadata job: %s' % e)
 
 @adapter(IPlumiVideo, IObjectInitializedEvent)
 def notifyInitPlumiVideo(obj ,event):

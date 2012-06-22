@@ -1,17 +1,12 @@
 @charset 'UTF-8';
-/*
- * jQuery File Upload UI Plugin CSS 6.0
- * https://github.com/blueimp/jQuery-File-Upload
- *
- * Copyright 2010, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
- */
+#fieldname-recurse-license {
+    display: none;
+}
+
 .controls {
     margin:1em 0 1em 0;
 }
+
 .fileinput-button input {
   position: absolute;
   top: 0;

@@ -50,7 +50,7 @@
 
     <browser:page
         name="publish_form"
-        for="*"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         permission="zope2.View"
         template="templates/publish_form.pt"
         class=".publish_form.PublishForm" />

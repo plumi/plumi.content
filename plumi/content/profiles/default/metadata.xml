@@ -4,5 +4,6 @@
   <dependencies>
     <dependency>profile-Products.ATVocabularyManager:default</dependency>
     <dependency>profile-collective.upload:default</dependency>
+    <dependency>profile-plone.app.z3cform:default</dependency>    
   </dependencies>
 </metadata>

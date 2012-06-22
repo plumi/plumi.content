@@ -16,6 +16,9 @@
     <include package=".portlets" />
     
     <include package="Products.ATVocabularyManager" />
+    <include package="collective.upload" />
+    <include package="plone.app.z3cform" />
+    <include package="plone.app.async" />
     
     <!-- File System Directory Views registration -->
     <cmf:registerDirectory name="plumi_content_custom_templates"/>
@@ -108,4 +111,9 @@
             handler=".subscribers.notifyCommentAdded"
             />      
     </configure>
+    
+    <class class="Products.CMFPlone.Portal.PloneSite">
+        <implements interface="collective.contentlicensing.DublinCoreExtensions.interfaces.ILicensable
+                               zope.annotation.interfaces.IAttributeAnnotatable" />
+    </class>
 </configure>
