@@ -15,8 +15,18 @@ from plumi.content import plumiMessageFactory as _
 
 class IPlumiVideo(form.Schema):
     
+    form.fieldset('default',
+            label=u"Basic info",
+            fields=['Title','Description', 'DateProduced', 'FullDescription']
+        )
+    
+    form.fieldset('categorize',
+            label=u"Categorise",
+            fields=['Producer',]
+        )
+    
     Title = schema.TextLine(
-            title=_(u"Your full name"),
+            title=_(u"Title"),
             required=True,
         )
 
@@ -38,6 +48,10 @@ class IPlumiVideo(form.Schema):
         description=_(u"The description of the video content"),
     )
 
+    Producer = schema.TextLine(
+            title=_(u"Producer"),
+            required=False,
+        )
 
 class VideoAddForm(form.SchemaForm):
     grok.name('publish_video')
@@ -47,8 +61,9 @@ class VideoAddForm(form.SchemaForm):
     schema = IPlumiVideo
     ignoreContext = True
  
-    label = _(u"Order your pizza")
-    description = _(u"We will contact you to confirm your order and delivery.")
+    label = _(u"Publish your video")
+    #description = _(u"...")
+    
     def update(self):
         # disable Plone's editable border
         self.request.set('disable_border', True)

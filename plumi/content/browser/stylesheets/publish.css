@@ -2,9 +2,21 @@
 #fieldname-recurse-license {
     display: none;
 }
+#uploader {
+    margin: 20px !important;
+}
 
+#upload-form-top {
+    margin-bottom: 0px;
+}
+
+.fileupload-buttonbar {
+    margin-bottom: 20px;
+    margin-top: -10px;
+}
 .controls {
-    margin:1em 0 1em 0;
+    margin: 0 !important;
+    height: 0 !important;
 }
 
 .fileinput-button input {

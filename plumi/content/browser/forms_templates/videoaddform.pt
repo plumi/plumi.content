@@ -1,14 +1,16 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:tal="http://xml.zope.org/namespaces/tal"
-xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:i18n="http://xml.zope.org/namespaces/i18n" lang="en"
-metal:use-macro="here/main_template/macros/master" i18n:domain="plumi">
-    <!-- meta and link tags for facebook integration -->
-    <tal:block metal:fill-slot="head_slot" define="portal context/@@plone_portal_state/portal;"></tal:block>
-    <head>
-        <metal:block fill-slot="top_slot" tal:define="dummy python:request.set('disable_border',1)" />
-    </head>
-    <body>
-        <metal:main fill-slot="main">
-            <tal:main-macro metal:define-macro="main">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="example.dexterityforms"
+      metal:use-macro="context/main_template/macros/master">
+      
+    <metal:block fill-slot="main">
+        
+        <h1 class="documentFirstHeading" tal:content="view/label | nothing" />
+                
+        <div id="content-core">
+            <div id="uploader">
                 <div id="multipleupload-code">
                     <script>var $_original = jQuery.noConflict();</script>
                     <script src="jsvariables" type="text/javascript"></script>
@@ -76,180 +78,13 @@ metal:use-macro="here/main_template/macros/master" i18n:domain="plumi">
                             </div>
                         </div>
                     </form>
-                    <ul class="formTabs" id="upload-tabs">
-                        <li id="tab-basic" class="formTab firstFormTab">
-                            <a href="#" class="required">
-                                <span>Basic Info</span>
-                            </a>
-                        </li>
-                        <li id="tab-categorize" class="formTab">
-                            <a href="#">Categorize</a>
-                        </li>
-                    </ul>
-                </div>
-                <div id="upload-form-middle" class="panes">
-                    <div id="tab1-content" class="tabcontent">
-                        <div class="field" id="archetypes-fieldname-title">
-                            <span></span>
-                            <label class="formQuestion" for="title">
-                                Title 
-                                <span class="required" title="Required">&#160;</span>
-                                <span class="formHelp" id="title_help"></span>
-                            </label>
-                            <div class="fieldErrorBox"></div>
-                            <div tal:replace="structure view/form_instance/widgets/Title/render" />
-
-                        </div>
-                        
-                        <div class="field ArchetypesTextAreaWidget kssattr-atfieldname-description" id="archetypes-fieldname-description">
-                            <span></span>
-                            <label class="formQuestion" for="description">Short summary
-                                <span class="required" title="Required">&#160;</span>
-                                <span class="formHelp" id="description_help">Describe your video in 160 characters.</span>
-                            </label>
-                            <div class="fieldErrorBox"></div>
-                            <div tal:replace="structure view/form_instance/widgets/Description/render" />
-                        </div>
-      
-      
-                        <div class="field ArchetypesRichWidget" id="archetypes-fieldname-FullDescription">
-                            <span></span>          
-                            <label class="formQuestion" for="FullDescription">
-                                Full description                               
-                                <span class="formHelp" id="FullDescription_help"></span>
-                            </label>
-                            <div class="fieldErrorBox"></div>
-                            <div tal:replace="structure view/form_instance/widgets/FullDescription/render" />
-                        <div>
-                 
-                  
- 
-                        <div class="field" id="archetypes-fieldname-DateProduced">
-                            <label class="formQuestion" for="DateProduced">
-                                Date Produced
-                                <span class="required" title="Required">&#160;</span>
-                            </label>
-                            <div class="fieldErrorBox"></div>
-    
-                            <div tal:replace="structure view/form_instance/widgets/DateProduced/render" />
-                        </div>
-                        
-                        
-                        <div class="field" id="archetypes-fieldname-VideoLanguage">
-                            <label class="formQuestion" for="VideoLanguage">Video Language
-                                <span class="required" title="Required">&#160;</span>
-                            </label>
-                            <select id="VideoLanguage" name="VideoLanguage" 
-                                tal:define="video_languages view/get_video_languages;"
-                                tal:condition="video_languages">
-                                <option tal:repeat="video_language video_languages" 
-                                    tal:attributes="value python:video_language[0]"
-                                    tal:content="python:video_language[1]">
-                                </option>
-                            </select>
-                        </div>
-                        License* 
-                        <tal:licensingfield>
-                            <div tal:replace="structure context/@@dc_metadata|nothing" />
-                            ddd
-                        </tal:licensingfield>
-                        <label class="formQuestion">Add Thumbnail</label>
-                        <span class="formHelp">(we will automatically generate an image, but you may prefer to upload your own)</span>
-                        <input id="form_thumb" type="file" /></div>
-                        <div class="tab1-content-right">
-                            <div class="form_help_box">HAVING PROBLEMS? If your internet connection is slow or unstable, you may want to 
-                            <b>upload via FTP</b>instead. Or 
-                            <b>contact us for help.</b></div>
-                            <div class="form_help_box">
-                            <b>RECOMMENDED VIDEO SETTINGS</b>Click to Expand Further... Codec: Ogg Theora, H264, WebM or XviD Bitrate:
-                            Between 2000 &amp; 5000 kbps Frame size: Standard Definition (PAL) 720 X 576 (NTSC) High Definition 1280 x 720
-                            Frame Rate: 25 fps (PAL) or 30FPS (NTSC) Size: Up to 1 GB file size.</div>
-                            <div class="form_help_box">
-                            <b>Be pithy.</b>This is your chance to grab your audience. What is your film about, what will make people want
-                            to view it?</div>
-                            <div class="form_help_box">
-                            <b>Tell us more about your video.</b>Videos with a bit of context make much more sense to your audience. Tell
-                            us how your video fits into it's time and place, and how the events depicted are related to any campaigns or
-                            social movements.</div>
-                            <div class="form_help_box">
-                            <b>Copyright / Open Content License.</b>Choose how you want your video to be used by others. All videos on
-                            EngageMedia are available for download. You can give or withold permission to screen your video for commercial
-                            or non-commercial purposes, and even allow others to use parts of your work in their own - it's up to you.
-                            Choose the license that is most appropriate for you by answering these questions.</div>
-                        </div>
-                    </div>
-                    <div id="tab2-content" class="tabcontent">
-                        <div id="categorise-column1" class="tab2-columns">
-                            <label class="formQuestion">Genre</label>
-                            <select id="form_genre" class="form_select">
-                                <option value="None">None</option>
-                                <option value="Documentary">Documentary</option>
-                            </select>
-                            <label class="formQuestion">Country</label>
-                            <select id="form_country" class="form_select">
-                                <option value="International">International</option>
-                                <option value="EN">England</option>
-                            </select>
-                            <label class="formQuestion">Location(e.g. City or Region)</label>
-                            <input id="form_location" type="text" class="form_input" />
-                            <label class="formQuestion">Country</label>
-                            <select id="form_topics" multiple="multiple" class="form_select">
-                                <option value="Activism">Activism</option>
-                                <option value="Animal Rights">Animal Rights</option>
-                            </select>
-                        </div>
-                        <div id="categorise-column2" class="tab2-columns">
-                            <b>CREDITS</b>
-                            <label class="formQuestion">Director</label>
-                            <input id="form_director" type="text" class="form_input" />
-                            <label class="formQuestion">Producer</label>
-                            <input id="form_producer" type="text" class="form_input" />
-                            <label class="formQuestion">E-mail Address</label>
-                            <input id="form_email" type="text" class="form_input" />
-                            <label class="formQuestion">Organisation / Project Name</label>
-                            <input id="form_organisation" type="text" class="form_input" />
-                            <label class="formQuestion">Production Company</label>
-                            <input id="form_company" type="text" class="form_input" />
-                            <label class="formQuestion">Website URL</label>
-                            <input id="form_website" type="text" class="form_input" />
-                        </div>
-                        <div id="categorise-tags">
-                            <label class="formQuestion">Tags</label>
-                            <span class="formHelp">(separate with commas)</span>
-                            <input type="text" id="form_tags" class="form_input" size="55" />
-                        </div>
-                        <div class="tab2-content-right">
-                            <div class="form_help_box">HAVING PROBLEMS? If your internet connection is slow or unstable, you may want to 
-                            <b>upload via FTP</b>instead. Or 
-                            <b>contact us for help.</b></div>
-                            <div class="form_help_box">
-                            <b>Categorisation.</b>The better you can categorize your video, the higher the change your audience will find
-                            it.</div>
-                            <div class="form_help_box">
-                            <b>Credits.</b>Let the audience know about some of the creators of the project, and how to contact you. You can
-                            always put a full credits list in the full description if you like. If your video is associated with a project
-                            or campaign you can list it here. You can also link to a website about the film, or the project or issue around
-                            which it is based.</div>
-                            <div class="form_help_box">
-                            <b>Organisation / Project Name.</b>Is your film connected to a project, initiative, compilation or
-                            campaign?List it here.</div>
-                            <div class="form_help_box">
-                            <b>Website URL.</b>This is the main website associated with your film. You will have a chance to add other
-                            related links on the next page. 
-                            <div class="form_help_box">
-                            <b>Tags.</b>Add some keywords that represent your film. For example "financial institutions" or
-                            "queer".</div></div>
-                            <input type="button" name="submit" value="SAVE CHANGES" id="form_submit" />
-                        </div>
-                    </div>
-                </div>
-                <script language="javascript">
+                </div>    
+            </div>
+            <div class="row">
+                <metal:block use-macro="context/@@ploneform-macros/fields" />
+            </div>
+            <script language="javascript">
                 // perform JavaScript after the document is scriptable.
-                 
-                j$(function() { 
-                    // setup ul.tabs to work as tabs for each div directly under div.panes
-                    $("ul.formTabs").tabs("div.panes > div"); 
-                });
                 
                 j$('#fileupload').fileupload({ 
                     maxNumberOfFiles: 1, 
@@ -262,8 +97,9 @@ metal:use-macro="here/main_template/macros/master" i18n:domain="plumi">
                         $("#upload-form-top table.zebra-striped").show(); 
                     }
                 );                    
-                </script>
-            </tal:main-macro>
-        </metal:main>
-    </body>
+            </script>
+        </div>
+        
+    </metal:block>
+    
 </html>
