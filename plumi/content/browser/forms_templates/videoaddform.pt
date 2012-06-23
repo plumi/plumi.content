@@ -81,7 +81,7 @@
                 </div>    
             </div>
             <div class="row">
-                <metal:block use-macro="context/@@ploneform-macros/fields" />
+                <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
             </div>
             <script language="javascript">
                 // perform JavaScript after the document is scriptable.
