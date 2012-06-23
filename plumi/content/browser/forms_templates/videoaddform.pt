@@ -89,7 +89,6 @@ metal:use-macro="here/main_template/macros/master" i18n:domain="plumi">
                 </div>
                 <div id="upload-form-middle" class="panes">
                     <div id="tab1-content" class="tabcontent">
-                        
                         <div class="field" id="archetypes-fieldname-title">
                             <span></span>
                             <label class="formQuestion" for="title">
@@ -98,8 +97,8 @@ metal:use-macro="here/main_template/macros/master" i18n:domain="plumi">
                                 <span class="formHelp" id="title_help"></span>
                             </label>
                             <div class="fieldErrorBox"></div>
-                            <input name="title" class="blurrable firstToFocus" id="title" value="" size="30" maxlength="255" placeholder=""
-                            type="text" />
+                            <div tal:replace="structure view/form_instance/widgets/Title/render" />
+
                         </div>
                         
                         <div class="field ArchetypesTextAreaWidget kssattr-atfieldname-description" id="archetypes-fieldname-description">
@@ -109,47 +108,30 @@ metal:use-macro="here/main_template/macros/master" i18n:domain="plumi">
                                 <span class="formHelp" id="description_help">Describe your video in 160 characters.</span>
                             </label>
                             <div class="fieldErrorBox"></div>
-                            <textarea class="blurrable firstToFocus" rows="5" name="description" cols="40" id="description"></textarea>
-                            <input type="hidden" name="description_text_format" value="text/plain" />
+                            <div tal:replace="structure view/form_instance/widgets/Description/render" />
                         </div>
       
       
                         <div class="field ArchetypesRichWidget" id="archetypes-fieldname-FullDescription">
                             <span></span>          
                             <label class="formQuestion" for="FullDescription">
-                                Full Description                               
+                                Full description                               
                                 <span class="formHelp" id="FullDescription_help"></span>
                             </label>
                             <div class="fieldErrorBox"></div>
-                            <div class="fieldTextFormat">
-                                <label>Text Format</label>
-                                <select id="FullDescription_text_format" name="FullDescription_text_format">
-                                  <option selected="selected" value="text/html">HTML</option>
-                                  <option value="text/x-web-textile">Textile</option>
-                                  <option value="text/x-plone-outputfilters-html">Plone Output Filters HTML</option>
-                                </select>
-                            </div>
+                            <div tal:replace="structure view/form_instance/widgets/FullDescription/render" />
                         <div>
-                  
-                        <div>              
-                            <textarea cols="40" rows="5" name="FullDescription" class="mce_editable" id="FullDescription"></textarea>     
-                            <script type="text/javascript">
-                              tinymce.dom.Event.add(window, 'load', function(e) { var config = new TinyMCEConfig('FullDescription'); config.init(); });
-                            </script>
-                        </div>
+                 
                   
  
                         <div class="field" id="archetypes-fieldname-DateProduced">
                             <label class="formQuestion" for="DateProduced">
-                                Year Produced
+                                Date Produced
                                 <span class="required" title="Required">&#160;</span>
                             </label>
                             <div class="fieldErrorBox"></div>
     
-                            <select name="DateProduced">
-                                <option value="2012">2012</option>
-                                <option value="2011">2011</option>
-                            </select>
+                            <div tal:replace="structure view/form_instance/widgets/DateProduced/render" />
                         </div>
                         
                         

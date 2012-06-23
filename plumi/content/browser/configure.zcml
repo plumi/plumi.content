@@ -49,20 +49,6 @@
         />
 
     <browser:page
-        name="publish_form"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        permission="zope2.View"
-        template="templates/publish_form.pt"
-        class=".publish_form.PublishForm" />
-
-    <browser:page
-      name="plumi_uploader"
-      for="*"
-      class=".upload.Media_Uploader"
-      permission="zope2.View"
-      />
-
-    <browser:page
       name="download"
       for="plumi.content.interfaces.IPlumiVideo"
       class=".download.Download"
