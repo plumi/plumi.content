@@ -1,7 +1,7 @@
 
 from zope import schema
 from zope.schema import ValidationError
-from zope.schema.vocabulary import SimpleVocabulary
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.schema.interfaces import IContextSourceBinder
 from z3c.form import button
 
@@ -29,54 +29,34 @@ def validateaddress(value):
         raise InvalidEmailAddress(value)
     return True
 
+@grok.provider(IContextSourceBinder)
+def get_video_languages(context):  
+    return get_vocabulary_items(context, 'video_languages')
 
 @grok.provider(IContextSourceBinder)
-def get_video_languages(context):
-    """Fake the genres/categories process to return the video language infos"""
-    pv = getToolByName(context, 'portal_vocabularies')
-    voc = pv.getVocabularyByName('video_languages')
-    languagesDict = []
-    voc_terms = voc.getDisplayList(context).items()
-
-    for term in voc_terms:
-        languagesDict.append( (term[0], term[1]) )
-    return SimpleVocabulary.fromItems(languagesDict)
+def get_video_countries(context):
+    return get_vocabulary_items(context, 'video_countries')
 
 @grok.provider(IContextSourceBinder)
-def get_topics(context):
-    """Return the topics"""
-    pv = getToolByName(context, 'portal_vocabularies')
-    voc = pv.getVocabularyByName('video_categories')
-    categoriesDict = []
-    voc_terms = voc.getDisplayList(context).items()
-
-    for term in voc_terms:
-        categoriesDict.append( (term[0], term[1]) )
-    return SimpleVocabulary.fromItems(categoriesDict)
+def get_video_genres(context):
+    return get_vocabulary_items(context, 'video_genre')
 
 @grok.provider(IContextSourceBinder)
-def get_genres(context):
-    """Return the genres"""
-    pv = getToolByName(context, 'portal_vocabularies')
-    voc = pv.getVocabularyByName('video_genre')
-    genreDict = []
-    voc_terms = voc.getDisplayList(context).items()
+def get_video_categories(context):
+    return get_vocabulary_items(context, 'video_categories')
 
-    for term in voc_terms:
-        genreDict.append( (term[0], term[1]) )
-    return SimpleVocabulary.fromItems(genreDict)
 
-@grok.provider(IContextSourceBinder)
-def get_countries(context):
-    """Return the countries"""
+
+def get_vocabulary_items(context, vocabulary):
+    """Return the vocabulary item"""
     pv = getToolByName(context, 'portal_vocabularies')
-    voc = pv.getVocabularyByName('video_languages')
+    voc = pv.getVocabularyByName(vocabulary)
     countriesDict = []
     voc_terms = voc.getDisplayList(context).items()
 
-    for term in voc_terms:
-        countriesDict.append( (term[0], term[1]) )
-    return SimpleVocabulary.fromItems(countriesDict)
+    countriesDict = [ SimpleTerm(value=term[0], token=term[0], title=term[1]) for term in voc_terms]
+
+    return SimpleVocabulary(countriesDict)
 
 
 class IPlumiVideo(form.Schema):
@@ -128,14 +108,14 @@ class IPlumiVideo(form.Schema):
     Genre = schema.Choice(
             title=_(u"Genre"),
             required=False,
-            source=get_genres
+            source=get_video_genres
         )
 
     #FIX
     Country = schema.Choice(
             title=_(u"Country"),
             required=False,
-            source=get_countries
+            source=get_video_countries
         )
 
     Location = schema.TextLine(
@@ -148,7 +128,7 @@ class IPlumiVideo(form.Schema):
     Topics = schema.List(
             title=_(u"Topics"),
             required=False,
-            value_type=schema.Choice(source=get_topics),
+            value_type=schema.Choice(source=get_video_categories),
             default=[],
         )
 
