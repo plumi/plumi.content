@@ -115,6 +115,8 @@ class IPlumiVideo(form.Schema):
         source=get_video_languages
     )
 
+#FIX: add license, thumbnail
+
     form.widget(FullDescription=WysiwygFieldWidget)
     FullDescription = schema.Text(
         title=_(u"Full Description"), 
@@ -207,7 +209,7 @@ class VideoAddForm(form.SchemaForm):
         # call the base class version - this is very important!
         super(VideoAddForm, self).update()
     
-    @button.buttonAndHandler(_(u'Order'))
+    @button.buttonAndHandler(_(u'SAVE CHANGES'))
     def handleApply(self, action):
         data, errors = self.extractData()
         if errors:
@@ -218,13 +220,10 @@ class VideoAddForm(form.SchemaForm):
         # realistic action would be to send the order to another system, send
         # an email, or similar
         
-        print u"Order received: %s" % data
-
-
         # Redirect back to the front page with a status message
 
         IStatusMessage(self.request).addStatusMessage(
-                _(u"Thank you for your order. We will contact you shortly"), 
+                _(u"Thank you for publishing the video!"), 
                 "info"
             )
         
