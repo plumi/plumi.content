@@ -19,6 +19,7 @@ from zope.interface import alsoProvides
 from plone.z3cform.interfaces import IWrappedForm
 from plumi.content import plumiMessageFactory as _
 
+
 class InvalidEmailAddress(ValidationError):
     "Invalid email address"
 
@@ -42,6 +43,7 @@ def get_video_languages(context):
         languagesDict.append( (term[0], term[1]) )
     return SimpleVocabulary.fromItems(languagesDict)
 
+
 @grok.provider(IContextSourceBinder)
 def get_topics(context):
     """Return the topics"""
@@ -54,6 +56,7 @@ def get_topics(context):
         categoriesDict.append( (term[0], term[1]) )
     return SimpleVocabulary.fromItems(categoriesDict)
 
+
 @grok.provider(IContextSourceBinder)
 def get_genres(context):
     """Return the genres"""
@@ -65,6 +68,7 @@ def get_genres(context):
     for term in voc_terms:
         genreDict.append( (term[0], term[1]) )
     return SimpleVocabulary.fromItems(genreDict)
+
 
 @grok.provider(IContextSourceBinder)
 def get_countries(context):
@@ -112,10 +116,10 @@ class IPlumiVideo(form.Schema):
     Language = schema.Choice(
         title=_(u"Video Language"),
         required=True,
-        source=get_video_languages
+        source=get_video_languages,
     )
 
-#FIX: add license, thumbnail
+    #FIX: add license, thumbnail
 
     form.widget(FullDescription=WysiwygFieldWidget)
     FullDescription = schema.Text(
@@ -204,8 +208,8 @@ class VideoAddForm(form.SchemaForm):
     def update(self):
         # disable Plone's editable border
         self.request.set('disable_border', True)
-        alsoProvides(self.form, IWrappedForm)
-        #self.form.update()
+        # alsoProvides(self.form, IWrappedForm)
+        # self.form.update()
         # call the base class version - this is very important!
         super(VideoAddForm, self).update()
     
@@ -236,4 +240,3 @@ class VideoAddForm(form.SchemaForm):
         """
         contextURL = self.context.absolute_url()
         self.request.response.redirect(contextURL)
-
