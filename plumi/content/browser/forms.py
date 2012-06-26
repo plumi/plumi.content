@@ -94,6 +94,7 @@ class IPlumiVideo(form.Schema):
     Language = schema.Choice(
         title=_(u"Video Language"),
         required=True,
+        default=('en', 'English'),
         source=get_video_languages,
     )
 
@@ -117,6 +118,7 @@ class IPlumiVideo(form.Schema):
     Country = schema.Choice(
             title=_(u"Country"),
             required=False,
+            default="Australia",
             source=get_video_countries
         )
 
