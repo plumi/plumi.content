@@ -176,7 +176,7 @@ class IPlumiVideo(form.Schema):
 
 class VideoAddForm(form.SchemaForm):
     grok.name('publish_video')
-    grok.require('zope2.View')
+    grok.require('cmf.AddPortalContent')
     grok.context(ISiteRoot)
         
     schema = IPlumiVideo
