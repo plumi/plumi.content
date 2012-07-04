@@ -1,3 +1,6 @@
+import os
+import tempfile
+import shutil
 
 from zope import schema
 from zope.schema import ValidationError
@@ -19,6 +22,8 @@ from zope.interface import alsoProvides
 from plone.z3cform.interfaces import IWrappedForm
 from plumi.content import plumiMessageFactory as _
 
+from zope.component import getUtility
+from plone.uuid.interfaces import IUUIDGenerator
 
 class InvalidEmailAddress(ValidationError):
     "Invalid email address"
@@ -185,32 +190,38 @@ class VideoAddForm(form.SchemaForm):
     label = _(u"Publish your video")
     #description = _(u"...")
     
-    def uid(self):
-        return 123
+    def uploaded_file(self):
+        session_path = tempfile.gettempdir() + '/' + 'plumitmp/' + self.request['SESSION'].id
+        try:
+            filename = os.listdir(session_path)[0]
+            return {'filename' : filename, 
+                    'filesize' : os.stat(session_path + '/' + filename).st_size}
+        except:
+            return None
     
     def update(self):
         # disable Plone's editable border
         self.request.set('disable_border', True)
-        # alsoProvides(self.form, IWrappedForm)
-        # self.form.update()
         # call the base class version - this is very important!
         super(VideoAddForm, self).update()
     
-    @button.buttonAndHandler(_(u'SAVE CHANGES'))
+    @button.buttonAndHandler(_(u'Save changes'))
     def handleApply(self, action):
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
         
-        # Handle order here. For now, just print it to the console. A more
-        # realistic action would be to send the order to another system, send
-        # an email, or similar
+        if not self.uploaded_file():
+            self.status = _(u"No file was uploaded")
+            return
+        
+        # TODO: Handle video creation here
+        
         
         # Redirect back to the front page with a status message
-
         IStatusMessage(self.request).addStatusMessage(
-                _(u"Thank you for publishing the video!"), 
+                _(u"Thank you for your contribution!"), 
                 "info"
             )
         

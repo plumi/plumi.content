@@ -36,14 +36,13 @@ div.controls {
     line-height: 18px;
     margin-top: -9px;
     z-index: 0;
-    color: 000;
+    color: #000;
 }
 
 .fileinput-button span.left {
     text-align: left;
     margin-left: 26px;
     color: #fff;
-    z-index: 1;
 }
 
 .fileinput-button input {
@@ -80,6 +79,10 @@ div.controls {
 .controls .btn.cancel {
     background: #efeff1;
     border: 1px solid #aaa;
+    position: relative;
+    float: right;
+    margin: 20px;
+    padding: 5px;  
 }
 
 .controls .btn.delete {
@@ -94,4 +97,8 @@ div.controls {
     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .07) ;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .07) ;
     box-shadow: 0 1px 1px rgba(0, 0, 0, .07) ;
+    position: relative;
+    float: right;  
+    margin: 20px;
+    padding: 5px;
 }

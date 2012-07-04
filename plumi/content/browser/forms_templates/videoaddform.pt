@@ -9,7 +9,7 @@
         
         <h1 class="documentFirstHeading" tal:content="view/label | nothing" />
                 
-        <div id="content-core">
+        <div id="content-core" tal:define="uploaded view/uploaded_file">
             <div id="uploader">
                 <div id="multipleupload-code">
                     <script>var $_original = jQuery.noConflict();</script>
@@ -35,19 +35,33 @@
                     enctype="multipart/form-data">
                         <div class="row">
                             <div class="cell position-0 width-full fileupload-buttonbar">
-                                <div class="controls">
+                                <div class="controls" tal:condition="not: uploaded">
                                     <span class="btn success fileinput-button progressbar">
                                         <span i18n:translate="">Add a video file</span>
-                                        <input type="file" name="files[]" size="50" />
+                                        <span i18n:translate="" tal:condition="uploaded"><tal:filename tal:replace="uploaded/filename" /> - <tal:filesize tal:replace="uploaded/filesize" /></span>
+                                        <input type="file" name="video_file" size="50" />
                                         <div style="width:0%;"></div>
                                     </span>
                                     <button type="reset" class="btn cancel" style="display: none">
                                         <span class="" i18n:translate="">Cancel upload</span>
                                     </button>
                                     <button type="reset" class="btn danger delete" style="display: none">
-                                        <span class="" i18n:translate="">Delete selected</span>
+                                        <span class="" i18n:translate="">Delete file</span>
                                     </button>
                                 </div>
+                                <div class="controls" tal:condition="uploaded">
+                                    <span class="btn success fileinput-button progressbar">
+                                        <span i18n:translate=""><tal:filename tal:replace="uploaded/filename" /> - <tal:filesize tal:replace="uploaded/filesize" /></span>
+                                        <input type="file" name="video_file" size="50" />
+                                        <div style="width:100%;"></div>
+                                    </span>
+                                    <button type="reset" class="btn cancel" style="display: none">
+                                        <span class="" i18n:translate="">Cancel upload</span>
+                                    </button>
+                                    <button type="reset" class="btn danger delete">
+                                        <span class="" i18n:translate="">Delete file</span>
+                                    </button>
+                                </div>                                
                             </div>
                         </div>
                     </form>
@@ -58,34 +72,55 @@
             </div>
             <script language="javascript">
                 // perform JavaScript after the document is scriptable.
+                var jqXHR = null;
                 
                 j$('#fileupload').fileupload({ 
                     maxNumberOfFiles: 1,
-                    autoUpload: true, 
+                    autoUpload: true,
+                     
+                    add: function (e, data) {
+                        jqXHR = data.submit();
+                    },
                     
                     progress: function (e, data) {
-                        $('.fileinput-button div').attr('style','width:' + 100*(data.loaded/data.total) + '%');
+                        $('.fileinput-button div').attr('style','width:' + 99*(data.loaded/data.total) + '%');
                     },
                     
                     done: function (e, data) {
+                        $('.fileinput-button div').attr('style','width: 100%');
                         $('button.cancel').hide();
                         $('button.delete').show();
                         $.each(data.files, function (index, file) {
                             $('.fileinput-button span').text(file.name + ' - ' + file.size);
-                            $('.fileinput-button span').addClass('left');
                         });
                     },
                     
                     send: function (e,data) {
                         $('.fileinput-button span').text('Uploading ' + data.files[0].name);
                         $('button.cancel').show();
+                        $('button.delete').hide();
+
                     },
                     
-                    destroy: function (e,data) {
-                        alert('hi');
-                    }
                 }); 
                 
+                j$('button.cancel').click(function (e) {
+                    jqXHR.abort();
+                    $('.fileinput-button div').attr('style','width: 0%');
+                    $('.fileinput-button span').text('Add a video file');
+                    $('button.cancel').hide();
+                });
+
+                j$('button.delete').click(function (e) {
+                    j$('#fileupload').fileupload('enable');
+                    $('.fileinput-button div').attr('style','width: 0%');
+                    $('.fileinput-button span').removeClass('left');
+                    $('.fileinput-button span').text('Add a video file');
+                    $('button.delete').hide();
+                    $.ajax({
+                        type: "POST",
+                        url: "plumi_uploader"});
+                });                
             </script>
         </div>
         
