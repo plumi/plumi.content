@@ -1,4 +1,5 @@
 import json
+import tempfile
 
 from five import grok
 from zope.container.interfaces import INameChooser
@@ -34,8 +35,7 @@ class PlumiUploader(grok.View):
     files = []
 
     def __call__(self, *args, **kwargs):
-        return json.dumps([{}])
-        import pdb;pdb.set_trace()
+#        return json.dumps([{}])
         if hasattr(self.request, "REQUEST_METHOD"):
             json_view = queryMultiAdapter((self.context, self.request),
                                           name=u"api")
@@ -44,9 +44,15 @@ class PlumiUploader(grok.View):
             if self.request["REQUEST_METHOD"] == "POST":
                 if getattr(self.request, "files[]", None) is not None:
                     files = self.request['files[]']
-                    title = self.request['title[]']
-                    description = self.request['description[]']
-                    #uploaded = self.upload([files], [title], [description])
+                    #Create a temporary file
+                    #TODO: we need to remove the file once we're done with it
+                    temp = tempfile.NamedTemporaryFile(delete=False)
+                    for item in files:
+                        temp.write(item)
+                    temp.close()
+                    #title = self.request['title[]']
+                    #description = self.request['description[]']
+                    uploaded = self.upload([files], '', '')
                     if uploaded and json_view:
                         upped = []
                         for item in uploaded:
@@ -55,9 +61,7 @@ class PlumiUploader(grok.View):
                 return json_view()
         return super(PlumiUploader, self).__call__(*args, **kwargs)
 
-    def upload(self, files, title='', description=''):
-        import pdb;pdb.set_trace()
-        
+    def upload(self, files, title='', description=''):        
         loaded = []
         namechooser = INameChooser(self.context)
         if not isinstance(files, list):
@@ -71,7 +75,7 @@ class PlumiUploader(grok.View):
                     id_name = namechooser.chooseName(title[0], portal)
                 else:
                     id_name = namechooser.chooseName(item.filename, portal)
-                portal_type = 'File'
+                portal_type = 'PlumiVideo'
                 if content_type in IMAGE_MIMETYPES:
                     portal_type = 'Image'
                 name_index = 0
