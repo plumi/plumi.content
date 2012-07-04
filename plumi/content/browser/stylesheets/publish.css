@@ -2,7 +2,7 @@ div.controls {
     font: 14px 'Helvetica' Arial sans-serif;
     color: #3477cf;
     position: relative;
-    width: 480px;
+    width: 100%;
     height: 68px;
     background: #efeff1;
     -moz-border-radius: 4px;
@@ -17,11 +17,11 @@ div.controls {
     -webkit-box-shadow: 0 1px 1px rgba(255, 255, 255, .7) inset;
     box-shadow: 0 1px 1px rgba(255, 255, 255, .7) inset;
     border: 1px solid #aaa;
-    margin: 10px -17px 15px;
+    margin: 10px 0px 15px;
+    overflow: hidden;
 }
 
 .fileinput-button {
-
     display: block;
     width: 100%;
     height: 100%;
@@ -35,6 +35,8 @@ div.controls {
     top: 50%;
     line-height: 18px;
     margin-top: -9px;
+    z-index: 0;
+    color: 000;
 }
 
 .fileinput-button span.left {
@@ -45,8 +47,9 @@ div.controls {
 }
 
 .fileinput-button input {
-    margin-left: 170px;
-    margin-top: 3px;
+    height: 68px;
+    font-size: 50px;
+    opacity: 0;
 }
 
 .controls .progressbar {
@@ -60,6 +63,7 @@ div.controls {
 
 .controls .progressbar div {
     height: 100%;
+    margin-top: -68px;
     background: #5497ef;
     background: -moz-linear-gradient(top, #5497ef, #4477dc) #5497ef;
     background: -webkit-gradient(linear, left top, left bottom, from(#5497ef), to(#4477dc)) #5497ef;
@@ -67,13 +71,6 @@ div.controls {
 }
 
 .controls .btn {
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    margin-top: -14px;
-    height: 28px;
-    padding-left: 10px;
-    padding-right: 10px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;

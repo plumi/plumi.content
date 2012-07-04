@@ -162,7 +162,6 @@ class JSON_View(grok.View):
     def render(self):
         return self.dumps(self.getContainerInfo())
 
-
 messages = {
     'DELETE_MSG': _(u'delete', default=u'Delete'),
     'START_MSG': _(u'start', default=u'Start'),

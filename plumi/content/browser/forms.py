@@ -185,6 +185,9 @@ class VideoAddForm(form.SchemaForm):
     label = _(u"Publish your video")
     #description = _(u"...")
     
+    def uid(self):
+        return 123
+    
     def update(self):
         # disable Plone's editable border
         self.request.set('disable_border', True)
