@@ -36,13 +36,11 @@
                         <div class="row">
                             <div class="cell position-0 width-full fileupload-buttonbar">
                                 <div class="controls">
-                                    <span class="btn success fileinput-button">
+                                    <span class="btn success fileinput-button progressbar">
                                         <span i18n:translate="">Add a video file</span>
-                                        <input type="file" name="files[]"/>
+                                        <input type="file" name="files[]" size="50" />
+                                        <div style="width:0%;"></div>
                                     </span>
-                                    <div class="progressbar fileupload-progressbar">
-                                            <div style="width:0%;"></div>
-                                    </div>
                                     <button type="reset" class="btn cancel" style="display: none">
                                         <span class="" i18n:translate="">Cancel upload</span>
                                     </button>
@@ -66,7 +64,7 @@
                     autoUpload: true, 
                     
                     progress: function (e, data) {
-                        $('.fileupload-progressbar div').attr('style','width:' + 100*(data.loaded/data.total) + '%');
+                        $('.fileinput-button div').attr('style','width:' + 100*(data.loaded/data.total) + '%');
                     },
                     
                     done: function (e, data) {
