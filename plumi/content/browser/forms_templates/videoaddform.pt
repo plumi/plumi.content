@@ -27,7 +27,6 @@
                     <!-- The File Upload image processing plugin -->
                     <script src="++resource++collective.upload/jquery.fileupload-ip.js"></script>
                     <script src="++resource++collective.upload/jquery.fileupload-ui.js"></script>
-                    <script src="++resource++collective.upload/application.js"></script>
                     <script src="++resource++collective.upload/media-upload-init-behavior.js"></script>
                 </div>
                 <link rel="stylesheet" type="text/css" media="screen" href="++resource++plumi.content.stylesheets/publish.css" />
@@ -39,42 +38,18 @@
                                 <div class="controls">
                                     <span class="btn success fileinput-button">
                                         <span i18n:translate="">Add a video file</span>
-                                        <input type="file" name="files[]" multiple="multiple" />
+                                        <input type="file" name="files[]"/>
                                     </span>
-                                    <button type="submit" class="btn start">
-                                        <span class="" i18n:translate="">Start upload</span>
-                                    </button>
-                                    <button type="reset" class="btn cancel">
+                                    <div class="progressbar fileupload-progressbar">
+                                            <div style="width:0%;"></div>
+                                    </div>
+                                    <button type="reset" class="btn cancel" style="display: none">
                                         <span class="" i18n:translate="">Cancel upload</span>
                                     </button>
-                                    <button type="reset" class="btn danger delete">
+                                    <button type="reset" class="btn danger delete" style="display: none">
                                         <span class="" i18n:translate="">Delete selected</span>
                                     </button>
-                                    <input type="checkbox" class="toggle" />
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="cell position-0 width-full">
-                                <table class="zebra-striped results">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="6" class="nosort">
-                                                <div class="progress-bar-container">
-                                                    <span i18n:translate="">Progress bar</span>
-                                                    <div class="progressbar fileupload-progressbar">
-                                                        <div style="width:0%;"></div>
-                                                    </div>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="files">
-                                        <tr>
-                                            <td colspan="6"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </form>
@@ -87,16 +62,32 @@
                 // perform JavaScript after the document is scriptable.
                 
                 j$('#fileupload').fileupload({ 
-                    maxNumberOfFiles: 1, 
-                    autoUpload: true 
+                    maxNumberOfFiles: 1,
+                    autoUpload: true, 
+                    
+                    progress: function (e, data) {
+                        $('.fileupload-progressbar div').attr('style','width:' + 100*(data.loaded/data.total) + '%');
+                    },
+                    
+                    done: function (e, data) {
+                        $('button.cancel').hide();
+                        $('button.delete').show();
+                        $.each(data.files, function (index, file) {
+                            $('.fileinput-button span').text(file.name + ' - ' + file.size);
+                            $('.fileinput-button span').addClass('left');
+                        });
+                    },
+                    
+                    send: function (e,data) {
+                        $('.fileinput-button span').text('Uploading ' + data.files[0].name);
+                        $('button.cancel').show();
+                    },
+                    
+                    destroy: function (e,data) {
+                        alert('hi');
+                    }
                 }); 
                 
-                j$('#fileupload').bind('fileuploadstarted', 
-                    function (e,data) {
-                        $(".btn.success, .alert-message.success").hide();
-                        $("#upload-form-top table.zebra-striped").show(); 
-                    }
-                );                    
             </script>
         </div>
         

@@ -34,6 +34,7 @@ class PlumiUploader(grok.View):
     files = []
 
     def __call__(self, *args, **kwargs):
+        return json.dumps([{}])
         import pdb;pdb.set_trace()
         if hasattr(self.request, "REQUEST_METHOD"):
             json_view = queryMultiAdapter((self.context, self.request),
@@ -45,7 +46,7 @@ class PlumiUploader(grok.View):
                     files = self.request['files[]']
                     title = self.request['title[]']
                     description = self.request['description[]']
-                    uploaded = self.upload([files], [title], [description])
+                    #uploaded = self.upload([files], [title], [description])
                     if uploaded and json_view:
                         upped = []
                         for item in uploaded:
