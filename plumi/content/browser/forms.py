@@ -6,19 +6,27 @@ from zope import schema
 from zope.schema import ValidationError
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.schema.interfaces import IContextSourceBinder
+from zope.interface import alsoProvides
+
 from z3c.form import button
 
+from zope.component import getUtility
+from zope.event import notify
+
 from five import grok
+from DateTime import DateTime
+
 from plone.directives import form
+from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.app.z3cform.wysiwyg import WysiwygFieldWidget
 
+from Products.Archetypes.event import ObjectInitializedEvent
 from Products.CMFDefault.utils import checkEmailAddress
 from Products.CMFDefault.exceptions import EmailAddressInvalid
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.statusmessages.interfaces import IStatusMessage
-from zope.interface import alsoProvides
 from plone.z3cform.interfaces import IWrappedForm
 from plumi.content import plumiMessageFactory as _
 
@@ -195,7 +203,8 @@ class VideoAddForm(form.SchemaForm):
         try:
             filename = os.listdir(session_path)[0]
             return {'filename' : filename, 
-                    'filesize' : os.stat(session_path + '/' + filename).st_size}
+                    'filesize' : os.stat(session_path + '/' + filename).st_size,
+                    'path' : session_path + '/' + filename}
         except:
             return None
     
@@ -217,7 +226,23 @@ class VideoAddForm(form.SchemaForm):
             return
         
         # TODO: Handle video creation here
+        uid = str(DateTime().millis())
         
+        self.context.invokeFactory('PlumiVideo', id=uid, Title=data['Title'],
+                                   description=data['Description'])
+        obj = self.context[uid]
+        obj._renameAfterCreation(check_auto_id=True)
+        normalizer = getUtility(IIDNormalizer)
+        new_id = obj._findUniqueId(normalizer.normalize(data['Title']))
+        #import pdb;pdb.set_trace()
+        #obj._setId(new_id)
+        path = self.uploaded_file()['path']
+        f = open(path)
+        obj.setFile(f)
+        f.close()
+        shutil.rmtree('/'.join(path.split('/')[:-1]), ignore_errors=True)    
+        obj.reindexObject()
+        notify(ObjectInitializedEvent(obj))
         
         # Redirect back to the front page with a status message
         IStatusMessage(self.request).addStatusMessage(
