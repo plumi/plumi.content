@@ -171,10 +171,10 @@ class IPlumiVideo(form.Schema):
             constraint=validateaddress,
         )
 
-    Organisation = schema.TextLine(
-            title=_(u"Organisation / Project Name"),
-            required=False,
-        )
+    #Organisation = schema.TextLine(
+    #        title=_(u"Organisation / Project Name"),
+    #        required=False,
+    #    )
 
     ProductionCompany = schema.TextLine(
             title=_(u"Production Company"),
@@ -229,7 +229,20 @@ class VideoAddForm(form.SchemaForm):
         uid = str(DateTime().millis())
         
         self.context.invokeFactory('PlumiVideo', id=uid, Title=data['Title'],
-                                   description=data['Description'])
+                                   description=data['Description'],
+                                   DateProduced=data['DateProduced'],
+                                   VideoLanguage=data['Language'],
+                                   FullDescription=data['FullDescription'],
+                                   Genre=data['Genre'],
+                                   Countries=data['Country'],
+                                   location=data['Location'],
+                                   subject=data['Tags'],
+                                   Director=data['Director'],
+                                   Producer=data['Producer'],
+                                   Email=data['Email'],
+                                   ProductionCompanyName=data['ProductionCompany'],
+                                   WebsiteURL=data['Website'],
+                                   )
         obj = self.context[uid]
         obj._renameAfterCreation(check_auto_id=True)
         normalizer = getUtility(IIDNormalizer)
