@@ -68,9 +68,7 @@ def get_vocabulary_items(context, vocabulary):
     voc = pv.getVocabularyByName(vocabulary)
     countriesDict = []
     voc_terms = voc.getDisplayList(context).items()
-
     countriesDict = [ SimpleTerm(value=term[0], token=term[0], title=term[1]) for term in voc_terms]
-
     return SimpleVocabulary(countriesDict)
 
 
@@ -107,10 +105,9 @@ class IPlumiVideo(form.Schema):
     Language = schema.Choice(
         title=_(u"Video Language"),
         required=True,
-        default=('en', 'English'),
+        default= 'en',
         source=get_video_languages,
     )
-
 
     form.widget(FullDescription=WysiwygFieldWidget)
     FullDescription = schema.Text(
@@ -120,12 +117,12 @@ class IPlumiVideo(form.Schema):
     )
 
     #FIX: validation
-#    form.widget(Thumbnail=ImageWidget)
     Thumbnail = schema.Bytes(title=u'Add thumbnail',
                          description=u"We will automatically generate an image, but you may prefer to upload your own",
                          required=False)
 
     #FIX: proper widget
+   # form.widget(License=LicenseWidget)
     License = schema.TextLine(
             title=_(u"License"),
             required=False,
@@ -135,14 +132,15 @@ class IPlumiVideo(form.Schema):
     Genre = schema.Choice(
             title=_(u"Genre"),
             required=False,
-            source=get_video_genres
+            source=get_video_genres,
+            default='documentary',
         )
 
     #FIX
     Country = schema.Choice(
             title=_(u"Country"),
             required=False,
-            default="Australia",
+            default= 'AU',
             source=get_video_countries
         )
 
