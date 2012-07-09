@@ -61,20 +61,18 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
                 portal = getSiteManager()
                 async = getUtility(IAsyncService)
                 temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2)
-                job = async.queueJob(getThumbnail, obj, url, begin_after=temp_time)
+                default = obj.portal_url() + '/defaultthumb.jpeg'
+                job = async.queueJob(getThumbnail, obj, url, default, begin_after=temp_time)
                 logger.info('getThumbail')
             except Exception as e:
                 logger.error("cannot set thumbnail for %s. Error %s" % (obj, sys.exc_info()[0]))
 
-def getThumbnail(obj, url):
+def getThumbnail(obj, url, default):
     "get thumbnail from url"
     logger.info("getting thumbnail from %s" % url)
-    portal = getSiteManager()
-    skins_tool = getToolByName(portal, 'portal_skins')
-    defaultthumb = skins_tool['plumi_content_custom_images']['defaultthumb.jpeg'].getObjectFSPath()
-    dd = open(defaultthumb)
+    portal = getSiteManager() 
+    socket.setdefaulttimeout(10)
     try:
-        socket.setdefaulttimeout(10)
         f = urlopen(url)
         #check if the file is actually a jpeg image else use a standard one
         if f.headers['content-type'] == 'image/jpeg':
@@ -82,11 +80,13 @@ def getThumbnail(obj, url):
             obj.setThumbnailImage(f.read())
             f.close()
         else:
-            obj.setThumbnailImage(dd.read())
-            dd.close()
+            f.close()
+            raise
     except:
-        obj.setThumbnailImage(dd.read())
-        dd.close()
+        # set default thumb
+        f = urlopen(default)
+        obj.setThumbnailImage(f.read())
+        f.close()
 
 
 @adapter(IPlumiVideo, IActionSucceededEvent)

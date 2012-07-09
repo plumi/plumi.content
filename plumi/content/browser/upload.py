@@ -4,33 +4,20 @@ import shutil
 import json
 
 from five import grok
-from zope.container.interfaces import INameChooser
-from zope.component import queryMultiAdapter
-from zope.interface import Interface
-from zope.i18n import translate
-from zope.component import getUtility
-from zope.app.component.hooks import getSite
-
-from Acquisition import aq_inner
-
-from collective.upload.interfaces import IUploadBrowserLayer, IUploadSettings
-from collective.upload.behaviors import  IMultipleUpload
 
 from Products.CMFCore.interfaces import ISiteRoot
-from plone.app.content.browser.foldercontents import FolderContentsView
-from plone.registry.interfaces import IRegistry
-
-from collective.upload import _
+from plumi.content.interfaces import IPlumiVideoFolder
+from plumi.content import plumiMessageFactory as _
 
 IMAGE_MIMETYPES = ['image/jpeg', 'image/gif', 'image/png']
 
 grok.templatedir('templates')
 
-
 class PlumiUploader(grok.View):
     """ Handler for the upload process.
     """
     grok.context(ISiteRoot)
+    #grok.context(IPlumiVideoFolder)
     grok.require('cmf.AddPortalContent')
     grok.name('plumi_uploader')
 
@@ -51,5 +38,6 @@ class PlumiUploader(grok.View):
                     file.close() 
 
                 return json.dumps([{}])
+            
         return super(PlumiUploader, self).__call__(*args, **kwargs)
 

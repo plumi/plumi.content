@@ -102,3 +102,7 @@ div.controls {
     margin: 20px;
     padding: 5px;
 }
+
+.date-widget {
+    display: inline;
+}
