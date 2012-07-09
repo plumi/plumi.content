@@ -32,7 +32,7 @@
                 </div>
                 <link rel="stylesheet" type="text/css" media="screen" href="++resource++plumi.content.stylesheets/publish.css" />
                 <div id="upload-form-top">
-                    <form id="fileupload" action="." tal:attributes="action string:${context/@@plone_portal_state/portal_url}/plumi_uploader" method="POST"
+                    <form id="fileupload" action="." tal:attributes="action string:${context/absolute_url}/@@plumi_uploader" method="POST"
                     enctype="multipart/form-data">
                         <div class="row">
                             <div class="cell position-0 width-full fileupload-buttonbar">

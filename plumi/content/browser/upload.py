@@ -5,8 +5,7 @@ import json
 
 from five import grok
 
-from Products.CMFCore.interfaces import ISiteRoot
-from plumi.content.interfaces import IPlumiVideoFolder
+from Products.CMFCore.interfaces import IFolderish
 from plumi.content import plumiMessageFactory as _
 
 IMAGE_MIMETYPES = ['image/jpeg', 'image/gif', 'image/png']
@@ -16,8 +15,7 @@ grok.templatedir('templates')
 class PlumiUploader(grok.View):
     """ Handler for the upload process.
     """
-    grok.context(ISiteRoot)
-    #grok.context(IPlumiVideoFolder)
+    grok.context(IFolderish)
     grok.require('cmf.AddPortalContent')
     grok.name('plumi_uploader')
 

@@ -42,7 +42,7 @@ class InvalidEmailAddress(ValidationError):
     "Invalid email address"
 
 class InvalidImage(ValidationError):
-    "Please upload a valid Image file"
+    "Please upload a valid image file"
 
 def validateaddress(value):
     try:
@@ -129,7 +129,6 @@ class IPlumiVideo(form.Schema):
     FullDescription = schema.Text(
         title=_(u"Full Description"), 
         required=False,
-        description=_(u"The description of the video content"),
     )
 
     #FIX: find a more native validation -eg provided by zope.schema
