@@ -2,10 +2,10 @@ import os
 import tempfile
 import shutil
 import transaction
-
 from DateTime import DateTime
 
 from PIL import Image
+import StringIO
 
 from zope import schema
 from zope.schema import ValidationError
@@ -41,12 +41,23 @@ from plumi.content.interfaces import IPlumiVideoFolder
 class InvalidEmailAddress(ValidationError):
     "Invalid email address"
 
+class InvalidImage(ValidationError):
+    "Please upload a valid Image file"
+
 def validateaddress(value):
     try:
         checkEmailAddress(value)
     except EmailAddressInvalid:
         raise InvalidEmailAddress(value)
     return True
+
+def validateimage(value):
+    try:
+        im = Image.open(StringIO.StringIO(value))
+    except:
+        raise InvalidImage
+    return True
+
 
 @grok.provider(IContextSourceBinder)
 def get_video_languages(context):  
@@ -95,7 +106,6 @@ class IPlumiVideo(form.Schema):
             required=True,
         )
 
-    Description = schema.Text(
         title=_(u"Short summary"), 
         required=True,
         description=_(u"Describe your video in 160 characters."),
@@ -121,8 +131,9 @@ class IPlumiVideo(form.Schema):
         description=_(u"The description of the video content"),
     )
 
-    #FIX: validation!
+    #FIX: find a more native validation -eg provided by zope.schema
     Thumbnail = schema.Bytes(title=u'Add thumbnail',
+                         constraint=validateimage,
                          description=u"We will automatically generate an image, but you may prefer to upload your own",
                          required=False)
 
@@ -133,7 +144,6 @@ class IPlumiVideo(form.Schema):
             required=False,
         )
 
-    #FIX
     Genre = schema.Choice(
             title=_(u"Genre"),
             required=False,
@@ -141,7 +151,6 @@ class IPlumiVideo(form.Schema):
             default='documentary',
         )
 
-    #FIX
     Country = schema.Choice(
             title=_(u"Country"),
             required=False,
@@ -155,7 +164,6 @@ class IPlumiVideo(form.Schema):
             required=False,
         )
 
-    #FIX
     Topics = schema.List(
             title=_(u"Topics"),
             required=False,
@@ -163,7 +171,6 @@ class IPlumiVideo(form.Schema):
             default=[],
         )
 
-    #FIX
     Tags = schema.TextLine(
             title=_(u"Tags"),
             description=_(u"Seperate with comma. Eg tag1, tag2, tag4"),
