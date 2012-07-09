@@ -106,6 +106,7 @@ class IPlumiVideo(form.Schema):
             required=True,
         )
 
+    Description = schema.Text(
         title=_(u"Short summary"), 
         required=True,
         description=_(u"Describe your video in 160 characters."),
