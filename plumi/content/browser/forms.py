@@ -30,7 +30,7 @@ from Products.Archetypes.event import ObjectInitializedEvent
 from Products.CMFDefault.utils import checkEmailAddress
 from Products.CMFDefault.exceptions import EmailAddressInvalid
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFCore.interfaces import ISiteRoot, IFolderish
 from Products.statusmessages.interfaces import IStatusMessage
 
 from plumi.content import plumiMessageFactory as _
@@ -214,8 +214,7 @@ class IPlumiVideo(form.Schema):
 class VideoAddForm(form.SchemaForm):
     grok.name('publish_video')
     grok.require('cmf.AddPortalContent')
-    grok.context(ISiteRoot)
-    #grok.context(IPlumiVideoFolder)
+    grok.context(IFolderish)
         
     schema = IPlumiVideo
     ignoreContext = True
