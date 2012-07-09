@@ -5,6 +5,8 @@ import transaction
 
 from DateTime import DateTime
 
+from PIL import Image
+
 from zope import schema
 from zope.schema import ValidationError
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
@@ -119,7 +121,7 @@ class IPlumiVideo(form.Schema):
         description=_(u"The description of the video content"),
     )
 
-    #FIX: validation
+    #FIX: validation!
     Thumbnail = schema.Bytes(title=u'Add thumbnail',
                          description=u"We will automatically generate an image, but you may prefer to upload your own",
                          required=False)
@@ -143,7 +145,7 @@ class IPlumiVideo(form.Schema):
     Country = schema.Choice(
             title=_(u"Country"),
             required=False,
-            default= 'AU',
+            default= 'XX',
             source=get_video_countries
         )
 
@@ -164,6 +166,7 @@ class IPlumiVideo(form.Schema):
     #FIX
     Tags = schema.TextLine(
             title=_(u"Tags"),
+            description=_(u"Seperate with comma. Eg tag1, tag2, tag4"),
             required=False,
         )
 
@@ -182,6 +185,12 @@ class IPlumiVideo(form.Schema):
             required=False,
             constraint=validateaddress,
         )
+
+    Organisation = schema.TextLine(
+            title=_(u"Project Name"),
+            required=False,
+        )
+
 
     ProductionCompany = schema.TextLine(
             title=_(u"Production Company"),
@@ -258,21 +267,29 @@ class VideoAddForm(form.SchemaForm):
         # Calculate unique id from title
         uid = str(DateTime().millis())
 
+        if data['Tags']:
+            subject = data['Tags'].replace(' ','').split(',')
+        else:
+            subject = ''
+
         # Create the object
         self.context.invokeFactory('PlumiVideo', id=uid, Title=data['Title'],
                                    description=data['Description'],
                                    DateProduced=data['DateProduced'],
                                    VideoLanguage=data['Language'],
                                    FullDescription=data['FullDescription'],
-                                   #Genre=data['Genre'],
-                                   #Countries=data['Country'],
-                                   #location=data['Location'],
-                                   #subject=data['Tags'],
-                                   #Director=data['Director'],
-                                   #Producer=data['Producer'],
-                                   #Email=data['Email'],
-                                   #ProductionCompanyName=data['ProductionCompany'],
-                                   #WebsiteURL=data['Website'],
+                                   thumbnailImage=data['Thumbnail'],
+                                   Genre=data['Genre'],
+                                   Countries=data['Country'],
+                                   location=data['Location'],
+                                   Categories=data['Topics'],
+                                   subject=subject,
+                                   Director=data['Director'] or '',
+                                   Producer=data['Producer'] or '',
+                                   ProducerEmail=data['Email'] or '',
+                                   ProductionCompanyName=data['ProductionCompany'] or '',
+                                   ProjectName=data['Organisation'] or '',
+                                   WebsiteURL=data['Website'] or '',
                                    )
         
         # get the newly created object
@@ -297,7 +314,7 @@ class VideoAddForm(form.SchemaForm):
         
         # Redirect back to the front page with a status message
         IStatusMessage(self.request).addStatusMessage(
-                _(u"Thank you for your contribution!"), 
+                _(u"Thank you very much for your contribution! We will review the video and notify you once it is ready."), 
                 "info"
             )
         
