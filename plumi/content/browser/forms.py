@@ -1,6 +1,7 @@
 import os
 import tempfile
 import shutil
+from DateTime import DateTime
 
 from zope import schema
 from zope.schema import ValidationError
@@ -9,12 +10,10 @@ from zope.schema.interfaces import IContextSourceBinder
 from zope.interface import alsoProvides
 
 from z3c.form import button
-
+from z3c.form.browser.image import ImageWidget
 from zope.component import getUtility
 from zope.event import notify
-
 from five import grok
-from DateTime import DateTime
 
 from plone.directives import form
 from plone.i18n.normalizer.interfaces import IIDNormalizer
@@ -32,6 +31,7 @@ from plumi.content import plumiMessageFactory as _
 
 from zope.component import getUtility
 from plone.uuid.interfaces import IUUIDGenerator
+
 
 class InvalidEmailAddress(ValidationError):
     "Invalid email address"
@@ -78,7 +78,7 @@ class IPlumiVideo(form.Schema):
     
     form.fieldset('default',
             label=u"Basic info",
-            fields=['Title','Description', 'DateProduced','Language', 'FullDescription']
+            fields=['Title','Description', 'DateProduced','Language', 'FullDescription', 'Thumbnail', 'License']
         )
     
     form.fieldset('categorize',
@@ -111,7 +111,6 @@ class IPlumiVideo(form.Schema):
         source=get_video_languages,
     )
 
-    #FIX: add license, thumbnail
 
     form.widget(FullDescription=WysiwygFieldWidget)
     FullDescription = schema.Text(
@@ -119,6 +118,18 @@ class IPlumiVideo(form.Schema):
         required=False,
         description=_(u"The description of the video content"),
     )
+
+    #FIX: validation
+#    form.widget(Thumbnail=ImageWidget)
+    Thumbnail = schema.Bytes(title=u'Add thumbnail',
+                         description=u"We will automatically generate an image, but you may prefer to upload your own",
+                         required=False)
+
+    #FIX: proper widget
+    License = schema.TextLine(
+            title=_(u"License"),
+            required=False,
+        )
 
     #FIX
     Genre = schema.Choice(
