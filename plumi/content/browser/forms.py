@@ -17,6 +17,7 @@ from zope.event import notify
 
 from z3c.form import button
 from z3c.form.browser.image import ImageWidget
+from collective.contentlicensing.browser.widgets import LicenseWidget
 
 from five import grok
 
@@ -138,7 +139,7 @@ class IPlumiVideo(form.Schema):
                          required=False)
 
     #FIX: proper widget
-   # form.widget(License=LicenseWidget)
+    #form.widget(License=LicenseWidget)
     License = schema.TextLine(
             title=_(u"License"),
             required=False,
@@ -323,8 +324,7 @@ class VideoAddForm(form.SchemaForm):
                 _(u"Thank you very much for your contribution! We will review the video and notify you once it is ready."), 
                 "info"
             )
-        
-        contextURL = self.context.absolute_url()
+        contextURL = obj.absolute_url()
         self.request.response.redirect(contextURL)
         
     @button.buttonAndHandler(_(u"Cancel"))
