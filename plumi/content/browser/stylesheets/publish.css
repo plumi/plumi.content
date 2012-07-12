@@ -110,4 +110,13 @@ div.controls {
 
 #formfield-form-widgets-Title input {
     width: 75%;
+
+}
+
+#fieldname-recurse-license, #fieldset-contentlicensing div.field, #formfield-form-widgets-License label.horizontal {
+    display:none;
+}
+
+#fieldset-contentlicensing div.ArchetypesSelectionWidget.field {
+    display: block;
 }
