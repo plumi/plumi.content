@@ -106,3 +106,8 @@ div.controls {
 .date-widget {
     display: inline;
 }
+
+
+#formfield-form-widgets-Title input {
+    width: 75%;
+}

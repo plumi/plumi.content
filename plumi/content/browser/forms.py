@@ -38,7 +38,6 @@ from plumi.content import plumiMessageFactory as _
 from plumi.content.interfaces import IPlumiVideoFolder
 
 
-
 class InvalidEmailAddress(ValidationError):
     "Invalid email address"
 
@@ -101,15 +100,19 @@ class IPlumiVideo(form.Schema):
             fields=['Genre', 'Country', 'Location', 'Topics', 'Tags', 'Director',
                 'Producer', 'Email', 'Organisation', 'ProductionCompany', 'Website']
         )
-    
+
     Title = schema.TextLine(
             title=_(u"Title"),
+            min_length=1,
+            max_length=160,
             required=True,
         )
 
     Description = schema.Text(
         title=_(u"Short summary"), 
         required=True,
+        min_length=10, 
+        max_length=160,
         description=_(u"Describe your video in 160 characters."),
     )
     
@@ -221,7 +224,8 @@ class VideoAddForm(form.SchemaForm):
  
     label = _(u"Publish your video")
     #description = _(u"...")
-    
+
+
     def uploaded_file(self):
         session_path = tempfile.gettempdir() + '/' + 'plumitmp/' + self.request['SESSION'].id
         try:
