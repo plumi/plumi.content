@@ -247,7 +247,7 @@ class VideoAddForm(form.SchemaForm):
         # call the base class version - this is very important!
         super(VideoAddForm, self).update()
 
-    @button.buttonAndHandler(_(u'Save changes'))
+    @button.buttonAndHandler(_(u'Save changes'), name='apply')
     def handleApply(self, action):
         data, errors = self.extractData()
 

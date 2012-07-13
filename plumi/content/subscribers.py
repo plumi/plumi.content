@@ -160,14 +160,17 @@ def notifyInitPlumiVideo(obj ,event):
     except WorkflowException:
         log.info('failed to get workflow state for %s' % obj)            
         state = None
-    request = getSite().REQUEST    
+    request = getSite().REQUEST 
     #VISIBLE
-    #if state in ['private','visible'] and request.has_key('form.button.save'):
+    #works with the old and new publish video forms
+    if state in ['private','visible'] and (request.has_key('form.button.save') or \
+        request.form.has_key('form.buttons.apply')):
+        #state in ['private','visible'] and request.['form.buttons.53617665206368616e676573']:
         #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
         # The adapter object will implement the logic for various content types
-    #    if IPlumiWorkflow(obj).autoPublishOrHide():
-    #        IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
-    #        IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+        if IPlumiWorkflow(obj).autoPublishOrHide():
+            IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+            IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
     #setup_metadata(obj)
 
