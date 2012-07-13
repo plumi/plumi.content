@@ -1,12 +1,19 @@
+4.4 (2012-07-13)
+================
+
+ - new publish form [dimo, mgogoulos, clopy]
+ - update to Plone 4.2 [dimo]
+ - execute jobs (metadata extraction, notification emails, etc) asynchronously using plone.app.async [dimo, mgogoulos]
+
 4.3.1 (2012-03-28)
 ==================
 
  - point video language link to taxonomy page [clopy]
- - removed duplicate language from video information [provetza]
+ - removed duplicate language from video information [mgogoulos]
  - members allowed to publish videos only in their home folders [dimo]
  - update subscribers for new workflow [dimo]
  - display Universal Subtitles widget in home page [dimo]
- - display number of total videos on taxonomy pages [provetza]
+ - display number of total videos on taxonomy pages [mgogoulos]
  - added notifications to reviewers for events, news, callouts and images [clopy]
  - wrap categories under fetaured video if they exceed a specified size [clopy]
  - css fix for the plumi categories on front page [clopy]
