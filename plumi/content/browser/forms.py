@@ -268,9 +268,9 @@ class VideoAddForm(form.SchemaForm):
             subject = ''
 
         # Create the object
-        self.context.invokeFactory('PlumiVideo', id=uid, Title=data['Title'],
+        self.context.invokeFactory('PlumiVideo', id=uid,
                                    description=data['Description'],
-                                   DateProduced=data['DateProduced'],
+                                   DateProduced=DateTime(data['DateProduced'].isoformat()),
                                    VideoLanguage=data['Language'],
                                    FullDescription=data['FullDescription'],
                                    thumbnailImage=data['Thumbnail'],
@@ -302,6 +302,7 @@ class VideoAddForm(form.SchemaForm):
         new_id = self._findUniqueId(normalizer.normalize(data['Title']))
         transaction.savepoint(1)
         obj.setId(new_id)
+        obj.setTitle(data['Title'])
 
         # Reindex and send init event
         obj.reindexObject()
