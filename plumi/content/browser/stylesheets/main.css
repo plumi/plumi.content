@@ -1,0 +1,134 @@
+#video-core {
+    float: right;
+    padding-top: 0.5em;
+    width: 400px;
+    clear:right;
+    margin-left: 0em;
+}
+
+#video-about {
+    clear: both;
+    padding-top: 1em;
+}
+
+#no-video-player {
+    display: block;
+    margin-top: 2em;
+    width: 320px;
+    text-align: center;
+    text-decoration: none;
+}
+
+#video-transcoding {
+    clear: both;
+}
+
+
+#video-player div {
+    padding: 0.4em 0 0.6em 0;
+    font-size: 85%;
+}
+
+#video-player textarea {
+    background: #f4f4f4 url(++resource++plumi.skin.images/homepage_desc.gif) 0 0;
+    font-size: 90%;
+}
+
+#player {
+    display: block;
+    width: 320px;
+    height: 240px;
+}
+
+#player-videoview {
+    display: block;
+    width: 400px;
+    height: 300px;
+}
+
+#statistics span.discreet {
+    font-weight: bold;
+}
+
+.activeMembersHeader {
+    margin-bottom: 10px;
+}
+
+#video-core, #player-videoview {
+    width: 525px !important;
+}
+
+#video-infos {
+    width: 205px !important;
+}
+
+div.featured-video {
+    float:right;
+    margin-top:42px;
+}
+
+#content dd.featuredItem {
+    margin: 0;
+    clear: both;
+}
+
+.featured-video-image,
+.featured-item-image {
+    float: left;
+    margin: 5px 10px 5px 0px;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+
+.featured-video-duration {
+    float: right;
+    margin: 0 3em;    
+}
+
+.featured-video-duration span {
+    color: #666;
+}
+
+.featuredItemDetailsPosted {
+    display: block;
+}
+
+dt.featuredHeader {
+    color: black;
+    border-width: 0 0 1px 0;
+    border-color: #c8dca8;
+    border-style: solid;
+    font-size: 120%;
+    margin-top: -12px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.feedButton {
+    margin-top: 6px;
+    padding-left: 3px;
+}
+
+span.featured-read-more {
+    clear: left;
+    float: left;
+    margin-bottom: 10px;
+}
+
+#player-high a, #player-low a {
+    cursor: pointer;
+    font-size: 120%;
+}
+
+.embed-box span.discreet {
+    font-size: 130% !important;
+    color: black;
+}
+
+div#featured-item dl#featured-video dl.plumi-categories {
+    width: 260px;
+}
+
+.mejs-time-total .mejs-time-loaded .mejs-time-rail {
+    width: 261px !important;
+}
