@@ -149,7 +149,7 @@ class IPlumiVideo(form.Schema):
     Genre = schema.Choice(title=_(u"Genre"),
                           required=False,
                           source=get_video_genres,
-                          default='documentary',
+                          default='none',
                           )
 
     Country = schema.Choice(title=_(u"Country"),
