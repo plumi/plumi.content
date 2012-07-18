@@ -4,7 +4,9 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="example.dexterityforms"
       metal:use-macro="context/main_template/macros/master">
-      
+
+    <metal:override fill-slot="column_two_slot">
+    </metal:override>      
     <metal:block fill-slot="main">
         
         <h1 class="documentFirstHeading" tal:content="view/label | nothing" />
