@@ -42,6 +42,7 @@ from collective.contentlicensing.DublinCoreExtensions.interfaces import ILicense
 from plumi.content import plumiMessageFactory as _
 from plumi.content.interfaces import IPlumiVideoFolder
 
+from urlparse import urlparse
 
 class InvalidEmailAddress(ValidationError):
     "Invalid email address"
@@ -50,6 +51,8 @@ class InvalidEmailAddress(ValidationError):
 class InvalidImage(ValidationError):
     "Please upload a valid image file"
 
+class InvalidURI(ValidationError):
+    "Invalid Website URI"
 
 def validateaddress(value):
     try:
@@ -64,6 +67,17 @@ def validateimage(value):
         im = Image.open(StringIO.StringIO(value))
     except:
         raise InvalidImage
+    return True
+
+def validateURI(value):
+    if not value.startswith('http://'):
+        value = 'http://' + value 
+    try:
+        is_valid_url(value)
+    except:
+        raise InvalidURI(value)
+    if is_valid_url(value) == False:
+        raise InvalidURI(value)
     return True
 
 
@@ -195,8 +209,9 @@ class IPlumiVideo(form.Schema):
                                         required=False,
                                         )
 
-    Website = schema.URI(title=_(u"Website URL"),
+    Website = schema.TextLine(title=_(u"Website URL"),
                          required=False,
+                         constraint=validateURI,
                          )
 
 
@@ -250,9 +265,14 @@ class VideoAddForm(form.SchemaForm):
     @button.buttonAndHandler(_(u'Save changes'), name='apply')
     def handleApply(self, action):
         data, errors = self.extractData()
-
         if errors:
-            self.status = self.formErrorsMessage
+            if len(errors) == 1:
+                if errors[0].field.getName() == "Email":
+                    self.status = _(u'Invalid E-mail address')
+                elif errors[0].field.getName() == "Website":
+                    self.status = _(u'Invalid Website URI')
+            else:
+                self.status = self.formErrorsMessage
             return
 
         if not self.uploaded_file():
@@ -266,6 +286,10 @@ class VideoAddForm(form.SchemaForm):
             subject = data['Tags'].replace(' ', '').split(',')
         else:
             subject = ''
+
+        if data['Website']:
+            if not data['Website'].startswith('http://'):
+                data['Website'] = 'http://' + data['Website']
 
         # Create the object
         self.context.invokeFactory('PlumiVideo', id=uid,
@@ -327,3 +351,20 @@ class VideoAddForm(form.SchemaForm):
         super(VideoAddForm, self).updateWidgets()
         self.default_fieldset_label = _('Basic info')
         self.widgets["License"].template = ViewPageTemplateFile("forms_templates/ccwidget.pt")
+
+
+def is_valid_url(url):
+    protocols = ('http', 'ftp', 'irc', 'news', 'imap', 'gopher', 'jabber',
+        'webdav', 'smb', 'fish', 'ldap', 'pop3', 'smtp', 'sftp', 'ssh', 'feed'
+        )
+    import re
+    regex = re.compile(
+        r'^(?:http|ftp)s?://' # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+        r'localhost|' #localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+        r'(?::\d+)?' # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+    if not regex.search(url):
+        return False
+    return True
