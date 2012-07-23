@@ -75,6 +75,7 @@
             </div>
             <script language="javascript">
                 // perform JavaScript after the document is scriptable.
+
                 var jqXHR = null;
                 
                 j$('#fileupload').fileupload({ 
@@ -90,6 +91,10 @@
                     },
                     
                     done: function (e, data) {
+                        $('#form-buttons-apply').removeAttr('disabled');
+                        $('#form-buttons-apply').removeClass('disabled');
+                        $('#form-buttons-apply').val('Save Changes');
+             
                         $('.fileinput-button div').attr('style','width: 100%');
                         $('button.cancel').hide();
                         $('button.delete').show();
@@ -99,6 +104,10 @@
                     },
                     
                     send: function (e,data) {
+                        $('#form-buttons-apply').attr('disabled','disabled');
+                        $('#form-buttons-apply').val('Uploading file...');
+                        $('#form-buttons-apply').addClass('disabled');
+
                         $('.fileinput-button span').text('Uploading ' + data.files[0].name);
                         $('button.cancel').show();
                         $('button.delete').hide();
