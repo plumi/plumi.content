@@ -84,16 +84,18 @@
                      
                     add: function (e, data) {
                         jqXHR = data.submit();
+                        $('.fileinput-button div').addClass('active');
                     },
                     
                     progress: function (e, data) {
-                        $('.fileinput-button div').attr('style','width:' + 99*(data.loaded/data.total) + '%');
+                        $('.fileinput-button div.active').attr('style','width:' + 99*(data.loaded/data.total) + '%');
                     },
                     
                     done: function (e, data) {
                         $('#form-buttons-apply').removeAttr('disabled');
                         $('#form-buttons-apply').removeClass('disabled');
                         $('#form-buttons-apply').val('Save Changes');
+                        $('.fileinput-button div').removeClass('active');
              
                         $('.fileinput-button div').attr('style','width: 100%');
                         $('button.cancel').hide();
@@ -118,12 +120,21 @@
                 
                 j$('button.cancel').click(function (e) {
                     jqXHR.abort();
+                    $('.fileinput-button div').removeClass('active');
                     $('.fileinput-button div').attr('style','width: 0%');
                     $('.fileinput-button span').text('Add a video file');
+                    $('#form-buttons-apply').removeAttr('disabled');
+                    $('#form-buttons-apply').removeClass('disabled');
+                    $('#form-buttons-apply').val('Save Changes');
+                    $('.fileinput-button div').removeClass('active');                    
                     $('button.cancel').hide();
+                    $.ajax({
+                        type: "POST",
+                        url: "plumi_uploader"});
                 });
 
                 j$('button.delete').click(function (e) {
+                    $('.fileinput-button div').removeClass('active');
                     j$('#fileupload').fileupload('enable');
                     $('.fileinput-button div').attr('style','width: 0%');
                     $('.fileinput-button span').removeClass('left');
@@ -132,7 +143,19 @@
                     $.ajax({
                         type: "POST",
                         url: "plumi_uploader"});
-                });                
+                });
+                
+                
+                f_abort = XMLHttpRequest.prototype.abort;
+                XMLHttpRequest.prototype.abort = function() {
+                    $.proxy(f_abort, this)();
+                    if ($.active === 1) {
+                        $.event.trigger("ajaxStop");
+                                  $.active = 0;
+                    } else if ($.active > 1) {
+                        $.active--;
+                    }
+                };                               
             </script>
         </div>
         
