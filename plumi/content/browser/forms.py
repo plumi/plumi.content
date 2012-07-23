@@ -1,6 +1,4 @@
-import os
-import tempfile
-import shutil
+import os, re, tempfile, shutil
 import transaction
 from DateTime import DateTime
 
@@ -70,13 +68,13 @@ def validateimage(value):
     return True
 
 def validateURI(value):
-    if not value.startswith('http://'):
+    if not (value.startswith('http://') or value.startswith('https://')):
         value = 'http://' + value 
     try:
         is_valid_url(value)
     except:
         raise InvalidURI(value)
-    if is_valid_url(value) == False:
+    if not is_valid_url(value):
         raise InvalidURI(value)
     return True
 
@@ -354,10 +352,6 @@ class VideoAddForm(form.SchemaForm):
 
 
 def is_valid_url(url):
-    protocols = ('http', 'ftp', 'irc', 'news', 'imap', 'gopher', 'jabber',
-        'webdav', 'smb', 'fish', 'ldap', 'pop3', 'smtp', 'sftp', 'ssh', 'feed'
-        )
-    import re
     regex = re.compile(
         r'^(?:http|ftp)s?://' # http:// or https://
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
