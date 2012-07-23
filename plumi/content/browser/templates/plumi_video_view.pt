@@ -79,9 +79,6 @@
                   </object>
                 </video>
                 <p class="documentByLine" tal:content="video_info/duration|nothing"></p>
-                <script>
-                $('video#main-video').mediaelementplayer();
-                </script>            
             </tal:no_transcode>
 
             <div id="viewlet-above-content" tal:content="structure provider:plone.abovecontentbody" tal:condition="transcoding" />

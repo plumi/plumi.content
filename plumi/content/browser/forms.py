@@ -225,7 +225,9 @@ class VideoAddForm(form.SchemaForm):
     #description = _(u"...")
 
     def uploaded_file(self):
-        session_path = tempfile.gettempdir() + '/' + 'plumitmp/' + self.request['SESSION'].id
+        pm = getToolByName(self.context,'portal_membership')
+        userId = pm.getAuthenticatedMember().id
+        session_path = tempfile.gettempdir() + '/' + 'plumitmp/' + userId
         try:
             filename = os.listdir(session_path)[0]
             return {'filename': filename,
