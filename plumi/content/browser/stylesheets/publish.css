@@ -37,6 +37,7 @@ div.controls {
     margin-top: -9px;
     z-index: 0;
     color: #000;
+    font-weight: bold;
 }
 
 .fileinput-button span.left {
@@ -108,9 +109,8 @@ div.controls {
 }
 
 
-#formfield-form-widgets-Title input {
-    width: 75%;
-
+#formfield-form-widgets-Title input, #formfield-form-widgets-Location input, #formfield-form-widgets-Tags input, #formfield-form-widgets-Director input, #formfield-form-widgets-Producer input, #formfield-form-widgets-Email input, #formfield-form-widgets-Organisation input, #formfield-form-widgets-ProductionCompany input, #formfield-form-widgets-Website input {
+    width: 75% !important;
 }
 
 #fieldname-recurse-license, #fieldset-contentlicensing div.field, #formfield-form-widgets-License label.horizontal {
