@@ -4,6 +4,7 @@
  - new publish form [dimo, mgogoulos, clopy]
  - update to Plone 4.2 [dimo]
  - execute jobs (metadata extraction, notification emails, etc) asynchronously using plone.app.async [dimo, mgogoulos]
+ - fix mediaelementjs swf & mp4 path [dimo]
 
 4.3.1 (2012-03-28)
 ==================
