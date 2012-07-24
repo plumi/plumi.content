@@ -120,3 +120,7 @@ div.controls {
 #fieldset-contentlicensing div.ArchetypesSelectionWidget.field {
     display: block;
 }
+
+.ploneSkin table.mceToolbar {
+clear: left;
+}
