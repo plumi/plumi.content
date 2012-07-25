@@ -8,9 +8,6 @@ Plumi Content Types package
 
 Installation
 ------------
-
-Plone 4.0
-~~~~~~~~~
 ::
 
     python2.6 bootstrap.py
