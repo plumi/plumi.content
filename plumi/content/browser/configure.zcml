@@ -56,6 +56,15 @@
       />
     
     <browser:page
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      name="featured_videos_homepage"
+      class=".featured_videos.FeaturedVideosPage"
+      template="templates/featured.pt"
+      permission="zope2.View"
+      allowed_interface=".interfaces.ITopicsProvider"
+    />
+     
+    <browser:page
       name="download_torrent"
       for="plumi.content.interfaces.IPlumiVideo"
       class=".download_torrent.DownloadTorrent"
