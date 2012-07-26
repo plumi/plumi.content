@@ -1,4 +1,9 @@
-4.4 (2012-07-13)
+4.4.1 (2012-07-26)
+==================
+
+ - prevent transcoding from happening twice [clopy]
+
+4.4 (2012-07-25)
 ================
 
  - new publish form [dimo, mgogoulos, clopy]
