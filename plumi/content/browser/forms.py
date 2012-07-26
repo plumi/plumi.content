@@ -114,7 +114,7 @@ class IPlumiVideo(form.Schema):
 
     form.fieldset('categorize',
                   label=u"Categorise",
-                  fields=['Genre', 'Country', 'Location', 'Topics', 'Tags',
+                  fields=['Genre', 'Country', 'Topics', 'Tags', 'Location',
                           'Director', 'Producer', 'Email', 'Organisation',
                           'ProductionCompany', 'Website']
                   )
