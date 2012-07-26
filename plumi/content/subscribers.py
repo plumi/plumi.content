@@ -172,7 +172,13 @@ def notifyInitPlumiVideo(obj ,event):
             IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
             IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
-    #setup_metadata(obj)
+    async = getUtility(IAsyncService)
+    temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2)
+    try:
+        job = async.queueJob(setup_metadata, obj, begin_after=temp_time)
+        log.info("job queued: %s" % job)
+    except Exception as e:
+        log.error('failed to queue setup_metadata job: %s' % e)
 
 def notifyInitItem(obj, event):
     """This gets called on IObjectInitializedEvent - called whenever the object is initialized."""

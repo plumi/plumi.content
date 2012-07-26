@@ -27,7 +27,6 @@ from plone.z3cform.interfaces import IWrappedForm
 
 from Products.Archetypes.config import RENAME_AFTER_CREATION_ATTEMPTS
 from Products.Archetypes.event import ObjectInitializedEvent
-from Products.Archetypes.event import ObjectModifiedEvent
 from Products.CMFDefault.utils import checkEmailAddress
 from Products.CMFDefault.exceptions import EmailAddressInvalid
 from Products.CMFCore.utils import getToolByName
@@ -331,7 +330,6 @@ class VideoAddForm(form.SchemaForm):
         # Reindex and send init event
         obj.reindexObject()
         notify(ObjectInitializedEvent(obj))
-        notify(ObjectModifiedEvent(obj))
 
         # Redirect back to the front page with a status message
         IStatusMessage(self.request).addStatusMessage(_(u"Thank you very much for your contribution! We will review the video and notify you once it is ready."),
