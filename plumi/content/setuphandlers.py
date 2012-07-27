@@ -51,7 +51,7 @@ def setupVarious(context):
     setupVocabs(portal, logger)
 
 def setupScales(context, logger=None):
-    all_videos = context.portal_catalog(show_inactive=True, language="ALL", portal_type="Video")
+    all_videos = context.portal_catalog(show_inactive=True, language="ALL", portal_type="PlumiVideo")
 
     done = 0
 
