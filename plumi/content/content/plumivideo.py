@@ -211,9 +211,9 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         languageIndependent=True,
         allowable_content_types=('image/gif','image/jpeg','image/png'),
         sizes= {'large'   : (768, 768),
-                'preview' : (400, 400),
-                'mini' :  (200, 200),
-                'thumb':  (128, 128),
+                'preview' : (711, 400),
+                'mini' :  (355, 200),
+                'thumb':  (230, 130),
             },
     ),
     
