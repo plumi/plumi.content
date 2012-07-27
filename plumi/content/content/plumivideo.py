@@ -215,6 +215,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
                 'mini' :  (355, 200),
                 'thumb':  (230, 130),
             },
+        crop_scales = ['preview', 'mini', 'thumb'],
     ),
     
     atapi.StringField(

@@ -1,5 +1,5 @@
 import logging
-import transaction
+#import transaction
 
 from Products.CMFCore.utils import getToolByName
 from plumi.content.vocabs  import vocab_set as vocabs
@@ -62,7 +62,10 @@ def setupScales(context, logger=None):
         schema = content.Schema()
 
         if "thumbnailImage" in schema:
-            schema["thumbnailImage"].createScales(content)
+            try:
+                schema["thumbnailImage"].createScales(content)
+            except:
+                print "Failed to recreate scales for " + content.absolute_url()
         else:
             print "Has bad PlumiVideo schema:" + content.absolute_url()
 
@@ -72,16 +75,16 @@ def setupScales(context, logger=None):
         # Using subtransactions we hint Zope when it would be a good
         # time to buffer the changes on disk.
         # http://www.zodb.org/documentation/guide/transactions.html
-        if done % 10 == 0:
+        #if done % 10 == 0:
             # Commit subtransaction for every 10th processed item
-            transaction.commit(True)
+        #    transaction.commit(True)
 
         done += 1
-        print "(%d / %d) created scales for image: %s" % (done, len(all_videos), "/".join(content.getPhysicalPath()))
+        print "(%d / %d) created scales for: %s" % (done, len(all_videos), "/".join(content.getPhysicalPath()))
 
     # Final commit
-    transaction.commit()
-    print "Recreated image scales for %d images" % len(all_videos)
+    #transaction.commit()
+    print "Recreated image scales for %d videos" % len(all_videos)
 
         
 def uninstallVocabs(portal, logger):
