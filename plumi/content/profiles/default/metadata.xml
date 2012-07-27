@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>0.9</version>
+  <version>1.0</version>
   <dependencies>
     <dependency>profile-Products.ATVocabularyManager:default</dependency>
     <dependency>profile-collective.upload:default</dependency>
     <dependency>profile-plone.app.z3cform:default</dependency>
-    <dependency>profile-collective.upload:default</dependency>
   </dependencies>
 </metadata>

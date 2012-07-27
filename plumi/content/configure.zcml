@@ -115,4 +115,13 @@
         <implements interface="collective.contentlicensing.DublinCoreExtensions.interfaces.ILicensable
                                zope.annotation.interfaces.IAttributeAnnotatable" />
     </class>
+    
+  <genericsetup:upgradeStep
+      title="Plumi 4.4 to 4.5"
+      description="recreate thumbnail scales"
+      source="0.9"
+      destination="1.0"
+      handler="plumi.content.setuphandlers.setupScales"
+      profile="plumi.content:default" />
+          
 </configure>

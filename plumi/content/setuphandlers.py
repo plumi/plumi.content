@@ -1,4 +1,6 @@
 import logging
+import transaction
+
 from Products.CMFCore.utils import getToolByName
 from plumi.content.vocabs  import vocab_set as vocabs
 from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
@@ -47,7 +49,41 @@ def setupVarious(context):
     portal = context.getSite()
     logger = logging.getLogger('plumi.content')
     setupVocabs(portal, logger)
-    
+
+def setupScales(context, logger=None):
+    all_videos = context.portal_catalog(show_inactive=True, language="ALL", portal_type="Video")
+
+    done = 0
+
+    for brain in all_videos:
+        content = brain.getObject()
+
+        # Access schema in Plone 4 / archetypes.schemaextender compatible way
+        schema = content.Schema()
+
+        if "thumbnailImage" in schema:
+            schema["thumbnailImage"].createScales(content)
+        else:
+            print "Has bad PlumiVideo schema:" + content.absolute_url()
+
+        # Since this is a HUGE operation (think of resizing 2 GB images)
+        # it is not a good idea to buffer the transaction in memory
+        # (Zope default behavior).
+        # Using subtransactions we hint Zope when it would be a good
+        # time to buffer the changes on disk.
+        # http://www.zodb.org/documentation/guide/transactions.html
+        if done % 10 == 0:
+            # Commit subtransaction for every 10th processed item
+            transaction.commit(True)
+
+        done += 1
+        print "(%d / %d) created scales for image: %s" % (done, len(all_videos), "/".join(content.getPhysicalPath()))
+
+    # Final commit
+    transaction.commit()
+    print "Recreated image scales for %d images" % len(all_videos)
+
+        
 def uninstallVocabs(portal, logger):
     #
     #ATVocabManager setup
