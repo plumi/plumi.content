@@ -372,10 +372,8 @@
                                             tal:attributes="href string:${video/url}/view;">
                     <img title="" alt="" tal:attributes="alt video/video_title;
                                                          src string:${video/url}/thumbnailImage_thumb" />
+                    <span class="featuredItemTitle" tal:content="video/video_title" />
                 </a>
-                <span class="featuredItemTitle" href="" tal:content="video/video_title"
-                                                     tal:attributes="href string:${video/url}/view;
-                                                                     title video/video_title" />
             </h4>
             <p class="discreet">
             Posted on <span tal:replace="video/post_date" />
