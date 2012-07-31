@@ -132,3 +132,10 @@ div#featured-item dl#featured-video dl.plumi-categories {
 .mejs-time-total .mejs-time-loaded .mejs-time-rail {
     width: 261px !important;
 }
+
+img.featured-index-page {
+    border: 0 none;
+    margin: 15px 25px;
+    width: 200px;
+}
+

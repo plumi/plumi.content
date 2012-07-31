@@ -165,6 +165,22 @@
         for="plumi.content.interfaces.IPlumiVideo"
         permission="zope2.View"
         class=".video.SeedersView" />
+
+    <plone:portlet
+        for="*"
+        name="plumi.content.browser.portlets.PublishPortlet"
+        permission="zope2.View"
+        renderer=".portlets.publishportlet.Renderer"
+        />
+
+
+    <plone:portlet
+        for="*"
+        name="plumi.content.browser.portlets.BrowsePortlet"
+        permission="zope2.View"
+        renderer=".portlets.browseportlet.Renderer"
+        />
+
     
     <plone:portlet
         name="plumi.content.browser.portlets.ActiveMembers"
