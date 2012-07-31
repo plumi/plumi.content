@@ -82,65 +82,6 @@
             </tal:no_transcode>
 
             <div id="viewlet-above-content" tal:content="structure provider:plone.abovecontentbody" tal:condition="transcoding" />
-
-
-        <div id="video-downloads">
-            <p class="download-block"> 
-                <a id="download-link"
-                    tal:attributes="href string:${here/absolute_url}/@@download/video_file/${context/video_file/filename}" i18n:translate="">
-                  Download Hi-Res / Screening Version
-                </a>
-                <span class="discreet"
-                      tal:define="fsiz here/getObjSize"
-                      tal:content="string:($fsiz)" />
-            </p>            
-            <tal:torrent tal:condition="view/has_torrent">
-                <p class="download-block">
-                 <a id="torrent-link"
-                   tal:attributes="href string:${here/absolute_url}/@@download_torrent/${context/video_file/filename}">
-                  Download via BitTorrent
-                </a>
-                <span> (Seeders: <span class="seeders"></span>)</span>
-                </p>
-                <script>
-                    function getSeeders() {
-                        jq.ajax({
-                            url: location.href.split('/view')[0] + '/@@seeders',
-                            type: "GET",
-                            dataType: "json",
-                            timeout: 10000,
-                            success: function(data) {
-                                jq('span.seeders').html(data);
-                                jq('span.seeders').fadeIn();
-                            },
-                            error: function(){
-                            }
-                        });
-                    }
-                    jq(window).load(function() {getSeeders();});
-                </script>
-            </tal:torrent>
-            <p class="download-block" tal:define="mp4high transcoding/mp4-high|nothing;
-                                                mp4low transcoding/mp4-low|nothing;
-                                                webmhigh transcoding/webm-high|nothing;
-                                                webmlow transcoding/webm-low|nothing">
-                <tal:webmhigh tal:condition="python: webmhigh and webmhigh[0]=='ok'">
-                    <a tal:condition="webmhigh" tal:attributes="href python:webmhigh[1]" i18n:translate="webm_high_res" target="_blank">WebM High Res</a>
-                    <span> | </span>
-                </tal:webmhigh>
-                <tal:webmlow tal:condition="python: webmlow and webmlow[0]=='ok'">
-                    <a tal:condition="webmlow" tal:attributes="href python:webmlow[1]" i18n:translate="webm_low_res" target="_blank">WebM Low Res</a>
-                    <span> | </span>
-                </tal:webmlow>
-                <tal:mp4high tal:condition="python: mp4high and mp4high[0]=='ok'">
-                    <a tal:attributes="href python:mp4high[1]" i18n:translate="mp4_high_res" target="_blank">Mp4 High Res</a>
-                    <span> | </span>
-                </tal:mp4high>
-                <tal:mp4low tal:condition="python: mp4low and mp4low[0]=='ok'">                
-                    <a tal:attributes="href python:mp4low[1]" i18n:translate="mp4_low_res" target="_blank">Mp4 Low Res</a>
-                </tal:mp4low>                
-            </p>
-        </div> <!-- id=video-downloads -->
       </div> <!-- id=video-core -->
 
            <div id="video-infos">
