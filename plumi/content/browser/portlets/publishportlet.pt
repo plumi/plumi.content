@@ -1,0 +1,24 @@
+<dl class="portlet portletPublishPortlet"
+    i18n:domain="plumi.portlets">
+
+    <dt class="portletHeader publishPortletHeader">
+        <span class="portletTopLeft"></span>
+        XYZ
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <dd class="portletItem publish-portlet">
+        <dl>
+            <dt>
+                XYZ
+                YZX
+            </dt>
+        </dl>
+    </dd>
+
+    <dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd>
+
+</dl>
