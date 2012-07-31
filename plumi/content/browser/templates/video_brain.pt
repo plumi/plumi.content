@@ -16,14 +16,14 @@
         tal:define="mp4 video/isTranscodedPlumiVideoObj/mp4-low|nothing;
                     webm video/isTranscodedPlumiVideoObj/webm-low|nothing;">
 
-     <video id="main-video" class="featured-video" controls width="320" height="183" tal:attributes="poster fullThumb" controls="controls" preload="metadata">
+     <video id="main-video" class="featured-video" controls width="490" height="280" tal:attributes="poster fullThumb" controls="controls" preload="metadata">
         <source tal:condition="python:webm and webm['status']=='ok'" tal:attributes="src string:${webm/address}/${webm/path}" type="video/webm" />
         <source tal:condition="python:mp4 and mp4['status']=='ok'" tal:attributes="src string:${mp4/address}/${mp4/path}" type="video/mp4" />
-        <object width="320" height="183" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
+        <object width="490" height="280" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf" tal:condition="mp4">
             <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
             <param name="flashvars" tal:attributes="value string:controls=true&poster=${thumb}&file=${mp4/address}/${mp4/path}" />
             <!-- Image as a last resort -->
-            <img tal:attributes="src thumb" width="320" height="183" title="No video playback capabilities" />
+            <img tal:attributes="src thumb" width="490" height="280" title="No video playback capabilities" />
         </object>
      </video>
     <script language="javascript">
