@@ -21,22 +21,6 @@
      name="events"
      />
 
-<assignment
-     manager="plone.leftcolumn"
-     category="context"
-     key="/"
-     type="plumi.content.browser.portlets.BrowsePortlet"
-     name="Browse Portlet"
-     />
-
-<assignment
-     manager="plone.leftcolumn"
-     category="context"
-     key="/"
-     type="plumi.content.browser.portlets.PublishPortlet"
-     name="Publish Portlet"
-     />
-
    <portlet
      addview="plumi.content.browser.portlets.ActiveMembers"
      title="Active Members"
