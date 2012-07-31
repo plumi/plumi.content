@@ -1,18 +1,30 @@
-<dl class="portlet portletPublishPortlet"
-    i18n:domain="plumi.portlets">
+<dl class="portlet portletPublish"
+    i18n:domain="plumi.portlets"
+    tal:define="portal_url context/@@plone_portal_state/portal_url;
+                portal context/@@plone_portal_state/portal;">
+
 
     <dt class="portletHeader publishPortletHeader">
         <span class="portletTopLeft"></span>
-        XYZ
+        Publish
         <span class="portletTopRight"></span>
     </dt>
 
     <dd class="portletItem publish-portlet">
         <dl>
-            <dt>
-                XYZ
-                YZX
-            </dt>
+            <ul>
+                <li>
+                    <a class="optionHeader" tal:attributes="href string:${portal/portal_membership/getHomeUrl}/videos/@@publish_video" i18n:domain="plumi" i18n:translate="">Publish Video</a>
+                <li>
+
+                <li>
+                    <a class="optionHeader" tal:attributes="href string:${portal/portal_membership/getHomeUrl}/events/createObject?type_name=Event" i18n:domain="plumi" i18n:translate="">Publish Event</a>
+                <li>
+
+                <li>
+                    <a class="optionHeader" tal:attributes="href string:${portal/portal_membership/getHomeUrl}/news/createObject?type_name=News Item" i18n:domain="plumi" i18n:translate="">Publish News</a>
+                </li>
+            </ul>
         </dl>
     </dd>
 

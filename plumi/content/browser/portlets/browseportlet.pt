@@ -1,18 +1,31 @@
 <dl class="portlet portletBrowse"
-    i18n:domain="plumi.portlets">
+    i18n:domain="plumi.portlets"
+    tal:define="portal_url context/@@plone_portal_state/portal_url;
+                portal context/@@plone_portal_state/portal;">
 
     <dt class="portletHeader browsePortletHeader">
         <span class="portletTopLeft"></span>
-        XYZ
+        Browse
         <span class="portletTopRight"></span>
     </dt>
 
     <dd class="portletItem browse-portlet">
         <dl>
-            <dt>
-                XYZ
-                YZX
-            </dt>
+            <ul>
+                <li>
+                   <a class="optionHeader" tal:attributes="href string:${portal_url}/genre" i18n:domain="plumi" i18n:translate="">Genre</a>
+                <li>
+                <li>
+                   <a class="optionHeader" tal:attributes="href string:${portal_url}/topic" i18n:domain="plumi" i18n:translate="">Topic</a>
+                <li>
+                <li>
+                   <a class="optionHeader" tal:attributes="href string:${portal_url}/countries" i18n:domain="plumi" i18n:translate="">Country</a>
+                </li>
+                <li>
+                   <a class="optionHeader" tal:attributes="href string:${portal_url}/lingua" i18n:domain="plumi" i18n:translate="">Language</a>
+                </li>
+
+            </ul>
         </dl>
     </dd>
 
