@@ -21,24 +21,26 @@
      name="events"
      />
 
+<assignment
+     manager="plone.leftcolumn"
+     category="context"
+     key="/"
+     type="plumi.content.browser.portlets.BrowsePortlet"
+     name="Browse Portlet"
+     />
+
+<assignment
+     manager="plone.leftcolumn"
+     category="context"
+     key="/"
+     type="plumi.content.browser.portlets.PublishPortlet"
+     name="Publish Portlet"
+     />
+
    <portlet
      addview="plumi.content.browser.portlets.ActiveMembers"
      title="Active Members"
      description="Listing of the top contributors of video content"
-     i18n:attributes="title; description"
-   />
-
-   <portlet
-     addview="plumi.content.browser.portlets.PublishPortlet"
-     title="Publish Portlet"
-     description="Publish Portlets"
-     i18n:attributes="title; description"
-   />
-
-   <portlet
-     addview="plumi.content.browser.portlets.BrowsePortlet"
-     title="Browse Portlet"
-     description="Browse Portlets"
      i18n:attributes="title; description"
    />
 
