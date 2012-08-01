@@ -20,7 +20,7 @@ class FeaturedVideosPage( CategoriesProvider ):
     """
     implements( IFeaturedVideosRetriever )
 
-    limit_latest  = 7
+    limit_latest  = 9
     limit_featured = 1
     target = "featured"
 
