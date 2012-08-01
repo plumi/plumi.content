@@ -141,8 +141,8 @@ class VideoView(BrowserView):
         """ Is the source video in a web friendly format? """
         return len([ True for ext in ['.webm','.mp4','.m4v']
                     if self.context.video_file.filename.endswith(ext)])
-    
-    @property    
+
+    @property
     def transcoding(self):
         ret = {}
         try:

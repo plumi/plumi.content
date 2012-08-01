@@ -7,7 +7,7 @@ taxonomy_sub_folder={'topic':'video_categories','genre':'video_genre','callouts'
 
 vocab_set['video_countries'] = (
          ('none', _(u'----------------')),
-         ('XX', _('-- International --')),
+         ('XX', _('--International--')),
         )
 
 vocab_set['video_categories'] = (
