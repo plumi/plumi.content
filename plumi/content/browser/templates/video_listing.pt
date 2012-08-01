@@ -10,8 +10,7 @@
     <div metal:use-macro="here/batch_macros/macros/navigation" />
 	      
     <metal:listingmacro define-macro="listing">
-      <dl id="featured-video"
-	  class="featured-block videos-listing">
+      <dl class="featured-block videos-listing">
 	
 	<dd class="featuredItem"
 	    tal:repeat="obj batch">
