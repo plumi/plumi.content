@@ -14,8 +14,7 @@
      tal:define="featitems view/featured_items;"
      tal:condition="nocall: featitems">
 
-  <dl id="featured-video"
-      tal:repeat="item featitems">
+  <dl tal:repeat="item featitems">
     
     <dt class="featuredHeader">
       <a href="#" tal:attributes="href string:$portal_url/featured-videos/RSS2">
