@@ -93,13 +93,6 @@
 
             <div class="vcard">
               <table summary="Event details" class="vertical listing">
-                <thead>
-                  <tr>
-                    <th colspan="2" class="nosort" i18n:translate="">
-                      Video information
-                    </th>
-                  </tr>
-                </thead>
                 <tbody>
                     <tr tal:define="genres view/genres"
                         tal:condition="genres">
@@ -120,7 +113,7 @@
                   </tr>
                   <tr tal:define="categories view/categories"
                       tal:condition="categories">
-                      <th i18n:translate="">Categories</th>
+                      <th i18n:translate="">Topics</th>
                       <td>
                         <ul>
                           <li tal:repeat="cat categories">
@@ -178,7 +171,7 @@
                   </tr>
                   <tr tal:condition="here/Producer">
                     <th i18n:translate="">
-                      Produced by
+                      Producer
                     </th>
                     <td tal:content="here/Producer">
                       Producer
@@ -186,7 +179,7 @@
                   </tr>
                   <tr tal:condition="here/Director">
                     <th i18n:translate="">
-                      Directed by
+                      Director
                     </th>
                     <td tal:content="here/Director">
                       Director
@@ -203,17 +196,17 @@
                     </td>
                   </tr>
                   <tr tal:condition="here/WebsiteURL">
-                    <th i18n:translate="">Home page</th>
+                    <th i18n:translate="">Website</th>
                     <td>
                       <a href=""
                          tal:define="url here/WebsiteURL"
                          tal:attributes="href url" 
-                 i18n:translate="">more info</a>
+                         tal:content="here/WebsiteURL"></a>
                     </td>
                   </tr>
                   <tr tal:define="dp view/post_date"
                       tal:condition="dp">
-                    <th i18n:translate="">Produced</th>
+                    <th i18n:translate="">Date produced</th>
                     <td tal:content="dp">
                       date produced.
                     </td>

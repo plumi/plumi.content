@@ -176,6 +176,7 @@ class IPlumiVideo(form.Schema):
 
     Topics = schema.List(title=_(u"Topics"),
                          required=False,
+                         description=_(u"Select topics and click arrows to add or remove"),
                          value_type=schema.Choice(source=get_video_categories),
                          default=[],
                          )
