@@ -85,15 +85,14 @@
         </div> <!-- id=video-core -->
 
         <div id="video-infos">
-            <div tal:define="duration context/plumiVideoDuration"
-                 tal:condition="duration">
-                <img src="" tal:attributes="src string:clock.gif">
-                <span class="discreet" tal:content="duration" /> 
-            </div>
-
             <div class="vcard">
               <table summary="Event details" class="vertical listing">
                 <tbody>
+                    <tr tal:define="duration context/plumiVideoDuration"
+                        tal:condition="duration">
+                        <th i18n:translate="">Duration</th>
+                        <td tal:content="duration"></td>
+                    </tr>
                     <tr tal:define="genres view/genres"
                         tal:condition="genres">
                         <th i18n:translate="">Genres</th>

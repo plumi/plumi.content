@@ -57,7 +57,7 @@
     </span>
  </p>
 
-  <p class="feature discreet plumi-nice-description rounded" tal:condition="options/feature_video">
+  <p id="featuredVideoDescription" class="feature discreet plumi-nice-description rounded" tal:condition="options/feature_video">
     <tal:desc tal:content="video/Description" />
     <span class="featured-read-more">
       <a href=""

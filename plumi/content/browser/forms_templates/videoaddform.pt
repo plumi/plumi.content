@@ -40,7 +40,7 @@
                             <div class="cell position-0 width-full fileupload-buttonbar">
                                 <div class="controls" tal:condition="not: uploaded">
                                     <span class="btn success fileinput-button progressbar">
-                                        <span i18n:translate="">Add a video file</span>
+                                        <span i18n:translate="">Add a Video - Click or Drag & Drop</span>
                                         <span i18n:translate="" tal:condition="uploaded"><tal:filename tal:replace="uploaded/filename" /> - <tal:filesize tal:replace="uploaded/filesize" /></span>
                                         <input type="file" name="video_file" size="50" />
                                         <div style="width:0%;"></div>
@@ -122,7 +122,7 @@
                     jqXHR.abort();
                     $('.fileinput-button div').removeClass('active');
                     $('.fileinput-button div').attr('style','width: 0%');
-                    $('.fileinput-button span').text('Add a video file');
+                    $('.fileinput-button span').text('Add a Video - Click or Drag & Drop');
                     $('#form-buttons-apply').removeAttr('disabled');
                     $('#form-buttons-apply').removeClass('disabled');
                     $('#form-buttons-apply').val('Save Changes');
@@ -138,7 +138,7 @@
                     j$('#fileupload').fileupload('enable');
                     $('.fileinput-button div').attr('style','width: 0%');
                     $('.fileinput-button span').removeClass('left');
-                    $('.fileinput-button span').text('Add a video file');
+                    $('.fileinput-button span').text('Add a Video - Click or Drag & Drop');
                     $('button.delete').hide();
                     $.ajax({
                         type: "POST",
