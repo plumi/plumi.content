@@ -15,7 +15,6 @@
             <div id="uploader">
                 <div id="multipleupload-code">
                     <script>var $_original = jQuery.noConflict();</script>
-                    <script src="jsvariables" type="text/javascript"></script>
                     <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/jquery.1.7.1.js"></script>
                     <script>var j$ = $; $ = $_original; jQuery = $_original;</script>
                     <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->

@@ -1,4 +1,4 @@
-import os, re, tempfile, shutil
+import os, re, tempfile, shutil, datetime
 import transaction
 from DateTime import DateTime
 
@@ -51,22 +51,32 @@ class InvalidImage(ValidationError):
 class InvalidURI(ValidationError):
     "Invalid Website URI"
 
-def validateaddress(value):
+class InvalidDate(ValidationError):
+    "Year must be between 1900 and the current year"
+
+def validate_address(value):
     try:
         checkEmailAddress(value)
     except EmailAddressInvalid:
         raise InvalidEmailAddress(value)
     return True
 
-
-def validateimage(value):
+def validate_image(value):
     try:
         im = Image.open(StringIO.StringIO(value))
     except:
         raise InvalidImage
     return True
 
-def validateURI(value):
+def validate_date(value):
+    try:
+        if not 1900<=int(value)<=datetime.datetime.now().year:
+            raise InvalidDate
+    except:
+        raise InvalidDate
+    return True
+
+def validate_URI(value):
     if not (value.startswith('http://') or value.startswith('https://')):
         value = 'http://' + value 
     try:
@@ -130,9 +140,10 @@ class IPlumiVideo(form.Schema):
                               description=_(u"Describe your video in 160 characters."),
                               )
 
-    DateProduced = schema.Date(title=_(u"Date Produced"),
+    DateProduced = schema.TextLine(title=_(u"Year Produced"),
                                required=True,
-                               description=_(u"The date the video content was released."),
+                               description=_(u"The year the video content was released."),
+                               constraint=validate_date,
                                )
 
     Language = schema.Choice(title=_(u"Video Language"),
@@ -148,7 +159,7 @@ class IPlumiVideo(form.Schema):
 
     #FIX: find a more native validation -eg provided by zope.schema
     Thumbnail = schema.Bytes(title=u'Add thumbnail',
-                             constraint=validateimage,
+                             constraint=validate_image,
                              description=u"We will automatically generate an image, but you may prefer to upload your own",
                              required=False,
                              )
@@ -196,7 +207,7 @@ class IPlumiVideo(form.Schema):
 
     Email = schema.TextLine(title=_(u"Email Address"),
                             required=False,
-                            constraint=validateaddress,
+                            constraint=validate_address,
                             )
 
     Organisation = schema.TextLine(title=_(u"Project Name"),
@@ -209,7 +220,7 @@ class IPlumiVideo(form.Schema):
 
     Website = schema.TextLine(title=_(u"Website URL"),
                          required=False,
-                         constraint=validateURI,
+                         constraint=validate_URI,
                          )
 
 
@@ -294,7 +305,7 @@ class VideoAddForm(form.SchemaForm):
         # Create the object
         self.context.invokeFactory('PlumiVideo', id=uid,
                                    description=data['Description'],
-                                   DateProduced=DateTime(data['DateProduced'].isoformat()),
+                                   DateProduced=data['DateProduced'],
                                    VideoLanguage=data['Language'],
                                    FullDescription=data['FullDescription'],
                                    thumbnailImage=data['Thumbnail'],

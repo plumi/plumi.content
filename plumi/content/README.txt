@@ -489,9 +489,7 @@ Now we fill the form and submit it.
   
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
     >>> browser.getControl(name='description').value = 'PlumiVideo Sample Description'
-    >>> browser.getControl(name='DateProduced_year').value=('2010',)
-    >>> browser.getControl(name='DateProduced_month').value=('01',)
-    >>> browser.getControl(name='DateProduced_day').value=('01',)       
+    >>> browser.getControl(name='DateProduced').value='2012'
     >>> browser.getControl('Next').click()
     >>> 'Changes saved' in browser.contents
     True
@@ -589,9 +587,7 @@ Now we fill the form and submit it.
 
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
     >>> browser.getControl(name='description').value = 'PlumiVideo Sample Description'    
-    >>> browser.getControl(name='DateProduced_year').value=('2010',)
-    >>> browser.getControl(name='DateProduced_month').value=('01',)
-    >>> browser.getControl(name='DateProduced_day').value=('01',)       
+    >>> browser.getControl(name='DateProduced').value='2012'
     >>> browser.getControl('Next').click()
     >>> 'Changes saved' in browser.contents
     True
