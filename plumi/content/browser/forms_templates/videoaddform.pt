@@ -116,8 +116,8 @@
 
                     },
                     
-                }); 
-                
+                });
+ 
                 j$('button.cancel').click(function (e) {
                     jqXHR.abort();
                     $('.fileinput-button div').removeClass('active');
