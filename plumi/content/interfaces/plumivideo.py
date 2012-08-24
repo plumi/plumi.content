@@ -16,10 +16,10 @@ class IPlumiVideo(Interface):
         description=_(u"The caption for the thumbnail image."),
     )
 
-    DateProduced = schema.Date(
+    DateProduced = schema.Text(
         title=_(u"Date Produced"), 
         required=False,
-        description=_(u"The date the video content was released."),
+        description=_(u"The year the video content was released."),
     )
 
     FullDescription = schema.Text(

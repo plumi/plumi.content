@@ -235,13 +235,6 @@ class VideoView(BrowserView):
         return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
                 for brain in brains]
 
-    @property
-    def post_date(self):
-        date = self.context.effective()
-        if not date or date.year() == 1000:
-            date = self.context.created()
-        return self.context.toLocalizedTime(date)
-
     def hasThumbnailImage(self):
         if getattr(self.context, 'thumbnailImage', None) is None:
                 return False

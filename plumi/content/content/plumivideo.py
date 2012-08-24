@@ -2,6 +2,7 @@
 """
 
 from zope.interface import implements, directlyProvides
+import datetime
 
 try:
     from Products.LinguaPlone import atapi 
@@ -24,7 +25,6 @@ from plumi.content.metadataextractor import extract
 from zope.app.component.hooks import getSite
 
 PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
-
     # -*- Your Archetypes field definitions here ... -*-
 
     atapi.StringField(
@@ -107,16 +107,15 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata='default',
     ),
     
-    atapi.DateTimeField(
+    atapi.StringField(
         'DateProduced',
         storage=atapi.AnnotationStorage(),
-        widget=atapi.CalendarWidget(
-            label=_(u"Date of release"),
-            show_hm = False,
+        widget=atapi.StringWidget(
+            label=_(u"Year of release"),
         ),
         languageIndependent=True,
 		required=True,
-        validators=('isValidDate'),
+        validators=('isValidYear'),
         schemata='default',                
     ),
 

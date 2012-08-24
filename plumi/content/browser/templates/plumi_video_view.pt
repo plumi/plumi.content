@@ -203,11 +203,11 @@
                          tal:content="here/WebsiteURL"></a>
                     </td>
                   </tr>
-                  <tr tal:define="dp view/post_date"
+                  <tr tal:define="dp here/DateProduced"
                       tal:condition="dp">
-                    <th i18n:translate="">Date produced</th>
+                    <th i18n:translate="">Year produced</th>
                     <td tal:content="dp">
-                      date produced.
+                      year produced.
                     </td>
                   </tr>
             
