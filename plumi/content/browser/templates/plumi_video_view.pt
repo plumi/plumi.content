@@ -93,6 +93,10 @@
                     </audio>
                     <p class="documentByLine" tal:content="video_info/duration|nothing"></p>
                 </tal:isAudio>
+
+                <tal:isImage condition="view/isImage">
+                    <img tal:attributes="src video_source" />
+                </tal:isImage>
             </div>
 
             <div id="viewlet-above-content" tal:content="structure provider:plone.abovecontentbody" tal:condition="transcoding" />
