@@ -235,6 +235,18 @@ class VideoView(BrowserView):
         return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
                 for brain in brains]
 
+    @property
+    def isVideo(self):
+        return 'video' in self.context.getContentType()
+
+    @property
+    def isAudio(self):
+        return 'audio' in self.context.getContentType()
+
+    @property
+    def isImage(self):
+        return 'image' in self.context.getContentType()
+
     def hasThumbnailImage(self):
         if getattr(self.context, 'thumbnailImage', None) is None:
                 return False

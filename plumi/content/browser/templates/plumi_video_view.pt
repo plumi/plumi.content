@@ -31,6 +31,7 @@
         <meta property="og:video" tal:condition="python: mp4 and mp4[0]=='ok'" tal:attributes="content python:mp4[1]" />
         <meta property="og:video:type" content="video/webm" tal:condition="python: webm and webm[0]=='ok'" />
         <meta property="og:video" tal:condition="python: webm and webm[0]=='ok'" tal:attributes="content python:webm[1]" />
+        <link rel="stylesheet" href="mediaelementplayer.css" />
     </tal:block>
 <head>
     <metal:block fill-slot="column_two_slot" />
@@ -69,17 +70,30 @@
         </p>
 
         <div id="video-core" tal:define="thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_preview' or ''">
-            <tal:no_transcode condition="not: transcoding">
-                <video id="main-video" width="525" height="300" controls
-                  tal:attributes="poster thumb" preload="metadata">
-                  <source src="" tal:attributes="src video_href; type view/context/content_type" />
-                  <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
-                    <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
-                    <param name="flashvars" value="" tal:attributes="value python:'controls=true&poster=%s&file=%s' % (thumb, video_href)" />
-                  </object>
-                </video>
-                <p class="documentByLine" tal:content="video_info/duration|nothing"></p>
-            </tal:no_transcode>
+            <div tal:condition="not: transcoded">
+                <tal:isVideo condition="view/isVideo">
+                    <video id="main-video" width="525" height="300" controls
+                      tal:attributes="poster thumb" preload="metadata">
+                      <source src="" tal:attributes="src video_href; type view/context/content_type" />
+                      <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
+                        <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
+                        <param name="flashvars" value="" tal:attributes="value python:'controls=true&poster=%s&file=%s' % (thumb, video_href)" />
+                      </object>
+                    </video>
+                    <p class="documentByLine" tal:content="video_info/duration|nothing"></p>
+                </tal:isVideo>
+
+                <tal:isAudio condition="view/isAudio">
+                    <audio id="main-audio" controls preload="metadata">
+                      <source src="" tal:attributes="src video_href; type view/context/content_type" />
+                      <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
+                        <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
+                        <param name="flashvars" value="" tal:attributes="value python:'controls=true&poster=%s&file=%s' % (thumb, video_href)" />
+                      </object>
+                    </video>
+                    <p class="documentByLine" tal:content="video_info/duration|nothing"></p>
+                </tal:isAudio>
+            </div>
 
             <div id="viewlet-above-content" tal:content="structure provider:plone.abovecontentbody" tal:condition="transcoding" />
         </div> <!-- id=video-core -->
@@ -298,7 +312,11 @@
             </p>
         </li>
     </ul>
-    
+    <script>
+        // using jQuery
+        $('video,audio').mediaelementplayer(/* Options */);
+    </script>
+
     </div>      
     </tal:main-macro>
 </metal:main>
