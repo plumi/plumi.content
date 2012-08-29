@@ -19,6 +19,7 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.component import adapter
+from zope.app.component.hooks import getSite
 
 from plone.app.async.interfaces import IAsyncService
 from Products.ATContentTypes.interfaces.image import IATImage
@@ -154,6 +155,15 @@ def notifyInitPlumiVideo(obj ,event):
     state = workflow.getInfoFor(obj,'review_state','')
     log = logging.getLogger('plumi.content.subscribers')
     log.info("notifyInitPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
+    #create thumbnails for audio and image
+    if 'image' in obj.getContentType() and not obj.getThumbnailImage():
+        obj.setThumbnailImage(obj.video_file.data)
+    elif 'audio' in obj.getContentType() and not obj.getThumbnailImage():
+        image_path = getSite().absolute_url() + '/++resource++plumi.content.images/clip_default.png'
+        f = urlopen(image_path)
+        obj.setThumbnailImage(f.read())
+        f.close()
+
     #decide what to do , based on workflow of object
     try:
         state = workflow.getInfoFor(obj,'review_state')
