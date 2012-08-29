@@ -70,7 +70,7 @@
         </p>
 
         <div id="video-core" tal:define="thumb python:view.hasThumbnailImage() and here.absolute_url()+'/thumbnailImage_preview' or ''">
-            <div tal:condition="not: transcoded">
+            <div tal:condition="not: transcoding">
                 <tal:isVideo condition="view/isVideo">
                     <video id="main-video" width="525" height="300" controls
                       tal:attributes="poster thumb" preload="metadata">
