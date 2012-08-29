@@ -90,7 +90,7 @@
                         <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
                         <param name="flashvars" value="" tal:attributes="value python:'controls=true&poster=%s&file=%s' % (thumb, video_href)" />
                       </object>
-                    </video>
+                    </audio>
                     <p class="documentByLine" tal:content="video_info/duration|nothing"></p>
                 </tal:isAudio>
             </div>
