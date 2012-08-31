@@ -297,30 +297,15 @@ class VideoAddForm(form.SchemaForm):
             subject = data['Tags'].replace(' ', '').split(',')
         else:
             subject = ''
+        
+        try:
+            if data['Website']:
+                if not data['Website'].startswith('http://'):
+                    data['Website'] = 'http://' + data['Website']
+        except:
+            pass
 
-        if data['Website']:
-            if not data['Website'].startswith('http://'):
-                data['Website'] = 'http://' + data['Website']
-
-        # Create the object
-        self.context.invokeFactory('PlumiVideo', id=uid,
-                                   description=data['Description'],
-                                   DateProduced=data['DateProduced'],
-                                   VideoLanguage=data['Language'],
-                                   FullDescription=data['FullDescription'],
-                                   thumbnailImage=data['Thumbnail'],
-                                   Genre=data['Genre'],
-                                   Countries=data['Country'],
-                                   location=data['Location'],
-                                   Categories=data['Topics'],
-                                   subject=subject,
-                                   Director=data['Director'] or '',
-                                   Producer=data['Producer'] or '',
-                                   ProducerEmail=data['Email'] or '',
-                                   ProductionCompanyName=data['ProductionCompany'] or '',
-                                   ProjectName=data['Organisation'] or '',
-                                   WebsiteURL=data['Website'] or '',
-                                   )
+        self.create_object(self.context, data, uid, subject)
 
         # get the newly created object
         obj = self.context[uid]
@@ -362,6 +347,25 @@ class VideoAddForm(form.SchemaForm):
         self.default_fieldset_label = _('Basic info')
         self.widgets["License"].template = ViewPageTemplateFile("forms_templates/ccwidget.pt")
 
+    def create_object(self, context, data, uid, subject):
+        context.invokeFactory('PlumiVideo', id=uid,
+                                   description=data['Description'],
+                                   DateProduced=data['DateProduced'],
+                                   VideoLanguage=data['Language'],
+                                   FullDescription=data['FullDescription'],
+                                   thumbnailImage=data['Thumbnail'],
+                                   Genre=data['Genre'],
+                                   Countries=data['Country'],
+                                   location=data['Location'],
+                                   Categories=data['Topics'],
+                                   subject=subject,
+                                   Director=data['Director'] or '',
+                                   Producer=data['Producer'] or '',
+                                   ProducerEmail=data['Email'] or '',
+                                   ProductionCompanyName=data['ProductionCompany'] or '',
+                                   ProjectName=data['Organisation'] or '',
+                                   WebsiteURL=data['Website'] or '',
+                                   )
 
 def is_valid_url(url):
     regex = re.compile(
