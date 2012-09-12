@@ -1,0 +1,3 @@
+<registry>
+    <records interface="plumi.content.browser.interfaces.IPlumiSettings" />
+</registry>

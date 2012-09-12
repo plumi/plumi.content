@@ -36,6 +36,7 @@
         directory="stylesheets"
         />
 
+
     <!-- Resource directory for javascript -->
     <browser:resourceDirectory
         name="plumi.content.javascripts"
@@ -47,6 +48,13 @@
         name="plumi.content.images"
         directory="images"
         />
+
+    <browser:page
+      name="plumi-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="cmf.ManagePortal"
+      class=".controlpanel.PlumiControlPanelView"
+      />
 
     <browser:page
       name="download"

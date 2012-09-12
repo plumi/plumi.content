@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from zope import schema
 from plonetheme.classic.browser.interfaces import IThemeSpecific as IClassicTheme
 from zope.interface import Interface, Attribute
 from zope.publisher.interfaces.browser import IBrowserView
@@ -9,6 +9,12 @@ from collective.contentlicensing.DublinCoreExtensions.interfaces import ILicensa
 class IThemeSpecific(IClassicTheme):
     """theme-specific layer"""
 
+class IPlumiSettings(Interface):
+    """Transcoding settings"""
+
+    notifyReviewers = schema.Bool(title = u'Notify Reviewers',
+                             default = True,
+                            )
 
 class ICalloutView(Interface):
     u"""Callout view"""

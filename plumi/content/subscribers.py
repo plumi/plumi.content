@@ -34,6 +34,7 @@ from plumi.content import plumiMessageFactory as _
 from collective.transcode.star.interfaces import ITranscodedEvent, ITranscodeTool
 from plone.app.discussion.interfaces import IComment, ICommentingTool
 from Products.CMFCore.WorkflowCore import WorkflowException
+from plone.registry.interfaces import IRegistry
 
 logger = logging.getLogger('plumi.content.subscribers')
 
@@ -99,20 +100,25 @@ def notifyActionSucceededPlumiVideo(obj,event):
     wf_action = request.get('workflow_action','')
     log = logging.getLogger('plumi.content.subscribers')
     log.info("notifyActionSuceededPlumiVideo... %s in state (%s) with event %s " % (obj.Title(), state,  event))
+    registry = getUtility(IRegistry)
+
     #decide what to do , based on workflow of object
     #PUBLISHED
     log.info(state)
     if wf_action == 'retract':
         log.info('video retracted')
         IPlumiWorkflow(obj).notifyOwnerVideoRetracted()
-        IPlumiWorkflow(obj).notifyReviewersVideoRetracted()        
+        if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
+            IPlumiWorkflow(obj).notifyReviewersVideoRetracted()        
     elif wf_action == 'reject':
         log.info('video rejected')    
         IPlumiWorkflow(obj).notifyOwnerVideoRejected()
-        IPlumiWorkflow(obj).notifyReviewersVideoRejected()
+        if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
+            IPlumiWorkflow(obj).notifyReviewersVideoRejected()
     elif state == 'pending' and not request.has_key('form.button.save'):
         log.info('video submitted for review')        
-        IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+        if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
+            IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
         IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
     elif state == 'published':
         log.info('doing published tasks')
@@ -135,8 +141,10 @@ def notifyModifiedPlumiVideo(obj ,event):
             #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
             # The adapter object will implement the logic for various content types
             if IPlumiWorkflow(obj).autoPublishOrHide():
-                IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
-                IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+                registry = getUtility(IRegistry)
+                if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
+                    IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+                    IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
         #PENDING , other states..
         if request.has_key('video_file_file'): #new video uploaded
             log.info('notifyModifiedPlumiVideo: video replaced;')
@@ -179,8 +187,10 @@ def notifyInitPlumiVideo(obj ,event):
         #call IPlumiWorkflow API to decide if its ready to publish or needs hiding.
         # The adapter object will implement the logic for various content types
         if IPlumiWorkflow(obj).autoPublishOrHide():
-            IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
-            IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+            registry = getUtility(IRegistry)
+            if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
+                IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+                IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
 
     async = getUtility(IAsyncService)
     temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2)
@@ -294,34 +304,36 @@ def notify_reviewers(obj):
        This method sends an email to the site admin (mail control panel setting)
        when a new object has been submitted
     """
-    obj_title = obj.Title()
-    obj_url= obj.absolute_url()
-    creator = obj.Creator()
-    membr_tool = getToolByName(getSite(),'portal_membership')
-    member=membr_tool.getMemberById(creator)
-    creator_info = {'fullname':member.getProperty('fullname', 'Fullname missing'),
-                    'email':member.getProperty('email', None)}
-    #search for reviewers 
-    reviewers = membr_tool.searchForMembers(roles=['Reviewer'])
-    for reviewer in reviewers:
-        memberId = reviewer.id
-        try:
-            mTo = reviewer.getProperty('email', None)
-            urltool = getToolByName(getSite(), 'portal_url')
-            portal = urltool.getPortalObject()
-            mFrom = portal.getProperty('email_from_address')
-            mSubj = '%s -- submitted for your review' % obj_title
-            mMsg = 'To: %s\n' % mTo
-            mMsg += 'From: %s\n' % mFrom
-            mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                    
-            mMsg += _('Item has been submitted for your review').encode('utf-8','ignore') + '\n'
-            mMsg += _('Please review the submitted content. ').encode('utf-8','ignore') + '\n\n'
-            mMsg += 'Title: %s\n\n' % obj_title
-            mMsg += '%s/view \n\n' % obj_url
-            mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
-            mMsg += 'Email: %s\n\n' % creator_info['email']                    
-            logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (getSite(), mTo, mFrom) )
-            async = getUtility(IAsyncService)
-            job = async.queueJob(sendMail, obj, mMsg, mSubj)
-        except Exception, e:
-            logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
+    registry = getUtility(IRegistry)
+    if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
+        obj_title = obj.Title()
+        obj_url= obj.absolute_url()
+        creator = obj.Creator()
+        membr_tool = getToolByName(getSite(),'portal_membership')
+        member=membr_tool.getMemberById(creator)
+        creator_info = {'fullname':member.getProperty('fullname', 'Fullname missing'),
+                        'email':member.getProperty('email', None)}
+        #search for reviewers 
+        reviewers = membr_tool.searchForMembers(roles=['Reviewer'])
+        for reviewer in reviewers:
+            memberId = reviewer.id
+            try:
+                mTo = reviewer.getProperty('email', None)
+                urltool = getToolByName(getSite(), 'portal_url')
+                portal = urltool.getPortalObject()
+                mFrom = portal.getProperty('email_from_address')
+                mSubj = '%s -- submitted for your review' % obj_title
+                mMsg = 'To: %s\n' % mTo
+                mMsg += 'From: %s\n' % mFrom
+                mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'                    
+                mMsg += _('Item has been submitted for your review').encode('utf-8','ignore') + '\n'
+                mMsg += _('Please review the submitted content. ').encode('utf-8','ignore') + '\n\n'
+                mMsg += 'Title: %s\n\n' % obj_title
+                mMsg += '%s/view \n\n' % obj_url
+                mMsg += 'The contributor was %s\n\n' % creator_info['fullname']
+                mMsg += 'Email: %s\n\n' % creator_info['email']                    
+                logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (getSite(), mTo, mFrom) )
+                async = getUtility(IAsyncService)
+                job = async.queueJob(sendMail, obj, mMsg, mSubj)
+            except Exception, e:
+                logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
