@@ -107,19 +107,19 @@ def notifyActionSucceededPlumiVideo(obj,event):
     log.info(state)
     if wf_action == 'retract':
         log.info('video retracted')
-        IPlumiWorkflow(obj).notifyOwnerVideoRetracted()
-        if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
+        if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:     
+            IPlumiWorkflow(obj).notifyOwnerVideoRetracted()
             IPlumiWorkflow(obj).notifyReviewersVideoRetracted()        
     elif wf_action == 'reject':
         log.info('video rejected')    
-        IPlumiWorkflow(obj).notifyOwnerVideoRejected()
         if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
+            IPlumiWorkflow(obj).notifyOwnerVideoRejected()
             IPlumiWorkflow(obj).notifyReviewersVideoRejected()
     elif state == 'pending' and not request.has_key('form.button.save'):
         log.info('video submitted for review')        
         if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
             IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
-        IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+            IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
     elif state == 'published':
         log.info('doing published tasks')
         obj.reindexObject()

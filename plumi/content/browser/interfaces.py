@@ -12,7 +12,7 @@ class IThemeSpecific(IClassicTheme):
 class IPlumiSettings(Interface):
     """Transcoding settings"""
 
-    notifyReviewers = schema.Bool(title = u'Notify Reviewers',
+    notifyReviewers = schema.Bool(title = u'Send Notifications',
                              default = True,
                             )
 
