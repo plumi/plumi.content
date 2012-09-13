@@ -16,6 +16,10 @@ class IPlumiSettings(Interface):
                              default = True,
                             )
 
+    AfterVideoText = schema.Text(title= u"Text to show after video upload",
+                                  default = u"Thank you very much for your contribution! We will review the video and notify you once it is ready.",
+                                  )
+
 class ICalloutView(Interface):
     u"""Callout view"""
 

@@ -32,6 +32,7 @@ from Products.CMFDefault.exceptions import EmailAddressInvalid
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import ISiteRoot, IFolderish
 from Products.statusmessages.interfaces import IStatusMessage
+from plone.registry.interfaces import IRegistry
 
 from collective.contentlicensing.utilities.interfaces import IContentLicensingUtility
 from collective.contentlicensing.DublinCoreExtensions.interfaces import ILicense
@@ -329,9 +330,9 @@ class VideoAddForm(form.SchemaForm):
         notify(ObjectInitializedEvent(obj))
 
         # Redirect back to the front page with a status message
-        IStatusMessage(self.request).addStatusMessage(_(u"Thank you very much for your contribution! We will review the video and notify you once it is ready."),
-                                                      "info"
-                                                      )
+        registry = getUtility(IRegistry)
+        message = registry['plumi.content.browser.interfaces.IPlumiSettings.AfterVideoText']
+        IStatusMessage(self.request).addStatusMessage(message,"info")
         contextURL = obj.absolute_url()
         self.request.response.redirect(contextURL)
 
