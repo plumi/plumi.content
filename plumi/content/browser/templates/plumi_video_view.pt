@@ -31,7 +31,7 @@
         <meta property="og:video" tal:condition="python: mp4 and mp4[0]=='ok'" tal:attributes="content python:mp4[1]" />
         <meta property="og:video:type" content="video/webm" tal:condition="python: webm and webm[0]=='ok'" />
         <meta property="og:video" tal:condition="python: webm and webm[0]=='ok'" tal:attributes="content python:webm[1]" />
-        <link rel="stylesheet" href="mediaelementplayer.css" />
+        <link rel="stylesheet" tal:attributes="href python: context.portal_url() + '/++resource++collective.mediaelementjs/mediaelementplayer.css'" />
     </tal:block>
 <head>
     <metal:block fill-slot="column_two_slot" />
@@ -318,7 +318,7 @@
     </ul>
     <script>
         // using jQuery
-        $('video,audio').mediaelementplayer(/* Options */);
+        $('audio').mediaelementplayer();
     </script>
 
     </div>      
