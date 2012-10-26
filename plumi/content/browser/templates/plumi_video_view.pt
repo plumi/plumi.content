@@ -45,7 +45,8 @@
                     portal context/@@plone_portal_state/portal;
                     transcoding view/transcoding;
                     video_info view/video_info;
-                    video_href string:${here/absolute_url}/@@download/video_file/${context/video_file/filename}">
+                    video_href string:${here/absolute_url}/@@download/video_file/${context/video_file/filename};
+                    video_source string:${here/absolute_url}/video_file;">
 		<div class="roundborder rounded">
         <div tal:replace="structure provider:plone.abovecontent" />
         <div tal:replace="structure provider:plone.abovecontenttitle" tal:condition="not:ajax_load" />
@@ -84,14 +85,14 @@
                 </tal:isVideo>
 
                 <tal:isAudio condition="view/isAudio">
-                    <audio id="main-audio" controls preload="metadata">
-                      <source src="" tal:attributes="src video_href; type view/context/content_type" />
-                      <object width="525" height="300" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
+                    <img tal:condition="thumb" tal:attributes="src thumb" width="400" height="300" />
+                    <audio id="main-audio"  >
+                      <source src="" tal:attributes="src video_source; type view/context/content_type" />
+                      <object width="600" height="30" type="application/x-shockwave-flash" data="++resource++collective.mediaelementjs/flashmediaelement.swf">
                         <param name="movie" value="++resource++collective.mediaelementjs/flashmediaelement.swf" />
-                        <param name="flashvars" value="" tal:attributes="value python:'controls=true&poster=%s&file=%s' % (thumb, video_href)" />
+                        <param name="flashvars" value="" tal:attributes="value python:'controls=true&poster=%s&file=%s' % (thumb, video_source)" />
                       </object>
                     </audio>
-                    <p class="documentByLine" tal:content="video_info/duration|nothing"></p>
                 </tal:isAudio>
 
                 <tal:isImage condition="view/isImage">
