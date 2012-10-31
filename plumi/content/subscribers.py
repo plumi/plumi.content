@@ -64,7 +64,7 @@ def notifyTranscodeSucceededPlumiVideo(obj, event):
                 async = getUtility(IAsyncService)
                 temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2)
                 default = obj.portal_url() + '/defaultthumb.jpeg'
-                job = async.queueJob(getThumbnail, obj, url, default, begin_after=temp_time)
+                job = async.queueJobWithDelay(None, temp_time, getThumbnail, obj, url, default)
                 logger.info('getThumbail')
             except Exception as e:
                 logger.error("cannot set thumbnail for %s. Error %s" % (obj, sys.exc_info()[0]))
@@ -151,7 +151,7 @@ def notifyModifiedPlumiVideo(obj ,event):
             async = getUtility(IAsyncService)
             temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2)
             try: 
-                job = async.queueJob(setup_metadata, obj, begin_after=temp_time)
+                job = async.queueJobWithDelay(None, temp_time, setup_metadata, obj)
                 log.info("job queued: %s" % job)
             except Exception as e:
                 log.error('failed to queue setup_metadata job: %s' % e)
@@ -195,7 +195,7 @@ def notifyInitPlumiVideo(obj ,event):
     async = getUtility(IAsyncService)
     temp_time = datetime.datetime.now(pytz.UTC) + datetime.timedelta(seconds=2)
     try:
-        job = async.queueJob(setup_metadata, obj, begin_after=temp_time)
+        job = async.queueJobWithDelay(None, temp_time, setup_metadata, obj)
         log.info("job queued: %s" % job)
     except Exception as e:
         log.error('failed to queue setup_metadata job: %s' % e)
@@ -247,7 +247,7 @@ def notifyCommentAdded(obj ,event):
             mMsg = _('Hi ') + member.getProperty('fullname', creator) 
             mMsg += '\n\n' + _('A comment has been added on ') + videoUrl + '\n\n' 
             async = getUtility(IAsyncService)
-            job = async.queueJob(sendMail, obj, mMsg, mSubj)
+            job = async.queueJobWithDelay(None, temp_time, sendMail, obj, mMsg, mSubj)
             log.info('notifyCommentAdded , im %s . sending email to %s from %s ' % (obj, mTo, mFrom) ) 
         except: 
             log.error('Didnt actually send email to contribution owner! Something amiss with SecureMailHost.') 
@@ -334,6 +334,6 @@ def notify_reviewers(obj):
                 mMsg += 'Email: %s\n\n' % creator_info['email']                    
                 logger.info('notifyReviewersVideoSubmitted , im %s . sending email to %s from %s ' % (getSite(), mTo, mFrom) )
                 async = getUtility(IAsyncService)
-                job = async.queueJob(sendMail, obj, mMsg, mSubj)
+                job = async.queueJobWithDelay(None, temp_time, sendMail, obj, mMsg, mSubj)
             except Exception, e:
                 logger.error('Didnt actually send email to reviewer! Something amiss with SecureMailHost. %s' % e)
