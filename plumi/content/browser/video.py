@@ -219,7 +219,7 @@ class VideoView(BrowserView):
                      sort_order='reverse',
                      review_state=['published', 'featured'])
         try:
-            brains = sample(catalog(**query), 5)
+            brains = sample(catalog(**query), 15)
         except:
             res = []
             for brain in catalog(**query):

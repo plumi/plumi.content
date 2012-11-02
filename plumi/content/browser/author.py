@@ -116,7 +116,7 @@ class AuthorPage(CategoriesProvider):
                          sort_on='effective',
                          sort_order='reverse',
                          review_state=['published', 'featured'])
-            brains = self.catalog(**query)[:5]
+            brains = self.catalog(**query)[:20]
             return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
                     for brain in brains]
         except LocationError:

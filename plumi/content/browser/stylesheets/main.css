@@ -131,3 +131,15 @@ img.featured-index-page {
     width: 200px;
 }
 
+#copyright-button img {
+    float: left !important;
+}
+
+
+#copyrightDocumentByLine {
+    text-align: left  !important;
+}
+
+#copyright-button {
+    height: 37px ;
+}
