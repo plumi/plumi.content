@@ -147,7 +147,7 @@
                   </tr>
                   <tr tal:define="subjects view/subjects"
                         tal:condition="subjects">
-                      <th i18n:translate="">Keywords</th>
+                      <th i18n:translate="">Tags</th>
                       <td>
                         <ul>
                           <li tal:repeat="kw subjects">
@@ -303,7 +303,7 @@
 	</div>
 
     <div id="authors_latest" tal:define="other_videos  view/authors_latest|nothing">
-        <h1 class="documentFirstHeading" tal:condition="other_videos">Other videos by this author</h1>
+        <h1 class="documentFirstHeading" tal:condition="other_videos">Other videos by this member</h1>
     <ul>
         <li tal:repeat="video other_videos">
             <a class="video-download" title="View details about this video"
