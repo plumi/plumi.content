@@ -4,7 +4,7 @@
                            b_start python:0;b_start request/b_start | b_start;
                            batch python:Batch(results, b_size, int(b_start));
 			   template_id string:video_listing_view">
-  <div class="discreet">There are <b tal:content="python:len(results)"></b> videos available</div>
+  <div class="discreet videocount">There are <b tal:content="python:len(results)"></b> videos available</div>
   <tal:listing condition="results">
     <!-- Navigation -->
     <div metal:use-macro="here/batch_macros/macros/navigation" />
