@@ -162,7 +162,7 @@ class VideoView(BrowserView):
         voc = self.vocab_tool.getVocabularyByName('video_categories')
 
         if not TAXONOMIES:
-            url = "%s/search?getCategories=" % (self.portal_url)
+            url = "%s/@@search?getCategories=" % (self.portal_url)
         else:
             url = "%s/%s/%s/" % (self.portal_url,
                              TOPLEVEL_TAXONOMY_FOLDER, CATEGORIES_FOLDER)
@@ -175,7 +175,7 @@ class VideoView(BrowserView):
         voc = self.vocab_tool.getVocabularyByName('video_genre')
 
         if not TAXONOMIES:
-            url = "%s/search?getGenre=" % self.portal_url
+            url = "%s/@@search?getGenre=" % self.portal_url
         else:
             url = "%s/%s/%s/" % (self.portal_url,
                                  TOPLEVEL_TAXONOMY_FOLDER, GENRE_FOLDER)
@@ -185,7 +185,7 @@ class VideoView(BrowserView):
 
     def get_subjects_info(self, subjects):
         """Fake the genres/categories process to return keywords infos"""
-        url = "%s/search?Subject=" % (self.portal_url)
+        url = "%s/@@search?Subject=" % (self.portal_url)
         return (dict(id=kw, url=url + kw, title=kw) for kw in subjects)
 
     def get_country_info(self, country_id):
@@ -194,7 +194,7 @@ class VideoView(BrowserView):
         country = voc[country_id]
 
         if not TAXONOMIES:
-            url = "%s/search?getCountries=" % self.portal_url
+            url = "%s/@@search?getCountries=" % self.portal_url
         else:
             url = "%s/%s/%s/" % (self.portal_url,
                                  TOPLEVEL_TAXONOMY_FOLDER, COUNTRIES_FOLDER)
@@ -210,7 +210,7 @@ class VideoView(BrowserView):
             language_title = video_language_id
         
         if not TAXONOMIES:
-            url = "%s/search?getCountries=" % self.portal_url
+            url = "%s/@@search?getCountries=" % self.portal_url
         else:
             url = "%s/%s/%s/" % (self.portal_url, TOPLEVEL_TAXONOMY_FOLDER, LANGUAGES_FOLDER)
         

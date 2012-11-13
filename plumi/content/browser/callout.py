@@ -68,7 +68,7 @@ class CalloutView(BrowserView):
     def get_categories_dict(self, cats):
         """Uses the portal vocabularies to retrieve the callout categories
         """
-        url = "%s/search?getSubmissionCategories=" % (self.portal_url)
+        url = "%s/@@search?getSubmissionCategories=" % (self.portal_url)
         voc = self.vocab_tool.getVocabularyByName('submission_categories')
         return (dict(id = cat_id,
                      url = url + cat_id,
