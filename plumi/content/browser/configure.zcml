@@ -113,14 +113,6 @@
         />
     
     <browser:page
-        for="*"
-        name="author_view"
-        class=".author.AuthorPage"
-        permission="zope2.View"
-        allowed_interface=".interfaces.IAuthorPage"
-        />
-    
-    <browser:page
         for="zope.app.container.interfaces.IContainer"
         name="video_listing_view"
         template="templates/video_listing_view.pt"
