@@ -1,3 +1,14 @@
+4.5 (2012-11-17)
+=================
+
+ - use embeded template for video views [dimo]
+ - use year of publication instead of date [mgogoulos]
+ - added preliminary audio and image support [clopy/mgogoulos]
+ - added control panel option to notify reviewers [clopy]
+ - fix error on ipads [dimo]
+ - fix occasional plone.app.async.errors [dimo]
+ - Various smaller bug fixes [clopy/mgogoulos]
+
 4.4.1 (2012-07-26)
 ==================
 
