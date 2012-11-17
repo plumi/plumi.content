@@ -108,9 +108,12 @@ div.controls {
     display: inline;
 }
 
-
-#formfield-form-widgets-Title input, #formfield-form-widgets-Location input, #formfield-form-widgets-Tags input, #formfield-form-widgets-Director input, #formfield-form-widgets-Producer input, #formfield-form-widgets-Email input, #formfield-form-widgets-Organisation input, #formfield-form-widgets-ProductionCompany input, #formfield-form-widgets-Website input {
+#formfield-form-widgets-FullDescription, #form-widgets-Description, #formfield-form-widgets-Title input, #formfield-form-widgets-Location input, #formfield-form-widgets-Tags input, #formfield-form-widgets-Director input, #formfield-form-widgets-Producer input, #formfield-form-widgets-Email input, #formfield-form-widgets-Organisation input, #formfield-form-widgets-ProductionCompany input, #formfield-form-widgets-Website input {
     width: 75% !important;
+}
+
+body.template-publish_video #content {
+    margin: -2.5em 0.25em -4em !important;
 }
 
 #fieldname-recurse-license, #fieldset-contentlicensing div.field, #formfield-form-widgets-License label.horizontal {
