@@ -35,13 +35,18 @@ class PlumiUploader(grok.View):
                 shutil.rmtree(session_path, ignore_errors=True)
                 if getattr(self.request, "video_file", None):
                     uploaded_file = self.request['video_file']
+                    filename = uploaded_file.filename
                     os.makedirs(session_path)
-                    file = open(session_path + '/' + uploaded_file.filename, 'w')
+                    file = open(session_path + '/' + filename, 'w')
                     file.write(uploaded_file.read())
-                    uploaded_file.close()
-                    print file.name
                     file.close() 
-
+                    uploaded_file.close()
+                #this is for nginx http upload module
+                elif getattr(self.request, "video_file.path", None):
+                    filename = self.request['video_file.name']
+                    os.makedirs(session_path)
+                    file = session_path + '/' + filename
+                    shutil.move(self.request['video_file.path'], file)
                 return json.dumps([{}])
             
         return super(PlumiUploader, self).__call__(*args, **kwargs)
