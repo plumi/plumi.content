@@ -3,6 +3,8 @@ import tempfile
 import shutil
 import json
 
+from zope.component import getMultiAdapter
+
 from five import grok
 
 from Products.CMFCore.interfaces import IFolderish
@@ -26,8 +28,9 @@ class PlumiUploader(grok.View):
     def __call__(self, *args, **kwargs):
         if hasattr(self.request, "REQUEST_METHOD"):
             if self.request["REQUEST_METHOD"] == "POST":
-                pm = getToolByName(self.context,'portal_membership')
-                userId = pm.getAuthenticatedMember().id
+                portal_state = getMultiAdapter((self.context, self.request), 
+                                       name="plone_portal_state")
+                userId = portal_state.member().id
                 session_path = tempfile.gettempdir() + '/' + 'plumitmp/' + userId
                 shutil.rmtree(session_path, ignore_errors=True)
                 if getattr(self.request, "video_file", None):
