@@ -224,20 +224,13 @@ class VideoView(BrowserView):
                      sort_on='effective',
                      sort_order='reverse',
                      review_state=['published', 'featured'])
+        brains = catalog(**query)
         try:
-            brains = sample(catalog(**query), 15)
-        except:
-            res = []
-            for brain in catalog(**query):
-                if not brain.UID in self.context.UID():
-                    """ this is not nice, tho limited to less than five
-                    getObjects it should be improved
-                    """
-                    item = brain.getObject()
-                    if item.getThumbnailImage() is not None and\
-                    item.getThumbnailImage() is not '':
-                        res.append(brain)
-            brains = res
+            brains = sample(brains, 15)
+        except ValueError:
+            # we got less than 15 brains... no worries
+            pass
+        
         return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
                 for brain in brains]
 
