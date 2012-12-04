@@ -306,14 +306,13 @@
         <h1 class="documentFirstHeading" tal:condition="other_videos">Other videos by this member</h1>
     <ul>
         <li tal:repeat="video other_videos">
-            <a class="video-download" title="View details about this video"
-                                        tal:attributes="href string:${video/url}/view;">
+            <a class="video-download" tal:attributes="href string:${video/url}/view; title video/context/Description">
                 <img title="" alt="" tal:attributes="alt video/video_title;
                                                      src string:${video/url}/thumbnailImage_thumb" />
                 <h5 class="featuredItemTitle" tal:content="video/video_title" />
             </a>
             <p class="discreet">
-            Posted on <span tal:replace="video/post_date" />
+            Posted on <span class="posted-date" tal:content="video/post_date" />
             </p>
         </li>
     </ul>
