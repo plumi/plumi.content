@@ -314,6 +314,7 @@
             <p class="discreet">
             Posted on <span class="posted-date" tal:content="video/post_date" />
             </p>
+            <div class="duration" tal:content="video/context/videoDuration" />
         </li>
     </ul>
     <script>
