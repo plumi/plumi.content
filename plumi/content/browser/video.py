@@ -230,9 +230,9 @@ class VideoView(BrowserView):
         except ValueError:
             # we got less than 15 brains... no worries
             pass
-        
-        return [queryMultiAdapter((brain, self), IPlumiVideoBrain)
-                for brain in brains]
+        videos = [queryMultiAdapter((brain, self), IPlumiVideoBrain) for brain in brains ]
+        videos = [video for video in videos if video.url != self.context.absolute_url()]
+        return videos
 
     @property
     def isVideo(self):
