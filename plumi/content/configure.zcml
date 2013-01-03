@@ -20,7 +20,6 @@
     <grok:grok package="." />
     
     <!-- File System Directory Views registration -->
-    <cmf:registerDirectory name="plumi_content_custom_templates"/>
     <cmf:registerDirectory name="plumi_content_custom_images"/>
     
     <!-- Register the installation GenericSetup extension profile -->
