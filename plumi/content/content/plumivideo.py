@@ -95,6 +95,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Website URL"),
         ),
         languageIndependent=True,
+        validators=('isURL'),
         schemata='default',
     ),
 
