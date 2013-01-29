@@ -36,13 +36,6 @@
         directory="stylesheets"
         />
 
-
-    <!-- Resource directory for javascript -->
-    <browser:resourceDirectory
-        name="plumi.content.javascripts"
-        directory="javascripts"
-        />
-
     <!-- Resource directory for images -->
     <browser:resourceDirectory
         name="plumi.content.images"
