@@ -194,7 +194,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             description=_(u"The uploaded video file"),
         ),
         validators=('isNonEmptyFile'),
-        schemata='thumbnail',
+        schemata='default',
         languageIndependent=True,
 
     ),
@@ -207,7 +207,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         ),
         max_size = zconf.ATImage.max_image_dimension,
         validators=(('isNonEmptyFile'),('checkImageMaxSize')),
-        schemata='thumbnail',
+        schemata='default',
         languageIndependent=True,
         allowable_content_types=('image/gif','image/jpeg','image/png'),
         sizes= {'preview' : (711, 400),
@@ -223,7 +223,7 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         widget=atapi.StringWidget(
             label=_(u"Thumbnail Image description"),
         ),
-        schemata='thumbnail',
+        schemata='default',
     ),    
 
 
