@@ -276,44 +276,6 @@ class VideoView(BrowserView):
             return False
 
 
-class SeedersView(BrowserView):
-    u"""This browser view is used to return the torrent seeders for the video
-    """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-
-    def __call__(self):
-        self.request.response.setHeader('Content-Type', 'application/json')
-        result = self.getSeeders()
-        return simplejson.dumps(result)
-
-    def getSeeders(self):
-        """ Return number of seeders from torrent client"""
-        try:
-            registry = getUtility(IRegistry)
-            torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
-            torrentPath = os.path.join(torrent_dir, self.context.UID() + '_' +\
-                            self.context.video_file.getFilename()) + '.torrent'
-            if os.path.exists(torrentPath):
-                torrent_info_args = ['deluge-console', 'info']
-                output = Popen(torrent_info_args, stdout=PIPE).communicate()[0]
-                start = output.find(self.context.UID())
-                output2 = output[start:]
-                end = output2.find(') Peers')
-                output3 = output2[:end]
-                start2 = output3.find('Seeds: 0 (')
-                if output3[(start2+10):] == '':
-                    seeders = 0
-                else:
-                    seeders = output3[(start2+10):]
-                    return seeders
-            else:
-                return 0
-        except:
-            return 0
-
-
 class flowplayerConfig(BrowserView):
 
     def transcoding(self, profile):
