@@ -1,12 +1,24 @@
+4.5 (2013-01-30)
+================
+
+ - remove plumi edit custom form [mgogoulos]
+ - remove custom templates dir [dimo]
+ - add url validator for video link [mgogoulos]
+ - pin collective.upload [dimo]
+ - remove thumbnail schemata from video form [clopy]
+ - remove javascript popup on video publish [clopy]
+ - fix functional doctests [clopy]
+ - remove unused seeders view [dimo]
+
 4.5rc1 (2012-12-14)
-=================
+===================
 
  - fix upload form to play with nginx http module uploads [mgogoulos]
  - add duration to other video by this author [dimo]
  - remove current video from other videos by this member [mgogoulos]
 
 4.5b1 (2012-11-17)
-=================
+==================
 
  - use embeded template for video views [dimo]
  - use year of publication instead of date [mgogoulos]
