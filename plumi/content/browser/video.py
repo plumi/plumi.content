@@ -155,7 +155,7 @@ class VideoView(BrowserView):
                           tt.getProgress(entry[k]['jobId']) or '0']
             return ret
         except Exception, e:
-            return False
+            return []
 
     def get_categories_dict(self, cats):
         """Uses the portal vocabularies to retrieve the video categories"""
