@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-import urllib2
-import simplejson
 import os.path
-from subprocess import Popen, PIPE
 from random import sample
 
 # Five & zope3 thingies
 from zope import i18n
 from zope.interface import implements
-from Products.Five.browser  import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser import BrowserView
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
@@ -19,8 +15,9 @@ from zope.component import queryMultiAdapter
 from Products.CMFCore.interfaces import IPropertiesTool
 from Products.CMFCore.utils import getToolByName
 
-from plumi.content.browser.interfaces import IVideoView, ITopicsProvider, IAuthorPage, IPlumiVideoBrain
-from collective.mediaelementjs.interfaces import IMediaInfo
+from plumi.content.browser.interfaces import IVideoView
+from plumi.content.browser.interfaces import ITopicsProvider
+from plumi.content.browser.interfaces import IPlumiVideoBrain
 from collective.transcode.star.interfaces import ITranscodeTool
 
 # check if em.taxonomies is installed
@@ -48,7 +45,6 @@ class VideoView(BrowserView):
         super(VideoView, self).__init__(context, request)
         self.portal_url = getToolByName(self.context, "portal_url")()
         self.vocab_tool = getToolByName(self.context, "portal_vocabularies")
-        pprop = getUtility(IPropertiesTool)
 
     @property
     def video_info(self):
@@ -155,7 +151,7 @@ class VideoView(BrowserView):
                           tt.getProgress(entry[k]['jobId']) or '0']
             return ret
         except Exception, e:
-            return False
+            return []
 
     def get_categories_dict(self, cats):
         """Uses the portal vocabularies to retrieve the video categories"""
