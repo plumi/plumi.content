@@ -248,6 +248,11 @@
             </div> <!-- class=vcard -->           
         </div> <!-- id=video-infos -->
 
+        <div id="contact-author" tal:define="contact_url view/contact_author_link">
+            <img src="contact.png" />
+            <a href="#" tal:attributes="href contact_url">Contact this author</a>
+        </div>
+
         <div metal:use-macro="here/document_relateditems/macros/relatedItems">
             show related items if they exist
         </div>

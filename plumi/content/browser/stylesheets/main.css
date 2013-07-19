@@ -143,3 +143,8 @@ img.featured-index-page {
 #copyright-button {
     height: 37px ;
 }
+
+#contact-author img {
+    width: 18px;
+    margin-right: 5px;
+}

@@ -216,6 +216,12 @@ class VideoView(BrowserView):
         
         return dict(id=video_language_id, url=url + video_language_id, title=language_title)
 
+    @property
+    def contact_author_link(self):
+       """link = self.context.getOwner().getProperty('url')"""
+       link =  '/author/' + self.context.aq_inner.aq_parent.getPhysicalPath()[3] + '#contact-author'
+       return link
+
     def authors_latest(self):
         folder_path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
         catalog = getToolByName(self.context, "portal_catalog")
