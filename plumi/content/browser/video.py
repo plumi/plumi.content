@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-import urllib2
-import simplejson
 import os.path
-from subprocess import Popen, PIPE
 from random import sample
 
 # Five & zope3 thingies
 from zope import i18n
 from zope.interface import implements
-from Products.Five.browser  import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser import BrowserView
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
@@ -19,8 +15,9 @@ from zope.component import queryMultiAdapter
 from Products.CMFCore.interfaces import IPropertiesTool
 from Products.CMFCore.utils import getToolByName
 
-from plumi.content.browser.interfaces import IVideoView, ITopicsProvider, IAuthorPage, IPlumiVideoBrain
-from collective.mediaelementjs.interfaces import IMediaInfo
+from plumi.content.browser.interfaces import IVideoView
+from plumi.content.browser.interfaces import ITopicsProvider
+from plumi.content.browser.interfaces import IPlumiVideoBrain
 from collective.transcode.star.interfaces import ITranscodeTool
 
 # check if em.taxonomies is installed
@@ -48,7 +45,6 @@ class VideoView(BrowserView):
         super(VideoView, self).__init__(context, request)
         self.portal_url = getToolByName(self.context, "portal_url")()
         self.vocab_tool = getToolByName(self.context, "portal_vocabularies")
-        pprop = getUtility(IPropertiesTool)
 
     @property
     def video_info(self):
@@ -155,7 +151,7 @@ class VideoView(BrowserView):
                           tt.getProgress(entry[k]['jobId']) or '0']
             return ret
         except Exception, e:
-            return False
+            return []
 
     def get_categories_dict(self, cats):
         """Uses the portal vocabularies to retrieve the video categories"""
@@ -280,44 +276,6 @@ class VideoView(BrowserView):
                 return False
         except:
             return False
-
-
-class SeedersView(BrowserView):
-    u"""This browser view is used to return the torrent seeders for the video
-    """
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-
-    def __call__(self):
-        self.request.response.setHeader('Content-Type', 'application/json')
-        result = self.getSeeders()
-        return simplejson.dumps(result)
-
-    def getSeeders(self):
-        """ Return number of seeders from torrent client"""
-        try:
-            registry = getUtility(IRegistry)
-            torrent_dir = registry['collective.seeder.interfaces.ISeederSettings.safe_torrent_dir']
-            torrentPath = os.path.join(torrent_dir, self.context.UID() + '_' +\
-                            self.context.video_file.getFilename()) + '.torrent'
-            if os.path.exists(torrentPath):
-                torrent_info_args = ['deluge-console', 'info']
-                output = Popen(torrent_info_args, stdout=PIPE).communicate()[0]
-                start = output.find(self.context.UID())
-                output2 = output[start:]
-                end = output2.find(') Peers')
-                output3 = output2[:end]
-                start2 = output3.find('Seeds: 0 (')
-                if output3[(start2+10):] == '':
-                    seeders = 0
-                else:
-                    seeders = output3[(start2+10):]
-                    return seeders
-            else:
-                return 0
-        except:
-            return 0
 
 
 class flowplayerConfig(BrowserView):

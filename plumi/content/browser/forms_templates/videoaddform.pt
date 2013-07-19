@@ -13,24 +13,6 @@
                 
         <div id="content-core" tal:define="uploaded view/uploaded_file">
             <div id="uploader">
-                <div id="multipleupload-code">
-                    <script>var $_original = jQuery.noConflict();</script>
-                    <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/jquery.1.7.1.js"></script>
-                    <script>var j$ = $; $ = $_original; jQuery = $_original;</script>
-                    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-                    <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/jquery.ui.widget.js"></script>
-                    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-                    <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/load-image.min.js"></script>
-                    <!-- The Canvas to Blob plugin is included for image resizing functionality -->
-                    <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/canvas-to-blob.min.js"></script>
-                    <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/jquery.iframe-transport.js"></script>
-                    <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/jquery.fileupload.js"></script>
-
-                    <!-- The File Upload image processing plugin -->
-                    <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/jquery.fileupload-ip.js"></script>
-                    <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/jquery.fileupload-ui.js"></script>
-                    <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/media-upload-init-behavior.js"></script>
-                </div>
                 <link rel="stylesheet" type="text/css" media="screen" href="++resource++plumi.content.stylesheets/publish.css" />
                 <div id="upload-form-top">
                     <form id="fileupload" action="." tal:attributes="action string:${context/absolute_url}/@@plumi_uploader" method="POST"
@@ -77,7 +59,7 @@
 
                 var jqXHR = null;
                 
-                j$('#fileupload').fileupload({ 
+                $('#fileupload').fileupload({ 
                     maxNumberOfFiles: 1,
                     autoUpload: true,
                      
@@ -117,7 +99,7 @@
                     
                 });
  
-                j$('button.cancel').click(function (e) {
+                $('button.cancel').click(function (e) {
                     jqXHR.abort();
                     $('.fileinput-button div').removeClass('active');
                     $('.fileinput-button div').attr('style','width: 0%');
@@ -132,9 +114,9 @@
                         url: "plumi_uploader"});
                 });
 
-                j$('button.delete').click(function (e) {
+                $('button.delete').click(function (e) {
                     $('.fileinput-button div').removeClass('active');
-                    j$('#fileupload').fileupload('enable');
+                    $('#fileupload').fileupload('enable');
                     $('.fileinput-button div').attr('style','width: 0%');
                     $('.fileinput-button span').removeClass('left');
                     $('.fileinput-button span').text('Add a Video - Click or Drag & Drop');

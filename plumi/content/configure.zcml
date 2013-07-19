@@ -10,7 +10,12 @@
     i18n_domain="plumi">
 
     <five:registerPackage package="." initialize=".initialize" />    
-    
+
+    <include
+        package="Products.CMFCore" file="permissions.zcml"
+        xmlns:zcml="http://namespaces.zope.org/zcml"
+        zcml:condition="have plone-41" />
+ 
     <!-- Include the sub-packages that use their own configure.zcml files. -->
     <include package=".browser" />
     <include package=".content" />

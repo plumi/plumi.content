@@ -490,14 +490,10 @@ Now we fill the form and submit it.
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
     >>> browser.getControl(name='description').value = 'PlumiVideo Sample Description'
     >>> browser.getControl(name='DateProduced').value='2012'
-    >>> browser.getControl('Next').click()
-    >>> 'Changes saved' in browser.contents
-    True
-    >>> browser.getControl('Next').click()
-    >>> 'Changes saved' in browser.contents
-    True
     >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')  
     >>> browser.getControl('Save').click()
+    >>> 'Changes saved' in browser.contents
+    True
               
 And we are done! We added a new Video content item to the portal.
 
@@ -588,12 +584,6 @@ Now we fill the form and submit it.
     >>> browser.getControl(name='title').value = 'PlumiVideo Sample'
     >>> browser.getControl(name='description').value = 'PlumiVideo Sample Description'    
     >>> browser.getControl(name='DateProduced').value='2012'
-    >>> browser.getControl('Next').click()
-    >>> 'Changes saved' in browser.contents
-    True
-    >>> browser.getControl('Next').click()
-    >>> 'Changes saved' in browser.contents
-    True
     >>> browser.getControl(name='video_file_file').add_file(cStringIO.StringIO(' '), 'video/flv', 'test.flv')  
     >>> browser.getControl('Save').click()
     >>> 'Changes saved' in browser.contents
