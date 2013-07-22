@@ -118,8 +118,9 @@ def notifyActionSucceededPlumiVideo(obj,event):
     elif state == 'pending' and not request.has_key('form.button.save'):
         log.info('video submitted for review')        
         if registry['plumi.content.browser.interfaces.IPlumiSettings.notifyReviewers']:
-            IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
-            IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
+            pass
+            #IPlumiWorkflow(obj).notifyReviewersVideoSubmitted()
+            #IPlumiWorkflow(obj).notifyOwnerVideoSubmitted()
     elif state == 'published':
         log.info('doing published tasks')
         obj.reindexObject()
