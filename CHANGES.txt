@@ -1,3 +1,10 @@
+4.5.1 (2013-07-23)
+==================
+
+- added contact author link on video page [clopy]
+- code cleanup [simahawk]
+- remove redundant notification for video submission [mgogoulos]
+
 4.5 (2013-01-30)
 ================
 
