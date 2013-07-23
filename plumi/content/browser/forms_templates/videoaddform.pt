@@ -77,7 +77,7 @@
 
                 var jqXHR = null;
                 
-                $('#fileupload').fileupload({ 
+                j$('#fileupload').fileupload({ 
                     maxNumberOfFiles: 1,
                     autoUpload: true,
                      
@@ -117,7 +117,7 @@
                     
                 });
  
-                $('button.cancel').click(function (e) {
+                j$('button.cancel').click(function (e) {
                     jqXHR.abort();
                     $('.fileinput-button div').removeClass('active');
                     $('.fileinput-button div').attr('style','width: 0%');
@@ -132,9 +132,9 @@
                         url: "plumi_uploader"});
                 });
 
-                $('button.delete').click(function (e) {
+                j$('button.delete').click(function (e) {
                     $('.fileinput-button div').removeClass('active');
-                    $('#fileupload').fileupload('enable');
+                    j$('#fileupload').fileupload('enable');
                     $('.fileinput-button div').attr('style','width: 0%');
                     $('.fileinput-button span').removeClass('left');
                     $('.fileinput-button span').text('Add a Video - Click or Drag & Drop');
