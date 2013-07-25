@@ -215,7 +215,11 @@ class VideoView(BrowserView):
     @property
     def contact_author_link(self):
        """link = self.context.getOwner().getProperty('url')"""
-       link =  '/author/' + self.context.aq_inner.aq_parent.getPhysicalPath()[3] + '#contact-author'
+       try:
+           link =  '%s/author/%s/#contact-author' % (self.portal_url, self.context.getOwner().getUserName())
+       except:
+           link = ''
+       #if for some reason this breaks, do not break the whole video page
        return link
 
     def authors_latest(self):
