@@ -54,7 +54,20 @@
         permission="cmf.ModifyPortalContent"
         set_schema="..interfaces.IPlumiVideo"
         />
-	 <implements interface="collective.contentlicensing.DublinCoreExtensions.interfaces.ILicensable
+   <implements interface="collective.contentlicensing.DublinCoreExtensions.interfaces.ILicensable
+                           zope.annotation.interfaces.IAttributeAnnotatable" />
+
+  </class>
+  <class class=".plumiexternalvideo.PlumiExternalVideo">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IPlumiExternalVideo"
+        />
+    <require
+        permission="cmf.ModifyPortalContent"
+        set_schema="..interfaces.IPlumiExternalVideo"
+        />
+   <implements interface="collective.contentlicensing.DublinCoreExtensions.interfaces.ILicensable
                            zope.annotation.interfaces.IAttributeAnnotatable" />
 
   </class>

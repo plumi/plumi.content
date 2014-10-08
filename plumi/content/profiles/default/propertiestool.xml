@@ -11,6 +11,7 @@
    <element value="File"/>
    <element value="ATEngageVideo"/>
    <element value="PlumiVideo"/>
+   <element value="PlumiExternalVideo"/>
   </property>
   <property name="default_page_types" type="lines">
    <element value="Topic"/>

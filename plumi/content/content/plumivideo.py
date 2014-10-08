@@ -24,8 +24,7 @@ from plumi.content.config import PROJECTNAME
 from plumi.content.metadataextractor import extract
 from zope.app.component.hooks import getSite
 
-PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
-    # -*- Your Archetypes field definitions here ... -*-
+PlumiVideoBaseSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
 
     atapi.StringField(
         'Producer',
@@ -181,23 +180,6 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
         schemata='categorization',                
 
     ),
-
-    BlobField(
-        'video_file',
-        storage=atapi.AnnotationStorage(), 
-        primary=True,
-        required=True,
-        accessor='getIterator',
-        mutator='setFile',
-        widget=atapi.FileWidget(
-            label=_(u"Video File"),
-            description=_(u"The uploaded video file"),
-        ),
-        validators=('isNonEmptyFile'),
-        schemata='default',
-        languageIndependent=True,
-
-    ),
     
     atapi.ImageField(
         'thumbnailImage',
@@ -224,9 +206,26 @@ PlumiVideoSchema = schemata.ATContentTypeSchema.copy() + atapi.Schema((
             label=_(u"Thumbnail Image description"),
         ),
         schemata='default',
-    ),    
+    )
+))
 
-
+PlumiVideoSchema = PlumiVideoBaseSchema.copy() + atapi.Schema((
+    
+    BlobField(
+        'video_file',
+        storage=atapi.AnnotationStorage(), 
+        primary=True,
+        required=True,
+        accessor='getIterator',
+        mutator='setFile',
+        widget=atapi.FileWidget(
+            label=_(u"Video File"),
+            description=_(u"The uploaded video file"),
+        ),
+        validators=('isNonEmptyFile'),
+        schemata='default',
+        languageIndependent=True,
+    )
 ))
 
 # Set storage on fields copied from ATContentTypeSchema, making sure

@@ -14,5 +14,6 @@
     <type portal_type="Plumi Callout Folder" />
     <type portal_type="Plumi Video Folder" />
     <type portal_type="PlumiVideo" />
+    <type portal_type="PlumiExternalVideo" />
   </factorytypes>
 </object>

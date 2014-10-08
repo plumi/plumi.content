@@ -7,3 +7,4 @@ from plumivideofolder import IPlumiVideoFolder
 
 from plumivideo import IPlumiVideo
 
+from plumiexternalvideo import IPlumiExternalVideo

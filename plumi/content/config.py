@@ -9,4 +9,5 @@ ADD_PERMISSIONS = {
     'PlumiCalloutFolder': 'plumi.content: Add Plumi Callout Folder',
     'PlumiVideoFolder': 'plumi.content: Add Plumi Video Folder',
     'PlumiVideo': 'plumi.content: Add PlumiVideo',
+    'PlumiExternalVideo': 'plumi.content: Add PlumiExternalVideo',
 }
