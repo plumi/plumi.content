@@ -15,6 +15,7 @@ except ImportError:
     from Products.Archetypes import atapi
 from Products.ATContentTypes.content import base, schemata
 from Products.Archetypes.interfaces import IMultiPageSchema
+from Products.Archetypes.log import log
 
 from plumi.content.config import PROJECTNAME
 from plumi.content import plumiMessageFactory as _
@@ -22,6 +23,8 @@ from plumi.content.interfaces import IPlumiExternalVideo
 from plumi.content.metadataextractor import extract
 
 from plumivideo import PlumiVideoBaseSchema
+
+import re
 
 
 PlumiExternalVideoSchema = PlumiVideoBaseSchema.copy() + atapi.Schema((
@@ -51,13 +54,26 @@ PlumiExternalVideoSchema.moveField('WebsiteURL', pos='top')
 
 schemata.finalizeATCTSchema(PlumiExternalVideoSchema, moveDiscussion=False)
 
+
+
+urlPatterns = [
+  (
+    "YouTube",
+    r"^(https?://)?(www.)?youtube\.[a-z]{2,3}/watch/?\?v=(?P<id>[0-9a-z_]+)"
+  ),
+  (
+    "Vimeo",
+    r"^(https?://)?(www.)?vimeo\.[a-z]{2,3}/(?P<id>[0-9]+)"
+  )
+]
+
 class PlumiExternalVideo(base.ATCTContent):
     """Plumi External Video content"""
     implements(IPlumiExternalVideo, IMultiPageSchema)
     
     meta_type = "PlumiExternalVideo"
     schema = PlumiExternalVideoSchema
-
+    
     # this is in PlumiVideoSchema, but causes recursion error here:
     #title = atapi.ATFieldProperty('title')
     #description = atapi.ATFieldProperty('description')
@@ -99,7 +115,20 @@ class PlumiExternalVideo(base.ATCTContent):
     
     """Calculate the external ID from the WebsiteURL"""
     def parseExternalID(self):
-      return u'TODO-some-id-123456789abcdefg'
+      externalUrl = self.getWebsiteURL()
+      videoId = ''
+      log('analysing video link: ' + repr(externalUrl))
+      for pattern in urlPatterns:
+        vendor = pattern[0]
+        regex = pattern[1]
+        log('  checking if this is a: ' + vendor + ' link')
+        match = re.match(regex, externalUrl, re.I)
+        if match:
+          log('  this is a ' + repr(vendor) + ' video')
+          videoId = match.group('id')
+          log('    => ID: ' + repr(videoId))
+          break
+      return videoId
 
 
 atapi.registerType(PlumiExternalVideo, PROJECTNAME)
