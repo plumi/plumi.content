@@ -29,9 +29,11 @@ import re
 
 PlumiExternalVideoSchema = PlumiVideoBaseSchema.copy() + atapi.Schema((
     
-    # the Vimeo, Youtube, etc ID that can be used to construct the
+    # UPDATE: probably not needed now with use of collective.js.oembed.
+    #
+    # The Vimeo, Youtube, etc ID that can be used to construct the
     # external URL and the code to embed the external player in 
-    # the page
+    # the page.
     atapi.ComputedField(
         'ExternalID',
         storage=atapi.AnnotationStorage(),

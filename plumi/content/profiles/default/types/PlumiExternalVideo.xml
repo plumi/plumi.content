@@ -13,10 +13,10 @@
   <property name="global_allow">True</property>
   <property name="filter_content_types">False</property>
   <property name="allow_discussion">True</property>
-  <property name="default_view">base_view</property> <!-- TODO -->
+  <property name="default_view">external_video_view</property>
   <property name="view_methods">
     <element value="base_view" />
-    <element value="video_view" /> <!-- TODO -->
+    <element value="external_video_view" />
   </property>
   <alias from="(Default)" to="(dynamic view)" />
   <alias from="edit" to="atct_edit" />

@@ -1,0 +1,265 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plumi">
+
+    <!-- meta and link tags for facebook integration -->
+    <tal:block metal:fill-slot="head_slot" define="portal context/@@plone_portal_state/portal;">
+        <meta name="medium" content="video" />
+        <meta name="title" tal:attributes="content here/title" />
+        <meta name="description" tal:attributes="content here/description" />
+        <link rel="image_src" tal:condition="view/hasThumbnailImage" tal:attributes="href string:${here/absolute_url}/thumbnailImage_mini" />
+        <meta name="video_height" content="300" /> 
+        <meta name="video_width" content="525" />
+        <meta property="og:type" content="article">
+        <meta property="og:url" tal:attributes="content string:${here/absolute_url}">
+        <meta property="og:title" content="title" tal:attributes="content here/title" />
+        <meta property="og:description" content="description" tal:attributes="content here/description" />
+        <meta property="og:image" content="thumbnail" tal:condition="view/hasThumbnailImage"
+          tal:attributes="content string:${here/absolute_url}/thumbnailImage_mini" />
+        <meta property="og:video:width" content="525" />
+        <meta property="og:video:height" content="300" />
+    </tal:block>
+<head>
+    <metal:block fill-slot="column_two_slot" />
+</head>
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main"
+        tal:define="fullDescription here/getFullDescription;
+                    is_editable context/@@plone_context_state/is_editable;
+                    portal context/@@plone_portal_state/portal;
+                    video_info view/video_info;">
+    <div class="roundborder rounded">
+        <div tal:replace="structure provider:plone.abovecontent" />
+        <div tal:replace="structure provider:plone.abovecontenttitle" tal:condition="not:ajax_load" />
+        <h1 class="documentFirstHeading"> 
+            <metal:field use-macro="python:here.widget('title', mode='view')">
+                Title
+            </metal:field>
+        </h1>
+
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
+
+        <p class="documentDescription">
+            <metal:field use-macro="python:here.widget('description', mode='view')">
+            Description
+            </metal:field>
+        </p>
+
+        <p tal:condition="python: not fullDescription and is_editable"
+            i18n:translate="no_body_text"
+            class="discreet">
+             This item does not have any body text, click the edit tab to change it.
+        </p>
+        
+        <div id="main-video" class="external-video"
+            tal:attributes="data-video-url here/WebsiteURL">
+          <!-- the external player will be insetered here by oembed.js -->
+        </div>
+
+        <div id="video-infos">
+            <div class="vcard">
+              <table summary="Event details" class="vertical listing">
+                <tbody>
+                    <!-- TODO: duration info -->
+                    <!-- <tr tal:define="duration context/plumiVideoDuration"
+                        tal:condition="duration">
+                        <th i18n:translate="">Duration</th>
+                        <td tal:content="duration"></td>
+                    </tr> -->
+                    <tr tal:define="genres view/genres"
+                        tal:condition="genres">
+                        <th i18n:translate="">Genres</th>
+                        <td>
+                            <ul>
+                              <li tal:repeat="genre genres">
+                                <a href="" title="" id="" 
+                                   tal:condition="python: genre['id'] != 'aaa_none'"
+                                   tal:attributes="href genre/url|nothing;
+                                                   id genre/id;
+                                                   title genre/title;
+                                                   class string:genre-${genre/id};"
+                                   tal:content="genre/title" />
+                              </li>
+                            </ul>
+                        </td>
+                  </tr>
+                  <tr tal:define="categories view/categories"
+                      tal:condition="categories">
+                      <th i18n:translate="">Topics</th>
+                      <td>
+                        <ul>
+                          <li tal:repeat="cat categories">
+                            <a href="" title="" id=""
+                               tal:attributes="href cat/url|nothing;
+                                               id cat/id;
+                                               title cat/title;
+                                               class string:category-${cat/id};"
+                               tal:content="cat/title" />
+                          </li>
+                        </ul>
+                      </td>
+                  </tr>
+                  <tr tal:define="subjects view/subjects"
+                        tal:condition="subjects">
+                      <th i18n:translate="">Tags</th>
+                      <td>
+                        <ul>
+                          <li tal:repeat="kw subjects">
+                            <a href="" title="" id=""
+                               tal:attributes="href kw/url;
+                                               id kw/id;
+                                               title kw/title;
+                                               class string:keyword-${kw/id};"
+                               tal:content="kw/title" />
+                          </li>
+                        </ul>
+                      </td>
+                  </tr>    
+                  <tr tal:define="country view/country"
+                        tal:condition="country">
+                      <th i18n:translate="">Country</th>
+                      <td>
+                        <ul>
+                          <li>
+                            <a tal:attributes="href country/url|nothing;
+                                               class string:country-${country/id}"
+                               tal:content="country/title">countryname</a>
+                          </li>
+                        </ul>
+                      </td>
+                  </tr>
+                  <tr tal:define="video_language view/video_language"
+                        tal:condition="video_language">
+                      <th i18n:translate="">Language</th>
+                      <td>
+                        <ul>
+                          <li>
+                            <a tal:attributes="href video_language/url|nothing;
+                                               class string:video_language-${video_language/id}"
+                               tal:content="video_language/title">languagename</a>
+                          </li>
+                        </ul>
+                      </td>
+                  </tr>
+                  <tr tal:condition="here/Producer">
+                    <th i18n:translate="">
+                      Producer
+                    </th>
+                    <td tal:content="here/Producer">
+                      Producer
+                    </td>
+                  </tr>
+                  <tr tal:condition="here/Director">
+                    <th i18n:translate="">
+                      Director
+                    </th>
+                    <td tal:content="here/Director">
+                      Director
+                    </td>
+                  </tr>
+                  <tr tal:condition="here/ProducerEmail"
+                      tal:define="emailaddy here/ProducerEmail">
+                    <th i18n:translate="">Contact</th>
+                    <td>
+                      <a href=""
+                         tal:attributes="href string:mailto:$emailaddy" i18n:translate="">
+                        write the producer
+                      </a>
+                    </td>
+                  </tr>
+                  <tr tal:condition="here/WebsiteURL">
+                    <th i18n:translate="">External link</th>
+                    <td>
+                      <a href=""
+                         tal:define="url here/WebsiteURL"
+                         tal:attributes="href url" 
+                         tal:content="here/WebsiteURL"></a>
+                    </td>
+                  </tr>
+                  <tr tal:define="dp here/DateProduced"
+                      tal:condition="dp">
+                    <th i18n:translate="">Year produced</th>
+                    <td tal:content="dp">
+                      year produced.
+                    </td>
+                  </tr>
+            
+                  <tr tal:condition="here/ProductionCompanyName">
+                    <th i18n:translate="">Production Company</th>
+                    <td tal:content="here/ProductionCompanyName">
+                      production company
+                    </td>
+                  </tr>
+                  <tr tal:condition="here/Distributor">
+                    <th i18n:translate="">Distributor</th>
+                    <td tal:content="here/Distributor">
+                      Distributor
+                    </td>
+                  </tr>
+            
+                </tbody>
+              </table>
+            </div> <!-- class=vcard -->           
+        </div> <!-- id=video-infos -->
+
+        <div id="contact-author" tal:define="contact_url view/contact_author_link">
+            <img src="contact.png" />
+            <a href="#" tal:attributes="href contact_url">Contact this author</a>
+        </div>
+
+        <div metal:use-macro="here/document_relateditems/macros/relatedItems">
+            show related items if they exist
+        </div>
+
+
+    
+    <div id="full-description" tal:condition="here/FullDescription">
+      <h1 class="documentFirstHeading" i18n:translate="full_description"> 
+        Full Description
+      </h1>
+      <div tal:content="structure here/FullDescription">
+        Body text
+      </div>
+    </div>
+
+    <div id="video-licensing">
+      
+        <div tal:replace="structure context/@@copyright_byline_view | nothing" />
+        <div tal:replace="structure context/@@citation_view | nothing" />
+    </div>
+        
+    <div id="authors_latest" tal:define="other_videos  view/authors_latest|nothing">
+        <h1 class="documentFirstHeading" tal:condition="other_videos">Other videos by this member</h1>
+        <ul>
+            <li tal:repeat="video other_videos">
+                <a class="video-download" tal:attributes="href string:${video/url}/view; title video/context/Description">
+                    <img title="" alt="" tal:attributes="alt video/video_title;
+                                                         src string:${video/url}/thumbnailImage_thumb" />
+                    <h5 class="featuredItemTitle" tal:content="video/video_title" />
+                </a>
+                <p class="discreet">
+                Posted on <span class="posted-date" tal:content="video/post_date" />
+                </p>
+                <div class="duration" tal:content="video/context/videoDuration" ></div>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var url = $('#main-video').data('video-url');
+        console.log('video URL:', url);
+        $('#main-video').oembed(url, { maxWidth: 525 });
+      });
+    </script>
+
+    </div>      
+    </tal:main-macro>
+</metal:main>
+</body>
+</html>

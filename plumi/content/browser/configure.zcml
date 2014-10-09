@@ -8,7 +8,6 @@
     
     <include package="plone.app.contentmenu" />
     
-    <!-- -*- extra stuff goes here -*- -->
     <browser:menuItem
       for="plumi.content.interfaces.IPlumiVideo"
       menu="plone_displayviews"
@@ -16,6 +15,14 @@
       i18n:attributes="title"
       action="@@video_view"
       description="Default representation of a Plumi video content type" />
+    
+    <browser:menuItem
+      for="plumi.content.interfaces.IPlumiExternalVideo"
+      menu="plone_displayviews"
+      title="Plumi External Video view"
+      i18n:attributes="title"
+      action="@@external_video_view"
+      description="Default representation of a Plumi external video content type" />
     
     <adapter factory=".brain_rendering.PlumiVideoBrain"
          provides=".interfaces.IPlumiVideoBrain" />
@@ -85,6 +92,14 @@
         for="plumi.content.interfaces.IPlumiVideo"
         class=".video.VideoView"
         template="templates/plumi_video_view.pt"
+        permission="zope2.View"
+        />
+    
+    <browser:page
+        name="external_video_view"
+        for="plumi.content.interfaces.IPlumiExternalVideo"
+        class=".video.VideoView"
+        template="templates/plumi_external_video_view.pt"
         permission="zope2.View"
         />
     

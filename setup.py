@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '4.5.2-externalvideo'
+version = '4.5.2-externalvideo-pre2'
 
 long_description = (
     read('README.txt')
@@ -54,6 +54,7 @@ setup(name='plumi.content',
                         'Products.LinguaPlone',
                         'collective.contentlicensing',
                         'collective.upload',
+                        'collective.js.oembed',
                         'plone.app.z3cform',
                         'plone.directives.form',
                         'collective.transcode.star',
