@@ -57,7 +57,7 @@
              This item does not have any body text, click the edit tab to change it.
         </p>
         
-        <div id="main-video" class="external-video"
+        <div id="video-core" class="external-video"
             tal:attributes="data-video-url here/WebsiteURL">
           <!-- the external player will be insetered here by oembed.js -->
         </div>
@@ -252,9 +252,9 @@
     </div>
     <script type="text/javascript">
       $(document).ready(function() {
-        var url = $('#main-video').data('video-url');
+        var url = $('#video-core').data('video-url');
         console.log('video URL:', url);
-        $('#main-video').oembed(url, { maxWidth: 525 });
+        $('#video-core').oembed(url, { maxWidth: 525 });
       });
     </script>
 
