@@ -5,7 +5,7 @@
                     thumbCaption string:'';">
 
  <span tal:omit-tag="" tal:condition="not:options/feature_video">
-  <tal:image condition="hasThumb">
+  <tal:image condition="hasThumb/image">
     <a class="featured-video-image"
        tal:attributes="href string:${view/url}/view; title thumbCaption">
       <img tal:attributes="src thumb; alt thumbCaption" />
