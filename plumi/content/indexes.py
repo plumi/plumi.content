@@ -10,10 +10,10 @@ from Products.CMFCore.utils import getToolByName
 from plone.indexer.decorator import indexer
 
 from collective.transcode.star.interfaces import ITranscodeTool
-from plumi.content.interfaces import IPlumiVideo
+from plumi.content.interfaces import IPlumiBaseVideo, IPlumiVideo
 
 
-@indexer(IPlumiVideo)
+@indexer(IPlumiBaseVideo)
 def hasImageAndCaption(object,**kw):
     logger=logging.getLogger('plumi.content.indexes')
 

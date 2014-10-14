@@ -6,8 +6,8 @@ from zope.app.container.constraints import containers
 
 from plumi.content import plumiMessageFactory as _
 
-class IPlumiVideo(Interface):
-    """Plumi Video content"""
+class IPlumiBaseVideo(Interface):
+    """Base for Plumi video content"""
     
     # -*- schema definition goes here -*-
     thumbnailImageDescription = schema.TextLine(
@@ -106,9 +106,12 @@ class IPlumiVideo(Interface):
         description=_(u"The genre of the video"),
     )
 
+
+class IPlumiVideo(IPlumiBaseVideo):
+    """Plumi Video content"""
+    
     video_file = schema.Bytes(
         title=_(u"Video File"), 
         required=True,
         description=_(u"The uploaded video file"),
     )
-

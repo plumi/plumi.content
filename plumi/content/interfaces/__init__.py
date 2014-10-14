@@ -5,6 +5,6 @@ from plumicalloutfolder import IPlumiCalloutFolder
 
 from plumivideofolder import IPlumiVideoFolder
 
-from plumivideo import IPlumiVideo
+from plumivideo import IPlumiBaseVideo, IPlumiVideo
 
 from plumiexternalvideo import IPlumiExternalVideo
