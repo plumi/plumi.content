@@ -95,14 +95,15 @@
                 var jqXHR = null;
                 
                 function applyAddMode(mode) {
+                  j$('#videoaddform').show();
                   if (mode === 'upload') {
                     j$('#uploader').show();
-                    j$('#videoaddform').show();
+                    j$('#formfield-form-widgets-ExternalUrl').hide();
                     j$('.addModeToggle').prop('checked', false);
                   }
                   if (mode === 'external') {
                     j$('#uploader').hide();
-                    j$('#videoaddform').show();
+                    j$('#formfield-form-widgets-ExternalUrl').show();
                     j$('.addModeToggle').prop('checked', true);
                   }
                 }
