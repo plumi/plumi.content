@@ -12,7 +12,18 @@
         <h1 class="documentFirstHeading" tal:content="view/label | nothing" />
                 
         <div id="content-core" tal:define="uploaded view/uploaded_file">
-            <div id="uploader">
+          
+            <div class="row">
+              <h4 id="loading-indicator">loading .. please wait</h4>
+              <form id="videoaddmode-form" style="display: none;">
+                <p><label for="videoaddmode">How do you want to add the video?</label></p>
+                <input type="radio" name="videoaddmode" value="upload">upload a video<br />
+                <input type="radio" name="videoaddmode" value="external">link to an external video on YouTube, Vimeo, etc.<br />
+                <input type="submit" style="visibility: hidden;"/>
+              </form>
+            </div>
+            
+            <div id="uploader" style="display: none">
                 <div id="multipleupload-code">
                     <script>var $_original = jQuery.noConflict();</script>
                     <script tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++collective.upload/jquery.1.7.1.js"></script>
@@ -69,13 +80,25 @@
                     </form>
                 </div>    
             </div>
-            <div class="row">
+            <div id="videoaddform" class="row" style="display: none">
                 <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
             </div>
             <script language="javascript">
                 // perform JavaScript after the document is scriptable.
 
                 var jqXHR = null;
+                
+                j$("input[name='videoaddmode']").change(function() {
+                  var mode = $(this).val();
+                  if (mode === 'upload') {
+                    j$('#uploader').show();
+                    j$('#videoaddform').show();
+                  }
+                  if (mode === 'external') {
+                    j$('#uploader').hide();
+                    j$('#videoaddform').show();
+                  }
+                });
                 
                 j$('#fileupload').fileupload({ 
                     maxNumberOfFiles: 1,
@@ -154,7 +177,11 @@
                     } else if ($.active > 1) {
                         $.active--;
                     }
-                };                               
+                };
+                
+                // show the add mode selection form after the page has finished loading
+                j$("#loading-indicator").hide();
+                j$("#videoaddmode-form").show();                           
             </script>
         </div>
         
