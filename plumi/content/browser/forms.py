@@ -129,6 +129,19 @@ class IPlumiVideo(form.Schema):
                           'Director', 'Producer', 'Email', 'Organisation',
                           'ProductionCompany', 'Website']
                   )
+    
+    # this checkbox will be invisible to the user
+    IsExternal = schema.Bool(
+        title=_(u"External video?")
+    )
+    
+    # this will be visible only when adding a video through an external link
+    ExternalUrl = schema.TextLine(
+        title=_(u"Video link"),
+        description=_(u"The link to the video on the external site (on Vimeo, etc.)."),
+        required=False,
+    )
+
 
     Title = schema.TextLine(title=_(u"Title"),
                             max_length=160,
@@ -219,6 +232,7 @@ class IPlumiVideo(form.Schema):
                                         required=False,
                                         )
 
+    # this will be visible only when adding a video by uploading
     Website = schema.TextLine(title=_(u"Website URL"),
                          required=False,
                          constraint=validate_URI,
@@ -277,6 +291,8 @@ class VideoAddForm(form.SchemaForm):
     @button.buttonAndHandler(_(u'Save changes'), name='apply')
     def handleApply(self, action):
         data, errors = self.extractData()
+        isExternal = data['IsExternal']
+        isUpload = not isExternal
         if errors:
             if len(errors) == 1:
                 if errors[0].field.getName() == "Email":
@@ -287,7 +303,7 @@ class VideoAddForm(form.SchemaForm):
                 self.status = self.formErrorsMessage
             return
 
-        if not self.uploaded_file():
+        if isUpload and not self.uploaded_file():
             self.status = _(u"No file was uploaded")
             return
 
@@ -312,11 +328,12 @@ class VideoAddForm(form.SchemaForm):
         obj = self.context[uid]
 
         # set the video file field and remove temp uploaded file
-        path = self.uploaded_file()['path']
-        f = open(path)
-        obj.setFile(f)
-        f.close()
-        shutil.rmtree('/'.join(path.split('/')[:-1]), ignore_errors=True)
+        if isUpload:
+            path = self.uploaded_file()['path']
+            f = open(path)
+            obj.setFile(f)
+            f.close()
+            shutil.rmtree('/'.join(path.split('/')[:-1]), ignore_errors=True)
 
         # Rename with friendly id
         normalizer = getUtility(IIDNormalizer)
@@ -347,26 +364,47 @@ class VideoAddForm(form.SchemaForm):
         super(VideoAddForm, self).updateWidgets()
         self.default_fieldset_label = _('Basic info')
         self.widgets["License"].template = ViewPageTemplateFile("forms_templates/ccwidget.pt")
+        self.widgets["IsExternal"].addClass('addModeToggle')
 
     def create_object(self, context, data, uid, subject):
-        context.invokeFactory('PlumiVideo', id=uid,
-                                   description=data['Description'],
-                                   DateProduced=data['DateProduced'],
-                                   VideoLanguage=data['Language'],
-                                   FullDescription=data['FullDescription'],
-                                   thumbnailImage=data['Thumbnail'],
-                                   Genre=data['Genre'],
-                                   Countries=data['Country'],
-                                   location=data['Location'],
-                                   Categories=data['Topics'],
-                                   subject=subject,
-                                   Director=data['Director'] or '',
-                                   Producer=data['Producer'] or '',
-                                   ProducerEmail=data['Email'] or '',
-                                   ProductionCompanyName=data['ProductionCompany'] or '',
-                                   ProjectName=data['Organisation'] or '',
-                                   WebsiteURL=data['Website'] or '',
-                                   )
+        if data['IsExternal']:
+            context.invokeFactory('PlumiExternalVideo', id=uid,
+                WebsiteURL=data['ExternalUrl'],
+                description=data['Description'],
+                DateProduced=data['DateProduced'],
+                VideoLanguage=data['Language'],
+                FullDescription=data['FullDescription'],
+                thumbnailImage=data['Thumbnail'],
+                Genre=data['Genre'],
+                Countries=data['Country'],
+                location=data['Location'],
+                Categories=data['Topics'],
+                subject=subject,
+                Director=data['Director'] or '',
+                Producer=data['Producer'] or '',
+                ProducerEmail=data['Email'] or '',
+                ProductionCompanyName=data['ProductionCompany'] or '',
+                ProjectName=data['Organisation'] or '',
+            )
+        else:
+            context.invokeFactory('PlumiVideo', id=uid,
+                description=data['Description'],
+                DateProduced=data['DateProduced'],
+                VideoLanguage=data['Language'],
+                FullDescription=data['FullDescription'],
+                thumbnailImage=data['Thumbnail'],
+                Genre=data['Genre'],
+                Countries=data['Country'],
+                location=data['Location'],
+                Categories=data['Topics'],
+                subject=subject,
+                Director=data['Director'] or '',
+                Producer=data['Producer'] or '',
+                ProducerEmail=data['Email'] or '',
+                ProductionCompanyName=data['ProductionCompany'] or '',
+                ProjectName=data['Organisation'] or '',
+                WebsiteURL=data['Website'] or '',
+            )
 
 def is_valid_url(url):
     regex = re.compile(

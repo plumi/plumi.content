@@ -81,6 +81,12 @@
                 </div>    
             </div>
             <div id="videoaddform" class="row" style="display: none">
+                <p>
+                  HAVE YOU CATEGORISED YOUR VIDEO? Choose the Categorise tab 
+                  below to make it easier for people to find your video, 
+                  before clicking Save Changes.
+                </p>
+              
                 <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
             </div>
             <script language="javascript">
@@ -88,16 +94,22 @@
 
                 var jqXHR = null;
                 
-                j$("input[name='videoaddmode']").change(function() {
-                  var mode = $(this).val();
+                function applyAddMode(mode) {
                   if (mode === 'upload') {
                     j$('#uploader').show();
                     j$('#videoaddform').show();
+                    j$('.addModeToggle').prop('checked', false);
                   }
                   if (mode === 'external') {
                     j$('#uploader').hide();
                     j$('#videoaddform').show();
+                    j$('.addModeToggle').prop('checked', true);
                   }
+                }
+                
+                j$("input[name='videoaddmode']").change(function() {
+                  var mode = $(this).val();
+                  applyAddMode(mode);
                 });
                 
                 j$('#fileupload').fileupload({ 
@@ -181,7 +193,14 @@
                 
                 // show the add mode selection form after the page has finished loading
                 j$("#loading-indicator").hide();
-                j$("#videoaddmode-form").show();                           
+                j$("#videoaddmode-form").show();
+                j$('#formfield-form-widgets-IsExternal').hide();
+                if (j$('.portalMessage.error').length) {
+                  console.log('found errors - fixing the form');
+                  j$("#videoaddmode-form").hide();
+                  var mode = j$("input[name='videoaddmode']").val();
+                  applyAddMode(mode);
+                }
             </script>
         </div>
         

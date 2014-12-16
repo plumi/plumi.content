@@ -29,23 +29,23 @@ import re
 
 PlumiExternalVideoSchema = PlumiVideoBaseSchema.copy() + atapi.Schema((
     
-    # UPDATE: probably not needed now with use of collective.js.oembed.
-    #
-    # The Vimeo, Youtube, etc ID that can be used to construct the
-    # external URL and the code to embed the external player in 
-    # the page.
-    atapi.ComputedField(
-        'ExternalID',
-        storage=atapi.AnnotationStorage(),
-        expression='context.parseExternalID()',
-        widget=atapi.StringWidget(
-            label=_(u"External Video ID"),
-            description=_(u"The video ID from the external site.")
-        ),
-        languageIndependent=True,
-        required=True,
-        schemata='default',
-    )
+    # # UPDATE: probably not needed now with use of collective.js.oembed.
+    # #
+    # # The Vimeo, Youtube, etc ID that can be used to construct the
+    # # external URL and the code to embed the external player in 
+    # # the page.
+    # atapi.ComputedField(
+    #     'ExternalID',
+    #     storage=atapi.AnnotationStorage(),
+    #     expression='context.parseExternalID()',
+    #     widget=atapi.StringWidget(
+    #         label=_(u"External Video ID"),
+    #         description=_(u"The video ID from the external site.")
+    #     ),
+    #     languageIndependent=True,
+    #     required=True,
+    #     schemata='default',
+    # )
 ))
 
 # we need this to compute the external ID
@@ -57,17 +57,16 @@ PlumiExternalVideoSchema.moveField('WebsiteURL', pos='top')
 schemata.finalizeATCTSchema(PlumiExternalVideoSchema, moveDiscussion=False)
 
 
-
-urlPatterns = [
-  (
-    "YouTube",
-    r"^(https?://)?(www.)?youtube\.[a-z]{2,3}/watch/?\?v=(?P<id>[0-9a-z_]+)"
-  ),
-  (
-    "Vimeo",
-    r"^(https?://)?(www.)?vimeo\.[a-z]{2,3}/(?P<id>[0-9]+)"
-  )
-]
+# urlPatterns = [
+#   (
+#     "YouTube",
+#     r"^(https?://)?(www.)?youtube\.[a-z]{2,3}/watch/?\?v=(?P<id>[0-9a-z_]+)"
+#   ),
+#   (
+#     "Vimeo",
+#     r"^(https?://)?(www.)?vimeo\.[a-z]{2,3}/(?P<id>[0-9]+)"
+#   )
+# ]
 
 class PlumiExternalVideo(base.ATCTContent):
     """Plumi External Video content"""
@@ -113,24 +112,24 @@ class PlumiExternalVideo(base.ATCTContent):
 
     Genre = atapi.ATFieldProperty('Genre')
 
-    ExternalID = atapi.ATFieldProperty('ExternalID')
+    #ExternalID = atapi.ATFieldProperty('ExternalID')
     
-    """Calculate the external ID from the WebsiteURL"""
-    def parseExternalID(self):
-      externalUrl = self.getWebsiteURL()
-      videoId = ''
-      log('analysing video link: ' + repr(externalUrl))
-      for pattern in urlPatterns:
-        vendor = pattern[0]
-        regex = pattern[1]
-        log('  checking if this is a: ' + vendor + ' link')
-        match = re.match(regex, externalUrl, re.I)
-        if match:
-          log('  this is a ' + repr(vendor) + ' video')
-          videoId = match.group('id')
-          log('    => ID: ' + repr(videoId))
-          break
-      return videoId
+    # """Calculate the external ID from the WebsiteURL"""
+    # def parseExternalID(self):
+    #   externalUrl = self.getWebsiteURL()
+    #   videoId = ''
+    #   log('analysing video link: ' + repr(externalUrl))
+    #   for pattern in urlPatterns:
+    #     vendor = pattern[0]
+    #     regex = pattern[1]
+    #     log('  checking if this is a: ' + vendor + ' link')
+    #     match = re.match(regex, externalUrl, re.I)
+    #     if match:
+    #       log('  this is a ' + repr(vendor) + ' video')
+    #       videoId = match.group('id')
+    #       log('    => ID: ' + repr(videoId))
+    #       break
+    #   return videoId
 
 
 atapi.registerType(PlumiExternalVideo, PROJECTNAME)
