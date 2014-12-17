@@ -9,7 +9,7 @@ from zope import schema
 from zope.schema import ValidationError
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.schema.interfaces import IContextSourceBinder
-from zope.interface import alsoProvides
+from zope.interface import alsoProvides, Invalid
 from zope.component import getUtility, adapter
 from zope.event import notify
 
@@ -17,6 +17,7 @@ from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 from z3c.form import button
 from z3c.form import widget
+from z3c.form.interfaces import ActionExecutionError
 
 from five import grok
 
@@ -138,7 +139,7 @@ class IPlumiVideo(form.Schema):
     # this will be visible only when adding a video through an external link
     ExternalUrl = schema.TextLine(
         title=_(u"Video link"),
-        description=_(u"The link to the video on the external site (on Vimeo, etc.)."),
+        description=_(u"The link to the video on the external site (on Youtube, Vimeo, etc.)."),
         required=True,
     )
 
@@ -296,16 +297,15 @@ class VideoAddForm(form.SchemaForm):
         if errors:
             if len(errors) == 1:
                 if errors[0].field.getName() == "Email":
-                    self.status = _(u'Invalid E-mail address')
+                    raise ActionExecutionError(Invalid(_(u'Invalid E-mail address')))
                 elif errors[0].field.getName() == "Website":
-                    self.status = _(u'Invalid Website URI')
+                    raise ActionExecutionError(Invalid(_(u'Invalid Website URI')))
             else:
                 self.status = self.formErrorsMessage
             return
 
         if isUpload and not self.uploaded_file():
-            self.status = _(u"No file was uploaded")
-            return
+            raise ActionExecutionError(Invalid(_(u'No file was uploaded')))
 
         # Calculate unique id from title
         uid = str(DateTime().millis())
