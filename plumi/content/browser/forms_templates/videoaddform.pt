@@ -13,15 +13,17 @@
                 
         <div id="content-core" tal:define="uploaded view/uploaded_file">
           
-            <div class="row">
-              <h4 id="loading-indicator">loading .. please wait</h4>
-              <form id="videoaddmode-form" style="display: none;">
-                <p><label for="videoaddmode">How do you want to add the video?</label></p>
-                <input type="radio" name="videoaddmode" value="upload">upload a video<br />
-                <input type="radio" name="videoaddmode" value="external">link to an external video on YouTube, Vimeo, etc.<br />
+          <div class="row">
+            <h4 id="loading-indicator">loading .. please wait</h4>
+            <div id="videoaddmode-form" style="display: none;">
+              <p><label for="videoaddmode">How do you want to add the video?</label></p>
+              <div action="#" style="text-align: center;">
+                <a href="#" data-mode="upload"   class="button addModeSelector" style="width: auto; display: inline-block; margin: 20px; padding: 20px; font-size: 160%;">Upload File</a>
+                <a href="#" data-mode="external" class="button addModeSelector" style="width: auto; display: inline-block; margin: 20px; padding: 20px; font-size: 160%;">Paste Link</a>
                 <input type="submit" style="visibility: hidden;"/>
-              </form>
+              </div>
             </div>
+          </div>
             
             <div id="uploader" style="display: none">
                 <div id="multipleupload-code">
@@ -95,10 +97,12 @@
                 var jqXHR = null;
                 
                 function applyAddMode(mode) {
+                  j$("#videoaddmode-form").hide();
                   j$('#videoaddform').show();
                   if (mode === 'upload') {
                     j$('#uploader').show();
                     j$('#formfield-form-widgets-ExternalUrl').hide();
+                    j$('.videoExternalUrl').val('_NOT_USED_'); // becuase it is a required field, it needs a value
                     j$('.addModeToggle').prop('checked', false);
                   }
                   if (mode === 'external') {
@@ -108,8 +112,8 @@
                   }
                 }
                 
-                j$("input[name='videoaddmode']").change(function() {
-                  var mode = $(this).val();
+                j$(".addModeSelector").click(function() {
+                  var mode = $(this).data('mode');
                   applyAddMode(mode);
                 });
                 
@@ -197,9 +201,8 @@
                 j$("#videoaddmode-form").show();
                 j$('#formfield-form-widgets-IsExternal').hide();
                 if (j$('.portalMessage.error').length) {
-                  console.log('found errors - fixing the form');
                   j$("#videoaddmode-form").hide();
-                  var mode = j$("input[name='videoaddmode']").val();
+                  var mode = j$(".addModeToggle").prop('checked') && 'external' || 'upload';
                   applyAddMode(mode);
                 }
             </script>

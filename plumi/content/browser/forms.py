@@ -139,7 +139,7 @@ class IPlumiVideo(form.Schema):
     ExternalUrl = schema.TextLine(
         title=_(u"Video link"),
         description=_(u"The link to the video on the external site (on Vimeo, etc.)."),
-        required=False,
+        required=True,
     )
 
 
@@ -365,6 +365,7 @@ class VideoAddForm(form.SchemaForm):
         self.default_fieldset_label = _('Basic info')
         self.widgets["License"].template = ViewPageTemplateFile("forms_templates/ccwidget.pt")
         self.widgets["IsExternal"].addClass('addModeToggle')
+        self.widgets["ExternalUrl"].addClass('videoExternalUrl')
 
     def create_object(self, context, data, uid, subject):
         if data['IsExternal']:
