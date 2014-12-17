@@ -51,7 +51,7 @@ PlumiExternalVideoSchema = PlumiVideoBaseSchema.copy() + atapi.Schema((
 # we need this to compute the external ID
 PlumiExternalVideoSchema['WebsiteURL'].required = True
 PlumiExternalVideoSchema['WebsiteURL'].widget.label = _(u"Video link")
-PlumiExternalVideoSchema['WebsiteURL'].widget.description = _(u"The link to the video on the external site (on Vimeo, etc.).")
+PlumiExternalVideoSchema['WebsiteURL'].widget.description = _(u"The link to the video on the external site (on Youtube, Vimeo, etc.).")
 PlumiExternalVideoSchema.moveField('WebsiteURL', pos='top')
 
 schemata.finalizeATCTSchema(PlumiExternalVideoSchema, moveDiscussion=False)
