@@ -46,7 +46,7 @@ class FeaturedVideosPage( CategoriesProvider ):
     
     @property
     def featured_items(self):
-        filtering = dict(portal_type='PlumiVideo',
+        filtering = dict(portal_type=['PlumiVideo', 'PlumiExternalVideo'],
                          sort_on='effective',
                          sort_order='reverse',
                          review_state='featured',
@@ -66,7 +66,7 @@ class FeaturedVideosPage( CategoriesProvider ):
 
     @property
     def latest_videos(self):
-        filtering = dict(portal_type='PlumiVideo',
+        filtering = dict(portal_type=['PlumiVideo', 'PlumiExternalVideo'],
                          sort_on='effective',
                          sort_order='reverse',
                          review_state=['published','featured'],

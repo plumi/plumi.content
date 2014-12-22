@@ -32,7 +32,7 @@ class OrderedFolderVideosProvider(object):
             path = "/".join(context.getPhysicalPath())
             content_filter = dict()
             content_filter['path'] = path
-            content_filter['portal_type']='PlumiVideo'
+            content_filter['portal_type']=['PlumiVideo','PlumiExternalVideo']
             content_filter['sort_on'] = 'effective'
             content_filter['sort_order'] = 'reverse'
             self.videos = context.getFolderContents(contentFilter=content_filter)

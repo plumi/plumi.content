@@ -17,6 +17,7 @@
   <property name="view_methods">
     <element value="base_view" />
     <element value="external_video_view" />
+    <element value="video_view" />
   </property>
   <alias from="(Default)" to="(dynamic view)" />
   <alias from="edit" to="atct_edit" />
