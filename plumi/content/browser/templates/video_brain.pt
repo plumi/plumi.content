@@ -1,16 +1,23 @@
 <tal:video define="video nocall: view/video;
+                    portal_url context/portal_url;
                     thumb string:${view/url}/thumbnailImage_thumb;
                     fullThumb string:${view/url}/thumbnailImage_preview;
                     hasThumb video/hasImageAndCaption;
                     thumbCaption string:'';">
 
  <span tal:omit-tag="" tal:condition="not:options/feature_video">
-  <tal:image condition="hasThumb/image">
-    <a class="featured-video-image"
+   <tal:image condition="hasThumb/image">
+     <a class="featured-video-image"
        tal:attributes="href string:${view/url}/view; title thumbCaption">
-      <img tal:attributes="src thumb; alt thumbCaption" />
-    </a>
-  </tal:image>
+       <img tal:attributes="src thumb; alt thumbCaption" />
+     </a>
+   </tal:image>
+   <tal:image condition="not: hasThumb/image">
+     <a class="featured-video-image"
+       tal:attributes="href string:${view/url}/view; title thumbCaption">
+       <img tal:attributes="src string:${portal_url}/plumi-default-thumbnail.jpg; alt thumbCaption" />
+     </a>
+   </tal:image>
   </span>
  <span tal:omit-tag="" tal:condition="options/feature_video" 
         tal:define="mp4 video/isTranscodedPlumiVideoObj/mp4-low|nothing;
