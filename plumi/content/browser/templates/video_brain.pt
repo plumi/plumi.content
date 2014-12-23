@@ -15,7 +15,7 @@
    <tal:image condition="not: hasThumb/image">
      <a class="featured-video-image"
        tal:attributes="href string:${view/url}/view; title thumbCaption">
-       <img tal:attributes="src string:${portal_url}/plumi-default-thumbnail.jpg; alt thumbCaption" />
+       <img tal:attributes="src string:${portal_url}/default-thumbnail.jpg; alt thumbCaption" />
      </a>
    </tal:image>
   </span>
