@@ -92,11 +92,12 @@ class PlumiVideoBrain(Explicit):
             return False
         
     def video_tag(self):
-        path = self.video.url[len(self.__parent__.context.absolute_url())+1:]+'/@@embed_view'
-        self.request['width'] = 525
-        html = self.__parent__.context.restrictedTraverse(path)(self.request)
         video = ""
-        if html and ("<video" in html):
-          video = '<video' + html.split('<video')[1].split('<div id="portlets-footer"')[0].split('<div id="portal-footer">')[0]
+        if self.video.portal_type is 'Video':
+            path = self.video.url[len(self.__parent__.context.absolute_url())+1:]+'/@@embed_view'
+            self.request['width'] = 525
+            html = self.__parent__.context.restrictedTraverse(path)(self.request)
+            if html and ("<video" in html):
+                video = '<video' + html.split('<video')[1].split('<div id="portlets-footer"')[0].split('<div id="portal-footer">')[0]
         return video
 
