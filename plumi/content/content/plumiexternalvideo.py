@@ -19,7 +19,7 @@ from Products.Archetypes.log import log
 
 from plumi.content.config import PROJECTNAME
 from plumi.content import plumiMessageFactory as _
-from plumi.content.interfaces import IPlumiExternalVideo
+from plumi.content.interfaces import IPlumiVideo, IPlumiExternalVideo
 from plumi.content.metadataextractor import extract
 
 from plumivideo import PlumiVideoBaseSchema
@@ -70,7 +70,7 @@ schemata.finalizeATCTSchema(PlumiExternalVideoSchema, moveDiscussion=False)
 
 class PlumiExternalVideo(base.ATCTContent):
     """Plumi External Video content"""
-    implements(IPlumiExternalVideo, IMultiPageSchema)
+    implements(IPlumiVideo, IPlumiExternalVideo, IMultiPageSchema)
     
     meta_type = "PlumiExternalVideo"
     schema = PlumiExternalVideoSchema
