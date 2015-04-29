@@ -225,7 +225,7 @@ class VideoView(BrowserView):
     def authors_latest(self):
         folder_path = '/'.join(self.context.aq_inner.aq_parent.getPhysicalPath())
         catalog = getToolByName(self.context, "portal_catalog")
-        query = dict(portal_type='PlumiVideo',
+        query = dict(portal_type=['PlumiVideo', 'PlumiExternalVideo'],
                      path={'query': folder_path, 'depth': 1},
                      sort_on='effective',
                      sort_order='reverse',
