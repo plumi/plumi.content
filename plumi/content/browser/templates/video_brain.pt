@@ -40,8 +40,10 @@
   <div class="featured-video-duration"
         tal:define="duration video/videoDuration|nothing"
         tal:condition="duration">
-     <span class="discreet" tal:content="duration" /> 
-  </div>		       
+     <div class="duration">
+       <span class="discreet duration" tal:content="duration" />
+      </div>
+  </div>
 
   <span class="featuredItemDetailsPosted discreet" i18n:translate="">
     Posted:

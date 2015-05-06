@@ -66,12 +66,6 @@
             <div class="vcard">
               <table summary="Event details" class="vertical listing">
                 <tbody>
-                    <!-- TODO: duration info -->
-                    <!-- <tr tal:define="duration context/plumiVideoDuration"
-                        tal:condition="duration">
-                        <th i18n:translate="">Duration</th>
-                        <td tal:content="duration"></td>
-                    </tr> -->
                     <tr tal:define="genres view/genres"
                         tal:condition="genres">
                         <th i18n:translate="">Genres</th>
@@ -246,7 +240,6 @@
                 <p class="discreet">
                 Posted on <span class="posted-date" tal:content="video/post_date" />
                 </p>
-                <div class="duration" tal:content="video/context/videoDuration" ></div>
             </li>
         </ul>
     </div>
