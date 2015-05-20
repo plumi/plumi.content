@@ -142,6 +142,14 @@ class IPlumiVideo(form.Schema):
         description=_(u"The link to the video on the external site (on Youtube, Vimeo, etc.)."),
         required=True,
     )
+    
+    # this will be visible only when adding a video through an external link
+    ExternalThumbnail = schema.Bytes(
+        title=u'Add thumbnail',
+        constraint=validate_image,
+        description=u"Add a thumbnail image for this video.",
+        required=True,
+    )
 
 
     Title = schema.TextLine(title=_(u"Title"),
@@ -175,7 +183,7 @@ class IPlumiVideo(form.Schema):
     #FIX: find a more native validation -eg provided by zope.schema
     Thumbnail = schema.Bytes(title=u'Add thumbnail',
                              constraint=validate_image,
-                             description=u"We will automatically generate an image, but you may prefer to upload your own",
+                             description=u"We will automatically generate an image, but you may prefer to upload your own.",
                              required=False,
                              )
 
@@ -365,17 +373,16 @@ class VideoAddForm(form.SchemaForm):
         self.default_fieldset_label = _('Basic info')
         self.widgets["License"].template = ViewPageTemplateFile("forms_templates/ccwidget.pt")
         self.widgets["IsExternal"].addClass('addModeToggle')
-        self.widgets["ExternalUrl"].addClass('videoExternalUrl')
 
     def create_object(self, context, data, uid, subject):
         if data['IsExternal']:
             context.invokeFactory('PlumiExternalVideo', id=uid,
                 WebsiteURL=data['ExternalUrl'],
+                thumbnailImage=data['ExternalThumbnail'],
                 description=data['Description'],
                 DateProduced=data['DateProduced'],
                 VideoLanguage=data['Language'],
                 FullDescription=data['FullDescription'],
-                thumbnailImage=data['Thumbnail'],
                 Genre=data['Genre'],
                 Countries=data['Country'],
                 location=data['Location'],

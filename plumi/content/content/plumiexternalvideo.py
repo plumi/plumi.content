@@ -52,7 +52,11 @@ PlumiExternalVideoSchema = PlumiVideoBaseSchema.copy() + atapi.Schema((
 PlumiExternalVideoSchema['WebsiteURL'].required = True
 PlumiExternalVideoSchema['WebsiteURL'].widget.label = _(u"Video link")
 PlumiExternalVideoSchema['WebsiteURL'].widget.description = _(u"The link to the video on the external site (on Youtube, Vimeo, etc.).")
+PlumiExternalVideoSchema.moveField('thumbnailImage', pos='top')
+PlumiExternalVideoSchema['thumbnailImage'].required = True
+PlumiExternalVideoSchema['thumbnailImage'].widget.description = _(u"Add a thumbnail image for this video.")
 PlumiExternalVideoSchema.moveField('WebsiteURL', pos='top')
+PlumiExternalVideoSchema.moveField('title', pos='top')
 
 schemata.finalizeATCTSchema(PlumiExternalVideoSchema, moveDiscussion=False)
 

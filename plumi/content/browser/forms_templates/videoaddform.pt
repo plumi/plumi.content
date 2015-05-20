@@ -99,12 +99,19 @@
                   if (mode === 'upload') {
                     j$('#uploader').show();
                     j$('#formfield-form-widgets-ExternalUrl').hide();
-                    j$('.videoExternalUrl').val('_NOT_USED_'); // becuase it is a required field, it needs a value
+                    j$('#formfield-form-widgets-ExternalThumbnail').hide();
+                    j$('#formfield-form-widgets-Website').show();
+                    j$('#formfield-form-widgets-Thumbnail').show();
+                    j$('.videoExternalUrl').val('_NOT_USED_'); // a required fields needs a value
                     j$('.addModeToggle').prop('checked', false);
                   }
                   if (mode === 'external') {
                     j$('#uploader').hide();
                     j$('#formfield-form-widgets-ExternalUrl').show();
+                    j$('#formfield-form-widgets-ExternalThumbnail').show();
+                    j$('#formfield-form-widgets-Website').hide();
+                    j$('#formfield-form-widgets-Thumbnail').hide();
+                    j$('.videoInternalField').val('_NOT_USED_'); // a required fields needs a value
                     j$('.addModeToggle').prop('checked', true);
                   }
                 }
