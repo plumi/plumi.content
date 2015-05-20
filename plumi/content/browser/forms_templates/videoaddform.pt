@@ -204,7 +204,7 @@
                 j$("#loading-indicator").hide();
                 j$("#videoaddmode-form").show();
                 j$('#formfield-form-widgets-IsExternal').hide();
-                if (j$('.portalMessage.error').length) {
+                if (j$('.portalMessage.error').length || j$('.field.error').length) {
                   j$("#videoaddmode-form").hide();
                   var mode = j$(".addModeToggle").prop('checked') && 'external' || 'upload';
                   applyAddMode(mode);
