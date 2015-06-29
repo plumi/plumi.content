@@ -231,11 +231,11 @@ class VideoView(BrowserView):
                      sort_order='reverse',
                      review_state=['published', 'featured'])
         brains = catalog(**query)
-        try:
-            brains = sample(brains, 15)
-        except ValueError:
-            # we got less than 15 brains... no worries
-            pass
+        # try:
+        brains = sample(brains, min(len(brains), 15))
+        # except ValueError:
+        #     # we got less than 15 brains... no worries
+        #     pass
         videos = [queryMultiAdapter((brain, self), IPlumiVideoBrain) for brain in brains ]
         videos = [video for video in videos if video.url != self.context.absolute_url()]
         return videos

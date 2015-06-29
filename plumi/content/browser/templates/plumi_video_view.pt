@@ -311,9 +311,14 @@
         <h1 class="documentFirstHeading" tal:condition="other_videos">Other videos by this member</h1>
     <ul>
         <li tal:repeat="video other_videos">
-            <a class="video-download" tal:attributes="href string:${video/url}/view; title video/context/Description">
-                <img title="" alt="" tal:attributes="alt video/video_title;
+            <a class="video-download"
+                tal:define="hasThumb video/video/hasThumbnailImage"
+                tal:attributes="href string:${video/url}/view; title video/context/Description">
+                <span tal:content=string: hasThumb:${hasThumb}""></span>
+                <img tal:condition="hasThumb" title="" alt="" tal:attributes="alt hasThumb; 
                                                      src string:${video/url}/thumbnailImage_thumb" />
+                <img tal:condition="not: hasThumb" title="" alt="" tal:attributes="alt video/video_title;
+                                                     src string:${portal_url}/default-thumbnail.jpg" />
                 <h5 class="featuredItemTitle" tal:content="video/video_title" />
             </a>
             <p class="discreet">

@@ -296,12 +296,32 @@ class VideoAddForm(form.SchemaForm):
         self.request.set('disable_border', True)
         # call the base class version - this is very important!
         super(VideoAddForm, self).update()
-
+    
+    def skipHiddenErrors(self, isExternal, errors):
+        isUpload = not isExternal
+        if not errors or not len(errors):
+            return None
+        filteredErrors = []
+        for error in errors:
+            field = error.field.getName()
+            if isUpload and field in ["ExternalThumbnail", "ExternalUrl"]:
+                continue
+            filteredErrors.append(error)
+        errors = filteredErrors
+        if not errors or not len(errors):
+            return None
+        return errors
+    
     @button.buttonAndHandler(_(u'Save changes'), name='apply')
     def handleApply(self, action):
         data, errors = self.extractData()
         isExternal = data['IsExternal']
         isUpload = not isExternal
+        if errors:
+            # remove errors that are not relevant to the adding mode (eg.
+            # ignore errors about 'ExternalThumbnail' if uploading a
+            # video) 
+            errors = self.skipHiddenErrors(isExternal, errors)
         if errors:
             if len(errors) == 1:
                 if errors[0].field.getName() == "Email":
