@@ -58,7 +58,7 @@
         </p>
         
         <div id="video-core" class="external-video"
-            tal:attributes="data-video-url here/WebsiteURL">
+            tal:attributes="data-video-url here/WebsiteURL; data-oembed-proxy-url string:${portal_url}/oembed_proxy">
           <!-- the external player will be insetered here by oembed.js -->
         </div>
 
@@ -244,10 +244,52 @@
         </ul>
     </div>
     <script type="text/javascript">
+      
+      // map provider names to oembed API endpoints
+      // NOTE: some providers (eg. Youtube) don't do CORS, so we need
+      // to proxy those request
+      var plumiOembedProviders = {
+        'youtube': {
+          //endpoint: 'http://www.youtube.com/oembed',
+          //extraParams: 'format=json',
+          useProxy: true
+        },
+        'vimeo': {
+          endpoint: 'http://vimeo.com/api/oembed.json'
+        }
+      };
+      
       $(document).ready(function() {
-        var url = $('#video-core').data('video-url');
-        console.log('video URL:', url);
-        $('#video-core').oembed(url, { maxWidth: 525 });
+        var proxyUrl = $('#video-core').attr('data-oembed-proxy-url');
+        var videoUrl = $('#video-core').attr('data-video-url').trim();
+        var videoHost = videoUrl.split('://')[1].split('/')[0];
+        var videoHostParts = videoHost.split('.');
+        if (videoHostParts[0] === 'www') {
+          videoHostParts.shift(); // discard 'www'
+        }
+        var oembedProviderName = videoHostParts[0];
+        var oembedProvider = plumiOembedProviders[oembedProviderName];
+        var usingProxy = oembedProvider.useProxy;
+        if (oembedProvider) {
+          var queryUrl;
+          if (usingProxy) {
+            queryUrl = proxyUrl + '?provider=' + oembedProviderName +
+              '&url=' + encodeURIComponent(videoUrl) + '&maxwidth=525';
+          } else {
+            queryUrl = oembedProvider.endpoint + '?url=' +
+              encodeURIComponent(videoUrl) + '&maxwidth=525';
+            var extraParams = oembedProvider.extraParams;
+            if (extraParams) {
+              queryUrl = queryUrl + '&' + extraParams;
+            }
+          }
+          $.get(queryUrl, function(oembedData){
+            if (usingProxy) {
+              oembedData = JSON.parse(oembedData);
+            }
+            $('#video-core').html(oembedData.html);
+          });
+        }
       });
     </script>
 

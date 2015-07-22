@@ -168,6 +168,13 @@
         permission="zope2.View"
         />
     
+    <browser:page
+        name="oembed_proxy"
+        for="*"
+        class=".oembed_proxy.OembedProxyView"
+        permission="zope.Public"
+        />
+    
     <plone:portlet
         name="plumi.content.browser.portlets.ActiveMembers"
         interface=".portlets.activemembers.IActiveMembers"
