@@ -38,15 +38,15 @@ class PlumiWorkflowAdapter(object):
             portal = urltool.getPortalObject()            
             mTo = member.getProperty('email',None)
             mFrom = portal.getProperty('email_from_address')
-            mSubj = 'Your contribution : %s : was submitted for review.' % obj_title            
+#            mSubj = 'Your contribution : %s : was submitted for review.' % obj_title            
+            mSubj = "Your contribution : %s is awaiting a commentary"  % obj_title
             if mTo is not None and mTo is not '':
                 try:
                     mMsg = 'To: %s\n' % mTo
                     mMsg += 'From: %s\n' % mFrom
                     mMsg += 'Content-Type: text/plain; charset=utf-8\n\n'
-                    mMsg += 'Hi %s \nYour contribution has been submitted for review before publishing on the site\n' % member.getProperty('fullname', creator)
-                    mMsg += 'Title: %s\n\n' % obj_title
-                    mMsg += '%s/view \n\n' % obj_url
+                    mMsg += 'Thank you for sharing media with Critical Commons!\n\nIn order for your submission to be published, it must be accompanied by a critical commentary. For advice on commentaries, please visit:\nhttp://www.criticalcommons.org/how-to\n\nAdd a commentary to:\n%s\n%s\n\nContributor: %s\nEmail: %s' % (obj_title, obj_url, member.getProperty('fullname', creator), mTo)
+
                     #send email to object owner
                     logger.info('notifyOwnerVideoSubmitted , im %s - sending email to %s from %s ' % (self.context, mTo, mFrom) )
                     job = self.async.queueJob(sendMail, self.context, mMsg, mSubj)

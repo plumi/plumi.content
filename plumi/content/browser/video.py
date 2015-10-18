@@ -182,7 +182,7 @@ class VideoView(BrowserView):
     def get_subjects_info(self, subjects):
         """Fake the genres/categories process to return keywords infos"""
         url = "%s/@@search?Subject=" % (self.portal_url)
-        return (dict(id=kw, url=url + kw, title=kw) for kw in subjects)
+        return (dict(id=kw, url=url + kw + "&portal_type=PlumiVideo", title=kw) for kw in subjects)
 
     def get_country_info(self, country_id):
         """Fake the genres/categories process to return the country infos"""
