@@ -112,7 +112,7 @@ div.controls {
     width: 75% !important;
 }
 
-body.template-publish_video #content {
+body.template-publish_video #content, body.template-publish_video_scalar #content {
     margin: -2.5em 0.25em -4em !important;
 }
 

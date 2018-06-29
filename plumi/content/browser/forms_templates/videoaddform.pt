@@ -8,7 +8,15 @@
     <metal:override fill-slot="column_two_slot">
     </metal:override>      
     <metal:block fill-slot="main">
-        
+
+
+<style>
+
+#formfield-form-widgets-CommentaryTitle, #formfield-form-widgets-CommentaryDescription {
+	display: none;
+}
+</style>
+
         <h1 class="documentFirstHeading" tal:content="view/label | nothing" />
                 
         <div id="content-core" tal:define="uploaded view/uploaded_file">
