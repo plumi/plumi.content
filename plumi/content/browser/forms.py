@@ -567,13 +567,12 @@ class ScalarVideoAddForm(form.SchemaForm):
         message = registry['plumi.content.browser.interfaces.IPlumiSettings.AfterVideoText']
         IStatusMessage(self.request).addStatusMessage(message,"info")
         contextURL = obj.absolute_url()
-
         try:
             ref = self.request.HTTP_REFERER
             if 'prev=' in ref:
                 redirect_url = ref.split('prev=')[1]
                 url = "%s?%s" % (redirect_url, contextURL)
-                self.request.response.redirect(url)
+                contextURL = url
         except:
             pass
         self.request.response.redirect(contextURL)
