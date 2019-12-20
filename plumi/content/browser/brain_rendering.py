@@ -95,4 +95,5 @@ class PlumiVideoBrain(Explicit):
         path = self.video.url[len(self.__parent__.context.absolute_url())+1:]+'/@@embed_view'
         self.request['width'] = 525
         html = self.__parent__.context.restrictedTraverse(path)(self.request)
-        return html
+        video = '<div class="amara-embed' + html.split('<div class="amara-embed')[1].split('<div id="portlets-footer"')[0].split('<div id="portal-footer">')[0]
+        return video
